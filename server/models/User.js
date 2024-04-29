@@ -18,26 +18,31 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		createdPost: [{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Post",
-		}],
-		archivedPost: [{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Post",
-		}],
-		followThread: [{
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Thread",
-		}],
+		createdPost: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Post",
+			},
+		],
+		archivedPost: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Post",
+			},
+		],
+		followThread: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Thread",
+			},
+		],
 		isActivated: {
 			type: Boolean,
 			default: true,
 		},
 		profileImage: {
 			type: String,
-			
-		}
+		},
 	},
 	{ timestamps: true },
 );

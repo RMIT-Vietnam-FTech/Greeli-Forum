@@ -7,7 +7,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import multer from "multer";
 
-import userRoutes from "./routes/user.js"
+import userRoutes from "./routes/user.js";
 
 /* CONFIGURATION */
 dotenv.config();
@@ -22,10 +22,9 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.get("/api", (req, res) => {
-    res.status(201).json({message: "hi there"})
-})
+	res.status(201).json({ message: "hi there" });
+});
 app.use("/api/user", userRoutes);
-
 
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
