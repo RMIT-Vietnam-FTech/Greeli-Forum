@@ -2,13 +2,7 @@
 	"$schema": "https://biomejs.dev/schemas/1.7.0/schema.json",
 	"files": {
 		"ignore": [".next"],
-		"include": [
-			"./controllers/*.js",
-			"./middleware/*.js",
-			"./models/*.js",
-			"./routes/*.js",
-			"./index.js"
-		]
+		"include": ["./src/**/*.jsx", "./components/**/*.jsx", "./src/index.js"]
 	},
 	"organizeImports": {
 		"enabled": true
