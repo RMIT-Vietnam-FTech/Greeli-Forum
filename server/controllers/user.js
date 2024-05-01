@@ -14,9 +14,9 @@ export const register = async (req, res) => {
 			password: hashPassword,
 		});
 		const savedUser = newUser.save();
-		res.status(201).json(savedUser);
-	} catch (err) {
-		res.status(500).json({ message: err.message });
+		res.status(201).json({ message: "Successful Register!"});
+	} catch (error) {
+		res.status(500).json({ error: error.message });
 	}
 };
 
@@ -24,19 +24,19 @@ export const login = async (req, res) => {
 	try {
 		const { email, password } = req.body;
 		const user = await User.findOne({ email: email });
-		if (!user) return res.status(400).json({ msg: "User doesn't exist" });
+		if (!user) return res.status(400).json({ error: "User doesn't exist" });
 
 		const isMatch = await bcrypt.compare(password, user.password);
 		if (!isMatch)
-			return res.status(400).json({ msg: "Password incorrect" });
+			return res.status(400).json({ error: "Password incorrect" });
 		const token = jwt.sign(
 			{ id: user._id, email: user.email },
 			process.env.JWT_SECRET,
 			{ expiresIn: "1h" },
 		);
 		delete user.password;
-		res.status(200).json({ token: token, id: user._id });
+		res.status(200).json({ token: token, id: user._id, message: "successfully login"});
 	} catch (error) {
-		res.status(500).json({ error: new Error("Invalid Request!") });
+		res.status(500).json({ error: error.message });
 	}
 };
