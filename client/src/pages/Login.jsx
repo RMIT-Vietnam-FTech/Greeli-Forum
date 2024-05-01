@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
-import { FaUser,  FaKey  } from "react-icons/fa";
+import { FaKey, FaUser } from "react-icons/fa";
 import * as Yup from "yup";
 
 const Login = () => {
@@ -41,7 +41,6 @@ const Login = () => {
 				console.log(result.data.message);
 			})
 			.catch((error) => {
-				error = new Error();
 				console.log(error);
 			});
 	};
@@ -59,17 +58,20 @@ const Login = () => {
 				<div
 					className="col-md-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
-				></div>
+				/>
 				<div className="col-12 col-md-6 text-center login py-5">
 					<h1>GREELI</h1>
 					<h1>The guide to sustainable life</h1>
 					<Image src="Logo.svg" width={150} className="my-4" />
-					<form className="mt-4 mx-5 px-md-5" onSubmit={handleSubmit(onSubmit)}>
+					<form
+						className="mt-4 mx-5 px-md-5"
+						onSubmit={handleSubmit(onSubmit)}
+					>
 						<div className="input-group mb-4">
-								<span className="input-group-text">
-									<FaUser />
-								</span>
-								<div className="form-floating">
+							<span className="input-group-text">
+								<FaUser className="icon" />
+							</span>
+							<div className="form-floating">
 								<input
 									name="email"
 									type="text"
@@ -80,10 +82,8 @@ const Login = () => {
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
 								/>
-								<label for="floatingInput">
-									Email address
-								</label>
-								</div>
+								<label for="floatingInput">Email address</label>
+							</div>
 						</div>
 						{errors.email && (
 							<p className="error text-start">
@@ -91,10 +91,10 @@ const Login = () => {
 							</p>
 						)}
 						<div className="input-group mb-2">
-								<span className="input-group-text">
-									<FaKey />
-								</span>
-								<div className="form-floating">
+							<span className="input-group-text">
+								<FaKey className="icon" />
+							</span>
+							<div className="form-floating">
 								<input
 									name="password"
 									type="password"
@@ -103,12 +103,12 @@ const Login = () => {
 									id="floatingPassword"
 									placeholder="password"
 									value={password}
-									onChange={(e) => setPassword(e.target.value)}
+									onChange={(e) =>
+										setPassword(e.target.value)
+									}
 								/>
-								<label for="floatingPassword">
-									Password
-								</label>
-								</div>
+								<label for="floatingPassword">Password</label>
+							</div>
 						</div>
 						{errors.password && (
 							<p className="error text-start mb-n2">
@@ -121,6 +121,7 @@ const Login = () => {
 								type="checkbox"
 								value="remember-me"
 								id="flexCheckDefault"
+								checked
 							/>
 							<label
 								className="form-check-label"
@@ -129,10 +130,7 @@ const Login = () => {
 								Remember me
 							</label>
 						</div>
-						<button
-							className="btn btn-primary w-100 py-3"
-							type="submit"
-						>
+						<button className="btn w-100 py-3" type="submit">
 							Sign in
 						</button>
 						<p className="mt-1 mb-3 text-center co">

@@ -1,8 +1,10 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
+import { FaKey, FaUser } from "react-icons/fa";
+import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 
 const getCharacterValidationError = (str) => {
@@ -14,6 +16,9 @@ const Register = () => {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [verify, setVerify] = useState(true);
+	const [captchaToken, setCaptchaToken] = useState(null);
+	const captchaRef = useRef(null);
 
 	const registerSchema = Yup.object().shape({
 		username: Yup.string()
@@ -57,108 +62,147 @@ const Register = () => {
 		};
 		axios(configuration)
 			.then((result) => {
-				console.log(result.msg);
+				console.log(result.data.message);
 			})
 			.catch((error) => {
-				error = new Error();
 				console.log(error);
 			});
 	};
 
-	const onSubmit = () => {};
+	const verifyCaptcha = () => {
+		captchaRef.current.getResponse().then((result) => {
+			setCaptchaToken(result);
+			setVerify(false);
+			console.log(verify);
+		});
+	};
+
+	const onLoadCaptcha = () => {};
+
+	const onSubmit = (e) => {
+		e.preventDefault();
+		registerAccount();
+		setUsername("");
+		setEmail("");
+		setPassword("");
+	};
 
 	return (
-		<main className="w-screen px-0">
+		<main className="container-fluid">
 			<div className="row">
 				<div
-					className="col-6 bg-image"
+					className="col-md-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
-				></div>
-				<div className="col-6 text-center login py-5">
+				/>
+				<div className="col-12 col-md-6 text-center login py-5">
 					<h1>GREELI</h1>
 					<h1>The guide to sustainable life</h1>
 					<Image src="Logo.svg" width={150} className="my-4" />
 					<form
-						className="mt-4 mx-5 px-5"
+						className="mt-4 mx-5 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
 					>
-						<div className="form-floating mt-4 d-flex align-items-center">
-							<input
-								name="username"
-								type="text"
-								{...register("username")}
-								className="form-control"
-								id="floatingUsername"
-								placeholder="Password"
-								value={username}
-								onChange={(e) => setUsername(e.target.value)}
-							/>
-							<label for="floatingUsername">Username</label>
+						<div className="input-group mb-4">
+							<span className="input-group-text">
+								<FaUser className="icon" />
+							</span>
+							<div className="form-floating">
+								<input
+									name="username"
+									type="text"
+									{...register("username")}
+									className="form-control"
+									id="username"
+									placeholder="name@example.com"
+									value={username}
+									onChange={(e) =>
+										setUsername(e.target.value)
+									}
+								/>
+								<label for="username">Username</label>
+							</div>
 						</div>
 						{errors.username && (
-							<span className="error">
-								{errors.username.message}
-							</span>
+							<p className="error">{errors.username.message}</p>
 						)}
-						<div className="form-floating mt-4 d-flex align-items-center">
-							<input
-								name="email"
-								type="text"
-								{...register("email")}
-								className="form-control"
-								id="floatingEmail"
-								placeholder="Email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-							<label for="floatingEmail">Email</label>
+						<div className="input-group mb-4">
+							<span className="input-group-text">
+								<FaUser className="icon" />
+							</span>
+							<div className="form-floating">
+								<input
+									name="email"
+									type="text"
+									{...register("email")}
+									className="form-control"
+									id="email"
+									placeholder="name@example.com"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+								/>
+								<label for="email">Email address</label>
+							</div>
 						</div>
 						{errors.email && (
-							<span className="error">
-								{errors.email.message}
-							</span>
+							<p className="error">{errors.email.message}</p>
 						)}
-						<div className="form-floating mt-4 d-flex align-items-center">
-							<input
-								name="password"
-								type="password"
-								{...register("password")}
-								className="form-control"
-								id="floatingPassword"
-								placeholder="Password"
-								value={password}
-								onChange={(e) => setPassword(e.target.value)}
-							/>
-							<label for="floatingPassword align-items-center">
-								Password
-							</label>
+						<div className="input-group mb-4">
+							<span className="input-group-text">
+								<FaUser className="icon" />
+							</span>
+							<div className="form-floating">
+								<input
+									name="password"
+									type="password"
+									{...register("password")}
+									className="form-control"
+									id="password"
+									placeholder="password"
+									value={password}
+									onChange={(e) =>
+										setPassword(e.target.value)
+									}
+								/>
+								<label for="password">Password</label>
+							</div>
 						</div>
 						{errors.password && (
-							<span className="error">
-								{errors.password.message}
-							</span>
+							<p className="error">{errors.password.message}</p>
 						)}
-						<div className="form-floating mt-4 d-flex align-items-center">
-							<input
-								name="confirmPassword"
-								type="password"
-								{...register("confirmPassword")}
-								className="form-control"
-								id="floatingConfirmPassword"
-								placeholder="Confirm Password"
-							/>
-							<label for="floatingConfirmPassword">
-								Confirm Password
-							</label>
+						<div className="input-group mb-4">
+							<span className="input-group-text">
+								<FaUser className="icon" />
+							</span>
+							<div className="form-floating">
+								<input
+									name="confirmPassword"
+									type="password"
+									{...register("confirmPassword")}
+									className="form-control"
+									id="confirmPassword"
+									placeholder="Confirm Password"
+								/>
+								<label for="confirmPassword">
+									Confirm Password
+								</label>
+							</div>
 						</div>
 						{errors.confirmPassword && (
-							<span className="error">
+							<p className="error">
 								{errors.confirmPassword.message}
-							</span>
+							</p>
 						)}
+						<Reaptcha
+							className=" mb-4"
+							sitekey="6LeZuswpAAAAAJsWzzaLYK_ZmUoPAhJO0Sns-qlx"
+							ref={captchaRef}
+							onVerify={verifyCaptcha}
+							onLoad={onLoadCaptcha}
+						/>
 						<button
-							className="btn btn-primary w-100 py-3"
+							className="btn w-100 py-3"
 							type="submit"
+							disabled={verify}
 						>
 							Register
 						</button>
