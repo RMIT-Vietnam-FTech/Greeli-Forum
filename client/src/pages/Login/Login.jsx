@@ -5,7 +5,7 @@ import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
 import * as Yup from "yup";
-
+import "./sass/custom.css"
 const Login = () => {
 	const backgroundImage = 'url("LoginBackground.png")';
 	const [email, setEmail] = useState("");
@@ -46,7 +46,7 @@ const Login = () => {
 	};
 
 	const onSubmit = (e) => {
-		e.preventDefault();
+
 		login();
 		setEmail("");
 		setPassword("");
@@ -54,9 +54,6 @@ const Login = () => {
 
 	return (
 		<main className="container-fluid">
-			<div class="alert alert-danger" role="alert">
-  A simple danger alert—check it out!
-</div>
 			<div className="row">
 				<div
 					className="col-md-6 bg-image"
@@ -65,7 +62,7 @@ const Login = () => {
 				<div className="col-12 col-md-6 text-center login py-5">
 					<h1>GREELI</h1>
 					<h1>The guide to sustainable life</h1>
-					<Image src="Logo.svg" width={150} className="my-4" />
+					<Image src="Logo.svg" width={120} className="my-4" />
 					<form
 						className="mt-4 mx-5 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
@@ -114,7 +111,7 @@ const Login = () => {
 							</div>
 						</div>
 						{errors.password && (
-							<p className="error text-start mb-n2">
+							<p className="error text-start mt-1">
 								{errors.password.message}
 							</p>
 						)}

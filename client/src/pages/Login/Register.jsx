@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
 import Reaptcha from "reaptcha";
 import * as Yup from "yup";
+import "./sass/custom.css"
 
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
@@ -97,7 +98,7 @@ const Register = () => {
 				<div className="col-12 col-md-6 text-center login py-5">
 					<h1>GREELI</h1>
 					<h1>The guide to sustainable life</h1>
-					<Image src="Logo.svg" width={150} className="my-4" />
+					<Image src="Logo.svg" width={120} className="my-4" />
 					<form
 						className="mt-4 mx-5 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
