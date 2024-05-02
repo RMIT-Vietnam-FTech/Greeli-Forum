@@ -4,7 +4,7 @@ import { IoMoon, IoSunny } from "react-icons/io5";
 
 const Navbar = () => {
 	return (
-		<nav className="navbar navbar-expand-lg fixed-top mx-4">
+		<nav className="navbar navbar-expand-md fixed-top">
 			<div className="container-fluid">
 				<a className="navbar-brand d-flex" href="#">
 					<Image className="bi me-3" src="LightLogo.svg" width={40} />
