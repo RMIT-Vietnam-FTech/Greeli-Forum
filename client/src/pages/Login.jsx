@@ -54,6 +54,9 @@ const Login = () => {
 
 	return (
 		<main className="container-fluid">
+			<div class="alert alert-danger" role="alert">
+  A simple danger alert—check it out!
+</div>
 			<div className="row">
 				<div
 					className="col-md-6 bg-image"
@@ -130,7 +133,7 @@ const Login = () => {
 								Remember me
 							</label>
 						</div>
-						<button className="btn w-100 py-3" type="submit">
+						<button className="button btn w-100 py-3" type="submit">
 							Sign in
 						</button>
 						<p className="mt-1 mb-3 text-center co">
