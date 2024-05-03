@@ -1,12 +1,12 @@
 import Image from "react-bootstrap/Image";
 import { FaUser } from "react-icons/fa";
 import { IoMoon, IoSunny } from "react-icons/io5";
-
+import "./custom.css";
 const Navbar = () => {
 	return (
 		<nav className="navbar navbar-expand-md fixed-top">
 			<div className="container-fluid">
-				<a className="navbar-brand d-flex" href="#">
+				<a className="navbar-brand d-flex" href="/">
 					<Image className="bi me-3" src="LightLogo.svg" width={40} />
 					<p className="forum-name my-auto">Greeli</p>
 				</a>
@@ -36,23 +36,23 @@ const Navbar = () => {
 								<a
 									className="nav-link active"
 									aria-current="page"
-									href="#"
+									href="/"
 								>
 									General
 								</a>
 							</li>
 							<li className="nav-item">
-								<a className="nav-link" href="#">
+								<a className="nav-link" href="/">
 									Forum
 								</a>
 							</li>
 							<li className="nav-item">
-								<a className="nav-link" href="#">
+								<a className="nav-link" href="/">
 									About
 								</a>
 							</li>
 							<li className="nav-item">
-								<a className="nav-link" href="#">
+								<a className="nav-link" href="/">
 									Contact
 								</a>
 							</li>
@@ -60,7 +60,7 @@ const Navbar = () => {
 					</div>
 				</div>
 				<div className="d-flex flex-row align-items-center gap-4">
-					<a className="nav-link" href="#">
+					<a className="nav-link" href="/">
 						<FaUser className="icon" />
 					</a>
 					<input type="checkbox" id="darkmode-toggle" />
@@ -71,7 +71,7 @@ const Navbar = () => {
 						<IoSunny className="sun" />
 						<IoMoon className="moon" />
 					</label>
-					<a href="#" className="login-button">
+					<a href="/" className="login-button">
 						Login
 					</a>
 					<button
