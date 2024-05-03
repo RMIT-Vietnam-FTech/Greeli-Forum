@@ -211,7 +211,7 @@ const Register = () => {
 						<p className="mt-1 mb-3 text-center co">
 							Have an account?{" "}
 							<a
-								href="#"
+								href="/"
 								className="text-light"
 								style={{ textDecoration: "none" }}
 							>

@@ -36,7 +36,7 @@ export default function Footer() {
 							<ul className="nav flex-column">
 								<li className="nav-item mb-2 ">
 									<a
-										href="#"
+										href="/"
 										className="nav-link p-0 text-light"
 									>
 										Home
@@ -44,7 +44,7 @@ export default function Footer() {
 								</li>
 								<li className="nav-item mb-2">
 									<a
-										href="#"
+										href="/"
 										className="nav-link p-0 text-light"
 									>
 										General
@@ -52,7 +52,7 @@ export default function Footer() {
 								</li>
 								<li className="nav-item mb-2">
 									<a
-										href="#"
+										href="/"
 										className="nav-link p-0 text-light"
 									>
 										Forum
@@ -60,7 +60,7 @@ export default function Footer() {
 								</li>
 								<li className="nav-item mb-2">
 									<a
-										href="#"
+										href="/"
 										className="nav-link p-0 text-light"
 									>
 										About
@@ -68,7 +68,7 @@ export default function Footer() {
 								</li>
 								<li className="nav-item mb-2">
 									<a
-										href="#"
+										href="/"
 										className="nav-link p-0 text-light"
 									>
 										Contact
@@ -76,7 +76,7 @@ export default function Footer() {
 								</li>
 								<li className="nav-item mb-2">
 									<a
-										href="#"
+										href="/"
 										className="nav-link p-0 text-light"
 									>
 										Profile
@@ -91,7 +91,7 @@ export default function Footer() {
 							<ul className="nav flex-column">
 								<li className="nav-item mb-2">
 									<a
-										href="#"
+										href="/"
 										className="nav-link d-flex align-items-center gap-2 p-0 text-light"
 									>
 										<GrMail size={20} />
@@ -100,7 +100,7 @@ export default function Footer() {
 								</li>
 								<li className="nav-item mb-2">
 									<a
-										href="#"
+										href="/"
 										className="nav-link d-flex align-items-center gap-2 p-0 text-light"
 									>
 										<FaFacebook size={20} />
@@ -109,7 +109,7 @@ export default function Footer() {
 								</li>
 								<li className="nav-item mb-2">
 									<a
-										href="#"
+										href="/"
 										className="nav-link d-flex align-items-center gap-2 p-0 text-light"
 									>
 										<AiFillInstagram size={20} />
@@ -118,7 +118,7 @@ export default function Footer() {
 								</li>
 								<li className="nav-item mb-2">
 									<a
-										href="#"
+										href="/"
 										className="nav-link d-flex align-items-center gap-2 p-0 text-light"
 									>
 										<AiOutlineTikTok size={20} />
