@@ -1,7 +1,4 @@
-footer {
-    box-sizing: border-box;
-    /* background: #1B4036; */
-}
+@import "../scss/custom.css";
 a {
     text-decoration: none;
     color: #F2F2F2;

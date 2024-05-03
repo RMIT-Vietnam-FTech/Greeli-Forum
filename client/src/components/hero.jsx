@@ -22,12 +22,12 @@ export default function HeroSection() {
         {/* text content */}
         <div className="container d-flex h-100 text-center align-items-center">
           {/* <div className="d-flex h-100 text-center align-items-center"> */}
-            <div className="w-100 text-white">
-              <h1 className="display-3">
-                Welcome to <span>Greeli</span>
-              </h1>
-              <p className="display-4">The guide to sustainable living</p>
-            </div>
+          <div className="w-100 text-white">
+            <h1 className="display-3">
+              Welcome to <span className="text-yellow-500">Greeli</span>
+            </h1>
+            <p className="display-4">The guide to sustainable living</p>
+          </div>
           {/* </div> */}
         </div>
       </header>

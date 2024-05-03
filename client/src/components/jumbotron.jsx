@@ -9,12 +9,12 @@ export default function Jumbotron() {
             <h1 className="text-light">
               Wanna be a part of our community builder team?
             </h1>
-            <div className="d-inline-flex gap-2 py-4">
+            <div className="d-inline-flex pt-5">
               <button
-                className="d-inline-flex align-items-center btn btn-light btn-lg px-5 py-4 rounded-pill fw-bold"
+                className="d-inline-flex align-items-center text-green-500 btn bg-white btn-lg px-5 py-3 my-3 rounded-pill"
                 type="button"
               >
-                Join us here
+                Call to action
               </button>
             </div>
           </div>
