@@ -81,7 +81,7 @@ const Register = () => {
 	const onLoadCaptcha = () => {};
 
 	const onSubmit = (e) => {
-		e.preventDefault();
+		// e.preventDefault();
 		registerAccount();
 		setUsername("");
 		setEmail("");
