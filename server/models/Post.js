@@ -23,6 +23,10 @@ const postSchema = new mongoose.Schema({
 			required: true,
 		},
 	},
+	parentThread: {
+		type: String,
+		requiredL: true,
+	},
 	isApproved: {
 		type: Boolean,
 		default: false,

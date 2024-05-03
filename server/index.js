@@ -8,6 +8,7 @@ import morgan from "morgan";
 import multer from "multer";
 
 import userRoutes from "./routes/user.js";
+import threadRoutes from "./routes/thread.js"
 
 /* CONFIGURATION */
 dotenv.config();
@@ -21,10 +22,23 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+/*FILE STORAGE*/
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "public/assets");
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+});
+
+const upload = multer({ storage });
+
 app.get("/api", (req, res) => {
 	res.status(201).json({ message: "hi there" });
 });
 app.use("/api/user", userRoutes);
+app.use("/api/thread", threadRoutes);
 
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
