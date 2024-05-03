@@ -3,8 +3,9 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import ThemeProvider from 'react-bootstrap/ThemeProvider';
 import { useState } from 'react';
-import ForumPage from "./components/ForumPage";
-import ThreadPage from './components/ThreadPage';
+import ForumPage from "./pages/ForumPage";
+import ThreadPage from './pages/ThreadPage/ThreadPage';
+import DashBoardPage from './pages/DashBoardPage';
 import { Route, Routes } from 'react-router-dom';
 function App() {
   
@@ -15,6 +16,7 @@ function App() {
   >
    <ForumPage>
     <Routes>
+      <Route path='/' element={<DashBoardPage/>}/>
      <Route path='threads/:threadId' element={<ThreadPage/>}/>
      <Route path='posts/:postId' element=''/> 
     </Routes>
