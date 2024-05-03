@@ -8,6 +8,7 @@ import morgan from "morgan";
 import multer from "multer";
 
 import userRoutes from "./routes/user.js";
+import threadRoutes from "./routes/thread.js"
 
 /* CONFIGURATION */
 dotenv.config();
@@ -37,6 +38,7 @@ app.get("/api", (req, res) => {
 	res.status(201).json({ message: "hi there" });
 });
 app.use("/api/user", userRoutes);
+app.use("/api/thread", threadRoutes);
 
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
