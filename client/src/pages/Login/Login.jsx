@@ -4,8 +4,12 @@ import React, { useState } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 import * as Yup from "yup";
+
+import "../../scss/custom.css";
 import "./sass/custom.css";
+
 const Login = () => {
 	const backgroundImage = 'url("LoginBackground.png")';
 	const [email, setEmail] = useState("");
@@ -58,7 +62,7 @@ const Login = () => {
 					className="col-md-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
 				/>
-				<div className="col-12 col-md-6 text-center login py-5">
+				<div className="col-12 col-md-6 text-center login py-5 text-primary-yellow bg-primary-green-900">
 					<h1>GREELI</h1>
 					<h1>The guide to sustainable life</h1>
 					<Image src="Logo.svg" width={120} className="my-4" />
@@ -68,7 +72,7 @@ const Login = () => {
 					>
 						<div className="input-group mb-4">
 							<span className="input-group-text">
-								<FaUser className="icon" />
+								<MdEmail className="text-primary-yellow" />
 							</span>
 							<div className="form-floating">
 								<input
@@ -91,7 +95,7 @@ const Login = () => {
 						)}
 						<div className="input-group mb-2">
 							<span className="input-group-text">
-								<FaKey className="icon" />
+								<FaKey className="text-primary-yellow" />
 							</span>
 							<div className="form-floating">
 								<input
@@ -129,11 +133,21 @@ const Login = () => {
 								Remember me
 							</label>
 						</div>
-						<button className="btn btn-primary w-100 py-3" type="submit">
+						<button
+							className="btn btn-primary w-100 py-3"
+							type="submit"
+						>
 							Sign in
 						</button>
 						<p className="mt-1 mb-3 text-center co">
-							Don't have an account? <a href="#">Register</a>
+							Don't have an account?{" "}
+							<a
+								href="#"
+								className="text-light"
+								style={{ textDecoration: "none" }}
+							>
+								Register
+							</a>
 						</p>
 					</form>
 				</div>

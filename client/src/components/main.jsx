@@ -33,7 +33,7 @@ export default function Main() {
 					</h2>
 					<div className="row px-3 justify-content-between">
 						<div className="col-3 mb-3 mx-0">
-							<div className="feature-icon fs-2 mb-3"></div>
+							<div className="feature-icon fs-2 mb-3" />
 							<h3 className="fs-3 text-yellow-500">
 								Collaborative Forum
 							</h3>
@@ -45,7 +45,7 @@ export default function Main() {
 							</p>
 						</div>
 						<div className="col-3 mb-3 mx-0">
-							<div className="feature-icon fs-2 mb-3"></div>
+							<div className="feature-icon fs-2 mb-3" />
 							<h3 className="fs-3 text-yellow-500">
 								Real-time Chatting
 							</h3>
@@ -57,7 +57,7 @@ export default function Main() {
 							</p>
 						</div>
 						<div className="col-3 mb-3 mx-0">
-							<div className="feature-icon fs-2 mb-3"></div>
+							<div className="feature-icon fs-2 mb-3" />
 							<h3 className="fs-3 text-yellow-500">
 								Updating Informative Platform
 							</h3>
@@ -92,7 +92,7 @@ export default function Main() {
 											width="100%"
 											height="100%"
 											fill="#55595c"
-										></rect>
+										/>
 									</svg>
 								</div>
 							</div>
@@ -114,7 +114,7 @@ export default function Main() {
 											width="100%"
 											height="100%"
 											fill="#55595c"
-										></rect>
+										/>
 									</svg>
 								</div>
 							</div>
@@ -135,7 +135,7 @@ export default function Main() {
 											width="100%"
 											height="100%"
 											fill="#55595c"
-										></rect>
+										/>
 									</svg>
 								</div>
 							</div>
@@ -156,7 +156,7 @@ export default function Main() {
 											width="100%"
 											height="100%"
 											fill="#55595c"
-										></rect>
+										/>
 									</svg>
 								</div>
 							</div>

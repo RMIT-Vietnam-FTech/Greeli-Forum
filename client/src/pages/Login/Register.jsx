@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
+import { MdEmail } from "react-icons/md";
 import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 import "./sass/custom.css";
@@ -95,7 +96,7 @@ const Register = () => {
 					className="col-md-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
 				/>
-				<div className="col-12 col-md-6 text-center login py-5">
+				<div className="col-12 col-md-6 text-center login py-5 text-primary-yellow bg-primary-green-900">
 					<h1>GREELI</h1>
 					<h1>The guide to sustainable life</h1>
 					<Image src="Logo.svg" width={120} className="my-4" />
@@ -105,7 +106,7 @@ const Register = () => {
 					>
 						<div className="input-group mb-4">
 							<span className="input-group-text">
-								<FaUser className="icon" />
+								<FaUser className="text-primary-yellow" />
 							</span>
 							<div className="form-floating">
 								<input
@@ -128,7 +129,7 @@ const Register = () => {
 						)}
 						<div className="input-group mb-4">
 							<span className="input-group-text">
-								<FaUser className="icon" />
+								<MdEmail className="text-primary-yellow" />
 							</span>
 							<div className="form-floating">
 								<input
@@ -149,7 +150,7 @@ const Register = () => {
 						)}
 						<div className="input-group mb-4">
 							<span className="input-group-text">
-								<FaUser className="icon" />
+								<FaKey className="text-primary-yellow" />
 							</span>
 							<div className="form-floating">
 								<input
@@ -172,7 +173,7 @@ const Register = () => {
 						)}
 						<div className="input-group mb-4">
 							<span className="input-group-text">
-								<FaUser className="icon" />
+								<FaKey className="text-primary-yellow" />
 							</span>
 							<div className="form-floating">
 								<input
@@ -208,7 +209,14 @@ const Register = () => {
 							Register
 						</button>
 						<p className="mt-1 mb-3 text-center co">
-							Have an account? <a href="#">Login</a>
+							Have an account?{" "}
+							<a
+								href="#"
+								className="text-light"
+								style={{ textDecoration: "none" }}
+							>
+								Login
+							</a>
 						</p>
 					</form>
 				</div>
