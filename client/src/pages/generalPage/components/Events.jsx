@@ -27,7 +27,7 @@ const Card = ({ image, title, description, date, event }) => {
 export default function Events() {
 
     const settings = {
-        dots: true,
+        dots: false,
         infinite: false,
         speed: 500,
         slidesToShow: 3,
@@ -68,7 +68,7 @@ export default function Events() {
         <>
             <section className="news">
                 <h4 className="popularNews">EVENTS</h4>
-                <ul className="nav nav-pills selection">
+                <ul className="nav nav-pills events_selection">
                     <li className="nav-item" onClick={() => setCategory('Social activities')}>
                         <h4>Social activities</h4>
                     </li>

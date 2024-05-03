@@ -17,7 +17,7 @@ export default function Update({ data }) {
                                     className="d-block w-100 carousel-image"
                                     alt={item.title}
                                 />
-                                <div className=" custom-caption">
+                                <div className="custom-caption">
                                     <div className="caption-line"></div> 
                                     <h5>{item.title}</h5>
                                     <p>{item.description}</p>

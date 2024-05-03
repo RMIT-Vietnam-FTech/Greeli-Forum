@@ -13,6 +13,11 @@
     background-color: rgba(0, 0, 0, 0.3);
     padding: 20px;
     bottom: 0;
+    transition: 0.3s ease-in-out;
+}
+
+.custom-caption:hover {
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .caption-line {
@@ -103,14 +108,14 @@ p {
 }
 
 h4 {
-    margin-bottom: 0;
+    margin-bottom: 0; 
+    /* Remove default margin from bootstrap component */
 }
 
 .newsContainer {
     justify-content: center;
     align-items: center;
     margin-top: 20px;
-
 }
 
 .slider {
@@ -183,8 +188,8 @@ h4 {
 @media (max-width: 768px) {
 
     /* Mobile */
-    .selection {
-        display: none;
+    .news-card {
+        margin-bottom: 40px;
     }
 }
 
@@ -193,7 +198,7 @@ h4 {
     /* Tablet */
     .selection {
         gap: 1%;
-        font-size: smaller;
+        margin-top: 20px;
     }
 }
 
@@ -202,6 +207,7 @@ h4 {
     /* Laptop and above */
     .selection {
         gap: 3%;
+        margin-top: 20px;
     }
 }
 
@@ -211,7 +217,6 @@ h4 {
     border: none;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin: 15px;
     transition: transform 0.3s;
     margin: 20px;
 }
@@ -221,3 +226,37 @@ h4 {
     cursor: pointer;
 }
 
+.events_selection {
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+
+    /* Mobile */
+    .events_selection {
+        margin-top: 20px;
+        gap: 2%;
+    }
+
+    .nav-item h4 {
+        font-size: smaller;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+
+    /* Tablet */
+    .events_selection {
+        gap: 1%;
+        font-size: smaller;
+    }
+}
+
+@media (min-width: 993px) {
+
+    /* Laptop and above */
+    .events_selection {
+        gap: 3%;
+    }
+}
