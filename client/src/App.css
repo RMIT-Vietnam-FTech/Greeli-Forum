@@ -1,9 +1,6 @@
 .login {
   background-color: #0A2A28;
 }
-h1, h2, .co {
-  color: #DCB968;
-}
 .error {
   color: #C11946;
   font-weight: bold;
@@ -11,10 +8,7 @@ h1, h2, .co {
   text-align: left;
   margin-bottom: 1rem;
 }
-.btn:disabled, .btn, .btn:hover {
-  background-color: #DCB968;
-  color: white;
-}
+
 /* .input-group {
   border: 1px solid red;
   border-radius: 5px;

@@ -5,7 +5,7 @@ import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
 import * as Yup from "yup";
-import "./sass/custom.css"
+import "./sass/custom.css";
 const Login = () => {
 	const backgroundImage = 'url("LoginBackground.png")';
 	const [email, setEmail] = useState("");
@@ -46,7 +46,6 @@ const Login = () => {
 	};
 
 	const onSubmit = (e) => {
-
 		login();
 		setEmail("");
 		setPassword("");
@@ -130,7 +129,7 @@ const Login = () => {
 								Remember me
 							</label>
 						</div>
-						<button className="button btn w-100 py-3" type="submit">
+						<button className="btn btn-primary w-100 py-3" type="submit">
 							Sign in
 						</button>
 						<p className="mt-1 mb-3 text-center co">
