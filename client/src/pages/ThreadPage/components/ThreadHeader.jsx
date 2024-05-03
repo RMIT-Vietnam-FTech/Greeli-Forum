@@ -15,7 +15,7 @@ export default function ThreadHeader({...prop}) {
           follow thread
         </Button>
       </div>
-      <div className="w-100 mt-4 rounded-3 overflow-hidden">
+      <div className="w-100 mt-4 bg-primary-green-600 rounded-3 d-flex justify-content-center overflow-hidden" style={{height:"400px"}}>
         <ImageOrVideo src={prop.uploadFile} />
       </div>
       <div className="w-100 mt-3">

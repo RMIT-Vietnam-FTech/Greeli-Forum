@@ -5,6 +5,7 @@ import { useState } from 'react';
 import ForumPage from "./pages/ForumPage";
 import ThreadPage from './pages/ThreadPage/ThreadPage';
 import DashBoardPage from './pages/DashBoardPage';
+import PostPage from './pages/PostPage';
 import { Route, Routes } from 'react-router-dom';
 function App() {
   
@@ -17,7 +18,7 @@ function App() {
     <Routes>
       <Route path='/' element={<DashBoardPage/>}/>
      <Route path='threads/:threadId' element={<ThreadPage/>}/>
-     <Route path='posts/:postId' element=''/> 
+     <Route path='posts/:postId' element={<PostPage/>}/> 
     </Routes>
    </ForumPage>
   </ThemeProvider>
