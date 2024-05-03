@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
 import Reaptcha from "reaptcha";
 import * as Yup from "yup";
-import "./sass/custom.css"
+import "./sass/custom.css";
 
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
@@ -201,7 +201,7 @@ const Register = () => {
 							onLoad={onLoadCaptcha}
 						/>
 						<button
-							className="btn w-100 py-3"
+							className="btn btn-primary w-100 py-3"
 							type="submit"
 							disabled={verify}
 						>
