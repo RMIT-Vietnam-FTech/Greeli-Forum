@@ -1,41 +1,38 @@
-import React from "react"
-import { Routes, Route, useParams } from 'react-router-dom';
+import React from "react";
+import { Routes, Route, useParams } from "react-router-dom";
 import axios from "axios";
-import Card from 'react-bootstrap/Card';
-import CardTitle from "react-bootstrap/esm/CardTitle";
-import Accordion from 'react-bootstrap/Accordion';
-import Button from 'react-bootstrap/Button';
-import './thread.scss';
-export default function ThreadPage(){
- let{threadId} = useParams();
- console.log(threadId);
- let threadData = null;
- let threadRule = null;
- axios.get('http://localhost:9000/threads'/*/{theadId}*/).then(res=>{
-    //const thread = res.data;
-    threadData = res.data[threadId-1];
- })
- axios.get('http://localhost:9000/threads/1/rule').then(
-    res=> {
-        threadRule = res.data;
-        console.log("thread rule: "+ threadRule);
-    }
- );//1 replace = threadID after have real data.
- return(
-  <>
-  <div className="left-sidebar"></div>
-  <section className="thread">
-   <Card className="thread-item">
-      
-   </Card>
-   <Button>follow thread</Button>
-   <section className="thread-item">
-
-   </section>
-  </section>
-  <div className="right-sidebar">
-   
-  </div>
-  </>  
- );
+import useSWR from "swr";
+import Button from "react-bootstrap/Button";
+import "./thread.scss";
+import { DarkThemeContext } from "../../DarkThemeContext";
+import { useContext } from "react";
+import ThreadHeader from "./components/ThreadHeader";
+import ThreadBody from "./components/ThreadBody";
+const fetcher = (url) => axios.get(url).then((res) => res.data);
+export default function ThreadPage() {
+  let { threadId } = useParams();
+  const { data, error, isLoading } = useSWR(
+    "http://localhost:9000/threads",
+    fetcher
+  );
+  if (error) {
+    return 0;
+  }
+  if (isLoading) {
+    return 0;
+  }
+  return (
+    <>
+      <section className="left-sidebar"></section>
+      <section className="thread">
+        <ThreadHeader title={data[threadId].title} uploadFile={data[threadId].uploadFile} content={data[threadId].content}/>
+        <section className="thread-body">
+         <ThreadBody posts={data[threadId].posts}/>
+        </section>
+      </section>
+      <section className="right-sidebar"></section>
+    </>
+  );
 }
+
+function ThreadRule() {}
