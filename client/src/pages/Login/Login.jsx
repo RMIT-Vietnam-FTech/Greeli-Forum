@@ -142,7 +142,7 @@ const Login = () => {
 						<p className="mt-1 mb-3 text-center co">
 							Don't have an account?{" "}
 							<a
-								href="#"
+								href="/"
 								className="text-light"
 								style={{ textDecoration: "none" }}
 							>
