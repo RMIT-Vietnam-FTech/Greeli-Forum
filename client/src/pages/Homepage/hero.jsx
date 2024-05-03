@@ -1,5 +1,6 @@
 import React from "react";
-import "../style/hero.css";
+import "../../style/hero.css";
+import "../../scss/custom.css";
 
 export default function HeroSection() {
   return (
@@ -24,7 +25,7 @@ export default function HeroSection() {
           {/* <div className="d-flex h-100 text-center align-items-center"> */}
           <div className="w-100 text-white">
             <h1 className="display-3">
-              Welcome to <span className="text-yellow-500">Greeli</span>
+              Welcome to <span className="text-primary-yellow">Greeli</span>
             </h1>
             <p className="display-4">The guide to sustainable living</p>
           </div>

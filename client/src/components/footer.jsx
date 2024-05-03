@@ -9,7 +9,7 @@ import "../scss/custom.css";
 export default function Footer() {
   return (
     <>
-      <footer className="bd-footer bg-green-700 pt-5">
+      <footer className="bd-footer bg-primary-green-700 pt-5">
         <div className="container">
           <div className="row justify-content-between gx-5">
             {/* Who are we Section */}
