@@ -1,10 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
-
+import 'bootstrap/dist/css/bootstrap.css';
+import ThemeProvider from 'react-bootstrap/ThemeProvider';
+import { useState } from 'react';
+import ForumPage from "./components/ForumPage";
+import ThreadPage from './components/ThreadPage';
+import { Route, Routes } from 'react-router-dom';
 function App() {
+  
   return (
-    <div className="App">
-    </div>
+    <ThemeProvider
+    breakpoints={[ 'lg', 'md', 'sm']}
+    minBreakpoint="sm"
+  >
+   <ForumPage>
+    <Routes>
+     <Route path='threads/:threadId' element={<ThreadPage/>}/>
+     <Route path='posts/:postId' element=''/> 
+    </Routes>
+   </ForumPage>
+  </ThemeProvider>
   );
 }
 
