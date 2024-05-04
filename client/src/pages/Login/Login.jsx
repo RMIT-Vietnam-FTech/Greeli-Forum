@@ -56,7 +56,7 @@ const Login = () => {
 	};
 
 	return (
-		<main className="container-fluid" data-bs-theme="light">
+		<main className="container-fluid">
 			<div className="row">
 				<div
 					className="col-md-6 bg-image"
