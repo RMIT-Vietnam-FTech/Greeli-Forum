@@ -1,6 +1,5 @@
 import React from "react";
-import { AiFillInstagram } from "react-icons/ai";
-import { AiOutlineTikTok } from "react-icons/ai";
+import { AiFillInstagram, AiOutlineTikTok } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
 import "../scss/custom.css";
