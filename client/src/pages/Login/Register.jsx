@@ -7,7 +7,7 @@ import { FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import Reaptcha from "reaptcha";
 import * as Yup from "yup";
-import "./sass/custom.css";
+import "../../scss/custom.css";
 
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
@@ -96,9 +96,9 @@ const Register = () => {
 					className="col-md-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
 				/>
-				<div className="col-12 col-md-6 text-center login py-5 text-primary-yellow bg-primary-green-900">
-					<h1>GREELI</h1>
-					<h1>The guide to sustainable life</h1>
+				<div className="col-12 col-md-6 text-center login py-5 bg-greeli-subtle">
+					<h1 className="text-login-emphasis">GREELI</h1>
+					<h1 className="text-greeli-emphasis">The guide to sustainable life</h1>
 					<Image src="Logo.svg" width={120} className="my-4" />
 					<form
 						className="mt-4 mx-5 px-md-5"
@@ -106,7 +106,7 @@ const Register = () => {
 					>
 						<div className="input-group mb-4">
 							<span className="input-group-text">
-								<FaUser className="text-primary-yellow" />
+								<FaUser className="text-login-emphasis" />
 							</span>
 							<div className="form-floating">
 								<input
@@ -121,7 +121,7 @@ const Register = () => {
 										setUsername(e.target.value)
 									}
 								/>
-								<label for="username">Username</label>
+								<label for="username" className="text-greeli-emphasis">Username</label>
 							</div>
 						</div>
 						{errors.username && (
@@ -129,7 +129,7 @@ const Register = () => {
 						)}
 						<div className="input-group mb-4">
 							<span className="input-group-text">
-								<MdEmail className="text-primary-yellow" />
+								<MdEmail className="text-login-emphasis" />
 							</span>
 							<div className="form-floating">
 								<input
@@ -142,7 +142,7 @@ const Register = () => {
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
 								/>
-								<label for="email">Email address</label>
+								<label for="email" className="text-greeli-emphasis">Email address</label>
 							</div>
 						</div>
 						{errors.email && (
@@ -150,7 +150,7 @@ const Register = () => {
 						)}
 						<div className="input-group mb-4">
 							<span className="input-group-text">
-								<FaKey className="text-primary-yellow" />
+								<FaKey className="text-login-emphasis" />
 							</span>
 							<div className="form-floating">
 								<input
@@ -165,7 +165,7 @@ const Register = () => {
 										setPassword(e.target.value)
 									}
 								/>
-								<label for="password">Password</label>
+								<label for="password" className="text-greeli-emphasis">Password</label>
 							</div>
 						</div>
 						{errors.password && (
@@ -173,7 +173,7 @@ const Register = () => {
 						)}
 						<div className="input-group mb-4">
 							<span className="input-group-text">
-								<FaKey className="text-primary-yellow" />
+								<FaKey className="text-login-emphasis" />
 							</span>
 							<div className="form-floating">
 								<input
@@ -184,7 +184,7 @@ const Register = () => {
 									id="confirmPassword"
 									placeholder="Confirm Password"
 								/>
-								<label for="confirmPassword">
+								<label for="confirmPassword" className="text-greeli-emphasis">
 									Confirm Password
 								</label>
 							</div>
@@ -212,7 +212,7 @@ const Register = () => {
 							Have an account?{" "}
 							<a
 								href="/"
-								className="text-light"
+								className="text-primary-yellow"
 								style={{ textDecoration: "none" }}
 							>
 								Login
