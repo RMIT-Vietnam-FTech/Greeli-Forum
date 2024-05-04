@@ -10,7 +10,7 @@ export default function Footer() {
   return (
     <>
       <footer className="container-fluid bg-primary-green-700 pt-5">
-        <div className="row row-cols-lg-3 row-cols-md-1 justify-content-around mx-lg-3">
+        <div className="row row-cols-lg-3 row-cols-md-1 justify-content-around mx-lg-3" id="footer-content">
           {/* Who are we Section */}
           <div className="col-lg-3 col-md-3 footer-section" id="intro">
             <h3 className="fw-bold text-light">Who are we</h3>
