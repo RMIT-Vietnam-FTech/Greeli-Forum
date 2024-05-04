@@ -70,7 +70,7 @@ const Login = () => {
 						className="mt-4 mx-5 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
 					>
-						<div className="input-group mb-4">
+						<div className={errors.email ? "input-group mb-4 input-error" : "input-group mb-4"}>
 							<span className="input-group-text">
 								<MdEmail className="text-login-emphasis" />
 							</span>
@@ -93,7 +93,7 @@ const Login = () => {
 								{errors.email.message}
 							</p>
 						)}
-						<div className="input-group mb-2">
+						<div className={errors.password ? "input-group mb-4 input-error" : "input-group mb-4"}>
 							<span className="input-group-text">
 								<FaKey className="text-login-emphasis" />
 							</span>

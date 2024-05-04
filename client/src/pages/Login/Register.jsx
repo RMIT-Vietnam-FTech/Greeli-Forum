@@ -104,7 +104,7 @@ const Register = () => {
 						className="mt-4 mx-5 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
 					>
-						<div className="input-group mb-4">
+						<div className={errors.username ? "input-group mb-4 input-error" : "input-group mb-4"}>
 							<span className="input-group-text">
 								<FaUser className="text-login-emphasis" />
 							</span>
@@ -127,7 +127,7 @@ const Register = () => {
 						{errors.username && (
 							<p className="error">{errors.username.message}</p>
 						)}
-						<div className="input-group mb-4">
+						<div className={errors.email ? "input-group mb-4 input-error" : "input-group mb-4"}>
 							<span className="input-group-text">
 								<MdEmail className="text-login-emphasis" />
 							</span>
@@ -148,7 +148,7 @@ const Register = () => {
 						{errors.email && (
 							<p className="error">{errors.email.message}</p>
 						)}
-						<div className="input-group mb-4">
+						<div className={errors.password ? "input-group mb-4 input-error" : "input-group mb-4"}>
 							<span className="input-group-text">
 								<FaKey className="text-login-emphasis" />
 							</span>
@@ -171,7 +171,7 @@ const Register = () => {
 						{errors.password && (
 							<p className="error">{errors.password.message}</p>
 						)}
-						<div className="input-group mb-4">
+						<div className={errors.confirmPassword ? "input-group mb-4 input-error" : "input-group mb-4"}>
 							<span className="input-group-text">
 								<FaKey className="text-login-emphasis" />
 							</span>

@@ -193,3 +193,8 @@ $theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, $custom-co
     --bs-border-color: white;  
     --bs-body-color-rgb: 255, 255, 255;
   }
+
+.input-error {
+    border: var(--bs-border-width) solid var(--bs-danger); 
+    border-radius: var(--bs-border-radius);
+}
