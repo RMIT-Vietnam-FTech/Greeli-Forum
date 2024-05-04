@@ -10,11 +10,8 @@ export default function Jumbotron() {
 						Wanna be a part of our community builder team?
 					</h1>
 					<div className="d-inline-flex pt-5">
-						<button
-							className="d-inline-flex align-items-center text-green-500 btn bg-white btn-lg px-5 py-3 my-3 rounded-pill"
-							type="button"
-						>
-							Call to action
+						<button className="text-center text-green-500 btn bg-white btn-lg px-5 py-3 my-3 rounded-pill" type="button">
+							Join Us Here
 						</button>
 					</div>
 				</div>
