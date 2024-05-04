@@ -1,8 +1,8 @@
 import React from "react";
-import HeroSection from "../components/hero.jsx";
-import Main from "../components/main.jsx";
+import HeroSection from "./Homepage/hero.jsx";
+import Main from "./Homepage/main.jsx";
 import Footer from "../components/footer.jsx";
-import Jumbotron from "../components/jumbotron.jsx";
+import Jumbotron from "./Homepage/jumbotron.jsx";
 
 function Homepage() {
   return (
