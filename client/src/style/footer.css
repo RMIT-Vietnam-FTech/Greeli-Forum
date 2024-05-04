@@ -1,0 +1,51 @@
+@import "../scss/custom.css";
+a {
+    text-decoration: none;
+    color: #F2F2F2;
+}
+#copyright {
+    border-top: 2px solid var(--bs-primary-yellow);
+   
+}
+
+@media screen and (max-width: 768px){
+    #footer-content {
+        display: flex;
+        flex-direction: column;
+    }
+    /* Styling for 3 section in footer */
+    .footer-section {
+        width: 50vw !important;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding-bottom: 2em !important;
+    }
+    /* who are we styling */
+    #intro  {
+        flex-direction: column-reverse !important;
+    }
+    #intro > h3 {
+        display: none;
+    }
+    #weblogo {
+        padding-top: 0 !important;
+        padding-bottom: 2em;
+        width: 10em;
+    }
+    /* contact-info styling  */
+    span.contact {
+        display: none;
+    }
+    #contact-list {
+        flex-direction: row !important;
+        gap: 1em;
+    }
+    /* copyright styling */
+    #copyright{
+        margin-top: 0 !important;
+    }
+}

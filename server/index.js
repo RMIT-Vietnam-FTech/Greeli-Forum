@@ -7,6 +7,8 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import multer from "multer";
 
+import userRoutes from "./routes/user.js";
+
 /* CONFIGURATION */
 dotenv.config();
 const app = express();
@@ -19,10 +21,15 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+app.get("/api", (req, res) => {
+	res.status(201).json({ message: "hi there" });
+});
+app.use("/api/user", userRoutes);
+
 /* CONNECT DATABASE AND RUN SERVER */
-const PORT = process.env.MONGO_URL || 8001;
+const PORT = process.env.PORT || 8001;
 mongoose
-	.connect(PORT)
+	.connect(process.env.MONGO_URL)
 	.then(() => {
 		app.listen(PORT, () => {
 			console.log(`SERVER IS RUNNING ON ${PORT}`);

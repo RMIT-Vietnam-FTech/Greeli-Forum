@@ -1,0 +1,73 @@
+// Custom.scss
+
+// READ ME !!!!!!!!!!!!!!!!
+/* Guideline for color:
+    Primary: -primary-color-number, e.g: -primary-green-100
+
+    Supporting: -success, -info, -warning, -danger
+
+    Text color: -white, -black 
+
+    Background color: -light, -dark, -pop-up
+
+    If you want to choose color for specific element in your website, please follow this:
+        Syntax: element-color 
+        For example: bg-primary-green-100, text-white, bg-dark, text-info
+*/
+
+
+// Supporting Color
+$success: #3b7c12;
+$info: #01759b;
+$warning: #bf8001;
+$danger: #c11946;
+
+//primary-color-500
+$yellow: #DCB968;
+$green: #365949;
+$white: #EBEBEB;
+$black: #000000;
+
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+
+// Add new customed colors
+$custom-colors: (
+    "primary-green-100": #E3F6E6,
+    "primary-green-200": #C8EED2,
+    "primary-green-300": #9CCDAD,
+    "primary-green-400": #6D9B81,
+    "primary-green": #365949,
+    "primary-green-600": #274C3F,
+    "primary-green-700": #1B4036,
+    "primary-green-800": #11332E,
+    "primary-green-900": #0A2A28,
+    "primary-yellow-100": #FDF8E2,
+    "primary-yellow-200": #FBF0C6,
+    "primary-yellow-300": #F4E1A7,
+    "primary-yellow-400": #EAD08D,
+    "primary-yellow": #DCB968,
+    "primary-yellow-600": #BD974C,
+    "primary-yellow-700": #9E7734,
+    "primary-yellow-800": #7F5A21,
+    "primary-yellow-900": #694513,
+    "light": #F9FAFB,
+    "dark": #0A2A28,
+    "pop-up": #979797,
+);
+
+// Merge the maps to add new customed colors
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+
+
+// Include any default variable overrides here (though functions won't be available)
+
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+
+// Then add additional custom code here
+
+
+
+
