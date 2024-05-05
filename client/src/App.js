@@ -1,28 +1,25 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import "./App.css";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/footer.jsx";
 import Homepage from "./pages/Homepage.js";
-import Navbar from './components/Navbar/Navbar';
 import Login from "./pages/Login/Login";
-import Register from './pages/Login/Register';
+import Register from "./pages/Login/Register";
+import { ThemeProvider } from "./themeContext.js";
 
-export const ThemeContext = createContext("light");
 function App() {
-  const [theme, setTheme] = useState("dark");
-
-  const toggleTheme = () => {
-    setTheme((curr) => (curr === "light" ? "dark" : "light"));
-  };
-  return (
-    <ThemeContext.Provider value={{theme, toggleTheme}}>
-          <div className="App" data-bs-theme={theme}>
-      <Login />
-      <Register />
-      {/* <Register /> */}
-      {/* <Homepage /> */}
-      <Navbar />
-    </div>
-    </ThemeContext.Provider>
-  );
+	return (
+		<div className="App">
+			<ThemeProvider>
+				<Navbar />
+				<div className="h-100" style={{ marginTop: "80px" }}>
+					<Login />
+					<Register />
+				</div>
+				<Footer />
+			</ThemeProvider>
+		</div>
+	);
 }
 
 export default App;

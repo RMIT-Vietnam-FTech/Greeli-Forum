@@ -13,6 +13,10 @@
     If you want to choose color for specific element in your website, please follow this:
         Syntax: element-color 
         For example: bg-primary-green-100, text-white, bg-dark, text-info
+
+    # How to use color config (Light and Dark mode):
+    - For text: text-greeli-emphasis
+    - For background: bg-greeli-subtle
 */
 
 
@@ -73,6 +77,7 @@ $custom-colors-text: (
 $custom-colors-bg-subtle: (
     "greeli": #F9FAFB,
     "login": #365949,
+    "nav": #FFFFFF,
 );
 // $custom-colors-border-subtle: ("custom-color": #bfa1fc);
 $theme-colors-text: map-merge($theme-colors-text, $custom-colors-text);
@@ -84,11 +89,11 @@ $custom-colors: (
     "body-bg": #FFFFFF,
 );
 $custom-colors-text-dark: (
-    "greeli": #EBEBEB,
+    "greeli": #FFFFFF,
     "login": #DCB968,
-    
 );
 $custom-colors-bg-subtle-dark: (
+    "nav": #000000,
     "greeli": #0A2A28,
     "login": #DCB968,
 );
@@ -115,6 +120,10 @@ $theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, $custom-co
 }
 .bg-login-subtle {
     background-color: var(--bs-login-bg-subtle) !important;
+}
+
+.bg-navbar-subtle {
+    background-color: var(--bs-nav-bg-subtle) !important;
 }
 
 .input-group {
@@ -198,3 +207,18 @@ $theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, $custom-co
     border: var(--bs-border-width) solid var(--bs-danger); 
     border-radius: var(--bs-border-radius);
 }
+
+.offcanvas, .offcanvas-xxl, .offcanvas-xl, .offcanvas-lg, .offcanvas-md, .offcanvas-sm {
+    --bs-offcanvas-zindex: 1045;
+    --bs-offcanvas-width: 400px;
+    --bs-offcanvas-height: 30vh;
+    --bs-offcanvas-padding-x: 1rem;
+    --bs-offcanvas-padding-y: 1rem;
+    --bs-offcanvas-color: var(--bs-body-color);
+    --bs-offcanvas-bg: var(--bs-greeli-bg-subtle);
+    --bs-offcanvas-border-width: var(--bs-border-width);
+    --bs-offcanvas-border-color: var(--bs-border-color-translucent);
+    --bs-offcanvas-box-shadow: var(--bs-box-shadow-sm);
+    --bs-offcanvas-transition: transform 0.3s ease-in-out;
+    --bs-offcanvas-title-line-height: 1.5;
+  }

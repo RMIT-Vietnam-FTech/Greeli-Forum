@@ -11,6 +11,10 @@
     If you want to choose color for specific element in your website, please follow this:
         Syntax: element-color 
         For example: bg-primary-green-100, text-white, bg-dark, text-info
+
+    # How to use color config (Light and Dark mode):
+    - For text: text-greeli-emphasis
+    - For background: bg-greeli-subtle
 */
 /*!
  * Bootstrap  v5.3.3 (https://getbootstrap.com/)
@@ -116,6 +120,7 @@
   --bs-dark-bg-subtle: #ced4da;
   --bs-greeli-bg-subtle: #F9FAFB;
   --bs-login-bg-subtle: #365949;
+  --bs-nav-bg-subtle: #FFFFFF;
   --bs-primary-border-subtle: #9ec5fe;
   --bs-secondary-border-subtle: #c4c8cb;
   --bs-success-border-subtle: #b1cba0;
@@ -204,7 +209,7 @@
   --bs-danger-text-emphasis: #da7590;
   --bs-light-text-emphasis: #f8f9fa;
   --bs-dark-text-emphasis: #dee2e6;
-  --bs-greeli-text-emphasis: #EBEBEB;
+  --bs-greeli-text-emphasis: #FFFFFF;
   --bs-login-text-emphasis: #DCB968;
   --bs-primary-bg-subtle: #031633;
   --bs-secondary-bg-subtle: #161719;
@@ -214,6 +219,7 @@
   --bs-danger-bg-subtle: #27050e;
   --bs-light-bg-subtle: #343a40;
   --bs-dark-bg-subtle: #1a1d20;
+  --bs-nav-bg-subtle: #000000;
   --bs-greeli-bg-subtle: #0A2A28;
   --bs-login-bg-subtle: #DCB968;
   --bs-primary-border-subtle: #084298;
@@ -13788,6 +13794,10 @@ textarea.form-control-lg {
   background-color: var(--bs-login-bg-subtle) !important;
 }
 
+.bg-navbar-subtle {
+  background-color: var(--bs-nav-bg-subtle) !important;
+}
+
 .input-group {
   border: var(--bs-border-width) solid var(--bs-border-color);
   border-radius: var(--bs-border-radius);
@@ -13878,4 +13888,19 @@ textarea.form-control-lg {
 .input-error {
   border: var(--bs-border-width) solid var(--bs-danger);
   border-radius: var(--bs-border-radius);
+}
+
+.offcanvas, .offcanvas-xxl, .offcanvas-xl, .offcanvas-lg, .offcanvas-md, .offcanvas-sm {
+  --bs-offcanvas-zindex: 1045;
+  --bs-offcanvas-width: 400px;
+  --bs-offcanvas-height: 30vh;
+  --bs-offcanvas-padding-x: 1rem;
+  --bs-offcanvas-padding-y: 1rem;
+  --bs-offcanvas-color: var(--bs-body-color);
+  --bs-offcanvas-bg: var(--bs-greeli-bg-subtle);
+  --bs-offcanvas-border-width: var(--bs-border-width);
+  --bs-offcanvas-border-color: var(--bs-border-color-translucent);
+  --bs-offcanvas-box-shadow: var(--bs-box-shadow-sm);
+  --bs-offcanvas-transition: transform 0.3s ease-in-out;
+  --bs-offcanvas-title-line-height: 1.5;
 }/*# sourceMappingURL=custom.css.map */

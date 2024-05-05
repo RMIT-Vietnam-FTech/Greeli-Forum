@@ -6,6 +6,7 @@
 			"./src/**/*.jsx",
 			"./components/**/*.jsx",
 			"./src/index.js",
+			"./src/App.js",
 			"./src/**/*.css",
 			"./src/**/*.scss"
 		]
@@ -25,6 +26,19 @@
 					}
 				},
 				"useNamingConvention": "error"
+			},
+			"a11y": {
+				"noSvgWithoutTitle": "error",
+				"useValidAriaProps": "error",
+				"useAltText": "error",
+				"noAriaUnsupportedElements": "error",
+				"noInteractiveElementToNoninteractiveRole": "error",
+				"noNoninteractiveTabindex": "error",
+				"useAnchorContent": "error",
+				"useButtonType": "error",
+				"useHeadingContent": "error",
+				"useValidAriaValues": "error",
+				"useValidAriaRole": "error"
 			}
 		}
 	},

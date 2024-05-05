@@ -1,14 +1,28 @@
+import React, { useContext } from "react";
 import Image from "react-bootstrap/Image";
 import { FaUser } from "react-icons/fa";
 import { IoMoon, IoSunny } from "react-icons/io5";
+import "../../scss/custom.css";
+import { ThemeContext } from "../../themeContext";
 import "./custom.css";
 const Navbar = () => {
+	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
 	return (
-		<nav className="navbar navbar-expand-md fixed-top">
+		<nav
+			className="navbar navbar-expand-md fixed-top bg-navbar-subtle"
+			data-bs-theme={isDarkMode ? "dark" : "light"}
+		>
 			<div className="container-fluid">
 				<a className="navbar-brand d-flex" href="/">
-					<Image className="bi me-3" src="LightLogo.svg" width={40} />
-					<p className="forum-name my-auto">Greeli</p>
+					<Image
+						className="bi me-3"
+						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+						width={40}
+						alt="Greeli Logo"
+					/>
+					<p className="forum-name my-auto text-greeli-emphasis">
+						Greeli
+					</p>
 				</a>
 				<div
 					className="offcanvas offcanvas-end"
@@ -34,7 +48,7 @@ const Navbar = () => {
 						<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
 							<li className="nav-item">
 								<a
-									className="nav-link active"
+									className="nav-link active text-greeli-emphasis"
 									aria-current="page"
 									href="/"
 								>
@@ -42,17 +56,26 @@ const Navbar = () => {
 								</a>
 							</li>
 							<li className="nav-item">
-								<a className="nav-link" href="/">
+								<a
+									className="nav-link text-greeli-emphasis"
+									href="/"
+								>
 									Forum
 								</a>
 							</li>
 							<li className="nav-item">
-								<a className="nav-link" href="/">
+								<a
+									className="nav-link text-greeli-emphasis"
+									href="/"
+								>
 									About
 								</a>
 							</li>
 							<li className="nav-item">
-								<a className="nav-link" href="/">
+								<a
+									className="nav-link text-greeli-emphasis"
+									href="/"
+								>
 									Contact
 								</a>
 							</li>
@@ -61,9 +84,14 @@ const Navbar = () => {
 				</div>
 				<div className="d-flex flex-row align-items-center gap-4">
 					<a className="nav-link" href="/">
-						<FaUser className="icon" />
+						<FaUser className="icon text-greeli-emphasis" />
 					</a>
-					<input type="checkbox" id="darkmode-toggle" />
+					<input
+						type="checkbox"
+						id="darkmode-toggle"
+						checked={isDarkMode}
+						onChange={toggleDarkMode}
+					/>
 					<label
 						htmlFor="darkmode-toggle"
 						className="darkmode-toggle"
