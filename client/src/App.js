@@ -5,7 +5,7 @@ import { useState } from 'react';
 import ForumPage from "./pages/ForumPage";
 import ThreadPage from './pages/ThreadPage/ThreadPage';
 import DashBoardPage from './pages/DashBoardPage';
-import PostPage from './pages/PostPage';
+import PostPage from './pages/PostPage/PostPage';
 import { Route, Routes } from 'react-router-dom';
 function App() {
   

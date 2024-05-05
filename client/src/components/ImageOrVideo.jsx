@@ -1,20 +1,37 @@
 import ReactPlayer from "react-player";
+import axios from "axios";
+import useSWR from 'swr';
+const fetcher = (url) => axios.get(url).then((res) => res.headers.get('Content-Type'));
 export default function ImageOrVideo({ src }) {
-  console.log("check src: " + src);
-  const videoType = ["mpg", "mp2", "mpeg", "mpe", "mpv", "mp4"];
-  const imageType = ["gif", "jpg", "jpeg", "png"];
-  const type = src.split(".").pop();
-  if (imageType.includes(type)) {
-    return (
-        <img className="h-100" src={src} />
-    );
-  } else {
-    return (
-      <video
-      className="h-100"
-        src={src}
-        controls
-      ></video>
+     const { data, error, isLoading } = useSWR(
+    src,
+    fetcher
+  );
+  if (error) {
+    return 0;
+  }
+  if (isLoading) {
+    return 0;
+  }
+  if(data.startsWith("image")){
+    return(
+      <img src={src} className="h-100"/>
     );
   }
+  if(data.startsWith("video")){
+    return(
+      <ReactPlayer url={src} className="h-100"/>
+    );
+  }
+  return(
+    <></>
+  );
 }
+function isImage(url){
+    return fetch(url, {method:"HEAD"}).then(res=>{
+      console.log(res.headers.get("Content-Type"));
+      console.log(res.headers.get("Content-Type").startsWith('image'));
+      return res.headers.get('Content-Type').indexOf('image');
+    });
+  }
+

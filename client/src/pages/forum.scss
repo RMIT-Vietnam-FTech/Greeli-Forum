@@ -1,0 +1,27 @@
+.left-sidebar,
+.right-sidebar {
+  width: 16.7%;
+  height: 100px;
+}
+.main{
+  width: 50%;
+}
+.avatar {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: gray;
+  border-radius: 50%;
+}
+.dropdown{
+    top: 10px;
+    right: 10px;
+}
+
+.dropdown-circle{
+    width: 3px;
+    height: 3px;
+}
