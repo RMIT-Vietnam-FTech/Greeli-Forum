@@ -1,0 +1,272 @@
+/* UPDATE */
+.carousel-image {
+    object-fit: cover;
+    /* For navbar nhe :>*/
+    height: 100vh;
+}
+
+.custom-caption {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    bottom: 0;
+    transition: 0.3s ease-in-out;
+}
+
+.custom-caption:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.caption-line {
+    width: 50px;
+    height: 4px;
+    background-color: #365949;
+    margin-bottom: 10px;
+}
+
+h5 {
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    color: #fff;
+    text-align: start;
+}
+
+p {
+    margin: 0;
+    font-size: 16px;
+    color: #fff;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+
+    /* Mobile */
+    .custom-caption {
+        left: 10%;
+        right: 10%;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+
+    /* Tablet */
+    .custom-caption {
+        left: 20%;
+        right: 20%;
+    }
+}
+
+@media (min-width: 993px) {
+
+    /* Laptop and above */
+    .custom-caption {
+        left: 20%;
+        right: 20%;
+    }
+}
+
+/* NEWS */
+.news {
+    background-color: #F9FAFB;
+    padding: 20px;
+    padding-inline: 10%;
+}
+
+.selection {
+    display: flex;
+    justify-content: center;
+}
+
+.popularNews {
+    padding-top: 50px;
+    color: #365949;
+    font-weight: bold;
+}
+
+.nav-item {
+    padding: 7px;
+    padding-inline: 15px;
+    margin: 0;
+    background-color: #fff;
+    transition: 0.3s ease-in-out;
+    border-radius: 5px;
+    text-align: center;
+    border: 2px solid #365949;
+}
+
+.nav-item:hover {
+    background-color: #365949;
+    color: #DCB968;
+    cursor: pointer;
+}
+
+.nav-item.active {
+    background-color: #365949;
+    color: #DCB968;
+    cursor: pointer;
+}
+
+h4 {
+    margin-bottom: 0;
+}
+
+.newsContainer {
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.slider {
+    text-align: center;
+
+}
+
+.news-card {
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    transition: transform 0.3s;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+.card-img-top {
+    width: 100%;
+    height: auto;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.card-body h6 {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 5px;
+    text-align: start;
+}
+
+.card-body h4 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: start;
+}
+
+.card-body p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
+    text-align: start;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.circle-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.user-info span {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #365949;
+}
+
+@media (max-width: 768px) {
+
+    /* Mobile */
+    .news-card {
+        margin-bottom: 40px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+
+    /* Tablet */
+    .selection {
+        gap: 1%;
+        margin-top: 20px;
+    }
+}
+
+@media (min-width: 993px) {
+
+    /* Laptop and above */
+    .selection {
+        gap: 3%;
+        margin-top: 20px;
+    }
+}
+
+
+/* EVENTS */
+.card {
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    margin: 20px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
+}
+
+.events_selection {
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+
+    /* Mobile */
+    .events_selection {
+        margin-top: 20px;
+        gap: 2%;
+    }
+
+    .nav-item h4 {
+        font-size: smaller;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+
+    /* Tablet */
+    .events_selection {
+        gap: 1%;
+        font-size: smaller;
+    }
+}
+
+@media (min-width: 993px) {
+
+    /* Laptop and above */
+    .events_selection {
+        gap: 3%;
+    }
+}
