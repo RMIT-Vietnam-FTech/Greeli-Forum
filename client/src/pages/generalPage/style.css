@@ -2,7 +2,7 @@
 .carousel-image {
     object-fit: cover;
     /* For navbar nhe :>*/
-    height: 90vh;
+    height: 100vh;
 }
 
 .custom-caption {
@@ -107,9 +107,14 @@ p {
     cursor: pointer;
 }
 
+.nav-item.active {
+    background-color: #365949;
+    color: #DCB968;
+    cursor: pointer;
+}
+
 h4 {
-    margin-bottom: 0; 
-    /* Remove default margin from bootstrap component */
+    margin-bottom: 0;
 }
 
 .newsContainer {
@@ -183,6 +188,11 @@ h4 {
 .user-info span {
     font-size: 0.9rem;
     color: #333;
+}
+
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #365949;
 }
 
 @media (max-width: 768px) {
