@@ -4,7 +4,7 @@ import axios from "axios";
 import useSWR from "swr";
 import Button from "react-bootstrap/Button";
 import "../forum.scss";
-import { DarkThemeContext } from "../../DarkThemeContext";
+import { DarkThemeContext } from "../../contexts/DarkThemeContext";
 import { useContext } from "react";
 import ThreadHeader from "./components/ThreadHeader";
 import ThreadBody from "./components/ThreadBody";

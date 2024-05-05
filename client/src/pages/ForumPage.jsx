@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { DarkThemeContext } from "../DarkThemeContext";
+import { DarkThemeContext } from "../contexts/DarkThemeContext";
 import { useState } from "react";
 import Container from "react-bootstrap/Container";
 import { useParams } from "react-router-dom";

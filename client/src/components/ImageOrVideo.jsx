@@ -2,7 +2,8 @@ import ReactPlayer from "react-player";
 import axios from "axios";
 import useSWR from 'swr';
 const fetcher = (url) => axios.get(url).then((res) => res.headers.get('Content-Type'));
-export default function ImageOrVideo({ src }) {
+export default function ImageOrVideo({ src, isPost}) {
+  console.log("is post: "+isPost);
      const { data, error, isLoading } = useSWR(
     src,
     fetcher
@@ -20,7 +21,7 @@ export default function ImageOrVideo({ src }) {
   }
   if(data.startsWith("video")){
     return(
-      <ReactPlayer url={src} className="h-100"/>
+      <ReactPlayer controls={isPost?false: true} url={src} className="h-100"/>
     );
   }
   return(

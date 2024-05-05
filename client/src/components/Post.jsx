@@ -38,7 +38,7 @@ export default function Post({ postId }) {
           className=" w-25 rounded-3 d-flex justify-content-center bg-primary-green-900 overflow-hidden "
           style={{ height: "100px" }}
         >
-          <ImageOrVideo src={data.uploadFile}/>
+          <ImageOrVideo src={data.uploadFile} isPost={true}/>
         </div>
       </Link>
     </div>

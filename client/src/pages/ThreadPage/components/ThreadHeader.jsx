@@ -1,9 +1,10 @@
 import axios from "axios";
 import useSWR from "swr";
 import Button from "react-bootstrap/Button";
-import { DarkThemeContext } from "../../../DarkThemeContext";
+import { DarkThemeContext } from "../../../contexts/DarkThemeContext";
 import { useContext } from "react";
 import ImageOrVideo from "../../../components/ImageOrVideo";
+import TextEditor from "../../../components/TextEditor/TextEditor";
 export default function ThreadHeader({...prop}) {
   const darkTheme = useContext(DarkThemeContext);
   const {title, uploadFile, content} = prop;
@@ -16,10 +17,10 @@ export default function ThreadHeader({...prop}) {
         </Button>
       </div>
       <div className="w-100 mt-4 bg-primary-green-600 rounded-3 d-flex justify-content-center overflow-hidden" style={{height:"400px"}}>
-        <ImageOrVideo src={prop.uploadFile} />
+        <ImageOrVideo src={prop.uploadFile} isPost={false} />
       </div>
       <div className="w-100 mt-3">
-        <p className="text-primary-green-900 w-100">{prop.content}</p>
+        <TextEditor crudType="PUT" componentType="posts" content={prop.content} editableStatus={false} allowClickToEditable={false} resetContentWhenDone={false}/>
       </div>
       <Button className="w-100 bg-transparent border-primary-green-900 text-primary-green-900 rounded-5 text-start">
         Create Post +
