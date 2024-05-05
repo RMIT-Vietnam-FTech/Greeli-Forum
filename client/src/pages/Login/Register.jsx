@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
@@ -8,6 +8,7 @@ import { MdEmail } from "react-icons/md";
 import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 import "../../scss/custom.css";
+import { ThemeContext } from "../../themeContext";
 
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
@@ -89,8 +90,13 @@ const Register = () => {
 		setPassword("");
 	};
 
+	const { isDarkMode } = useContext(ThemeContext);
+
 	return (
-		<main className="container-fluid">
+		<main
+			className="container-fluid"
+			data-bs-theme={isDarkMode ? "dark" : "light"}
+		>
 			<div className="row">
 				<div
 					className="col-md-6 bg-image"
@@ -98,13 +104,26 @@ const Register = () => {
 				/>
 				<div className="col-12 col-md-6 text-center login py-5 bg-greeli-subtle">
 					<h1 className="text-login-emphasis">GREELI</h1>
-					<h1 className="text-greeli-emphasis">The guide to sustainable life</h1>
-					<Image src="Logo.svg" width={120} className="my-4" />
+					<h1 className="text-greeli-emphasis">
+						The guide to sustainable life
+					</h1>
+					<Image
+						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+						width={120}
+						className="my-4"
+						alt="Greeli Forum Logo"
+					/>
 					<form
 						className="mt-4 mx-5 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
 					>
-						<div className={errors.username ? "input-group mb-4 input-error" : "input-group mb-4"}>
+						<div
+							className={
+								errors.username
+									? "input-group mb-4 input-error"
+									: "input-group mb-4"
+							}
+						>
 							<span className="input-group-text">
 								<FaUser className="text-login-emphasis" />
 							</span>
@@ -121,13 +140,24 @@ const Register = () => {
 										setUsername(e.target.value)
 									}
 								/>
-								<label for="username" className="text-greeli-emphasis">Username</label>
+								<label
+									for="username"
+									className="text-greeli-emphasis"
+								>
+									Username
+								</label>
 							</div>
 						</div>
 						{errors.username && (
 							<p className="error">{errors.username.message}</p>
 						)}
-						<div className={errors.email ? "input-group mb-4 input-error" : "input-group mb-4"}>
+						<div
+							className={
+								errors.email
+									? "input-group mb-4 input-error"
+									: "input-group mb-4"
+							}
+						>
 							<span className="input-group-text">
 								<MdEmail className="text-login-emphasis" />
 							</span>
@@ -142,13 +172,24 @@ const Register = () => {
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
 								/>
-								<label for="email" className="text-greeli-emphasis">Email address</label>
+								<label
+									for="email"
+									className="text-greeli-emphasis"
+								>
+									Email address
+								</label>
 							</div>
 						</div>
 						{errors.email && (
 							<p className="error">{errors.email.message}</p>
 						)}
-						<div className={errors.password ? "input-group mb-4 input-error" : "input-group mb-4"}>
+						<div
+							className={
+								errors.password
+									? "input-group mb-4 input-error"
+									: "input-group mb-4"
+							}
+						>
 							<span className="input-group-text">
 								<FaKey className="text-login-emphasis" />
 							</span>
@@ -165,13 +206,24 @@ const Register = () => {
 										setPassword(e.target.value)
 									}
 								/>
-								<label for="password" className="text-greeli-emphasis">Password</label>
+								<label
+									for="password"
+									className="text-greeli-emphasis"
+								>
+									Password
+								</label>
 							</div>
 						</div>
 						{errors.password && (
 							<p className="error">{errors.password.message}</p>
 						)}
-						<div className={errors.confirmPassword ? "input-group mb-4 input-error" : "input-group mb-4"}>
+						<div
+							className={
+								errors.confirmPassword
+									? "input-group mb-4 input-error"
+									: "input-group mb-4"
+							}
+						>
 							<span className="input-group-text">
 								<FaKey className="text-login-emphasis" />
 							</span>
@@ -184,7 +236,10 @@ const Register = () => {
 									id="confirmPassword"
 									placeholder="Confirm Password"
 								/>
-								<label for="confirmPassword" className="text-greeli-emphasis">
+								<label
+									for="confirmPassword"
+									className="text-greeli-emphasis"
+								>
 									Confirm Password
 								</label>
 							</div>
@@ -208,7 +263,7 @@ const Register = () => {
 						>
 							Register
 						</button>
-						<p className="mt-1 mb-3 text-center co">
+						<p className="mt-1 mb-3 text-center text-greeli-emphasis">
 							Have an account?{" "}
 							<a
 								href="/"
