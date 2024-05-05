@@ -1,3 +1,8 @@
+main {
+    position: relative;
+    top: -5em;
+    z-index: 3;
+}
 .feature {
     padding: 0.2em;
     border: 5px solid var(--bs-primary-yellow);

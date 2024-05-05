@@ -9,17 +9,17 @@ export default function HeroSection() {
 				{/* This div creates the transparent overlay over the video. */}
 				<div className="overlay" />
 				{/* This is video for the background. */}
-				{/* <video
+				<video
 					playsInline="playsinline"
 					autoPlay="autoplay"
 					muted="muted"
 					loop="loop"
 				>
 					<source
-						src="https://www.youtube.com/watch?v=eNUpTV9BGac&t=1324s"
+						src="https://www.youtube.com/watch?v=eNUpTV9BGac"
 						type="video/mp4"
 					/>
-				</video> */}
+				</video>
 				{/* text content */}
 				<div className="container d-flex h-100 text-center align-items-center">
 					{/* <div className="d-flex h-100 text-center align-items-center"> */}
