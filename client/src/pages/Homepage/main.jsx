@@ -27,14 +27,14 @@ export default function Main() {
 					</div>
 				</div>
 
-				<div className="container py-5 my-5 rounded-5 bg-green-700">
+				<div className="container-fluid py-5 my-5 mx-4  rounded-5 bg-primary-green-700">
 					<h2 className="fs-1 text-center text-yellow-500">
 						Our Solution
 					</h2>
 					<div className="row px-3 justify-content-between">
 						<div className="col-3 mb-3 mx-0">
-							<div className="feature-icon fs-2 mb-3"></div>
-							<h3 className="fs-3 text-yellow-500">
+							<div className="feature-icon fs-2 mb-3" />
+							<h3 className="fs-3 text-primary-yellow">
 								Collaborative Forum
 							</h3>
 							<p className="text-white">
@@ -45,8 +45,8 @@ export default function Main() {
 							</p>
 						</div>
 						<div className="col-3 mb-3 mx-0">
-							<div className="feature-icon fs-2 mb-3"></div>
-							<h3 className="fs-3 text-yellow-500">
+							<div className="feature-icon fs-2 mb-3" />
+							<h3 className="fs-3 text-primary-yellow">
 								Real-time Chatting
 							</h3>
 							<p className="text-white">
@@ -57,7 +57,7 @@ export default function Main() {
 							</p>
 						</div>
 						<div className="col-3 mb-3 mx-0">
-							<div className="feature-icon fs-2 mb-3"></div>
+							<div className="feature-icon fs-2 mb-3" />
 							<h3 className="fs-3 text-yellow-500">
 								Updating Informative Platform
 							</h3>
@@ -92,7 +92,7 @@ export default function Main() {
 											width="100%"
 											height="100%"
 											fill="#55595c"
-										></rect>
+										/>
 									</svg>
 								</div>
 							</div>
@@ -114,7 +114,7 @@ export default function Main() {
 											width="100%"
 											height="100%"
 											fill="#55595c"
-										></rect>
+										/>
 									</svg>
 								</div>
 							</div>
@@ -135,7 +135,7 @@ export default function Main() {
 											width="100%"
 											height="100%"
 											fill="#55595c"
-										></rect>
+										/>
 									</svg>
 								</div>
 							</div>
@@ -156,7 +156,7 @@ export default function Main() {
 											width="100%"
 											height="100%"
 											fill="#55595c"
-										></rect>
+										/>
 									</svg>
 								</div>
 							</div>

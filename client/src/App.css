@@ -1,0 +1,25 @@
+.error {
+  color: #C11946;
+  font-weight: bold;
+  margin-top: -1rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+/* .input-group {
+  border: 1px solid red;
+  border-radius: 5px;
+} */
+
+
+
+.form-control:focus {
+  outline: none; /* Removes the blue border */
+}
+.form-check-label {
+  color: white;
+}
+a {
+  text-decoration: none;
+  color: #FFFFFF;
+}

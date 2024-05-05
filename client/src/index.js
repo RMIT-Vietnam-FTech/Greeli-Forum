@@ -1,7 +1,5 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min";
 // Bootstrap Bundle JS
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import React from "react";
