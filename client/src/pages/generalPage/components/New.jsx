@@ -9,7 +9,7 @@ const Card = ({ image, topic, title, description, userImage, userName }) => {
 	return (
 		<div className="news-card">
 			<img className="card-img-top" src={image} alt="News" />
-			<div className="card-body">
+			<div className="cards-body">
 				<h6>{topic}</h6>
 				<h4>{title}</h4>
 				<p>{description}</p>
@@ -138,25 +138,25 @@ export default function News() {
 				) : (
 					<ul className="nav nav-pills selection">
 						<li
-							className={`nav-item ${isActive("All")}`}
+							className={`navigation-item ${isActive("All")}`}
 							onClick={() => setCategory("All")}
 						>
 							<h4>All</h4>
 						</li>
 						<li
-							className={`nav-item ${isActive("Shopping")}`}
+							className={`navigation-item ${isActive("Shopping")}`}
 							onClick={() => setCategory("Shopping")}
 						>
 							<h4>Shopping</h4>
 						</li>
 						<li
-							className={`nav-item ${isActive("Eating")}`}
+							className={`navigation-item ${isActive("Eating")}`}
 							onClick={() => setCategory("Eating")}
 						>
 							<h4>Eating</h4>
 						</li>
 						<li
-							className={`nav-item ${isActive("Transportation")}`}
+							className={`navigation-item ${isActive("Transportation")}`}
 							onClick={() => setCategory("Transportation")}
 						>
 							<h4>Transportation</h4>

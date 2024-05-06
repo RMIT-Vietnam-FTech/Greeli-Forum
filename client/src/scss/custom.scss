@@ -73,6 +73,7 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 $custom-colors-text: (
     "greeli": #000000,
     "login": #365949,
+    "general": #000000,
 );
 $custom-colors-bg-subtle: (
     "greeli": #F9FAFB,
@@ -91,6 +92,7 @@ $custom-colors: (
 $custom-colors-text-dark: (
     "greeli": #FFFFFF,
     "login": #DCB968,
+    "general": #DCB968,
 );
 $custom-colors-bg-subtle-dark: (
     "nav": #000000,
@@ -106,18 +108,26 @@ $theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, $custom-co
 // Include any default variable overrides here (though functions won't be available)
 
 @import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
 // @import "../../node_modules/bootstrap/scss/root";
 // @import "../../node_modules/bootstrap/scss/reboot";
 // Then add additional custom code here
 .text-login-emphasis {
     color: var(--bs-login-text-emphasis) !important;
 }
+
 .text-greeli-emphasis {
     color: var(--bs-greeli-text-emphasis) !important;
 }
+
+.text-general-emphasis {
+    color: var(--bs-general-text-emphasis) !important;
+}
+
 .bg-greeli-subtle {
     background-color: var(--bs-greeli-bg-subtle) !important;
 }
+
 .bg-login-subtle {
     background-color: var(--bs-login-bg-subtle) !important;
 }
@@ -140,14 +150,15 @@ $theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, $custom-co
     line-height: 1.5;
     color: var(--bs-greeli-text-emphasis);
     -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     background-color: var(--bs-body-bg);
     background-clip: padding-box;
     border: none;
     border-radius: var(--bs-border-radius);
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
 .input-group-text {
     display: flex;
     align-items: center;
@@ -161,6 +172,7 @@ $theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, $custom-co
     border: var(--bs-border-width) solid transparent;
     border-radius: var(--bs-border-radius);
 }
+
 .form-control:focus {
     color: var(--bs-greeli-text-emphasis);
     background-color: var(--bs-body-bg);
@@ -168,6 +180,7 @@ $theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, $custom-co
     outline: 0;
     box-shadow: none;
 }
+
 .btn-primary {
     --bs-btn-color: #fff;
     --bs-btn-bg: var(--bs-login-bg-subtle);
@@ -184,31 +197,38 @@ $theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, $custom-co
     --bs-btn-disabled-bg: var(--bs-login-bg-subtle);
     --bs-btn-disabled-border-color: var(--bs-login-bg-subtle);
 }
-.form-floating > .form-control:focus ~ label,
-.form-floating > .form-control:not(:placeholder-shown) ~ label,
-.form-floating > .form-control-plaintext ~ label,
-.form-floating > .form-select ~ label {
-  color: var(--bs-body-color);
-  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-}
-.form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
+
+.form-floating>.form-control:focus~label,
+.form-floating>.form-control:not(:placeholder-shown)~label,
+.form-floating>.form-control-plaintext~label,
+.form-floating>.form-select~label {
     color: var(--bs-body-color);
     transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
-  }
+}
+
+.form-floating>.form-control:not(:-moz-placeholder-shown)~label {
+    color: var(--bs-body-color);
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
 
 [data-bs-theme="dark"] {
     --bs-body-color: white;
     --bs-body-bg: transparent;
-    --bs-border-color: white;  
+    --bs-border-color: white;
     --bs-body-color-rgb: 255, 255, 255;
-  }
+}
 
 .input-error {
-    border: var(--bs-border-width) solid var(--bs-danger); 
+    border: var(--bs-border-width) solid var(--bs-danger);
     border-radius: var(--bs-border-radius);
 }
 
-.offcanvas, .offcanvas-xxl, .offcanvas-xl, .offcanvas-lg, .offcanvas-md, .offcanvas-sm {
+.offcanvas,
+.offcanvas-xxl,
+.offcanvas-xl,
+.offcanvas-lg,
+.offcanvas-md,
+.offcanvas-sm {
     --bs-offcanvas-zindex: 1045;
     --bs-offcanvas-width: 400px;
     --bs-offcanvas-height: 30vh;
@@ -221,4 +241,4 @@ $theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, $custom-co
     --bs-offcanvas-box-shadow: var(--bs-box-shadow-sm);
     --bs-offcanvas-transition: transform 0.3s ease-in-out;
     --bs-offcanvas-title-line-height: 1.5;
-  }
+}

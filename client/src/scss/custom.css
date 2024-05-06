@@ -110,6 +110,7 @@
   --bs-dark-text-emphasis: #495057;
   --bs-greeli-text-emphasis: #000000;
   --bs-login-text-emphasis: #365949;
+  --bs-general-text-emphasis: #000000;
   --bs-primary-bg-subtle: #cfe2ff;
   --bs-secondary-bg-subtle: #e2e3e5;
   --bs-success-bg-subtle: #d8e5d0;
@@ -211,6 +212,7 @@
   --bs-dark-text-emphasis: #dee2e6;
   --bs-greeli-text-emphasis: #FFFFFF;
   --bs-login-text-emphasis: #DCB968;
+  --bs-general-text-emphasis: #DCB968;
   --bs-primary-bg-subtle: #031633;
   --bs-secondary-bg-subtle: #161719;
   --bs-success-bg-subtle: #0c1904;
@@ -13786,6 +13788,10 @@ textarea.form-control-lg {
   color: var(--bs-greeli-text-emphasis) !important;
 }
 
+.text-general-emphasis {
+  color: var(--bs-general-text-emphasis) !important;
+}
+
 .bg-greeli-subtle {
   background-color: var(--bs-greeli-bg-subtle) !important;
 }
@@ -13890,7 +13896,12 @@ textarea.form-control-lg {
   border-radius: var(--bs-border-radius);
 }
 
-.offcanvas, .offcanvas-xxl, .offcanvas-xl, .offcanvas-lg, .offcanvas-md, .offcanvas-sm {
+.offcanvas,
+.offcanvas-xxl,
+.offcanvas-xl,
+.offcanvas-lg,
+.offcanvas-md,
+.offcanvas-sm {
   --bs-offcanvas-zindex: 1045;
   --bs-offcanvas-width: 400px;
   --bs-offcanvas-height: 30vh;
