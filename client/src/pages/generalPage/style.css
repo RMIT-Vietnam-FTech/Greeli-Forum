@@ -2,7 +2,7 @@
 .carousel-image {
     object-fit: cover;
     /* For navbar nhe :>*/
-    height: 90vh;
+    height: 88.5vh;
 }
 
 .custom-caption {
@@ -27,14 +27,14 @@
     margin-bottom: 10px;
 }
 
-h5 {
+.custom-caption h5 {
     margin: 0 0 10px 0;
     font-size: 24px;
     color: #fff;
     text-align: start;
 }
 
-p {
+.custom-caption p {
     margin: 0;
     font-size: 16px;
     color: #fff;
@@ -112,6 +112,7 @@ p {
     color: #DCB968;
     cursor: pointer;
 }
+
 .navigation-item h4 {
     margin-bottom: 0;
 }
@@ -145,29 +146,37 @@ p {
     height: auto;
 }
 
-.card-body {
+.cards-body {
     padding: 15px;
 }
 
-.card-body h6 {
+.cards-body h6 {
     font-size: 0.9rem;
     color: #666;
     margin-bottom: 5px;
     text-align: start;
 }
 
-.card-body h4 {
+.cards-body h5 {
+    font-size: 1.2rem;
+    color: #000;
+    margin-bottom: 10px;
+    text-align: start;
+}
+
+.cards-body h4 {
     font-size: 1.2rem;
     color: #333;
     margin-bottom: 10px;
     text-align: start;
 }
 
-.card-body p {
+.cards-body p {
     font-size: 0.9rem;
     color: #666;
     line-height: 1.6;
     text-align: start;
+    margin-bottom: 0;
 }
 
 .user-info {
@@ -238,6 +247,10 @@ p {
 .events_selection {
     display: flex;
     justify-content: center;
+}
+
+.card-date small{
+    color: #333;
 }
 
 @media (max-width: 768px) {

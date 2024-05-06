@@ -9,7 +9,7 @@ const Card = ({ image, topic, title, description, userImage, userName }) => {
 	return (
 		<div className="news-card">
 			<img className="card-img-top" src={image} alt="News" />
-			<div className="card-body">
+			<div className="cards-body">
 				<h6>{topic}</h6>
 				<h4>{title}</h4>
 				<p>{description}</p>

@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Slider from "react-slick";
 // import "slick-carousel/slick/slick-theme.css";
 // import "slick-carousel/slick/slick.css";
 import EventsData from "../data/eventsData";
 import "../style.css";
+import { ThemeContext } from "../../../themeContext";
 
 const Card = ({ image, title, description, date, event }) => {
 	return (
 		<div className="card">
 			<img src={image} className="card-img-top" alt={title} />
-			<div className="card-body">
+			<div className="cards-body">
 				<h5 className="card-title">{title}</h5>
 				<p className="card-text">{description}</p>
 				<p className="card-date">
@@ -66,9 +67,11 @@ export default function Events() {
 		return category === clickedCategory ? "active" : "";
 	};
 
+	const { isDarkMode } = useContext(ThemeContext);
+
 	return (
 		<>
-			<section className="news">
+			<section className="news" data-bs-theme= {isDarkMode ? "dark": "light"}>
 				<h4 className="popularNews">EVENTS</h4>
 				<ul className="nav nav-pills events_selection">
 					<li
