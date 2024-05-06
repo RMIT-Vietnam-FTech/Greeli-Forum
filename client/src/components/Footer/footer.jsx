@@ -2,8 +2,8 @@ import React from "react";
 import { AiFillInstagram, AiOutlineTikTok } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
-import "../scss/custom.css";
-import "../style/footer.css";
+import "../../scss/custom.css";
+// import "../style/footer.css";
 
 export default function Footer() {
 	return (

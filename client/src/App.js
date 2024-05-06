@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import Footer from "./components/footer.jsx";
-import Homepage from "./pages/Homepage.js";
+import Footer from "./components/Footer/footer";
+import Homepage from "./pages/Homepage/Homepage";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
 import { ThemeProvider } from "./themeContext.js";
