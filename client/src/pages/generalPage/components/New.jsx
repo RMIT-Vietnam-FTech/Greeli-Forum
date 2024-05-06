@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+// import "slick-carousel/slick/slick.css";
 import NewsData from "../data/newsData";
 import "../style.css";
 
@@ -138,25 +138,25 @@ export default function News() {
 				) : (
 					<ul className="nav nav-pills selection">
 						<li
-							className={`nav-item ${isActive("All")}`}
+							className={`navigation-item ${isActive("All")}`}
 							onClick={() => setCategory("All")}
 						>
 							<h4>All</h4>
 						</li>
 						<li
-							className={`nav-item ${isActive("Shopping")}`}
+							className={`navigation-item ${isActive("Shopping")}`}
 							onClick={() => setCategory("Shopping")}
 						>
 							<h4>Shopping</h4>
 						</li>
 						<li
-							className={`nav-item ${isActive("Eating")}`}
+							className={`navigation-item ${isActive("Eating")}`}
 							onClick={() => setCategory("Eating")}
 						>
 							<h4>Eating</h4>
 						</li>
 						<li
-							className={`nav-item ${isActive("Transportation")}`}
+							className={`navigation-item ${isActive("Transportation")}`}
 							onClick={() => setCategory("Transportation")}
 						>
 							<h4>Transportation</h4>

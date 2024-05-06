@@ -9,9 +9,7 @@ a > p {
   }
   
   .navbar-brand {
-    font-weight: 500;
-    color: #365949;
-  
+    font-weight: 500;  
   }
   
   .login-button {
@@ -145,6 +143,9 @@ a > p {
   @media (max-width: 767px) {
     .forum-name {
       display: none;
+    }
+    .brand {
+      margin-right: 0;
     }
   }
   

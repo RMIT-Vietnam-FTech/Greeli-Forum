@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
+// import "slick-carousel/slick/slick.css";
 import EventsData from "../data/eventsData";
 import "../style.css";
 
@@ -72,13 +72,13 @@ export default function Events() {
 				<h4 className="popularNews">EVENTS</h4>
 				<ul className="nav nav-pills events_selection">
 					<li
-						className={`nav-item ${isActive("Social activities")}`}
+						className={`navigation-item ${isActive("Social activities")}`}
 						onClick={() => setCategory("Social activities")}
 					>
 						<h4>Social activities</h4>
 					</li>
 					<li
-						className={`nav-item ${isActive("Social events")}`}
+						className={`navigation-item ${isActive("Social events")}`}
 						onClick={() => setCategory("Social events")}
 					>
 						<h4>Social events</h4>

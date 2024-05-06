@@ -13,7 +13,7 @@ const Navbar = () => {
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<div className="container-fluid">
-				<a className="navbar-brand d-flex" href="/">
+				<a className="brand d-flex" href="/">
 					<Image
 						className="bi me-3"
 						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
@@ -32,7 +32,7 @@ const Navbar = () => {
 				>
 					<div className="offcanvas-header border-bottom border-danger">
 						<h5
-							className="offcanvas-title"
+							className="offcanvas-title text-greeli-emphasis"
 							id="offcanvasNavbarLabel"
 						>
 							Menu
