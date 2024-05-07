@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import Slider from "react-slick";
-import { ThemeContext } from "../../../themeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 // import "slick-carousel/slick/slick-theme.css";
 // import "slick-carousel/slick/slick.css";
 import EventsData from "../data/eventsData";

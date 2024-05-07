@@ -6,11 +6,16 @@ import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import * as Yup from "yup";
+import Cookies from "universal-cookie";
 import "../../scss/custom.css";
-import { ThemeContext } from "../../themeContext";
+import { ThemeContext } from "../../context/ThemeContext";
+import { useUserContext } from "../../context/UserContext";
+
 // import "./sass/custom.css";
 
 const Login = () => {
+	const { user, setUser } = useUserContext();
+	const cookies = new Cookies();
 	const backgroundImage = 'url("LoginBackground.png")';
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -42,10 +47,17 @@ const Login = () => {
 		};
 		axios(configuration)
 			.then((result) => {
-				console.log(result.data.message);
+				console.log(result.data);
+				cookies.set("TOKEN", result.data.token, {
+					path: "/",
+				});
+				// store user data in local storage
+				localStorage.setItem("user", JSON.stringify(result.data));
+				// seT user context
+				setUser(result.data);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.log(error.response.data.error);
 			});
 	};
 
@@ -61,6 +73,7 @@ const Login = () => {
 			className="container-fluid login"
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
+			{/* <div>{JSON.parse(user).id}</div> */}
 			<div className="row">
 				<div
 					className=" col-sm-12 col-lg-6 bg-image"

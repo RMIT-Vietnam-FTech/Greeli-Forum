@@ -14,7 +14,11 @@ export const register = async (req, res) => {
 			password: hashPassword,
 		});
 		const savedUser = await newUser.save();
-		res.status(201).json({_id: savedUser._id, role: savedUser.role, message: "success"});
+		res.status(201).json({
+			_id: savedUser._id,
+			role: savedUser.role,
+			message: "success",
+		});
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
@@ -35,7 +39,11 @@ export const login = async (req, res) => {
 			{ expiresIn: "1h" },
 		);
 		delete user.password;
-		res.status(200).json({ token: token, id: user._id, message: "successfully login"});
+		res.status(200).json({
+			token: token,
+			id: user._id,
+			message: "successfully login",
+		});
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}

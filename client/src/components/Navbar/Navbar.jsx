@@ -1,14 +1,27 @@
 import React, { useContext } from "react";
 import Image from "react-bootstrap/Image";
+import Cookies from "universal-cookie";
 import { FaUser } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { IoMoon, IoSunny } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import "../../scss/custom.css";
-import { ThemeContext } from "../../themeContext";
+import { ThemeContext } from "../../context/ThemeContext";
 import "./custom.css";
+import { UserContext, useUserContext } from "../../context/UserContext";
+import { Link } from "react-router-dom";
+
 const Navbar = () => {
+	const cookies = new Cookies();
 	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
+	const { user, setUser, toggleUserInfo } = useUserContext();
+	const logout = () => {
+		console.log("logout");
+		// toggleUserInfo()
+		localStorage.removeItem("user");
+		cookies.remove("TOKEN", { path: "/" });
+		setUser(null);
+	};
 	return (
 		<nav
 			className="navbar navbar-expand-md fixed-top bg-navbar-subtle"
@@ -27,7 +40,7 @@ const Navbar = () => {
 						<FiMoreVertical />
 					</span>
 				</button>
-				<a className="brand d-flex" href="/">
+				<Link className="brand d-flex" to="/">
 					<Image
 						className="me-0 me-md-3"
 						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
@@ -37,7 +50,7 @@ const Navbar = () => {
 					<p className="forum-name my-auto text-greeli-emphasis ml-3">
 						Greeli
 					</p>
-				</a>
+				</Link>
 				<div
 					className="offcanvas offcanvas-end"
 					tabIndex="-1"
@@ -61,29 +74,29 @@ const Navbar = () => {
 					<div className="offcanvas-body">
 						<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
 							<li className="nav-item">
-								<a
+								<Link
 									className="nav-link active text-greeli-emphasis"
 									aria-current="page"
-									href="/"
+									to="/general"
 								>
 									General
-								</a>
+								</Link>
 							</li>
 							<li className="nav-item">
-								<a
+								<Link
 									className="nav-link text-greeli-emphasis"
-									href="/"
+									to="/"
 								>
 									Forum
-								</a>
+								</Link>
 							</li>
 							<li className="nav-item">
-								<a
+								<Link
 									className="nav-link text-greeli-emphasis"
-									href="/"
+									to="/general"
 								>
 									About
-								</a>
+								</Link>
 							</li>
 							<li className="nav-item">
 								<a
@@ -173,9 +186,16 @@ const Navbar = () => {
 						<IoSunny className="sun" />
 						<IoMoon className="moon" />
 					</label>
-					<a href="/" className="login-button">
-						Login
-					</a>
+					{!user && (
+						<Link to="/login" className="login-button">
+							Login
+						</Link>
+					)}
+					{user && (
+						<button className="login-button" onClick={logout}>
+							Logout
+						</button>
+					)}
 					<button
 						className="navbar-toggler"
 						type="button"

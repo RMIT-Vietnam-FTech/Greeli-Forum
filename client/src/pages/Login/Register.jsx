@@ -8,7 +8,7 @@ import { MdEmail } from "react-icons/md";
 import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 import "../../scss/custom.css";
-import { ThemeContext } from "../../themeContext";
+import { ThemeContext } from "../../context/ThemeContext";
 
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
