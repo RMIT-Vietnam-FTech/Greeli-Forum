@@ -13,8 +13,8 @@ export const register = async (req, res) => {
 			email,
 			password: hashPassword,
 		});
-		const savedUser = newUser.save();
-		res.status(201).json(savedUser);
+		const savedUser = await newUser.save();
+		res.status(201).json({_id: savedUser._id, role: savedUser.role, message: "success"});
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

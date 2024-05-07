@@ -14,8 +14,8 @@ function App() {
 				<Navbar />
 				<div className="h-100" style={{ marginTop: "80px" }}>
           {/* <Homepage /> */}
-					<Login />
-					{/* <Register /> */}
+					{/* <Login /> */}
+					<Register />
           <GeneralPage />
 				</div>
 				<Footer />
