@@ -6,7 +6,7 @@ import "../../scss/custom.css";
 import "../../style/main.css";
 import NewsData from "./data/new";
 import Jumbotron from "./jumbotron";
-import NewList from "./news-items";
+import NewList from "./newsItems";
 
 export default function Main() {
 	return (
