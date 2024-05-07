@@ -1,14 +1,29 @@
-.left-sidebar,
-.right-sidebar {
+.left-sidebar {
   width: 16.7%;
   height: 100px;
 }
-.main{
-  width: 50%;
+.right-sidebar {
+  width: 21.47%;
+  height: 100px;
+}
+.main {
+  width: 64.27%;
+}
+.main-container {
+  width: 75%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 0 auto;
 }
 .avatar {
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,25 +31,24 @@
   background-color: gray;
   border-radius: 50%;
 }
-.dropdown{
-    top: 10px;
-    right: 10px;
+.dropdown {
+  top: 10px;
+  right: 10px;
 }
 
-.dropdown-circle{
-    width: 3px;
-    height: 3px;
+.dropdown-circle {
+  width: 3px;
+  height: 3px;
 }
-.text-editor{
+.text-editor {
   padding: 5px;
   border: 2px solid #365949;
   border-radius: 30px;
 }
-.ProMirror-focused{
+.ProMirror-focused {
   outline: none !important;
 }
 .tiptap {
-  min-height: 60px;
   > * + * {
     margin-top: 0.75em;
   }
@@ -59,9 +73,9 @@
   }
 
   pre {
-    background: #0D0D0D;
-    color: #FFF;
-    font-family: 'JetBrainsMono', monospace;
+    background: #0d0d0d;
+    color: #fff;
+    font-family: "JetBrainsMono", monospace;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
 
@@ -126,12 +140,12 @@
 
   blockquote {
     padding-left: 1rem;
-    border-left: 2px solid rgba(#0D0D0D, 0.1);
+    border-left: 2px solid rgba(#0d0d0d, 0.1);
   }
 
   hr {
     border: none;
-    border-top: 2px solid rgba(#0D0D0D, 0.1);
+    border-top: 2px solid rgba(#0d0d0d, 0.1);
     margin: 2rem 0;
   }
   .is-editor-empty:first-child::before {
@@ -141,16 +155,16 @@
     height: 0;
     pointer-events: none;
   }
-  &-focus{
+  &-focus {
     border: 3px solid black;
   }
 }
-.btn-editor.is-active{
-  border-bottom: 1px solid #365949 !important;
+.btn-editor.is-active {
+  border-bottom: 3px solid #365949 !important;
 }
 [contenteditable]:focus {
   outline: 0px solid transparent;
 }
-.cursor-text{
+.cursor-text {
   cursor: text;
 }

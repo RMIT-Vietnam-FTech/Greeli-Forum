@@ -10,6 +10,7 @@ import {
   FaCode,
   FaQuoteLeft,
 } from "react-icons/fa6";
+
 export default function MenuBar ({ editableStatus }){
   const { editor } = useCurrentEditor();
   if (!editor) {
@@ -17,7 +18,7 @@ export default function MenuBar ({ editableStatus }){
   }
 
   return (
-    <>
+    <div className="mb-3">
       <Bold editor={editor}>
         <FaBold />
       </Bold>
@@ -42,7 +43,7 @@ export default function MenuBar ({ editableStatus }){
       <BlockQuote editor={editor}>
         <FaQuoteLeft />
       </BlockQuote>
-    </>
+    </div>
   );
 };
 

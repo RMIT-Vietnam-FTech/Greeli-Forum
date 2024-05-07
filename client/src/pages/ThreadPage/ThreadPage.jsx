@@ -1,13 +1,15 @@
+import "../forum.scss";
+
 import React from "react";
-import { Routes, Route, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import AuthComponent from "../../components/forum/AuthComponent";
+import ThreadHeader from "./ThreadHeader";
+
+import ThreadBody from "./ThreadBody";
 import axios from "axios";
 import useSWR from "swr";
-import Button from "react-bootstrap/Button";
-import "../forum.scss";
-import { DarkThemeContext } from "../../contexts/DarkThemeContext";
-import { useContext } from "react";
-import ThreadHeader from "./components/ThreadHeader";
-import ThreadBody from "./components/ThreadBody";
+
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function ThreadPage() {
   const { threadId } = useParams();
@@ -22,15 +24,20 @@ export default function ThreadPage() {
     return 0;
   }
   return (
-    <>
-      <section className="left-sidebar"></section>
-      <section className="main">
-        <ThreadHeader title={data.title} uploadFile={data.uploadFile} content={data.content}/>
-         <ThreadBody posts={data.posts}/>
-      </section>
-      <section className="right-sidebar"></section>
-    </>
+    <section className="container">
+        <section className="left-sidebar"></section>
+        <section className="main-container">
+          <section className="main">
+            <ThreadHeader
+              title={data.title}
+              uploadFile={data.uploadFile}
+              content={data.content}
+              objectId={data._id}
+            />
+            <ThreadBody posts={data.posts} />
+          </section>
+          <section className="right-sidebar"></section>
+        </section>
+    </section>
   );
 }
-
-function ThreadRule() {}
