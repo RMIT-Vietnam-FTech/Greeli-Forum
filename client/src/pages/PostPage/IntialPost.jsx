@@ -1,51 +1,40 @@
 import Avatar from "../../components/forum/Avatar";
 import DropDown from "../../components/forum/DropDown";
 import ImageOrVideo from "../../components/forum/ImageOrVideo";
-import ButtonUpvote from "../../components/ButtonUpvote";
+import ButtonUpvote from "../../components/forum/ButtonUpvote";
 import TextEditor from "../../components/forum/TextEditor/TextEditor";
 import AuthComponent from "../../components/forum/AuthComponent";
-import { useParams } from "react-router-dom";
-export default function PostHeader({ ...prop }) {
-  const {
-    profileImage,
-    threadName,
-    username,
-    title,
-    uploadFile,
-    upvote,
-    content,
-    objectId
-  } = prop;
+export default function InitialPost({ postData }) {
   return (
-    <AuthComponent componentType="posts" unAuthorizedProcess={false} objectId={objectId}>
+    <AuthComponent componentType="posts" unAuthorizedProcess={false} objectId={postData._id}>
       <section className="w-100 position-relative">
         <div className="w-100 d-flex">
           <div className="d-flex gap-2">
-            <Avatar src={profileImage} />
+            <Avatar src={postData.createBy.profileImage} />
             <div className="h-auto">
               <p className="mb-0 text-primary-green-900 fw-bold">
-                thread/{threadName}
+                thread/{postData.threadName}
               </p>
-              <p className="mb-0">{username}</p>
+              <p className="mb-0">{postData.createBy.username}</p>
             </div>
           </div>
           <DropDown />
         </div>
 
         <div className=" my-3 w-100">
-          <h3>{title}</h3>
+          <h3>{postData.title}</h3>
           <div
             className="w-100 my-4 bg-primary-green-600 rounded-3 d-flex justify-content-center overflow-hidden"
             style={{ height: "400px" }}
           >
-            <ImageOrVideo src={uploadFile} isPost={false} />
+            <ImageOrVideo src={postData.uploadFile} isPost={false} />
           </div>
           <TextEditor
-            content={content}
+            content={postData.content}
           />
         </div>
         <div className="d-flex gap-3">
-          <ButtonUpvote upvote={upvote} />
+          <ButtonUpvote upvote={postData.upvote} />
         </div>
       </section>
     </AuthComponent>

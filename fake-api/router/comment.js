@@ -6,9 +6,7 @@ commentRouter.route("/")
 .get( async (req, res)=>{
     const postId = req.query.postId;
     let parentId = req.query.parentId;
-    if(parentId=="null"){
-        parentId = null;
-    }
+    
     let result = commendData;
     if(postId){
         const response = await axios.get("http://localhost:9000/api/v1/posts/"+postId);
@@ -17,8 +15,10 @@ commentRouter.route("/")
             return comments.includes(comment._id);
         });
     }
-    if(parentId==null){
-        console.log(result[1]._id)
+    if(parentId){
+        if(parentId=="null"){
+        parentId = null;
+        }
         result = result.filter((comment)=>{
             return comment.parentId == parentId;
         });
@@ -26,7 +26,6 @@ commentRouter.route("/")
     //console.log("comment by postId("+postId+"): "+ result);
     res.json(result);
 });
-
 commentRouter.route("/:commentId")
 .get( (req, res)=>{
     const commentId = req.params.commentId;
@@ -45,6 +44,5 @@ commentRouter.route("/:commentId/replies")
             return replies.includes(comment._id);
         })
         res.json(result);
-
 });
 export default commentRouter;

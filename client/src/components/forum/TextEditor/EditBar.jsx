@@ -6,7 +6,7 @@ import CommentContext from "../../../contexts/CommentContext";
 
 import { useCurrentEditor } from "@tiptap/react";
 
-import Comment from "../Comment/Comment";
+import Comment from "../../../pages/PostPage/components/Comment";
 import { json } from "react-router-dom";
 export default function EditBar({ content, reset }) {
   const authContext = useContext(AuthContext);
@@ -30,7 +30,7 @@ export default function EditBar({ content, reset }) {
     if(editor.getText()){
     editor.setEditable(false);
     authContext.toggleIsEdit();
-    if(authContext.componentType=="comments"){
+    if(authContext.componentType=="createComment"){
       let newCommentObject = {
         content:editor.getJSON(),
         upvote: [],
@@ -40,8 +40,8 @@ export default function EditBar({ content, reset }) {
           profileImage: authContext.profileImage
         }
       }
-      // console.log("check new comment object: " + JSON.stringify(newCommentObject));
-      // console.log("check content: "+JSON.stringify(newCommentObject.content));
+      console.log("check new comment object: " + JSON.stringify(newCommentObject));
+      console.log("check content: "+JSON.stringify(newCommentObject.content));
       commentContext.setNewComment([<Comment key={commentId} commentData={newCommentObject}/>, ...commentContext.newComment ]);
     }
     if(authContext.componentType == "replies"){

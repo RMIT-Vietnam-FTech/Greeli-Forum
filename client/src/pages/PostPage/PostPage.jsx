@@ -1,10 +1,10 @@
 import "../forum.scss";
 import axios from "axios";
 import useSWR from "swr";
-import { json, useParams } from "react-router-dom";
-import Button from "react-bootstrap/esm/Button";
-import PostHeader from "./PostHeader";
-import PostBody from "./PostBody";
+import {  useParams } from "react-router-dom";
+
+import InitialPost from "./IntialPost";
+import Comments from "./Comments";
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function PostPage() {
   const { postId } = useParams();
@@ -24,17 +24,8 @@ export default function PostPage() {
         <section className="left-sidebar"></section>
         <section className="main-container">
           <section className="main">
-            <PostHeader
-              title={data.title}
-              content={data.content}
-              uploadFile={data.uploadFile}
-              username={data.createBy.username}
-              profileImage={data.createBy.profileImage}
-              threadName={data.threadName}
-              upvote={data.upvote}
-              objectId = {postId}
-            />
-            <PostBody/>
+            <InitialPost postData={data} objectId={postId} />
+            <Comments />
           </section>
           <section className="right-sidebar"></section>
         </section>

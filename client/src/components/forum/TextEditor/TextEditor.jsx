@@ -46,7 +46,7 @@ export default function TextEditor({
     }
   }
   let placeholder = "";
-  if (authContext.componentType == "comments") {
+  if (authContext.componentType == "comments" || authContext.componentType=="createComment") {
     placeholder = "Comment ...";
   } else if (authContext.componentType == "posts") {
     placeholder = "Enter post's content ...";
@@ -79,9 +79,16 @@ export default function TextEditor({
   return (
     <div
       onClick={toggleIsEditOnClick ? handleDisplay : null}
-      className={authContext.isEdit || isExpand ? "text-editor" : null}
+      className={authContext.isEdit ||(authContext.componentType == "createComment") || isExpand ? "text-editor show-border" : "text-editor"}
     >
       <EditorProvider
+       editorProps={
+        {
+          attributes:{
+            class:"cursor-text",
+          }
+        }
+       } 
         slotBefore={
           authContext.isEdit || isExpand ? <MenuBar className="" /> : null
         }

@@ -3,11 +3,12 @@ import useSWR from "swr";
 import {useParams } from "react-router-dom";
 import { useState } from "react";
 
-import TextEditor from "../TextEditor/TextEditor";
-import Comment from "./Comment";
-import AuthComponent from "../AuthComponent";
+import TextEditor from "../../components/forum/TextEditor/TextEditor";
+import Comment from "./components/Comment";
+import AuthComponent from "../../components/forum/AuthComponent";
 
-import CommentContext from "../../../contexts/CommentContext";
+import CommentContext from "../../contexts/CommentContext";
+import CreateCommentEditor from "./components/CreateCommentEditor";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function Comments() {
@@ -26,15 +27,7 @@ export default function Comments() {
   return (
     <>
     <CommentContext.Provider value={{newComment, setNewComment}}>
-      <AuthComponent componentType="comments" unAuthorizedProcess={true}>
-        <div className="cursor-text mt-4 text-editor">
-          <TextEditor
-            content=""
-            toggleIsEditOnClick={true}
-            resetClickDone={true}
-          />
-        </div>
-      </AuthComponent>
+     <CreateCommentEditor/> 
     </CommentContext.Provider>
       <section className="mt-3 w-100">
         {newComment}

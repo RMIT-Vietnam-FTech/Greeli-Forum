@@ -1,3 +1,3 @@
 import { createContext } from "react";
- const CommentContext = createContext();
+ const CommentContext = createContext([]);
  export default CommentContext;

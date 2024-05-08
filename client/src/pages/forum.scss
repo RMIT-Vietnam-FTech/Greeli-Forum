@@ -42,9 +42,11 @@
 }
 .text-editor {
   padding: 5px;
-  border: 2px solid #365949;
   border-radius: 30px;
-}
+  
+}.show-border {
+    border: 2px solid #365949;
+  }
 .ProMirror-focused {
   outline: none !important;
 }

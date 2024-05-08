@@ -2,13 +2,15 @@ import axios from "axios";
 import useSWR from "swr";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import Avatar from "../Avatar";
-import TextEditor from "../TextEditor/TextEditor";
-import DropDown from "../DropDown";
-import AuthComponent from "../AuthComponent";
-import ButtonUpvote from "../../ButtonUpvote";
-import Reply from "./Reply";
+import Avatar from "../../../components/forum/Avatar";
+import TextEditor from "../../../components/forum/TextEditor/TextEditor";
+import DropDown from "../../../components/forum/DropDown";
+import AuthComponent from "../../../components/forum/AuthComponent";
+import ButtonUpvote from "../../../components/forum/ButtonUpvote";
+import Reply from "./ReplyButton";
 import ReplyContext from "../../../contexts/ReplyContext";
+import ReplyButton from "./ReplyButton";
+import ReplyEditor from "./ReplyEditor";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
@@ -56,7 +58,8 @@ export default function Comment({ commentData }) {
           <div className="ms-5">
             <TextEditor content={commentData.content} />
             <ButtonUpvote upvote={commentData.upvote} />
-            <Reply />
+            <ReplyButton/>
+            <ReplyEditor/>
           </div>
         </AuthComponent>
         </ReplyContext.Provider>
