@@ -9,7 +9,7 @@ import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 import "../../scss/custom.css";
 import { ThemeContext } from "../../context/ThemeContext";
-
+import { Link } from "react-router-dom"
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
 };
@@ -265,13 +265,13 @@ const Register = () => {
 						</button>
 						<p className="mt-1 mb-3 text-center text-greeli-emphasis">
 							Have an account?{" "}
-							<a
-								href="/"
+							<Link
+								to="/"
 								className="text-primary-yellow"
 								style={{ textDecoration: "none" }}
 							>
 								Login
-							</a>
+							</Link>
 						</p>
 					</form>
 				</div>

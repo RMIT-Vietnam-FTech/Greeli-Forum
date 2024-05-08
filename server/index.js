@@ -9,8 +9,8 @@ import multer from "multer";
 
 import userRoutes from "./routes/user.js";
 import threadRoutes from "./routes/thread.js";
-import chatRoutes from "./routes/chat.js"
-import messageRoutes from "./routes/message.js"
+import chatRoutes from "./routes/chat.js";
+import messageRoutes from "./routes/message.js";
 
 import { app, io, server } from "./socket/socket.js";
 
