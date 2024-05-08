@@ -20,7 +20,7 @@ function App() {
     <div className="App">
       <ThemeProvider>
         <UserContextProvider>
-          <SocketContextProvider>
+          {/* <SocketContextProvider> */}
             <Navbar />
             <div className="h-100" style={{ marginTop: "80px" }}>
               <Routes>
@@ -36,7 +36,7 @@ function App() {
               </Routes>
             </div>
             <Footer />
-          </SocketContextProvider>
+          {/* </SocketContextProvider> */}
         </UserContextProvider>
       </ThemeProvider>
     </div>

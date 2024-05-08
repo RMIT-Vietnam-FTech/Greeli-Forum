@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import Slider from "react-slick";
 import NewsData from "../data/newsData";
 import "../style.css";
-import { ThemeContext } from "../../../themeContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 
 const Card = ({ image, topic, title, description, userImage, userName }) => {
 	return (
