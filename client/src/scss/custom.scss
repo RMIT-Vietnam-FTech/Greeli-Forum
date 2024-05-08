@@ -68,6 +68,93 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 
 // Then add additional custom code here
 
+// Typography Config
 
+// Base Font
+$body-font-family: 'Poppins', sans-serif;
+$headings-font-family: 'Poppins', sans-serif;
 
+// Font Sizes
+$font-size-base: 16px; // Base font size
+$font-size-lg: $font-size-base * 1.25; // Large font size
+$font-size-sm: $font-size-base * 0.875; // Small font size
 
+// Line Heights
+$line-height-base: 1.5; // Base line-height
+$line-height-lg: 1.75; // Large line-height
+
+// Headings
+$h1-font-size: $font-size-base * 2.5;
+$h2-font-size: $font-size-base * 2;
+$h3-font-size: $font-size-base * 1.75;
+$h4-font-size: $font-size-base * 1.5;
+$h5-font-size: $font-size-base * 1.25;
+$h6-font-size: $font-size-base * 1.125;
+
+// Body Text
+$font-weight-base: 400;
+$font-weight-bold: 700;
+
+// Link Colors
+$link-color: #007bff;
+$link-hover-color: #0056b3;
+
+// // Headings Colors
+// $headings-color: #333;
+// $headings-small-color: #6c757d;
+
+// Body Text Color
+$body-color: #212529;
+
+// Bootstrap Typography Customization
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+// Apply Custom Typography
+body {
+  font-family: $body-font-family;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $body-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $headings-font-family;
+  font-weight: bold; // Or customize as needed
+  color: $headings-color;
+}
+
+h1 {
+  font-size: $h1-font-size;
+}
+
+h2 {
+  font-size: $h2-font-size;
+}
+
+h3 {
+  font-size: $h3-font-size;
+}
+
+h4 {
+  font-size: $h4-font-size;
+}
+
+h5 {
+  font-size: $h5-font-size;
+}
+
+h6 {
+  font-size: $h6-font-size;
+}
+
+a {
+  color: $link-color;
+  text-decoration: none;
+  
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: underline;
+  }
+}
