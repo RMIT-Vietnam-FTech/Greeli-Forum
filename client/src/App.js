@@ -1,21 +1,48 @@
-import './App.css';
+import React, { createContext, useContext, useState } from "react";
+import "./App.css";
+import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/footer";
+import Homepage from "./pages/Homepage/Homepage";
+import Login from "./pages/Login/Login";
+import Register from "./pages/Login/Register";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
+import { UserContextProvider } from "./context/UserContext.jsx";
+import { SocketContextProvider } from "./context/SocketContext.jsx";
+import GeneralPage from "./pages/generalPage/generalPage";
+import { Routes, Route, Navigate } from "react-router-dom";
+import "./App.css";
 import "./scss/custom.scss";
-import 'bootstrap/dist/css/bootstrap.css';
+import "bootstrap/dist/css/bootstrap.css";
 
-import { Route, Routes } from 'react-router-dom';
-
-import ThreadPage from './pages/ThreadPage/ThreadPage';
-import DashBoardPage from './pages/DashBoardPage';
-import PostPage from './pages/PostPage/PostPage';
+import ThreadPage from "./pages/ThreadPage/ThreadPage";
+import DashBoardPage from "./pages/DashBoardPage";
+import PostPage from "./pages/PostPage/PostPage";
 
 function App() {
-  
   return (
-    <Routes>
-      <Route path='/forum' element={<DashBoardPage/>}/>
-     <Route path='threads/:threadId' element={<ThreadPage/>}/>
-     <Route path='posts/:postId' element={<PostPage/>}/> 
-    </Routes>
+    <div className="App">
+      <ThemeProvider>
+        <UserContextProvider>
+          <SocketContextProvider>
+            <Navbar />
+            <div className="h-100" style={{ marginTop: "80px" }}>
+              <Routes>
+                <Route path="/" element={<Homepage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/general" element={<GeneralPage />} />
+                <Route path="/forum">
+                  <Route index element={<DashBoardPage/>}/>
+                  <Route path="threads/:threadId" element={<ThreadPage />} />
+                  <Route path="posts/:postId" element={<PostPage />} />
+                </Route>
+              </Routes>
+            </div>
+            <Footer />
+          </SocketContextProvider>
+        </UserContextProvider>
+      </ThemeProvider>
+    </div>
   );
 }
 

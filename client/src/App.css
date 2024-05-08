@@ -1,0 +1,16 @@
+.error {
+  color: #C11946;
+  font-weight: bold;
+  margin-top: -1rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+
+/* .input-group {
+  border: 1px solid red;
+  border-radius: 5px;
+} */
+
+.login {
+  height: 100vh;
+}

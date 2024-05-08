@@ -2,7 +2,14 @@
 	"$schema": "https://biomejs.dev/schemas/1.7.0/schema.json",
 	"files": {
 		"ignore": [".next"],
-		"include": ["./src/**/*.jsx", "./components/**/*.jsx", "./src/index.js"]
+		"include": [
+			"./src/**/*.jsx",
+			"./components/**/*.jsx",
+			"./src/index.js",
+			"./src/App.js",
+			"./src/**/*.css",
+			"./src/**/*.scss"
+		]
 	},
 	"organizeImports": {
 		"enabled": true
@@ -19,6 +26,19 @@
 					}
 				},
 				"useNamingConvention": "error"
+			},
+			"a11y": {
+				"noSvgWithoutTitle": "error",
+				"useValidAriaProps": "error",
+				"useAltText": "error",
+				"noAriaUnsupportedElements": "error",
+				"noInteractiveElementToNoninteractiveRole": "error",
+				"noNoninteractiveTabindex": "error",
+				"useAnchorContent": "error",
+				"useButtonType": "error",
+				"useHeadingContent": "error",
+				"useValidAriaValues": "error",
+				"useValidAriaRole": "error"
 			}
 		}
 	},
