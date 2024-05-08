@@ -1,6 +1,6 @@
 import React from "react";
 import "../../scss/custom.css";
-import "../../style/hero.css";
+import "../Homepage/style/hero.css";
 
 export default function HeroSection() {
 	return (

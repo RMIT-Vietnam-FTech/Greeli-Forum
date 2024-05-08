@@ -3,7 +3,7 @@ import { FaNewspaper } from "react-icons/fa";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { IoChatbubbles } from "react-icons/io5";
 import "../../scss/custom.css";
-import "../../style/main.css";
+import "../Homepage/style/main.css";
 import NewsData from "./data/new";
 import Jumbotron from "./jumbotron";
 import NewList from "./newsItems";
@@ -14,7 +14,7 @@ export default function Main() {
 			<main>
 				{/* About Section */}
 				<section
-					className="p-4 bg-white mx-5 rounded-top-5"
+					className="p-4 bg-light-subtle mx-5 rounded-top-5"
 					id="about-section"
 				>
 					<div className="container my-5 mx-auto" id="about-section">
