@@ -3,7 +3,8 @@ import { Carousel } from "react-bootstrap"; // Import Carousel component
 
 const NewList = (props) => {
 	const [isMobile, setIsMobile] = useState(window.innerWidth <= 767); // State for responsiveness
-	const [data, setData] = useState([]);
+	// const [data, setData] = useState([]);
+	const data = props.data;
 
 	const Card = (props) => {
 		return (
@@ -21,15 +22,10 @@ const NewList = (props) => {
 
 	// Handle window resize for dynamic responsiveness
 	useEffect(() => {
-    // Fetch data using Axios when component mounts
-    axios.get("/api/news")
-      .then(response => {
-        setData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+		const handleResize = () => setIsMobile(window.innerWidth <= 768);
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 
 	return (
 		<>
