@@ -136,7 +136,7 @@
     display: none;
   }
 
-  .offCanvasForum {
+  #offcanvasForum {
     display: none;
   }
 
@@ -170,7 +170,7 @@
       margin-right: 0;
     }
 
-    .offCanvasForum {
+    #offcanvasForum {
       display: block;
     }
   }
