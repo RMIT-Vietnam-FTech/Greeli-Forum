@@ -144,7 +144,9 @@ export default function News() {
 							<h4>All</h4>
 						</li>
 						<li
-							className={`navigation-item ${isActive("Shopping")}`}
+							className={`navigation-item ${isActive(
+								"Shopping",
+							)}`}
 							onClick={() => setCategory("Shopping")}
 						>
 							<h4>Shopping</h4>
@@ -156,7 +158,9 @@ export default function News() {
 							<h4>Eating</h4>
 						</li>
 						<li
-							className={`navigation-item ${isActive("Transportation")}`}
+							className={`navigation-item ${isActive(
+								"Transportation",
+							)}`}
 							onClick={() => setCategory("Transportation")}
 						>
 							<h4>Transportation</h4>

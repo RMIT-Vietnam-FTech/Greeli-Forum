@@ -1,6 +1,10 @@
-a > p {
-    color: #365949;
+  a {
+    text-decoration: none;
+  }
+  
+  a > p {
     font-size: 24px;
+    text-decoration: none;
   }
   
   .navbar {
@@ -118,10 +122,11 @@ a > p {
     transition: 0.3s;
     display: none;
   }
-  
-  .icon {
-    color: #365949;
+
+  .offCanvasForum {
+    display: none;
   }
+
   @media (min-width: 767px) {
     .nav-link:hover, .nav-link:active {
       color: #252323;
@@ -146,6 +151,9 @@ a > p {
     }
     .brand {
       margin-right: 0;
+    }
+    .offCanvasForum {
+      display: block;
     }
   }
   

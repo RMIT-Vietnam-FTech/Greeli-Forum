@@ -8,11 +8,15 @@ import morgan from "morgan";
 import multer from "multer";
 
 import userRoutes from "./routes/user.js";
-import threadRoutes from "./routes/thread.js"
+import threadRoutes from "./routes/thread.js";
+import chatRoutes from "./routes/chat.js"
+import messageRoutes from "./routes/message.js"
+
+import { app, io, server } from "./socket/socket.js";
 
 /* CONFIGURATION */
 dotenv.config();
-const app = express();
+// const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
@@ -24,12 +28,12 @@ app.use(cors());
 
 /*FILE STORAGE*/
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "public/assets");
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
+	destination: function (req, file, cb) {
+		cb(null, "public/assets");
+	},
+	filename: function (req, file, cb) {
+		cb(null, file.originalname);
+	},
 });
 
 const upload = multer({ storage });
@@ -39,13 +43,15 @@ app.get("/api", (req, res) => {
 });
 app.use("/api/user", userRoutes);
 app.use("/api/thread", threadRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/message", messageRoutes);
 
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
 mongoose
 	.connect(process.env.MONGO_URL)
 	.then(() => {
-		app.listen(PORT, () => {
+		server.listen(PORT, () => {
 			console.log(`SERVER IS RUNNING ON ${PORT}`);
 		});
 	})
