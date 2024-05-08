@@ -38,8 +38,8 @@ const NewList = (props) => {
 
 	return (
 		<>
-			<div className="container my-5 p-4">
-				<h3 className="fw-bold py-4">Recommended Posts</h3>
+			<div className="container my-5 p-5">
+				<h3 className="fw-bold">Recommended Posts</h3>
 				{isMobile ? ( // Display carousel for mobile
 					<Carousel interval={3000}>
 						{/* Set carousel auto-play interval (optional) */}

@@ -1,5 +1,10 @@
 main {
     position: relative;
+    /* top: -5em; */
+    z-index: 3;
+}
+#about-section{
+    position: relative;
     top: -5em;
     z-index: 3;
 }
