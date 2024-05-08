@@ -1,16 +1,21 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import * as Yup from "yup";
-
+import Cookies from "universal-cookie";
 import "../../scss/custom.css";
-import "./sass/custom.css";
+import { ThemeContext } from "../../context/ThemeContext";
+import { useUserContext } from "../../context/UserContext";
+
+// import "./sass/custom.css";
 
 const Login = () => {
+	const { user, setUser } = useUserContext();
+	const cookies = new Cookies();
 	const backgroundImage = 'url("LoginBackground.png")';
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -42,10 +47,17 @@ const Login = () => {
 		};
 		axios(configuration)
 			.then((result) => {
-				console.log(result.data.message);
+				console.log(result.data);
+				cookies.set("TOKEN", result.data.token, {
+					path: "/",
+				});
+				// store user data in local storage
+				localStorage.setItem("user", JSON.stringify(result.data));
+				// seT user context
+				setUser(result.data);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.log(error.response.data.error);
 			});
 	};
 
@@ -55,37 +67,60 @@ const Login = () => {
 		setPassword("");
 	};
 
+	const { isDarkMode } = useContext(ThemeContext);
 	return (
-		<main className="container-fluid">
+		<main
+			className="container-fluid login"
+			data-bs-theme={isDarkMode ? "dark" : "light"}
+		>
+			{/* <div>{JSON.parse(user).id}</div> */}
 			<div className="row">
 				<div
-					className="col-md-6 bg-image"
+					className=" col-sm-12 col-lg-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
 				/>
-				<div className="col-12 col-md-6 text-center login py-5 text-primary-yellow bg-primary-green-900">
-					<h1>GREELI</h1>
-					<h1>The guide to sustainable life</h1>
-					<Image src="Logo.svg" width={120} className="my-4" />
+				<div className="col-12 col-lg-6 text-center login py-5 bg-greeli-subtle">
+					<h1 className="text-login-emphasis">GREELI</h1>
+					<h1 className="text-greeli-emphasis">
+						The guide to sustainable life
+					</h1>
+					<Image
+						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+						width={120}
+						className="my-4"
+						alt="Greeli Forum Logo"
+					/>
 					<form
-						className="mt-4 mx-5 px-md-5"
+						className="mt-4 mx-3 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
 					>
-						<div className="input-group mb-4">
+						<div
+							className={
+								errors.email
+									? "input-group mb-4 input-error"
+									: "input-group mb-4"
+							}
+						>
 							<span className="input-group-text">
-								<MdEmail className="text-primary-yellow" />
+								<MdEmail className="text-login-emphasis" />
 							</span>
 							<div className="form-floating">
 								<input
 									name="email"
 									type="text"
 									{...register("email")}
-									className="form-control"
+									className="form-control text-body-color"
 									id="floatingInput"
 									placeholder="name@example.com"
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
 								/>
-								<label for="floatingInput">Email address</label>
+								<label
+									for="floatingInput"
+									className="text-greeli-emphasis"
+								>
+									Email address
+								</label>
 							</div>
 						</div>
 						{errors.email && (
@@ -93,9 +128,15 @@ const Login = () => {
 								{errors.email.message}
 							</p>
 						)}
-						<div className="input-group mb-2">
+						<div
+							className={
+								errors.password
+									? "input-group mb-4 input-error"
+									: "input-group mb-4"
+							}
+						>
 							<span className="input-group-text">
-								<FaKey className="text-primary-yellow" />
+								<FaKey className="text-login-emphasis" />
 							</span>
 							<div className="form-floating">
 								<input
@@ -110,7 +151,12 @@ const Login = () => {
 										setPassword(e.target.value)
 									}
 								/>
-								<label for="floatingPassword">Password</label>
+								<label
+									for="floatingPassword"
+									className="text-greeli-emphasis"
+								>
+									Password
+								</label>
 							</div>
 						</div>
 						{errors.password && (
@@ -139,11 +185,11 @@ const Login = () => {
 						>
 							Sign in
 						</button>
-						<p className="mt-1 mb-3 text-center co">
+						<p className="mt-1 mb-3 text-center text-greeli-emphasis">
 							Don't have an account?{" "}
 							<a
-								href="#"
-								className="text-light"
+								href="/"
+								className="text-primary-yellow"
 								style={{ textDecoration: "none" }}
 							>
 								Register

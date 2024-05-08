@@ -11,15 +11,6 @@
   border-radius: 5px;
 } */
 
-
-
-.form-control:focus {
-  outline: none; /* Removes the blue border */
-}
-.form-check-label {
-  color: white;
-}
-a {
-  text-decoration: none;
-  color: #FFFFFF;
+.login {
+  height: 100vh;
 }
