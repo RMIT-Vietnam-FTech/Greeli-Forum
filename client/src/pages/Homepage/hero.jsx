@@ -1,6 +1,6 @@
 import React from "react";
 import "../../scss/custom.css";
-import "../../style/hero.css";
+import "../Homepage/style/hero.css";
 
 export default function HeroSection() {
 	return (
@@ -16,7 +16,7 @@ export default function HeroSection() {
 					loop="loop"
 				>
 					<source
-						src="https://www.youtube.com/watch?v=eNUpTV9BGac&t=1324s"
+						src="https://www.youtube.com/watch?v=eNUpTV9BGac"
 						type="video/mp4"
 					/>
 				</video>

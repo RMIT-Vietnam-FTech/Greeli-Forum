@@ -1,17 +1,16 @@
 import React from "react";
-import { AiFillInstagram } from "react-icons/ai";
-import { AiOutlineTikTok } from "react-icons/ai";
+import { AiFillInstagram, AiOutlineTikTok } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
-import "../scss/custom.css";
-import "../style/footer.css";
+import "../../scss/custom.css";
+import "../Footer/footer.css";
 
 export default function Footer() {
 	return (
 		<>
 			<footer className="container-fluid bg-primary-green-700 pt-5">
 				<div
-					className="row row-cols-lg-3 row-cols-md-1 justify-content-around mx-lg-3"
+					className="row row-cols-lg-3 row-cols-md-12 justify-content-around mx-lg-3"
 					id="footer-content"
 				>
 					{/* Who are we Section */}
@@ -146,10 +145,10 @@ export default function Footer() {
 
 				{/* copyright of Greeli */}
 				<div className="mx-lg-4 mt-5" id="copyright">
-					<div class="text-light text-center py-3 px-4">
+					<div className="text-light text-center py-3 px-4">
 						Copyright ©2024 All rights reserved | This website is
 						designed and built by{" "}
-						<span class="text-primary-yellow">RMIT FTech Team</span>
+						<span className="text-primary-yellow">RMIT FTech Team</span>
 					</div>
 				</div>
 			</footer>
