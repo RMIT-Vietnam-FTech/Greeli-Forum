@@ -18,10 +18,11 @@ export const verifyToken = async (req, res, next) => {
 	}
 };
 
-
 export const verifyAdmin = async (req, res, next) => {
 	if (!req.user || req.user.role !== "admin") {
-		return res.status(403).json({error: "Forbidden (Admin access required)"})
+		return res
+			.status(403)
+			.json({ error: "Forbidden (Admin access required)" });
 	}
-	next()
-}
+	next();
+};

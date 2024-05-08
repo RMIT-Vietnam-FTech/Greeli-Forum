@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import Slider from "react-slick";
+import { ThemeContext } from "../../../context/ThemeContext";
 // import "slick-carousel/slick/slick-theme.css";
 // import "slick-carousel/slick/slick.css";
 import EventsData from "../data/eventsData";
 import "../style.css";
-import { ThemeContext } from "../../../themeContext";
 
 const Card = ({ image, title, description, date, event }) => {
 	return (
