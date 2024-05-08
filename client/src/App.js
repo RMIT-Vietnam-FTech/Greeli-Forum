@@ -12,7 +12,7 @@ function App() {
   
   return (
     <Routes>
-      <Route path='/' element={<DashBoardPage/>}/>
+      <Route path='/forum' element={<DashBoardPage/>}/>
      <Route path='threads/:threadId' element={<ThreadPage/>}/>
      <Route path='posts/:postId' element={<PostPage/>}/> 
     </Routes>
