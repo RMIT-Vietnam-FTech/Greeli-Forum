@@ -11,12 +11,9 @@ import { SocketContextProvider } from "./context/SocketContext.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
 import { Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import "./scss/custom.scss";
-import "bootstrap/dist/css/bootstrap.css";
-
-import ThreadPage from "./pages/ThreadPage/ThreadPage";
-import DashBoardPage from "./pages/DashBoardPage";
-import PostPage from "./pages/PostPage/PostPage";
+import DashBoardPage from "./pages/DashBoardPage.jsx";
+import ThreadPage from "./pages/ThreadPage/ThreadPage.jsx";
+import PostPage from "./pages/PostPage/PostPage.jsx";
 
 function App() {
   return (
