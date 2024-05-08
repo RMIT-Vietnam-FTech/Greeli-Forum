@@ -11,7 +11,7 @@ export default function Jumbotron() {
 					</h1>
 					<div className="d-inline-flex pt-5">
 						<button
-							className="text-center text-green-500 btn bg-white btn-lg px-5 py-3 my-3 rounded-pill"
+							className="fw-bold text-center text-light btn bg-primary-green btn-lg px-5 py-3 my-3 rounded-pill"
 							type="button"
 						>
 							Join Us Here

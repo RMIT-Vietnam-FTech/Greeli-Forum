@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { FaNewspaper } from "react-icons/fa";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { IoChatbubbles } from "react-icons/io5";
@@ -7,22 +7,28 @@ import "../Homepage/style/main.css";
 import NewsData from "./data/new";
 import Jumbotron from "./jumbotron";
 import NewList from "./newsItems";
+import { ThemeContext } from "../../context/ThemeContext";
+import { useUserContext } from "../../context/UserContext";
 
 export default function Main() {
+  const { isDarkMode } = useContext(ThemeContext);
 	return (
     <>
-      <main className="bg-light-subtle">
+      <main
+        className="bg-greeli-subtle"
+        data-bs-theme={isDarkMode ? "dark" : "light"}
+      >
         {/* About Section */}
         <section
-          className="p-4 bg-light-subtle mx-5 rounded-top-5"
+          className="p-4 bg-greeli-subtle mx-5 rounded-5"
           id="about-section"
         >
           <div className="container mt-5 mx-auto">
             <div className="text-center px-4">
-              <h1 className="fw-bold display-3 pb-4">
-                What is <span className="text-primary-green">Greeli</span>?
+              <h1 className="fw-bold display-3 pb-4 text-greeli-emphasis">
+                What is <span className="text-primary-yellow">Greeli</span>?
               </h1>
-              <p className="col-lg-8 mx-auto fs-5 pb-5">
+              <p className="col-lg-8 mx-auto fs-5 pb-5 text-greeli-emphasis">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.
                 Quisquam consectetur totam quibusdam animi nulla omnis deleniti
                 aliquid! Veritatis distinctio voluptatem dicta quisquam sit
@@ -35,7 +41,8 @@ export default function Main() {
               <div className="d-inline-flex">
                 <button
                   className="text-center text-white btn bg-primary-green-700 btn-lg px-5 py-3 rounded-pill fw-bold"
-                  type="button">
+                  type="button"
+                >
                   Read more
                 </button>
               </div>

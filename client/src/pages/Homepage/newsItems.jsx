@@ -3,43 +3,38 @@ import { Carousel } from "react-bootstrap"; // Import Carousel component
 
 const NewList = (props) => {
 	const [isMobile, setIsMobile] = useState(window.innerWidth <= 767); // State for responsiveness
-	const data = props.data;
+	const [data, setData] = useState([]);
 
 	const Card = (props) => {
 		return (
-			<div
-				className={`card mx-2 ${
-					isMobile ? "col-12" : "col-md-3"
-				}`}
-			>
-				<img
-					src={props.img}
-					className="card-img-top"
-					alt={props.title}
-				/>
-				<div className="card-body pb-0">
-					<p className="card-text">
-						<small className="text-body-secondary">
-							{props.date}
-						</small>
-					</p>
-					<h5 className="card-title">{props.title}</h5>
-				</div>
-			</div>
-		);
+      <div className={`card mx-2 ${isMobile ? "col-12" : "col-md-3"}`}>
+        <img src={props.img} className="card-img-top" alt={props.title} />
+        <div className="card-body pb-0">
+          <p className="card-text">
+            <small className="text-body-secondary">{props.date}</small>
+          </p>
+          <h5 className="card-title">{props.title}</h5>
+        </div>
+      </div>
+    );
 	};
 
 	// Handle window resize for dynamic responsiveness
 	useEffect(() => {
-		const handleResize = () => setIsMobile(window.innerWidth <= 768);
-		window.addEventListener("resize", handleResize);
-		return () => window.removeEventListener("resize", handleResize);
-	}, []);
+    // Fetch data using Axios when component mounts
+    axios.get("/api/news")
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
 	return (
 		<>
 			<div className="container my-5 p-5">
-				<h3 className="fw-bold">Recommended Posts</h3>
+				<h3 className="fw-bold text-greeli-emphasis">Recommended Posts</h3>
 				{isMobile ? ( // Display carousel for mobile
 					<Carousel interval={3000}>
 						{/* Set carousel auto-play interval (optional) */}
