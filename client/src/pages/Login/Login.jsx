@@ -160,7 +160,7 @@ const Login = () => {
 								checked
 							/>
 							<label
-								className="form-check-label"
+								className="form-check-label text-greeli-emphasis"
 								for="flexCheckDefault"
 							>
 								Remember me
