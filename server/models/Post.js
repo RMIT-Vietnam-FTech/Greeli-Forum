@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const postSchema = new mongoose.Schema({
+  belongToThread:{
+    type: mongoose.Schema.Types.ObjectId,
+    require: true,
+  },
   title: {
     type: String,
     required: true,
@@ -19,12 +23,6 @@ const postSchema = new mongoose.Schema({
       ref: "Comment",
     },
   ],
-  createAt:{
-	type: Date,
-	immutable: true,
-	default: ()=>{Date.now()}
-	
-  },
   createdBy: {
     userId: {
       type: String,
@@ -47,4 +45,6 @@ const postSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
-});
+},
+{timestamps: true}
+);

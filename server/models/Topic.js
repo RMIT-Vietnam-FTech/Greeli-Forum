@@ -10,7 +10,8 @@ const topicSchem = new mongoose.Schema({
         type: String
     },
   ],
-});
+},
+);
 
 const Thread = mongoose.model("Thread", threadSchema);
 export default Thread;
