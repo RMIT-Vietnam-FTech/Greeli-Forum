@@ -37,15 +37,15 @@ const NewList = (props) => {
 	// Fetch data from API
 	useEffect(() => {
     // Fetch data using Axios when component mounts
-    axios.get("http://localhost:3001/api/news/get")
-      .then(response => {
-        setData(response.data);
-		console.log(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+    	axios.get("http://localhost:3001/api/news/get")
+      	.then(response => {
+        	setData(response.data);
+			console.log(response.data);
+      	})
+      	.catch(error => {
+        	console.error('Error fetching data:', error);
+      	});
+  	}, []);
 	return (
 		<>
 			<div className="container my-5 p-5">

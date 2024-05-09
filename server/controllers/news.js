@@ -1,5 +1,5 @@
 import express from "express";
-import News from "../models/news";
+import News from "../models/News";
 
 const app = express();
 
