@@ -48,7 +48,7 @@ const NewList = (props) => {
   	}, []);
 	return (
 		<>
-			<div className="container my-5 p-5">
+			<div className="container my-5 p-5 flex-column">
 				<h3 className="fw-bold text-greeli-emphasis">
 					Recommended Posts
 				</h3>
@@ -77,7 +77,7 @@ const NewList = (props) => {
 						))}
 					</div>
 				)}
-				<div className="d-flex justify-content-center mt-5">
+				<div className="d-block align-self-center mt-5">
 					<button
 						className="text-center text-white btn theme-button bg-primary-green-700 btn-lg px-5 py-3 rounded-pill fw-bold"
 						type="button"
