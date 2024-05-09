@@ -58,7 +58,7 @@ const NewList = (props) => {
 				)}
 				<div className="d-flex justify-content-center mt-5">
 					<button
-						className="text-center text-white btn bg-primary-green-700 btn-lg px-5 py-3 rounded-pill fw-bold"
+						className="text-center text-white btn theme-button bg-primary-green-700 btn-lg px-5 py-3 rounded-pill fw-bold"
 						type="button"
 					>
 						Read more

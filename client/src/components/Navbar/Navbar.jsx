@@ -191,12 +191,12 @@ const Navbar = () => {
 						<IoMoon className="moon" />
 					</label>
 					{!user && (
-						<Link to="/login" className="login-button">
+						<Link to="/login" className="login-button theme-button">
 							Login
 						</Link>
 					)}
 					{user && (
-						<button className="login-button" onClick={logout}>
+						<button className="login-button theme-button" onClick={logout}>
 							Logout
 						</button>
 					)}
