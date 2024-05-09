@@ -1,0 +1,29 @@
+main {
+    position: relative;
+    /* top: -5em; */
+    z-index: 3;
+}
+#about-section{
+    position: relative;
+    top: -5em;
+    z-index: 3;
+}
+.feature {
+    padding: 0.2em;
+    border: 5px solid var(--bs-primary-yellow);
+}
+@media screen and (max-width: 768px) {
+    .solution-container {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .solution-item{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+    }
+    
+}

@@ -12,6 +12,7 @@ import threadRoutes from "./routes/thread.js";
 import chatRoutes from "./routes/chat.js";
 import messageRoutes from "./routes/message.js";
 import postRoutes from "./routes/post.js";
+import newsRoutes from "./routes/news.js";
 
 import { app, io, server } from "./socket/socket.js";
 
@@ -47,6 +48,8 @@ app.use("/api/thread", threadRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/posts", postRoutes);
+
+app.use("/api/news", newsRoutes);
 
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;

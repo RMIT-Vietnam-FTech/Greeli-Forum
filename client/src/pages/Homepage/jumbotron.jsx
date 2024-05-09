@@ -1,5 +1,5 @@
 import React from "react";
-import "../../style/jumbotron.css";
+import "../Homepage/style/jumbotron.css";
 
 export default function Jumbotron() {
 	return (
@@ -11,10 +11,10 @@ export default function Jumbotron() {
 					</h1>
 					<div className="d-inline-flex pt-5">
 						<button
-							className="d-inline-flex align-items-center text-green-500 btn bg-white btn-lg px-5 py-3 my-3 rounded-pill"
+							className="fw-bold text-center text-light btn bg-primary-green btn-lg px-5 py-3 my-3 rounded-pill"
 							type="button"
 						>
-							Call to action
+							Join Us Here
 						</button>
 					</div>
 				</div>

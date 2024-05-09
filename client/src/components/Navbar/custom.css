@@ -1,21 +1,21 @@
   a {
     text-decoration: none;
   }
-  
-  a > p {
+
+  a>p {
     font-size: 24px;
     text-decoration: none;
   }
-  
+
   .navbar {
     height: 80px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   }
-  
+
   .navbar-brand {
-    font-weight: 500;  
+    font-weight: 500;
   }
-  
+
   .login-button {
     background-color: #365949;
     color: #FFFFFF;
@@ -25,32 +25,35 @@
     text-decoration: none;
     transition: 0.3s background-color;
   }
+
   .login-button:hover {
     background-color: #0A2A28;
   }
-  
+
   .navbar-logger {
     border: none;
     font-size: 1.25rem;
   }
-  
-  .navbar-logger:focus, .btn-close:focus {
+
+  .navbar-logger:focus,
+  .btn-close:focus {
     box-shadow: none;
     outline: none;
   }
-  
+
   .nav-link {
     color: black;
     font-weight: 500;
     position: relative;
   }
-  
-  
-  .nav-link:hover::before, .nav-link.active::before {
+
+
+  .nav-link:hover::before,
+  .nav-link.active::before {
     width: 100%;
     visibility: visible;
   }
-  
+
   .darkmode-toggle {
     width: 60px;
     height: 30px;
@@ -62,7 +65,7 @@
     /* box-shadow: inset 0px 5px 15px rgba(0,0,0,0.4), inset 0px -5px 15px rgba(255,255,255,0.4); */
     cursor: pointer;
   }
-  
+
   .darkmode-toggle:after {
     content: "";
     width: 22px;
@@ -73,65 +76,77 @@
     background: #365949;
     border-radius: 180px;
   }
-  
+
   #darkmode-toggle {
     display: none;
     width: 0;
     height: 0;
   }
-  #darkmode-toggle:checked + .darkmode-toggle {
+
+  #darkmode-toggle:checked+.darkmode-toggle {
     border: 2px solid #FFFFFF;
     background-color: #000000;
-  
+
   }
-  #darkmode-toggle:checked + .darkmode-toggle:after {
+
+  #darkmode-toggle:checked+.darkmode-toggle:after {
     left: 54px;
     transform: translateX(-100%);
     background-color: white;
   }
-  .darkmode-toggle, .darkmode-toggle:after {
+
+  .darkmode-toggle,
+  .darkmode-toggle:after {
     transition: 0.3s;
   }
-  
-  .darkmode-toggle > .sun, .darkmode-toggle > .moon  {
+
+  .darkmode-toggle>.sun,
+  .darkmode-toggle>.moon {
     position: absolute;
     top: 6px;
     z-index: 100;
   }
-  .darkmode-toggle > .sun {
+
+  .darkmode-toggle>.sun {
     width: 12px;
     left: 6.4px;
     color: #FFFFFF;
     transition: 0.3s;
   }
-  .darkmode-toggle > .moon {
+
+  .darkmode-toggle>.moon {
     width: 13px;
     left: 36px;
     transition: 0.3s;
     color: #000000;
   }
-  #darkmode-toggle:checked + .darkmode-toggle > .sun {
-    transition: 0.3s;
-    display: none;
-  }
-  #darkmode-toggle:checked + .darkmode-toggle > .moon {
-    transition: 0.3s;
-    display: block;
-  }
-  #darkmode-toggle + .darkmode-toggle > .moon {
+
+  #darkmode-toggle:checked+.darkmode-toggle>.sun {
     transition: 0.3s;
     display: none;
   }
 
-  .offCanvasForum {
+  #darkmode-toggle:checked+.darkmode-toggle>.moon {
+    transition: 0.3s;
+    display: block;
+  }
+
+  #darkmode-toggle+.darkmode-toggle>.moon {
+    transition: 0.3s;
+    display: none;
+  }
+
+  #offcanvasForum {
     display: none;
   }
 
   @media (min-width: 767px) {
-    .nav-link:hover, .nav-link:active {
+
+    .nav-link:hover,
+    .nav-link:active {
       color: #252323;
     }
-    
+
     .nav-link::before {
       content: "";
       position: absolute;
@@ -145,15 +160,17 @@
       transition: 0.3s ease-in-out;
     }
   }
+
   @media (max-width: 767px) {
     .forum-name {
       display: none;
     }
+
     .brand {
       margin-right: 0;
     }
-    .offCanvasForum {
+
+    #offcanvasForum {
       display: block;
     }
   }
-  
