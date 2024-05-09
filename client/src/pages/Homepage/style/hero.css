@@ -1,6 +1,6 @@
 header {
     position: relative;
-    background: url(../../public/a.png) no-repeat center;
+    background: url("../../../../public/a.png") no-repeat center;
     height: 100vh;
     width: 100%;
     overflow: hidden;
