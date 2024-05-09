@@ -6,6 +6,7 @@ const app = express();
 // CREATE news
 export const createNews = async (req, res) => {
     const news = req.body;
+	
     try {
         const newItem = await News.create(news);
 		console.log(newItem);

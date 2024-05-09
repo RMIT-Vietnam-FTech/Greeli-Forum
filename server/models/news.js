@@ -1,3 +1,4 @@
+import { contentSecurityPolicy } from "helmet";
 import mongoose from "mongoose";
 
 const newsSchema = new mongoose.Schema(
@@ -11,6 +12,14 @@ const newsSchema = new mongoose.Schema(
 			required: true,
 		},
 		content: {
+			type: String,
+			required: true,
+		},
+		date: {
+     		type: Date,
+      		default: Date.now,
+    	},
+		image: {
 			type: String,
 			required: true,
 		}
