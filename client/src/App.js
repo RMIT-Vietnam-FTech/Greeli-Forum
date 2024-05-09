@@ -1,18 +1,18 @@
 import React, { createContext, useContext, useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/footer";
+import MessageContainer from "./components/Message/MessageContainer.jsx";
+import Navbar from "./components/Navbar/Navbar";
+import SideBar from "./components/SideBar/SideBar.jsx";
+import { SocketContextProvider } from "./context/SocketContext.jsx";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
+import { UserContextProvider } from "./context/UserContext.jsx";
+import Chat from "./pages/Chat/Chat";
 import Homepage from "./pages/Homepage/Homepage";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
-import Chat from "./pages/Chat/Chat";
-import { ThemeProvider } from "./context/ThemeContext.jsx";
-import { UserContextProvider } from "./context/UserContext.jsx";
-import { SocketContextProvider } from "./context/SocketContext.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
-import SideBar from "./components/SideBar/SideBar.jsx";
-import { Routes, Route, Navigate } from "react-router-dom";
-import MessageContainer from "./components/Message/MessageContainer.jsx";
 function App() {
 	return (
 		<div className="App">

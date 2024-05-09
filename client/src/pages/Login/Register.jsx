@@ -5,11 +5,11 @@ import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import { Link } from "react-router-dom";
 import Reaptcha from "reaptcha";
 import * as Yup from "yup";
-import "../../scss/custom.css";
 import { ThemeContext } from "../../context/ThemeContext";
-import { Link } from "react-router-dom"
+import "../../scss/custom.css";
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
 };

@@ -71,17 +71,28 @@ export default function Events() {
 
 	return (
 		<>
-			<section className="news bg-greeli-subtle" data-bs-theme= {isDarkMode ? "dark": "light"}>
+			<section
+				className="news bg-greeli-subtle"
+				data-bs-theme={isDarkMode ? "dark" : "light"}
+			>
 				<h4 className="popularNews text-general-emphasis">EVENTS</h4>
 				<ul className="nav nav-pills events_selection">
 					<li
-						className={`${isDarkMode ? 'navigation-item-dark-mode' : 'navigation-item'} ${isActive("Social activities")}`}
+						className={`${
+							isDarkMode
+								? "navigation-item-dark-mode"
+								: "navigation-item"
+						} ${isActive("Social activities")}`}
 						onClick={() => setCategory("Social activities")}
 					>
 						<h4>Social activities</h4>
 					</li>
 					<li
-						className={`${isDarkMode ? 'navigation-item-dark-mode' : 'navigation-item'} ${isActive("Social events")}`}
+						className={`${
+							isDarkMode
+								? "navigation-item-dark-mode"
+								: "navigation-item"
+						} ${isActive("Social events")}`}
 						onClick={() => setCategory("Social events")}
 					>
 						<h4>Social events</h4>
