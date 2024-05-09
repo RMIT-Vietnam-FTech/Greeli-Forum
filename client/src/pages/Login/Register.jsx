@@ -9,7 +9,7 @@ import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 import "../../scss/custom.css";
 import { ThemeContext } from "../../context/ThemeContext";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
 };

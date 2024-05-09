@@ -22,9 +22,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "format": "biome format --write ./controllers ./middleware ./models ./routes index.js",
-    "lint": "biome lint --apply ./controllers ./middleware ./models ./routes index.js",
-    "check": "biome check --apply ./controllers ./middleware ./models ./routes index.js"
+    "format": "biome format --write ./controllers ./middleware ./models ./routes ./socket index.js",
+    "lint": "biome lint --apply ./controllers ./middleware ./models ./routes ./socket index.js",
+    "check": "biome check --apply ./controllers ./middleware ./models ./routes ./socket index.js"
   },
   "author": "",
   "license": "ISC",
