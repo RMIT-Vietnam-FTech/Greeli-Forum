@@ -9,7 +9,7 @@ const NewList = (props) => {
 
 	const Card = (props) => {
 		return (
-			<div className={`card mx-2 ${isMobile ? "col-12" : "col-md-3"}`}>
+			<div className={`card mx-2 bg-greeli-subtle shadow-none ${isMobile ? "col-12" : "col-md-3"}`}>
 				<img
 					src={props.img}
 					className="card-img-top"
@@ -66,7 +66,7 @@ const NewList = (props) => {
 						))}
 					</Carousel>
 				) : (
-					<div className="row flex-nowrap gx-4 mx-3">
+					<div className="row flex-nowrap gx-2 mx-2">
 						{data.slice(0, 4).map((item) => (
 							<Card
 								key={item.id}
