@@ -9,7 +9,7 @@ const NewList = (props) => {
 
 	const Card = (props) => {
 		return (
-			<div className={`card mx-2 bg-greeli-subtle shadow-none ${isMobile ? "col-12" : "col-md-3"}`}>
+			<div className={`card mx-2 shadow-none bg-greeli-subtle bg-greeli-subtle shadow-none ${isMobile ? "col-12" : "col-md-3"}`}>
 				<img
 					src={props.img}
 					className="card-img-top"
