@@ -7,10 +7,8 @@ const newsSchema = new mongoose.Schema(
 			required: true,
 		},
 		createdBy: {
-			username: {
-				type: String,
-				required: true,
-			}
+			type: String,
+			required: true,
 		},
 		content: {
 			type: String,
