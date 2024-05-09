@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Carousel } from "react-bootstrap"; // Import Carousel component
+import axios from "axios";
+import { Carousel } from "react-bootstrap";
 
 const NewList = (props) => {
 	const [isMobile, setIsMobile] = useState(window.innerWidth <= 767); // State for responsiveness
-	// const [data, setData] = useState([]);
-	const data = props.data;
+	// const data = props.data;
+	const [data, setData] = useState([]);
 
 	const Card = (props) => {
 		return (
@@ -33,6 +34,18 @@ const NewList = (props) => {
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
+	// Fetch data from API
+	useEffect(() => {
+    // Fetch data using Axios when component mounts
+    axios.get("http://localhost:3001/api/news/get")
+      .then(response => {
+        setData(response.data);
+		console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 	return (
 		<>
 			<div className="container my-5 p-5">
