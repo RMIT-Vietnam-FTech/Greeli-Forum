@@ -9,7 +9,7 @@ import "../../scss/custom.css";
 import { ThemeContext } from "../../context/ThemeContext";
 import "./custom.css";
 import { UserContext, useUserContext } from "../../context/UserContext";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 const Navbar = () => {
 	const cookies = new Cookies();
@@ -74,37 +74,41 @@ const Navbar = () => {
 					<div className="offcanvas-body">
 						<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
 							<li className="nav-item">
-								<Link
-									className="nav-link active text-greeli-emphasis"
+								<NavLink
+									activeClassname="active"
+									className="nav-link text-greeli-emphasis"
 									aria-current="page"
 									to="/general"
 								>
 									General
-								</Link>
+								</NavLink>
 							</li>
 							<li className="nav-item">
-								<Link
+								<NavLink
+									activeClassname="active"
 									className="nav-link text-greeli-emphasis"
-									to="/"
+									to="/forum"
 								>
 									Forum
-								</Link>
+								</NavLink>
 							</li>
 							<li className="nav-item">
-								<Link
+								<NavLink
+									activeClassname="active"
 									className="nav-link text-greeli-emphasis"
-									to="/general"
+									to="/about"
 								>
 									About
-								</Link>
+								</NavLink>
 							</li>
 							<li className="nav-item">
-								<a
+								<NavLink
+									activeClassname="active"
 									className="nav-link text-greeli-emphasis"
-									href="/"
+									to="/contact"
 								>
 									Contact
-								</a>
+								</NavLink>
 							</li>
 						</ul>
 					</div>

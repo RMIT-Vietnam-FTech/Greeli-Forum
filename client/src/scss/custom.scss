@@ -202,6 +202,7 @@ a {
     color: $link-hover-color;
     text-decoration: underline;
   }
+}
 .text-login-emphasis {
     color: var(--bs-login-text-emphasis) !important;
 }
@@ -331,5 +332,4 @@ a {
     --bs-offcanvas-box-shadow: var(--bs-box-shadow-sm);
     --bs-offcanvas-transition: transform 0.3s ease-in-out;
     --bs-offcanvas-title-line-height: 1.5;
-}
 }
