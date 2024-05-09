@@ -48,7 +48,6 @@ app.use("/api/thread", threadRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/posts", postRoutes);
-
 app.use("/api/news", newsRoutes);
 
 /* CONNECT DATABASE AND RUN SERVER */
