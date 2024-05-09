@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Comment from "./Comment.js";
 
 const postSchema = new mongoose.Schema(
 	{
@@ -39,3 +40,5 @@ const postSchema = new mongoose.Schema(
 	},
 	{ timestamps: true },
 );
+
+export default mongoose.model("Post", postSchema);
