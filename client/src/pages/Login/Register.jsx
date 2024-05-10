@@ -110,7 +110,7 @@ const Register = () => {
 					<Image
 						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
 						width={120}
-						className="my-4"
+						className="my-2"
 						alt="Greeli Forum Logo"
 					/>
 					<form

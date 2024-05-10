@@ -38,6 +38,7 @@ function App() {
 									element={<PostPage />}
 								/>
 							</Route>
+							<Route path="*" element={<Homepage />} />
 						</Routes>
 					</div>
 					<Footer />
