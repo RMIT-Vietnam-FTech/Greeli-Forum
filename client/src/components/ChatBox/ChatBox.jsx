@@ -51,19 +51,21 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 
 	const handleSend = (e) => {
 		e.preventDefault();
+		const message = {
+			chatId: chat._id,
+			senderId: currentUserId,
+			text: newMessage,
+		}
 		// send message to database 
 		const configuration = {
 			method: "post",
 			url: `http://localhost:3001/api/message/create`,
-			data: {
-				chatId: chat._id,
-				senderId: currentUserId,
-				text: newMessage,
-			}
+			data: message
 		};
+
 		// send message to socket server
 		const receiverId = chat.members.find((id) => id !== currentUserId);		
-		setSendMessage({...messages, receiverId});
+		setSendMessage({...message, receiverId});
 
 		axios(configuration)
 			.then((result) => {
@@ -81,7 +83,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 			console.log("Data receive")
 			setMessages([...messages, receiveMessage]);
 		}
-	}, []);
+	}, [receiveMessage]);
 
 	// always scroll to the last message
 	useEffect(() => {

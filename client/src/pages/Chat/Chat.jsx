@@ -14,17 +14,29 @@ const Chat = () => {
 	const [sendMessage, setSendMessage] = useState(null);
 	const [receiveMessage, setReceiveMessage] = useState(null);
 	const userId = JSON.parse(user).id;
-	// console.log(userId);
+	// console.log(onlineUsers);
 
 	useEffect(() => {
 		socket.current = io("http://localhost:3001");
 		socket.current.connect();
+		return () => {
+			socket.current.disconnect();
+		}
+	}, [user])
+
+	// add current user to socket and receive list of online users
+	useEffect(() => {
+		if (socket.current === null) return;
 		socket.current.emit("new-user-add", userId);
 		socket.current.on("get-users", (activeUsers) => {
 			setOnlineUsers(activeUsers);
 			console.log(onlineUsers)
 		})
-	}, [user])
+
+		return () => {
+			socket.current.off("getOnlineUsers");
+		}
+	}, [socket.current])
 
 	useEffect(() => {
 		const getChats = async () => {
@@ -46,19 +58,28 @@ const Chat = () => {
 
 	// sending mesage to socket server
 	useEffect(() => {
+		if (socket.current === null) return;
 		if (sendMessage !== null) {
 			socket.current.emit("send-message", sendMessage)
+			console.log(sendMessage)
 		}
-
+		return () => {
+			socket.current.off("send-message")
+		}
 	}, [sendMessage])
 	
 	// receive mesage from socket server
 	useEffect(() => {
+		if (socket.current === null) return;
+
 		socket.current.on("receive-message", (data) => {
 			setReceiveMessage(data)
 			console.log(receiveMessage)
 		})
-	}, [receiveMessage])
+		return () => {
+			socket.current.off("receive-message")
+		}
+	}, [socket.current, chats])
 
 	const checkOnlineStatus = (chat) => {
 		const chatMember = chat.members.find((member) => member !== userId)
