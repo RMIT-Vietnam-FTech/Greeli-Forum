@@ -1,11 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer/footer";
-import MessageContainer from "./components/Message/MessageContainer.jsx";
-import Footer from "./components/Footer/footer";
-import MessageContainer from "./components/Message/MessageContainer.jsx";
 import Navbar from "./components/Navbar/Navbar";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
@@ -17,7 +13,6 @@ import Register from "./pages/Login/Register";
 import PostPage from "./pages/PostPage/PostPage.jsx";
 import Profile from "./pages/Profile/Profile";
 import ThreadPage from "./pages/ThreadPage/ThreadPage.jsx";
-import GeneralPage from "./pages/generalPage/generalPage";
 import GeneralPage from "./pages/generalPage/generalPage";
 function App() {
 	return (
@@ -42,23 +37,10 @@ function App() {
 									path="posts/:postId"
 									element={<PostPage />}
 								/>
-								<Route path="/profile" element={<Profile />} />
-								<Route path="/chat" element={<Chat />} />
-								<Route path="/forum">
-									<Route index element={<DashBoardPage />} />
-									<Route
-										path="threads/:threadId"
-										element={<ThreadPage />}
-									/>
-									<Route
-										path="posts/:postId"
-										element={<PostPage />}
-									/>
-								</Route>
+							</Route>
 							</Routes>
 						</div>
 						<Footer />
-					</SocketContextProvider>
 				</UserContextProvider>
 			</ThemeProvider>
 			{/* <SideBar /> */}

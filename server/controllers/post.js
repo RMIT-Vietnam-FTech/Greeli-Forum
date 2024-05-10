@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import Post from "../models/Post";
+import Post from "../models/Post.js";
 
 import { deleteFile, uploadFile } from "../service/awsS3.js";
 
@@ -107,7 +107,3 @@ export const archivedPost = async (req, res) => {
 	try {
 	} catch (error) {}
 };
-
-app.get("/", async (req, res) => {
-	//post.imageUrl = await getObjectSignedUrl(post.imageName)
-});
