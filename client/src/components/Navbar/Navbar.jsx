@@ -78,6 +78,16 @@ const Navbar = () => {
 									activeClassname="active"
 									className="nav-link text-greeli-emphasis"
 									aria-current="page"
+									to="/"
+								>
+									Home
+								</NavLink>
+							</li>
+							<li className="nav-item">
+								<NavLink
+									activeClassname="active"
+									className="nav-link text-greeli-emphasis"
+									aria-current="page"
 									to="/general"
 								>
 									General
@@ -174,9 +184,9 @@ const Navbar = () => {
 				</div> */}
 
 				<div className="d-flex flex-row align-items-center gap-3">
-					<a className="nav-link" href="/">
+					<NavLink className="" to="/profile">
 						<FaUser className="icon text-greeli-emphasis" />
-					</a>
+					</NavLink>
 					<input
 						type="checkbox"
 						id="darkmode-toggle"
