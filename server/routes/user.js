@@ -1,10 +1,14 @@
 import express from "express";
-import { getUser, login, register } from "../controllers/user.js";
+import { login, register } from "../controllers/user.js";
+import { lock, unlock } from "../controllers/user.js";
+import { verifyToken, verifyAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
 router.get("/find/:id", getUser);
 router.post("/login", login);
 router.post("/register", register);
+router.put("/:adminId/:userId/lock",verifyAdmin, lock);
+router.put("/:adminId/:userId/unlock", verifyAdmin, unlock);
 
 export default router;
