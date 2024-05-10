@@ -8,6 +8,10 @@
 }
 
 /* Basic Info Styling */
+.info-item {
+  box-sizing: border-box;
+}
+
 .info-item svg{
   margin: 0;
   padding: 0;
@@ -19,12 +23,14 @@
 
 /* Profile Show Styling */
 .profile-show {
-  height: 20vh;
+  gap: 5%;
 }
 
 .profile-show img {
   width: 30%;
-  height: 200px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  border: solid #DCB968 3px;
 }
 
 .profile-show div {
@@ -39,7 +45,7 @@
 
 /* Need improvement */
 .posts-container {
-  height: 55vh;
+  height: 40vh;
 }
 
 /* Post Gallery */
@@ -53,9 +59,9 @@
 }
 
 .post-img {
-  border-radius: 1.5rem;
-  width: 160px;
-  height: 160px;
+  border-radius: 1rem;
+  right: 0;
+  width: 100%;
 }
 
 .interaction-menu {
@@ -83,10 +89,15 @@
 }
 
 .post-author img {
-  width: 5rem;
-  height: 5rem;
+  width: 30%;
+  height: 30%;
+  max-width: 80px;
 }
 
 .post-author div {
   height: auto;
+}
+
+.main-content {
+  font-size: 1vw;
 }
