@@ -10,6 +10,7 @@ import Cookies from "universal-cookie";
 import "../../scss/custom.css";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
+import { Link } from "react-router-dom";
 
 // import "./sass/custom.css";
 
@@ -53,8 +54,8 @@ const Login = () => {
 				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
-				// seT user context
-				setUser(result.data);
+				// set user context
+				setUser(JSON.stringify(result.data));
 			})
 			.catch((error) => {
 				console.log(error.response.data.error);
@@ -173,7 +174,7 @@ const Login = () => {
 								checked
 							/>
 							<label
-								className="form-check-label"
+								className="form-check-label text-greeli-emphasis"
 								for="flexCheckDefault"
 							>
 								Remember me
@@ -187,13 +188,13 @@ const Login = () => {
 						</button>
 						<p className="mt-1 mb-3 text-center text-greeli-emphasis">
 							Don't have an account?{" "}
-							<a
-								href="/"
+							<Link
+								to="/register"
 								className="text-primary-yellow"
 								style={{ textDecoration: "none" }}
 							>
 								Register
-							</a>
+							</Link>
 						</p>
 					</form>
 				</div>

@@ -208,13 +208,13 @@ h6 {
 }
 
 a {
-	color: $link-color;
-	text-decoration: none;
-
-	&:hover {
-		color: $link-hover-color;
-		text-decoration: underline;
-	}
+  color: $link-color;
+  text-decoration: none;
+  
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: none;
+  }
 }
 .text-login-emphasis {
 	color: var(--bs-login-text-emphasis) !important;
