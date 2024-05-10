@@ -48,7 +48,7 @@ const BasicInfo = (props) => {
 	];
 	if (isEditing) {
 		return (
-			<div className="container w-100 text-white info-item">
+			<div className="container-fluid text-white info-item">
 				<div className="row">
 					<div className="col-1">{iconArray[props.id]}</div>
 					<input
@@ -69,7 +69,7 @@ const BasicInfo = (props) => {
 	} else {
 		return (
 			<div className="container w-100 text-white info-item">
-				<div className="row">
+				<div className="row w-100">
 					<div className="col-1">{iconArray[props.id]}</div>
 					<p className="col-9">{props.basicInfo[props.type]}</p>
 					<p className="col-2" onClick={() => { setIsEditing(true) }}>Edit</p>
