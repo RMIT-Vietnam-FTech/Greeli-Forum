@@ -5,6 +5,7 @@ import { verifyToken, verifyAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
+router.get("/find/:id", getUser);
 router.post("/login", login);
 router.post("/register", register);
 router.put("/:adminId/:userId/lock",verifyAdmin, lock);

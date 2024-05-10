@@ -10,7 +10,7 @@ export const createChat = async (req, res) => {
 		if (chat) return res.status(200).json(chat);
 
 		const newChat = new Chat({
-			members: [firstId, secondId],
+			members: [senderId, receiverId],
 		});
 		const response = await newChat.save();
 		res.status(201).json(response);
@@ -22,7 +22,7 @@ export const createChat = async (req, res) => {
 // getUsersChat
 export const findAllChat = async (req, res) => {
 	const userId = req.params.userId;
-    console.log(userId)
+	console.log(userId);
 	try {
 		const response = await Chat.find({
 			members: { $in: [userId] },

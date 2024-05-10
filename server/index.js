@@ -7,12 +7,12 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import multer from "multer";
 
-import userRoutes from "./routes/user.js";
-import threadRoutes from "./routes/thread.js";
 import chatRoutes from "./routes/chat.js";
 import messageRoutes from "./routes/message.js";
-import postRoutes from "./routes/post.js";
 import newsRoutes from "./routes/news.js";
+import postRoutes from "./routes/post.js";
+import threadRoutes from "./routes/thread.js";
+import userRoutes from "./routes/user.js";
 
 import { app, io, server } from "./socket/socket.js";
 
@@ -30,10 +30,10 @@ app.use(cors());
 
 /*FILE STORAGE*/
 const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
+	destination: (req, file, cb) => {
 		cb(null, "public/assets");
 	},
-	filename: function (req, file, cb) {
+	filename: (req, file, cb) => {
 		cb(null, file.originalname);
 	},
 });
@@ -56,7 +56,7 @@ mongoose
 	.connect(process.env.MONGO_URL)
 	.then(() => {
 		server.listen(PORT, () => {
-			console.log(`SERVER IS RUNNING ON http://localhost:${PORT}`);
+			console.log(`SERVER IS RUNNING ON ${PORT}`);
 		});
 	})
 	.catch((error) => console.log(`${error}. SERVER IS NOT CONNECTING`));
