@@ -2,6 +2,7 @@ import Post from "../models/Post";
 import crypto from "crypto";
 
 import { uploadFile, deleteFile } from "../service/awsS3.js";
+import { time } from "console";
 
 const createRandomName = (bytes = 32) =>
   crypto.randomBytes(bytes).toString("hex");
@@ -43,22 +44,55 @@ export const getPosts = async (req, res) => {
   //pagination
   try {
     //filter -> threadId
-    const { threadId } = req.query;
+    //sorting
+    const { sort, threadId, page, limit } = req.query;
+    let sortObject = { time: 1 };
+    if (sort == "hot") {
+      sortObject = { time: 1 };
+    }
+    if (sort == "new") {
+      sortObject = { createdAt: 1 };
+    }
+    if (sort == "top") {
+      sortObject = { upvoteLength: 1 };
+    }
     const filter = {};
     if (threadId) {
       filter.belongToThread = threadId;
     }
-    const posts = await Post.aggregate().match({filter}).facet().sort();
-  //sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
-
- //pipeline -> pagination
+    //sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
+    const posts = await Post.aggregate().facet({
+      metadata: [{ $count: "total" }],
+      data: [
+        { $match: { filter } },
+        {
+          $addFields: {
+            upvoteLength: { $size: "$upvote" },
+            commentLength: { $size: "$comments" },
+            time: {
+              $divide: [
+                { $add: [{ $size: "$upvote" }, { $size: "$comments" }] },
+                { $substract: [Date.now() - $createdAt] },
+              ],
+            },
+          },
+        },
+        { $sort: sortObject },
+        { $skip: (page - 1) * limit },
+        { $limit: limit },
+      ],
+    });
   } catch (error) {}
 };
 
 export const getPost = async (req, res) => {
   try {
-    const post = await Post.find();
-  } catch (error) {}
+    const { threadId } = req.query;
+    const post = await Post.find({ belongToThread: threadId });
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const modifyPost = async (req, res) => {
