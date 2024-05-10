@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Post from "./Post.js";
+import Thread from "./Thread.js";
 
 const userSchema = new mongoose.Schema(
 	{
@@ -13,6 +15,7 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			required: true,
 			unique: true,
+			lowercase: true,
 		},
 		password: {
 			type: String,

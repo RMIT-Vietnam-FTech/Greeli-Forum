@@ -1,0 +1,169 @@
+.left-sidebar {
+  width: 16.7%;
+  height: 100px;
+}
+
+.right-sidebar {
+  width: 21.47%;
+  height: 100px;
+}
+
+.main {
+  width: 64.27%;
+}
+
+.main-container {
+  width: 75%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin: 0 auto;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: gray;
+  border-radius: 50%;
+}
+
+.dropdown {
+  top: 10px;
+  right: 10px;
+}
+
+.dropdown-circle {
+  width: 3px;
+  height: 3px;
+}
+
+.text-editor {
+  padding: 5px;
+  border-radius: 30px;
+}
+
+.show-border {
+  border: 2px solid #365949;
+}
+
+.ProMirror-focused {
+  outline: none !important;
+}
+
+.tiptap > * + * {
+  margin-top: 0.75em;
+}
+.tiptap ul,
+.tiptap ol {
+  padding: 0 1rem;
+}
+.tiptap h1,
+.tiptap h2,
+.tiptap h3,
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  line-height: 1.1;
+}
+.tiptap code {
+  background-color: rgba(97, 97, 97, 0.1);
+  color: #616161;
+}
+.tiptap pre {
+  background: #0d0d0d;
+  color: #fff;
+  font-family: "JetBrainsMono", monospace;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+.tiptap pre .hljs-comment,
+.tiptap pre .hljs-quote {
+  color: #616161;
+}
+.tiptap pre .hljs-variable,
+.tiptap pre .hljs-template-variable,
+.tiptap pre .hljs-attribute,
+.tiptap pre .hljs-tag,
+.tiptap pre .hljs-name,
+.tiptap pre .hljs-regexp,
+.tiptap pre .hljs-link,
+.tiptap pre .hljs-name,
+.tiptap pre .hljs-selector-id,
+.tiptap pre .hljs-selector-class {
+  color: #f98181;
+}
+.tiptap pre .hljs-number,
+.tiptap pre .hljs-meta,
+.tiptap pre .hljs-built_in,
+.tiptap pre .hljs-builtin-name,
+.tiptap pre .hljs-literal,
+.tiptap pre .hljs-type,
+.tiptap pre .hljs-params {
+  color: #fbbc88;
+}
+.tiptap pre .hljs-string,
+.tiptap pre .hljs-symbol,
+.tiptap pre .hljs-bullet {
+  color: #b9f18d;
+}
+.tiptap pre .hljs-title,
+.tiptap pre .hljs-section {
+  color: #faf594;
+}
+.tiptap pre .hljs-keyword,
+.tiptap pre .hljs-selector-tag {
+  color: #70cff8;
+}
+.tiptap pre .hljs-emphasis {
+  font-style: italic;
+}
+.tiptap pre .hljs-strong {
+  font-weight: 700;
+}
+.tiptap pre code {
+  color: inherit;
+  padding: 0;
+  background: none;
+  font-size: 0.8rem;
+}
+.tiptap blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid rgba(13, 13, 13, 0.1);
+}
+.tiptap hr {
+  border: none;
+  border-top: 2px solid rgba(13, 13, 13, 0.1);
+  margin: 2rem 0;
+}
+.tiptap .is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+.tiptap-focus {
+  border: 3px solid black;
+}
+
+.btn-editor.is-active {
+  border-bottom: 3px solid #365949 !important;
+}
+
+[contenteditable]:focus {
+  outline: 0px solid transparent;
+}
+
+.cursor-text {
+  cursor: text;
+}/*# sourceMappingURL=forum.css.map */
