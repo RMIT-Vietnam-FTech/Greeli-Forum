@@ -13,6 +13,9 @@ import Homepage from "./pages/Homepage/Homepage";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
 import GeneralPage from "./pages/generalPage/generalPage";
+import DashBoardPage from "./pages/DashBoardPage.jsx";
+import ThreadPage from "./pages/ThreadPage/ThreadPage.jsx";
+import PostPage from "./pages/PostPage/PostPage.jsx";
 function App() {
 	return (
 		<div className="App">
@@ -33,6 +36,11 @@ function App() {
 									element={<GeneralPage />}
 								/>
 								<Route path="/chat" element={<Chat />} />
+                <Route path="/forum">
+                  <Route index element={<DashBoardPage/>}/>
+                  <Route path="threads/:threadId" element={<ThreadPage />} />
+                  <Route path="posts/:postId" element={<PostPage />} />
+                </Route>
 							</Routes>
 						</div>
 						<Footer />

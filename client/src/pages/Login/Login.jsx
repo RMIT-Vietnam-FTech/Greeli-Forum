@@ -54,7 +54,7 @@ const Login = () => {
 				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
-				// seT user context
+				// set user context
 				setUser(JSON.stringify(result.data));
 			})
 			.catch((error) => {
