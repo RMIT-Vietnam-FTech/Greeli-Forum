@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import { FaNewspaper } from "react-icons/fa";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { IoChatbubbles } from "react-icons/io5";
+import { ThemeContext } from "../../context/ThemeContext";
+import { useUserContext } from "../../context/UserContext";
 import "../../scss/custom.css";
 import "../Homepage/style/main.css";
 import NewsData from "./data/new";
@@ -9,24 +11,28 @@ import Jumbotron from "./jumbotron";
 import NewList from "./newsItems";
 
 export default function Main() {
+	const { isDarkMode } = useContext(ThemeContext);
 	return (
 		<>
-			<main>
+			<main
+				className="bg-greeli-subtle"
+				data-bs-theme={isDarkMode ? "dark" : "light"}
+			>
 				{/* About Section */}
 				<section
-					className="p-4 bg-light-subtle mx-5 rounded-top-5"
+					className="p-4 bg-greeli-subtle mx-5 rounded-5"
 					id="about-section"
 				>
-					<div className="container my-5 mx-auto" id="about-section">
-						<div className="text-center rounded-5 px-4">
-							<h1 className="fw-bold display-3 pb-4">
+					<div className="container mt-5 mx-auto">
+						<div className="text-center px-4">
+							<h1 className="fw-bold display-3 pb-4 text-greeli-emphasis">
 								What is{" "}
-								<span className="text-primary-green">
+								<span className="text-primary-yellow">
 									Greeli
 								</span>
 								?
 							</h1>
-							<p className="col-lg-8 mx-auto fs-5 pb-4">
+							<p className="col-lg-8 mx-auto fs-5 pb-5 text-greeli-emphasis">
 								Lorem ipsum dolor sit amet consectetur
 								adipisicing elit. Quisquam consectetur totam
 								quibusdam animi nulla omnis deleniti aliquid!
@@ -38,9 +44,9 @@ export default function Main() {
 								officiis adipisci earum impedit minima itaque
 								quod non voluptatibus, modi tempora beatae?
 							</p>
-							<div className="d-inline-flex mb-4">
+							<div className="d-inline-flex">
 								<button
-									className="text-center text-white btn bg-primary-green-700 btn-lg px-5 py-3 rounded-pill fw-bold"
+									className="text-center text-white btn theme-button bg-primary-green-700 btn-lg px-5 py-3 rounded-pill fw-bold"
 									type="button"
 								>
 									Read more
@@ -113,7 +119,13 @@ export default function Main() {
 					<NewList className="p-4 bg-white mx-5" data={NewsData} />
 				</section>
 				{/* Recommend post Section End */}
+
+				{/* Jumbotron Section */}
+				<section>
+					<Jumbotron />
+				</section>
+				{/* Jumbotron Section End */}
 			</main>
 		</>
-	);
+	)
 }

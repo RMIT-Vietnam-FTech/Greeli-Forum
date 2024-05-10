@@ -8,7 +8,6 @@ function Homepage() {
 		<div className="App">
 			<HeroSection />
 			<Main />
-			<Jumbotron />
 		</div>
 	);
 }

@@ -5,11 +5,11 @@ import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import { Link } from "react-router-dom";
 import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import "../../scss/custom.css";
-
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
 };
@@ -110,7 +110,7 @@ const Register = () => {
 					<Image
 						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
 						width={120}
-						className="my-4"
+						className="my-2"
 						alt="Greeli Forum Logo"
 					/>
 					<form
@@ -265,13 +265,13 @@ const Register = () => {
 						</button>
 						<p className="mt-1 mb-3 text-center text-greeli-emphasis">
 							Have an account?{" "}
-							<a
-								href="/"
+							<Link
+								to="/"
 								className="text-primary-yellow"
 								style={{ textDecoration: "none" }}
 							>
 								Login
-							</a>
+							</Link>
 						</p>
 					</form>
 				</div>

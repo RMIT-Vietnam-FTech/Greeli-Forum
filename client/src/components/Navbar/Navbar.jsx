@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { IoMoon, IoSunny } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { ThemeContext } from "../../context/ThemeContext";
 import { UserContext, useUserContext } from "../../context/UserContext";
@@ -28,7 +28,7 @@ const Navbar = () => {
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<div className="container-fluid">
-				<button
+				{/* <button
 					className="navbar-toggler"
 					type="button"
 					data-bs-toggle="offcanvas"
@@ -39,7 +39,7 @@ const Navbar = () => {
 					<span className="text-greeli-emphasis">
 						<FiMoreVertical />
 					</span>
-				</button>
+				</button> */}
 				<Link className="brand d-flex" to="/">
 					<Image
 						className="me-0 me-md-3"
@@ -74,43 +74,57 @@ const Navbar = () => {
 					<div className="offcanvas-body">
 						<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
 							<li className="nav-item">
-								<Link
-									className="nav-link active text-greeli-emphasis"
+								<NavLink
+									activeClassname="active"
+									className="nav-link text-greeli-emphasis"
+									aria-current="page"
+									to="/"
+								>
+									Home
+								</NavLink>
+							</li>
+							<li className="nav-item">
+								<NavLink
+									activeClassname="active"
+									className="nav-link text-greeli-emphasis"
 									aria-current="page"
 									to="/general"
 								>
 									General
-								</Link>
+								</NavLink>
 							</li>
 							<li className="nav-item">
-								<Link
+								<NavLink
+									activeClassname="active"
 									className="nav-link text-greeli-emphasis"
-									to="/"
+									to="/forum"
 								>
 									Forum
-								</Link>
+								</NavLink>
 							</li>
 							<li className="nav-item">
-								<Link
+								<NavLink
+									activeClassname="active"
 									className="nav-link text-greeli-emphasis"
-									to="/general"
+									to="/about"
 								>
 									About
-								</Link>
+								</NavLink>
 							</li>
 							<li className="nav-item">
-								<a
+								<NavLink
+									activeClassname="active"
 									className="nav-link text-greeli-emphasis"
-									href="/"
+									to="/contact"
 								>
 									Contact
-								</a>
+								</NavLink>
 							</li>
 						</ul>
 					</div>
 				</div>
 
-				<div
+				{/* <div
 					className="offcanvas offcanvas-start offCanvasForum"
 					tabIndex="-1"
 					id="offcanvasForum"
@@ -167,12 +181,12 @@ const Navbar = () => {
 							</li>
 						</ul>
 					</div>
-				</div>
+				</div> */}
 
 				<div className="d-flex flex-row align-items-center gap-3">
-					<a className="nav-link" href="/">
+					<NavLink className="" to="/profile">
 						<FaUser className="icon text-greeli-emphasis" />
-					</a>
+					</NavLink>
 					<input
 						type="checkbox"
 						id="darkmode-toggle"
@@ -187,12 +201,15 @@ const Navbar = () => {
 						<IoMoon className="moon" />
 					</label>
 					{!user && (
-						<Link to="/login" className="login-button">
+						<Link to="/login" className="login-button theme-button">
 							Login
 						</Link>
 					)}
 					{user && (
-						<button className="login-button" onClick={logout}>
+						<button
+							className="login-button theme-button"
+							onClick={logout}
+						>
 							Logout
 						</button>
 					)}

@@ -11,10 +11,10 @@ export const SocketContextProvider = ({ children }) => {
 
 	useEffect(() => {
 		if (user) {
-			const socket = io("http://localhost:5000");
+			const socket = io("http://localhost:3000");
 			setSocket(socket);
 		}
-	});
+	}, []);
 
 	return (
 		<SocketContext.Provider value={{}}>{children}</SocketContext.Provider>
