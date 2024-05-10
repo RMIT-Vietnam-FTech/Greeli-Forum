@@ -48,7 +48,6 @@ app.use("/api/thread", threadRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/posts", postRoutes);
-
 app.use("/api/news", newsRoutes);
 
 /* CONNECT DATABASE AND RUN SERVER */
@@ -57,7 +56,7 @@ mongoose
 	.connect(process.env.MONGO_URL)
 	.then(() => {
 		server.listen(PORT, () => {
-			console.log(`SERVER IS RUNNING ON http://localhost:${PORT}`);
+			console.log(`SERVER IS RUNNING ON ${PORT}`);
 		});
 	})
 	.catch((error) => console.log(`${error}. SERVER IS NOT CONNECTING`));

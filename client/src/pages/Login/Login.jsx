@@ -51,6 +51,7 @@ const Login = () => {
 				console.log(result.data);
 				cookies.set("TOKEN", result.data.token, {
 					path: "/",
+					maxAge: 60 * 60 * 24 * 5,
 				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
@@ -88,7 +89,7 @@ const Login = () => {
 					<Image
 						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
 						width={120}
-						className="my-4"
+						className="my-2"
 						alt="Greeli Forum Logo"
 					/>
 					<form

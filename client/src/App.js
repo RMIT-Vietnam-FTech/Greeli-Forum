@@ -39,9 +39,10 @@ function App() {
 									element={<PostPage />}
 								/>
 							</Route>
-							</Routes>
-						</div>
-						<Footer />
+							<Route path="*" element={<Homepage />} />
+						</Routes>
+					</div>
+					<Footer />
 				</UserContextProvider>
 			</ThemeProvider>
 			{/* <SideBar /> */}
