@@ -1,15 +1,15 @@
 import React, { useContext } from "react";
 import Image from "react-bootstrap/Image";
-import Cookies from "universal-cookie";
 import { FaUser } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { IoMoon, IoSunny } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
-import "../../scss/custom.css";
-import { ThemeContext } from "../../context/ThemeContext";
-import "./custom.css";
-import { UserContext, useUserContext } from "../../context/UserContext";
 import { Link } from "react-router-dom";
+import Cookies from "universal-cookie";
+import { ThemeContext } from "../../context/ThemeContext";
+import { UserContext, useUserContext } from "../../context/UserContext";
+import "../../scss/custom.css";
+import "./custom.css";
 
 const Navbar = () => {
 	const cookies = new Cookies();

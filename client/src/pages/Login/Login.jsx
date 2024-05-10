@@ -5,11 +5,11 @@ import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import * as Yup from "yup";
 import Cookies from "universal-cookie";
-import "../../scss/custom.css";
+import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
+import "../../scss/custom.css";
 
 // import "./sass/custom.css";
 
