@@ -54,7 +54,7 @@ const BasicInfo = (props) => {
 					<input
 						type="text"
 						className="col-9"
-						value={props.info}
+						value={props.basicInfo[props.type]}
 						onChange={editInfoHandler}
 					/>
 					<button
@@ -71,7 +71,7 @@ const BasicInfo = (props) => {
 			<div className="container w-100 text-white info-item">
 				<div className="row">
 					<div className="col-1">{iconArray[props.id]}</div>
-					<p className="col-9">{props.info}</p>
+					<p className="col-9">{props.basicInfo[props.type]}</p>
 					<p className="col-2" onClick={() => { setIsEditing(true) }}>Edit</p>
 				</div>
 			</div>

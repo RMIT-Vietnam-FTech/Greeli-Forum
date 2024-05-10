@@ -36,10 +36,10 @@ const Profile = () => {
 						<h2 className="fs-4 text-white border-bottom border-white fw-light">
 							Basic Setting
 						</h2>
-						<BasicInfo id={0} type="email" info={basicInfo.email} setBasicInfo={setBasicInfo} />
-						<BasicInfo id={1} type="tel" info={basicInfo.tel} setBasicInfo={setBasicInfo} />
-						<BasicInfo id={2} type="address" info={basicInfo.address} setBasicInfo={setBasicInfo} />
-						<BasicInfo id={3} type="gender" info={basicInfo.gender} setBasicInfo={setBasicInfo} />
+						<BasicInfo id={0} type="email" basicInfo={basicInfo} setBasicInfo={setBasicInfo} />
+						<BasicInfo id={1} type="tel" basicInfo={basicInfo} setBasicInfo={setBasicInfo} />
+						<BasicInfo id={2} type="address" basicInfo={basicInfo} setBasicInfo={setBasicInfo} />
+						<BasicInfo id={3} type="gender" basicInfo={basicInfo} setBasicInfo={setBasicInfo} />
 					</div>
 
 					{/* Account Setting Section */}

@@ -26,6 +26,7 @@ function App() {
 							<Route path="/login" element={<Login />} />
 							<Route path="/register" element={<Register />} />
 							<Route path="/general" element={<GeneralPage />} />
+							<Route path="/profile" element={<Profile />} />
 							<Route path="/chat" element={<Chat />} />
 							<Route path="/forum">
 								<Route index element={<DashBoardPage />} />
