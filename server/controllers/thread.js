@@ -9,72 +9,43 @@ export const createThread = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
-export const getThreads = async (req, res)=>{
-	try{
-		
-	}
-	catch(error){
+export const getThreads = async (req, res) => {
+	try {
+	} catch (error) {}
+};
 
-	}
-}
+export const getThread = async (req, res) => {
+	try {
+	} catch (error) {}
+};
 
-export const getThread = async (req, res)=>{
-	try{
-		
-	}
-	catch(error){
-
-	}
-}
-
-export const modifyThreadContent = async (req, res)=>{
+export const modifyThreadContent = async (req, res) => {
 	//for thread admin only
-	try{
+	try {
+	} catch (error) {}
+};
 
-	}
-	catch(error){
+export const getThreadRules = async (req, res) => {
+	try {
+	} catch (error) {}
+};
 
-	}
-}
-
-export const getThreadRules = async (req, res)=>{
-	try{
-
-	}
-	catch(error){
-
-	}
-}
-
-export const createThreadRule = async (req, res)=>{
+export const createThreadRule = async (req, res) => {
 	//for thread admin only
-	try{
+	try {
+	} catch (error) {}
+};
 
-	}
-	catch(error){
-
-	}
-}
-
-export const modifyThreadRule = async (req, res)=>{
+export const modifyThreadRule = async (req, res) => {
 	//for thread admin only
-	try{
+	try {
+	} catch (error) {}
+};
 
-	}
-	catch(error){
-
-	}
-}
-
-export const deleteThreadRule = async (req, res)=>{
+export const deleteThreadRule = async (req, res) => {
 	//for thread admin only
-	try{
-
-	}
-	catch(error){
-
-	}
-}
+	try {
+	} catch (error) {}
+};
 import dotenv from "dotenv";
 dotenv.config();
-

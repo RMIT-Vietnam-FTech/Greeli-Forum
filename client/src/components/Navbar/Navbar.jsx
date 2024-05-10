@@ -28,7 +28,7 @@ const Navbar = () => {
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<div className="container-fluid">
-				<button
+				{/* <button
 					className="navbar-toggler"
 					type="button"
 					data-bs-toggle="offcanvas"
@@ -39,7 +39,7 @@ const Navbar = () => {
 					<span className="text-greeli-emphasis">
 						<FiMoreVertical />
 					</span>
-				</button>
+				</button> */}
 				<Link className="brand d-flex" to="/">
 					<Image
 						className="me-0 me-md-3"
@@ -73,6 +73,16 @@ const Navbar = () => {
 					</div>
 					<div className="offcanvas-body">
 						<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
+							<li className="nav-item">
+								<NavLink
+									activeClassname="active"
+									className="nav-link text-greeli-emphasis"
+									aria-current="page"
+									to="/"
+								>
+									Home
+								</NavLink>
+							</li>
 							<li className="nav-item">
 								<NavLink
 									activeClassname="active"
@@ -114,7 +124,7 @@ const Navbar = () => {
 					</div>
 				</div>
 
-				<div
+				{/* <div
 					className="offcanvas offcanvas-start offCanvasForum"
 					tabIndex="-1"
 					id="offcanvasForum"
@@ -171,12 +181,12 @@ const Navbar = () => {
 							</li>
 						</ul>
 					</div>
-				</div>
+				</div> */}
 
 				<div className="d-flex flex-row align-items-center gap-3">
-					<a className="nav-link" href="/">
+					<NavLink className="" to="/profile">
 						<FaUser className="icon text-greeli-emphasis" />
-					</a>
+					</NavLink>
 					<input
 						type="checkbox"
 						id="darkmode-toggle"

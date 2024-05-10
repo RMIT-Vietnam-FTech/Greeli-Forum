@@ -18,7 +18,7 @@ export const createMessage = async (req, res) => {
 
 // getMessage
 export const getMessages = async (req, res) => {
-	const { chatId } = req.params;
+	const chatId = req.params.chatId;
 	try {
 		const messages = await Message.find({ chatId });
 		res.status(200).json(messages);

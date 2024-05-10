@@ -10,12 +10,12 @@ const newsSchema = new mongoose.Schema(
 			username: {
 				type: String,
 				required: true,
-			}
+			},
 		},
 		content: {
 			type: String,
 			required: true,
-		}
+		},
 	},
 	{ timestamps: true },
 );

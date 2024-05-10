@@ -1,11 +1,12 @@
 import React, { createContext, useContext, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer/footer";
 import MessageContainer from "./components/Message/MessageContainer.jsx";
+import Footer from "./components/Footer/footer";
+import MessageContainer from "./components/Message/MessageContainer.jsx";
 import Navbar from "./components/Navbar/Navbar";
-import SideBar from "./components/SideBar/SideBar.jsx";
-import { SocketContextProvider } from "./context/SocketContext.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
 import Chat from "./pages/Chat/Chat";
@@ -17,24 +18,29 @@ import PostPage from "./pages/PostPage/PostPage.jsx";
 import Profile from "./pages/Profile/Profile";
 import ThreadPage from "./pages/ThreadPage/ThreadPage.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
+import GeneralPage from "./pages/generalPage/generalPage";
 function App() {
 	return (
 		<div className="App">
 			<ThemeProvider>
 				<UserContextProvider>
-					<SocketContextProvider>
-						<Navbar />
-						<div className="h-100" style={{ marginTop: "80px" }}>
-							<Routes>
-								<Route path="/" element={<Homepage />} />
-								<Route path="/login" element={<Login />} />
+					<Navbar />
+					<div className="h-100" style={{ marginTop: "80px" }}>
+						<Routes>
+							<Route path="/" element={<Homepage />} />
+							<Route path="/login" element={<Login />} />
+							<Route path="/register" element={<Register />} />
+							<Route path="/general" element={<GeneralPage />} />
+							<Route path="/chat" element={<Chat />} />
+							<Route path="/forum">
+								<Route index element={<DashBoardPage />} />
 								<Route
-									path="/register"
-									element={<Register />}
+									path="threads/:threadId"
+									element={<ThreadPage />}
 								/>
 								<Route
-									path="/general"
-									element={<GeneralPage />}
+									path="posts/:postId"
+									element={<PostPage />}
 								/>
 								<Route path="/profile" element={<Profile />} />
 								<Route path="/chat" element={<Chat />} />
