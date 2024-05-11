@@ -14,40 +14,36 @@ import Register from "./pages/Login/Register";
 import PostPage from "./pages/PostPage/PostPage.jsx";
 import ThreadPage from "./pages/ThreadPage/ThreadPage.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
+import Contact from "./pages/ContactPage/Contact.jsx";
 function App() {
 	return (
-		<div className="App">
-			<ThemeProvider>
-				<UserContextProvider>
-					<Navbar />
-					<div className="h-100" style={{ marginTop: "80px" }}>
-						<Routes>
-							<Route path="/" element={<Homepage />} />
-							<Route path="/login" element={<Login />} />
-							<Route path="/register" element={<Register />} />
-							<Route path="/general" element={<GeneralPage />} />
-							<Route path="/chat" element={<Chat />} />
-							<Route path="/forum">
-								<Route index element={<DashBoardPage />} />
-								<Route
-									path="threads/:threadId"
-									element={<ThreadPage />}
-								/>
-								<Route
-									path="posts/:postId"
-									element={<PostPage />}
-								/>
-							</Route>
-							<Route path="*" element={<Homepage />} />
-						</Routes>
-					</div>
-					<Footer />
-				</UserContextProvider>
-			</ThemeProvider>
-			{/* <SideBar /> */}
-			{/* <MessageContainer /> */}
-		</div>
-	);
+    <div className="App">
+      <ThemeProvider>
+        <UserContextProvider>
+          <Navbar />
+          <div className="h-100" style={{ marginTop: "80px" }}>
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/general" element={<GeneralPage />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/forum">
+                <Route index element={<DashBoardPage />} />
+                <Route path="threads/:threadId" element={<ThreadPage />} />
+                <Route path="posts/:postId" element={<PostPage />} />
+              </Route>
+              <Route path="*" element={<Homepage />} />
+            </Routes>
+          </div>
+          <Footer />
+        </UserContextProvider>
+      </ThemeProvider>
+      {/* <SideBar /> */}
+      {/* <MessageContainer /> */}
+    </div>
+  );
 }
 
 export default App;
