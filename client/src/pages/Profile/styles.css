@@ -101,3 +101,19 @@
 .main-content {
   font-size: 1vw;
 }
+
+/* Edit Profile Button */
+.btn-edit-container button {
+  font-size: 3vw;
+}
+
+/* Responsiveness */
+/* @media only screen and (max-width: 992px) {
+  .right-part {
+    display: none;
+  }
+} */
+
+.btn-edit-container {
+  width: 30%;
+}

@@ -23,7 +23,7 @@ const Profile = () => {
 				<Toaster />
 			</div>
 			<div className="row full-height">
-				<div className="d-flex flex-column justify-content-between p-5 pb-0 col-7 full-height overflow-hidden">
+				<div className="d-flex flex-column justify-content-between p-5 pb-0 col-12 col-lg-7 full-height overflow-hidden">
 					<ProfileShow
 						userName={user.userName}
 						role={user.role}
@@ -31,9 +31,12 @@ const Profile = () => {
 						postsNum={user.postsNum}
 						joinedDate={user.joinedDate}
 					/>
+					<div className="mt-3"><div className="btn-edit-container d-flex justify-content-center"><button className="d-lg-none py-1 px-3 bg-primary-yellow text-white text-center rounded-pill">
+						Edit Profile
+					</button></div></div>
 					<PostsGallery profilePosts={user.profilePosts} />
 				</div>
-				<div className="d-flex flex-column justify-content-between py-5 px-5 col-5 full-height">
+				<div className="d-lg-flex d-none flex-column justify-content-between py-5 px-5 col-5 full-height right-part">
 					{/* Basic Setting Section */}
 					<div>
 						<h2 className="fs-4 text-white border-bottom border-white fw-light">
