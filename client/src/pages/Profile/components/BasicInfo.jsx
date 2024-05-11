@@ -1,52 +1,48 @@
+import { useState } from "react";
+import toast from "react-hot-toast";
 import {
+	MdCheckCircle,
 	MdEmail,
 	MdLocationOn,
 	MdOutlineTransgender,
 	MdPhone,
-	MdCheckCircle
 } from "react-icons/md";
-import { useState } from "react";
-import toast from "react-hot-toast";
 
 const BasicInfo = (props) => {
 	const [isEditing, setIsEditing] = useState(false);
 
 	const editInfoHandler = (event) => {
 		const newInput = event.target.value;
-		props.setBasicInfo(preVal => {
+		props.setBasicInfo((preVal) => {
 			if (props.type === "email") {
 				return {
 					...preVal,
-					email: newInput
-				}
+					email: newInput,
+				};
 			} else if (props.type === "tel") {
 				return {
 					...preVal,
-					tel: newInput
-				}
-			}
-			else if (props.type === "address") {
+					tel: newInput,
+				};
+			} else if (props.type === "address") {
 				return {
 					...preVal,
-					address: newInput
-				}
-			}
-			else if (props.type === "gender") {
+					address: newInput,
+				};
+			} else if (props.type === "gender") {
 				return {
 					...preVal,
-					gender: newInput
-				}
+					gender: newInput,
+				};
 			}
-		}
-		);
-
-	}
+		});
+	};
 
 	const iconArray = [
-		<MdEmail size={"2vw"}/>,
-		<MdPhone size={"2vw"}/>,
-		<MdLocationOn size={"2vw"}/>,
-		<MdOutlineTransgender size={"2vw"}/>,
+		<MdEmail size={"2vw"} />,
+		<MdPhone size={"2vw"} />,
+		<MdLocationOn size={"2vw"} />,
+		<MdOutlineTransgender size={"2vw"} />,
 	];
 	if (isEditing) {
 		return (
@@ -58,13 +54,22 @@ const BasicInfo = (props) => {
 						className="col-8 px-2"
 						value={props.basicInfo[props.type]}
 						onChange={editInfoHandler}
-						style={{border: "solid white 1px",
+						style={{
+							border: "solid white 1px",
 							borderRadius: "4px",
-						backgroundColor: "transparent", /* Make input background transparent */
-						color: "white" /* Text color */}}
+							backgroundColor:
+								"transparent" /* Make input background transparent */,
+							color: "white" /* Text color */,
+						}}
 					/>
-					<MdCheckCircle size={"2vw"} className="col-2"
-						onClick={() => { setIsEditing(false); toast.success("Info Updated") }} />
+					<MdCheckCircle
+						size={"2vw"}
+						className="col-2"
+						onClick={() => {
+							setIsEditing(false);
+							toast.success("Info Updated");
+						}}
+					/>
 				</div>
 			</div>
 		);
@@ -74,9 +79,16 @@ const BasicInfo = (props) => {
 				<div className="row w-100">
 					<div className="col-1">{iconArray[props.id]}</div>
 					<p className="col-9">{props.basicInfo[props.type]}</p>
-					<p className="col-2" onClick={() => { setIsEditing(true) }}>Edit</p>
+					<p
+						className="col-2"
+						onClick={() => {
+							setIsEditing(true);
+						}}
+					>
+						Edit
+					</p>
 				</div>
-			</div >
+			</div>
 		);
 	}
 };

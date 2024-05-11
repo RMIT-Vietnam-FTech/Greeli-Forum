@@ -29,9 +29,7 @@ const PostItem = (props) => {
 								alt="author"
 							/>
 							<div className="d-flex flex-column justify-content-center">
-								<div
-									className="w-100 d-flex flex-row justify-content-around"
-								>
+								<div className="w-100 d-flex flex-row justify-content-around">
 									<p className="text-primary-yellow fw-bold m-0">
 										{thread}/{title}
 									</p>
@@ -45,7 +43,10 @@ const PostItem = (props) => {
 						<p className="text-white mt-3">{content}</p>
 						<div className="d-flex justify-content-start interaction-menu">
 							<div className="bg-primary-green-900 text-white d-flex flex-row justify-content-around align-items-center py-2 upvote">
-								<TbArrowBigUpFilled size={"2vw"} color={"white"} />
+								<TbArrowBigUpFilled
+									size={"2vw"}
+									color={"white"}
+								/>
 								<p className="p-0 m-0">{upvote}</p>
 								<TbArrowBigDown size={"2vw"} color={"white"} />
 							</div>
@@ -60,7 +61,11 @@ const PostItem = (props) => {
 						</div>
 					</div>
 					<div className="position-relative col-3">
-						<img className="post-img position-absolute my-auto" src={postImgURL} alt="post" />
+						<img
+							className="post-img position-absolute my-auto"
+							src={postImgURL}
+							alt="post"
+						/>
 					</div>
 				</div>
 			</div>

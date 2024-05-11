@@ -73,6 +73,7 @@ $custom-colors-text: (
 	"greeli": #000000,
 	"login": #365949,
 	"general": #000000,
+	"error": #365949,
 );
 $custom-colors-bg-subtle: (
 	"greeli": #f9fafb,
@@ -95,6 +96,7 @@ $custom-colors-text-dark: (
 	"greeli": #ffffff,
 	"login": #dcb968,
 	"general": #dcb968,
+	"error": #ffffff,
 );
 $custom-colors-bg-subtle-dark: (
 	"nav": #000000,
@@ -160,9 +162,6 @@ $link-hover-color: #0056b3;
 $body-color: #212529;
 
 // Bootstrap Typography Customization
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
 
 // Apply Custom Typography
 body {
@@ -226,6 +225,14 @@ a {
 
 .text-general-emphasis {
 	color: var(--bs-general-text-emphasis) !important;
+}
+
+.text-error-emphasis {
+	color: var(--bs-error-text-emphasis) !important;
+}
+
+.border-error {
+	border: 1px solid var(--bs-login-text-emphasis) !important;
 }
 
 .bg-greeli-subtle {
