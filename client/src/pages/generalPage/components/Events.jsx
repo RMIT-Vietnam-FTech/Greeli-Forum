@@ -10,11 +10,11 @@ const Card = ({ image, title, description, date, event }) => {
 	return (
 		<div className="card">
 			<img src={image} className="card-img-top" alt={title} />
-			<div className="cards-body">
+			<div className="events-cards-body">
 				<h5 className="card-title">{title}</h5>
 				<p className="card-text">{description}</p>
 				<p className="card-date">
-					<small className="text-muted">{date}</small>
+					<small className="date">{date}</small>
 				</p>
 			</div>
 		</div>

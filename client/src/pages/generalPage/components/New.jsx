@@ -203,7 +203,7 @@ const Card = ({ image, topic, title, description, userImage, userName, url }) =>
 			<img className="card-img-top" src={image || "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"} alt="News" style={{ height: "200px", objectFit: "cover" }} />
 			<div className="cards-body">
 				<h6>{topic}</h6>
-				<h4>{title}</h4>
+				<h4>{truncateText(title, 50)}</h4>
 				<p>{truncateText(description, 100)}</p>
 				<div className="user-info">
 					<img
@@ -395,13 +395,13 @@ export default function News() {
 				{loading ? (
 					<button class="btn btn-primary" type="button" disabled>
 						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-						Loading...
+						‎ Loading...
 					</button>
 				) : error ? (
 					<p>{error}</p>
 				) : (
 					<section className="newsContainer">
-						<div onWheel={handleWheel}>
+						<div onWheel={handleWheel} className={`${isDarkMode ? 'darkTheme' : ''}`}>
 							<Slider ref={sliderRef} {...settings} className="slider">
 								{newsData.map((item, index) => (
 									<Card
