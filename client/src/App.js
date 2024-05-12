@@ -15,6 +15,7 @@ import PostPage from "./pages/PostPage/PostPage.jsx";
 import ThreadPage from "./pages/ThreadPage/ThreadPage.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
 import Contact from "./pages/ContactPage/Contact.jsx";
+import Header from "../src/pages/Homepage/component/header.jsx"
 function App() {
 	return (
     <div className="App">
@@ -22,7 +23,7 @@ function App() {
         <UserContextProvider>
           <Navbar />
           <div className="h-100" style={{ marginTop: "80px" }}>
-            <Routes>
+            {/* <Routes>
               <Route path="/" element={<Homepage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -35,7 +36,8 @@ function App() {
                 <Route path="posts/:postId" element={<PostPage />} />
               </Route>
               <Route path="*" element={<Homepage />} />
-            </Routes>
+            </Routes> */}
+            {/* <Header /> */}
           </div>
           <Footer />
         </UserContextProvider>
