@@ -8,10 +8,12 @@ export default function HeroSection() {
       <header>
         {/* This div creates the transparent overlay over the video. */}
         <div className="overlay" />
+
         {/* This is video for the background. */}
-        <video className="header-video" autoPlay loop>
+        <video className="header-video" autoPlay unmuted loop>
           <source src="Forest.mp4" type="video/mp4" />
         </video>
+        
         {/* text content */}
         <div className="container d-flex h-100 text-center align-items-center">
           {/* <div className="d-flex h-100 text-center align-items-center"> */}
