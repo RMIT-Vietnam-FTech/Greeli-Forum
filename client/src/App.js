@@ -10,6 +10,7 @@ import { UserContextProvider } from "./context/UserContext.jsx";
 import { SocketContextProvider } from "./context/SocketContext.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
 import { Routes, Route, Navigate } from "react-router-dom";
+
 function App() {
 	return (
 		<div className="App">
