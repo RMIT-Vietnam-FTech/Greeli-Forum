@@ -1,5 +1,11 @@
 import React, { useState, useContext } from "react";
 
-const Main = () => {}
+
+const Main = () => {
+    return (
+        <>
+        </>
+    )
+}
 
 export default Main;
