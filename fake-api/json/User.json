@@ -1,0 +1,35 @@
+[
+  {
+    "_id": "63f6bad5-33d9-4218-aada-38f7e486be3f",
+    "username": "user1",
+    "email": "user1@gmail.com",
+    "password": "user1$%^",
+    "phone": 802179703,
+    "location": "443 Nguyễn Thị Thập, Phường Tân Phong, Quận 7, TP HCM",
+    "gender": "male",
+    "profileImage": null,
+    "isActivated": true
+  },
+  {
+    "_id": "85f52b16-8c6d-417b-b6d2-df169c22ec25",
+    "username": "user2",
+    "email": "user2@gmail.com",
+    "password": "user2$%^",
+    "phone": 705183704,
+    "location": "443 Nguyễn Thị Thập, Phường Tân Phong, Quận 7, TP HCM",
+    "gender": "male",
+    "profileImage": "https://scontent-hkg1-2.xx.fbcdn.net/v/t39.30808-6/437606937_3612498772307045_273187250664696315_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeHb89Xbtpcl4v5J2WZ7q2h_mkEX1pCl8KaaQRfWkKXwplXKPcxBFxKUEAyZg_bYuL-fiiMQsM8h3hCkV5fMWYT2&_nc_ohc=hl9yg2uAOhUQ7kNvgFoCBZq&_nc_ht=scontent-hkg1-2.xx&oh=00_AfDpZSQzmznKugDeEj1Cu0mGkpdbqfStKZbUkA4dEwlM8g&oe=66399206",
+    "isActivated": true
+  },
+  {
+    "_id": "439ea295-4b01-4664-a213-bbb908efda5e",
+    "username": "user3",
+    "email": "user3@gmail.com",
+    "password": "user3$%^",
+    "phone": 606423706,
+    "location": "443 Nguyễn Thị Thập, Phường Tân Phong, Quận 7, TP HCM",
+    "gender": "male",
+    "profileImage": "https://scontent-hkg4-1.xx.fbcdn.net/v/t1.6435-1/111112726_975766876189942_8939912075759162480_n.jpg?stp=dst-jpg_p480x480&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGADP4zo6K-PrEMelsLKA_SxodS2ZBrZZ3Gh1LZkGtlnVtENJGXDWEdWpnSSdfYvETu6osq992rv7m9JuiVoqZN&_nc_ohc=xCCHpNIx4woQ7kNvgH197in&_nc_ht=scontent-hkg4-1.xx&oh=00_AfCpz4yDT8nGGOo9PebZCP2ew71Dp2mgAjclW7TkPilrQA&oe=665B1A31",
+    "isActivated": true
+  }
+]

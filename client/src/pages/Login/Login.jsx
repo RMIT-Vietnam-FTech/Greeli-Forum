@@ -5,11 +5,12 @@ import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import { FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import * as Yup from "yup";
+import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
-import "../../scss/custom.css";
+import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
+import "../../scss/custom.css";
 
 // import "./sass/custom.css";
 
@@ -50,11 +51,12 @@ const Login = () => {
 				console.log(result.data);
 				cookies.set("TOKEN", result.data.token, {
 					path: "/",
+					maxAge: 60 * 60 * 24 * 5,
 				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
-				// seT user context
-				setUser(result.data);
+				// set user context
+				setUser(JSON.stringify(result.data));
 			})
 			.catch((error) => {
 				console.log(error.response.data.error);
@@ -87,7 +89,7 @@ const Login = () => {
 					<Image
 						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
 						width={120}
-						className="my-4"
+						className="my-2"
 						alt="Greeli Forum Logo"
 					/>
 					<form
@@ -187,13 +189,13 @@ const Login = () => {
 						</button>
 						<p className="mt-1 mb-3 text-center text-greeli-emphasis">
 							Don't have an account?{" "}
-							<a
-								href="/"
+							<Link
+								to="/register"
 								className="text-primary-yellow"
 								style={{ textDecoration: "none" }}
 							>
 								Register
-							</a>
+							</Link>
 						</p>
 					</form>
 				</div>

@@ -316,12 +316,21 @@ export default function News() {
 
 	return (
 		<>
-			<section className="news bg-greeli-subtle" data-bs-theme={isDarkMode ? "dark" : "light"}>
-				<h4 className="popularNews text-general-emphasis">POPULAR NEWS</h4>
+			<section
+				className="news bg-greeli-subtle"
+				data-bs-theme={isDarkMode ? "dark" : "light"}
+			>
+				<h4 className="popularNews text-general-emphasis">
+					POPULAR NEWS
+				</h4>
 				{isMobile ? (
 					<div className="dropdown mt-2">
 						<button
-							className={`${isDarkMode ? 'btn btn-secondary dropdown-toggle rounded-pill bg-primary-green-900 text-primary-yellow active' : 'btn btn-secondary dropdown-toggle rounded-pill bg-light text-primary-green active'}`}
+							className={`${
+								isDarkMode
+									? "btn btn-secondary dropdown-toggle rounded-pill bg-primary-green-900 text-primary-yellow active"
+									: "btn btn-secondary dropdown-toggle rounded-pill bg-light text-primary-green active"
+							}`}
 							type="button"
 							data-bs-toggle="dropdown"
 							aria-expanded="false"
