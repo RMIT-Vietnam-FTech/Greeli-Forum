@@ -82,7 +82,9 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "1.7.0",
+    "@biomejs/biome": "1.7.3",
+    "install": "0.13.0",
+    "npm": "10.7.0",
     "sass": "^1.76.0"
   }
 }
