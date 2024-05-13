@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const commentSchema = new mongoose.Schema({
+	parentId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Comment",
+		default: null,
+	},
 	content: {
 		type: String,
 		required: true,
@@ -14,7 +19,7 @@ const commentSchema = new mongoose.Schema({
 			type: String,
 			required: true,
 		},
-		userImage: {
+		profileImage: {
 			type: String,
 			required: true,
 		},

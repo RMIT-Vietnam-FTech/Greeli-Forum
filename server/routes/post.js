@@ -1,5 +1,6 @@
-import multer from "multer";
 import express from "express";
+import multer from "multer";
+import { createPost, getPosts } from "../controllers/post.js";
 import * as PostController from "../controllers/post.js";
 import { verifyToken } from "../middleware/auth.js";
 const storage = multer.memoryStorage();
@@ -28,7 +29,7 @@ const router = express.Router();
 router
 	.route("/")
 	.get(PostController.getPosts)
-	.post(verifyToken, PostController.createPost);
+	.post(verifyToken, upload.single("uploadFile"), PostController.createPost);
 
 router
 	.route("/:postId")

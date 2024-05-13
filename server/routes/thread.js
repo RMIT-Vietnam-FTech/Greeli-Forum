@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-import { createThread } from "../controllers/thread.js";
+import * as threadController from "../controllers/thread.js";
 import { verifyToken } from "../middleware/auth.js";
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -24,5 +24,12 @@ const upload = multer({
 });
 const router = express.Router();
 
-router.post("/create", createThread);
+router
+	.route("/")
+	.get()
+	.post(
+		verifyToken,
+		upload.single("uploadFile"),
+		threadController.createThread,
+	);
 export default router;
