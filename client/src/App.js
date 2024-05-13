@@ -4,6 +4,7 @@ import "./App.css";
 import RequireAuth from "./components/Auth/RequireAuth.jsx";
 import Footer from "./components/Footer/footer";
 import Navbar from "./components/Navbar/Navbar";
+import LoginPopup from "./components/Popup/LoginPopup.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
 import Chat from "./pages/Chat/Chat";

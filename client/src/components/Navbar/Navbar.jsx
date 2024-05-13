@@ -4,7 +4,7 @@ import { FaUser } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { IoMoon, IoSunny } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { ThemeContext } from "../../context/ThemeContext";
 import { UserContext, useUserContext } from "../../context/UserContext";
@@ -13,6 +13,7 @@ import "./custom.css";
 
 const Navbar = () => {
 	const cookies = new Cookies();
+	const navigate = useNavigate();
 	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
 	const { user, setUser, toggleUserInfo } = useUserContext();
 	const userId = JSON.parse(user)?.id || null;
@@ -23,6 +24,7 @@ const Navbar = () => {
 		localStorage.removeItem("user");
 		cookies.remove("TOKEN", { path: "/" });
 		setUser(null);
+		navigate("/", { replace: true });
 	};
 	return (
 		<nav

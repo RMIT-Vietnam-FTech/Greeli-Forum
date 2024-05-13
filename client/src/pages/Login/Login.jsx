@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState, useContext } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
-import { FaKey, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -12,12 +12,11 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
 import "../../scss/custom.css";
 
-// import "./sass/custom.css";
-
 const Login = () => {
 	const { user, setUser } = useUserContext();
 	const navigate = useNavigate();
 	const location = useLocation();
+	const { isDarkMode } = useContext(ThemeContext);
 	const from = location.state?.from?.pathname || "/";
 	const cookies = new Cookies();
 	const backgroundImage = 'url("LoginBackground.png")';
@@ -30,7 +29,7 @@ const Login = () => {
 			.email("Email is invalid"),
 		password: Yup.string()
 			.required("Password is required")
-			.min(8, "Password must be at least 6 characters")
+			.min(6, "Password must be at least 6 characters")
 			.max(40, "Password must not exceed 40 characters"),
 	});
 
@@ -55,8 +54,7 @@ const Login = () => {
 				console.log(result.data);
 				cookies.set("TOKEN", result.data.token, {
 					path: "/",
-					maxAge: 60 * 60 * 24 * 5,
-					httpOnly: true,
+					maxAge: 60 * 60 * 24 * 3,
 				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
@@ -83,7 +81,6 @@ const Login = () => {
 		}
 	};
 
-	const { isDarkMode } = useContext(ThemeContext);
 	return (
 		<main
 			className="container-fluid login"
@@ -169,8 +166,9 @@ const Login = () => {
 									{...register("password")}
 									className="form-control"
 									id="floatingPassword"
-									placeholder="password correct"
+									placeholder="password"
 									value={password}
+									autoComplete="on"
 									onChange={(e) =>
 										setPassword(e.target.value)
 									}
