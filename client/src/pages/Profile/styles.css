@@ -108,11 +108,11 @@
 }
 
 /* Responsiveness */
-/* @media only screen and (max-width: 992px) {
-  .right-part {
-    display: none;
+@media only screen and (max-width: 992px) {
+  .main-content {
+    font-size: 3vw;
   }
-} */
+}
 
 .btn-edit-container {
   width: 30%;
