@@ -3,9 +3,9 @@ import axios from "axios";
 import React, { useState, useContext } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
-import { FaKey, FaUser } from "react-icons/fa";
+import { FaKey, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -16,10 +16,14 @@ import "../../scss/custom.css";
 
 const Login = () => {
 	const { user, setUser } = useUserContext();
+	const navigate = useNavigate();
+	const location = useLocation();
+	const from = location.state?.from?.pathname || "/";
 	const cookies = new Cookies();
 	const backgroundImage = 'url("LoginBackground.png")';
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
 	const loginSchema = Yup.object().shape({
 		email: Yup.string()
 			.required("Email is required")
@@ -52,11 +56,13 @@ const Login = () => {
 				cookies.set("TOKEN", result.data.token, {
 					path: "/",
 					maxAge: 60 * 60 * 24 * 5,
+					httpOnly: true,
 				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
 				// set user context
 				setUser(JSON.stringify(result.data));
+				navigate(from, { replace: true });
 			})
 			.catch((error) => {
 				console.log(error.response.data.error);
@@ -67,6 +73,14 @@ const Login = () => {
 		login();
 		setEmail("");
 		setPassword("");
+	};
+
+	const showPasswordButton = () => {
+		if (showPassword) {
+			setShowPassword(false);
+		} else {
+			setShowPassword(true);
+		}
 	};
 
 	const { isDarkMode } = useContext(ThemeContext);
@@ -95,6 +109,7 @@ const Login = () => {
 					<form
 						className="mt-4 mx-3 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
+						aria-label="login form"
 					>
 						<div
 							className={
@@ -106,7 +121,7 @@ const Login = () => {
 							<span className="input-group-text">
 								<MdEmail className="text-login-emphasis" />
 							</span>
-							<div className="form-floating">
+							<div className="form-floating" role="email input">
 								<input
 									name="email"
 									type="text"
@@ -126,7 +141,7 @@ const Login = () => {
 							</div>
 						</div>
 						{errors.email && (
-							<p className="error text-start">
+							<p className="error text-start" tabIndex={0}>
 								{errors.email.message}
 							</p>
 						)}
@@ -137,17 +152,23 @@ const Login = () => {
 									: "input-group mb-4"
 							}
 						>
-							<span className="input-group-text">
-								<FaKey className="text-login-emphasis" />
+							<span
+								className="input-group-text"
+								aria-label="email address icon"
+							>
+								<FaKey
+									className="text-login-emphasis"
+									alt="email address icon"
+								/>
 							</span>
 							<div className="form-floating">
 								<input
 									name="password"
-									type="password"
+									type={showPassword ? "text" : "password"}
 									{...register("password")}
 									className="form-control"
 									id="floatingPassword"
-									placeholder="password"
+									placeholder="password correct"
 									value={password}
 									onChange={(e) =>
 										setPassword(e.target.value)
@@ -155,14 +176,22 @@ const Login = () => {
 								/>
 								<label
 									for="floatingPassword"
-									className="text-greeli-emphasis"
+									className="password text-greeli-emphasis"
 								>
 									Password
 								</label>
 							</div>
+							<span
+								className="input-group-text text-login-emphasis"
+								onClick={showPasswordButton}
+								aria-label="show password button"
+								role="button"
+							>
+								{showPassword ? <FaEye /> : <FaEyeSlash />}
+							</span>
 						</div>
 						{errors.password && (
-							<p className="error text-start mt-1">
+							<p className="error text-start mt-1" tabIndex={0}>
 								{errors.password.message}
 							</p>
 						)}
@@ -172,6 +201,8 @@ const Login = () => {
 								type="checkbox"
 								value="remember-me"
 								id="flexCheckDefault"
+								aria-checked="true"
+								role="checkbox"
 								checked
 							/>
 							<label
