@@ -52,6 +52,7 @@ const Login = () => {
 				cookies.set("TOKEN", result.data.token, {
 					path: "/",
 					maxAge: 60 * 60 * 24 * 5,
+					httpOnly: true,
 				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
