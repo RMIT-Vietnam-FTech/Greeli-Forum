@@ -15,7 +15,9 @@ const Navbar = () => {
 	const cookies = new Cookies();
 	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
 	const { user, setUser, toggleUserInfo } = useUserContext();
+	const userId = JSON.parse(user)?.id || null;
 	const logout = () => {
+		console.log(user);
 		console.log("logout");
 		// toggleUserInfo()
 		localStorage.removeItem("user");
@@ -75,7 +77,7 @@ const Navbar = () => {
 						<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
 							<li className="nav-item">
 								<NavLink
-									activeClassname="active"
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
 									aria-current="page"
 									to="/"
@@ -85,7 +87,7 @@ const Navbar = () => {
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeClassname="active"
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
 									aria-current="page"
 									to="/general"
@@ -95,7 +97,7 @@ const Navbar = () => {
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeClassname="active"
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
 									to="/forum"
 								>
@@ -104,7 +106,7 @@ const Navbar = () => {
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeClassname="active"
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
 									to="/about"
 								>
@@ -113,7 +115,7 @@ const Navbar = () => {
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeClassname="active"
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
 									to="/contact"
 								>
@@ -184,34 +186,47 @@ const Navbar = () => {
 				</div> */}
 
 				<div className="d-flex flex-row align-items-center gap-3">
-					<NavLink className="" to="/profile">
-						<FaUser className="icon text-greeli-emphasis" />
+					<NavLink
+						className=""
+						to="/profile"
+						role="user profile page"
+						aria-label="link to user profile page"
+					>
+						<FaUser
+							className="icon text-greeli-emphasis"
+							alt="user icon"
+						/>
 					</NavLink>
 					<input
 						type="checkbox"
 						id="darkmode-toggle"
 						checked={isDarkMode}
 						onChange={toggleDarkMode}
+						role="checkbox"
 					/>
 					<label
 						htmlFor="darkmode-toggle"
 						className="darkmode-toggle"
+						aria-label="toggle dark mode button"
+						tabIndex={0}
 					>
 						<IoSunny className="sun" />
 						<IoMoon className="moon" />
 					</label>
-					{!user && (
+					{userId === null ? (
 						<Link to="/login" className="login-button theme-button">
 							Login
 						</Link>
-					)}
-					{user && (
-						<button
-							className="login-button theme-button"
-							onClick={logout}
-						>
-							Logout
-						</button>
+					) : (
+						user !== null && (
+							<button
+								className="login-button theme-button"
+								onClick={logout}
+								type="button"
+							>
+								Logout
+							</button>
+						)
 					)}
 					<button
 						className="navbar-toggler"

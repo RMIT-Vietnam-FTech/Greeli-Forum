@@ -79,12 +79,13 @@ const Chat = () => {
 		return () => {
 			socket.current.off("receive-message");
 		};
-	}, [socket.current, chats]);
+	}, [socket.current]);
 
 	const checkOnlineStatus = (chat) => {
 		const chatMember = chat.members.find((member) => member !== userId);
 		const online = onlineUsers.find((user) => user.userId === chatMember);
-		return online ? true : false;
+		// return online ? true : false;
+		return !!online;
 	};
 	return (
 		<div className="Chat">

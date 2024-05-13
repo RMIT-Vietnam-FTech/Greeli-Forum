@@ -59,7 +59,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 		// send message to database
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/message/create`,
+			url: "http://localhost:3001/api/message/create",
 			data: message,
 		};
 
@@ -98,7 +98,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 						<div className="chat-header">
 							<div className="follower">
 								<div>
-									<div className="online-dot"></div>
+									<div className="online-dot" />
 									<img
 										src=""
 										alt=""
@@ -121,7 +121,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 						{/* chatbox messages */}
 						<div className="chat-body">
 							{messages.map((message) => (
-								<>
+								<div>
 									<div
 										ref={scroll}
 										className={
@@ -132,7 +132,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 									>
 										<span>{message.text}</span>{" "}
 									</div>
-								</>
+								</div>
 							))}
 						</div>
 						<div className="chat-sender">
@@ -144,6 +144,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 							<button
 								className="send-button button"
 								onClick={handleSend}
+								type="submit"
 							>
 								Send
 							</button>

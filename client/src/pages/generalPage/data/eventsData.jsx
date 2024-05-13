@@ -36,7 +36,7 @@ const eventsData = [
 	},
 
 	{
-		id: 4,
+		id: 9,
 		image: "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg",
 		title: "Social activities",
 		description: "Lorem ipsum dolor sit amet, consectetur",
@@ -73,6 +73,33 @@ const eventsData = [
 
 	{
 		id: 8,
+		image: "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg",
+		title: "Social events",
+		description: "Lorem ipsum dolor sit amet, consectetur",
+		date: "Apr 14",
+		event: "Social events",
+	},
+
+	{
+		id: 10,
+		image: "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg",
+		title: "Social events",
+		description: "Lorem ipsum dolor sit amet, consectetur",
+		date: "Apr 14",
+		event: "Social events",
+	},
+
+	{
+		id: 11,
+		image: "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg",
+		title: "Social events",
+		description: "Lorem ipsum dolor sit amet, consectetur",
+		date: "Apr 14",
+		event: "Social events",
+	},
+
+	{
+		id: 12,
 		image: "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg",
 		title: "Social events",
 		description: "Lorem ipsum dolor sit amet, consectetur",
