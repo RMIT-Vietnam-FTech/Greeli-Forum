@@ -32,8 +32,10 @@ app.use(cors());
 /*FILE STORAGE*/
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
+	destination: (req, file, cb) => {
 		cb(null, "public/assets");
 	},
+	filename: (req, file, cb) => {
 	filename: (req, file, cb) => {
 		cb(null, file.originalname);
 	},
@@ -45,13 +47,10 @@ app.get("/api", (req, res) => {
 	res.status(201).json({ message: "hi there" });
 });
 app.use("/api/user", userRoutes);
-app.use("/api/thread", threadRoutes);
+app.use("/api/v1/threads", threadRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
-app.use("/api/posts", postRoutes);
-app.use("/api/news", newsRoutes);
-app.use("/api/topic", topicRoutes);
-
+app.use("/api/v1/posts", postRoutes);
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
 mongoose

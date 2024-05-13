@@ -5,6 +5,7 @@ const threadSchema = new mongoose.Schema(
 		title: {
 			type: String,
 			unique: true,
+			immutable: true,
 			required: true,
 		},
 		content: {
@@ -26,7 +27,7 @@ const threadSchema = new mongoose.Schema(
 				title: String,
 				description: String,
 			},
-		], 
+		],
 		createdBy: {
 			useId: {
 				type: String,
@@ -36,7 +37,7 @@ const threadSchema = new mongoose.Schema(
 				type: String,
 				required: true,
 			},
-			userImage: {
+			profileImage: {
 				type: String,
 				required: true,
 			},
