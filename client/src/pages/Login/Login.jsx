@@ -94,6 +94,7 @@ const Login = () => {
 				<div
 					className=" col-sm-12 col-lg-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
+					aria-label="background image"
 				/>
 				<div className="col-12 col-lg-6 text-center login py-5 bg-greeli-subtle">
 					<h1 className="text-login-emphasis">GREELI</h1>

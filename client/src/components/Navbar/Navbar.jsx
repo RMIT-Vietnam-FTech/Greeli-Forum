@@ -77,7 +77,7 @@ const Navbar = () => {
 						<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
 							<li className="nav-item">
 								<NavLink
-									activeClassname="active"
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
 									aria-current="page"
 									to="/"
@@ -87,7 +87,7 @@ const Navbar = () => {
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeClassname="active"
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
 									aria-current="page"
 									to="/general"
@@ -97,7 +97,7 @@ const Navbar = () => {
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeClassname="active"
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
 									to="/forum"
 								>
@@ -106,7 +106,7 @@ const Navbar = () => {
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeClassname="active"
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
 									to="/about"
 								>
@@ -115,7 +115,7 @@ const Navbar = () => {
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeClassname="active"
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
 									to="/contact"
 								>
@@ -214,13 +214,13 @@ const Navbar = () => {
 						<IoMoon className="moon" />
 					</label>
 					{userId === null ? (
-						<Link to="/login" className="login-button">
+						<Link to="/login" className="login-button theme-button">
 							Login
 						</Link>
 					) : (
 						user !== null && (
 							<button
-								className="login-button"
+								className="login-button theme-button"
 								onClick={logout}
 								type="button"
 							>

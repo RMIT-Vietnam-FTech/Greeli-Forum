@@ -1,6 +1,5 @@
 import express from "express";
 import News from "../models/News.js";
-
 const app = express();
 
 // CREATE news
