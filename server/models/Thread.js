@@ -26,7 +26,7 @@ const threadSchema = new mongoose.Schema(
 				title: String,
 				description: String,
 			},
-		],
+		], 
 		createdBy: {
 			useId: {
 				type: String,
