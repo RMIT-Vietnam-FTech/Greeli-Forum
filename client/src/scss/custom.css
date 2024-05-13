@@ -13780,6 +13780,52 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+body {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #212529;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6 {
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
+  color: inherit;
+}
+
+h1, .h1 {
+  font-size: 40px;
+}
+
+h2, .h2 {
+  font-size: 32px;
+}
+
+h3, .h3 {
+  font-size: 28px;
+}
+
+h4, .h4 {
+  font-size: 24px;
+}
+
+h5, .h5 {
+  font-size: 20px;
+}
+
+h6, .h6 {
+  font-size: 18px;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
 .text-login-emphasis {
   color: var(--bs-login-text-emphasis) !important;
 }

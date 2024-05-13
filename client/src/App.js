@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
+import RequireAuth from "./components/Auth/RequireAuth.jsx";
 import Footer from "./components/Footer/footer";
-import MessageContainer from "./components/Message/MessageContainer.jsx";
 import Navbar from "./components/Navbar/Navbar";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
@@ -16,7 +16,7 @@ import ThreadPage from "./pages/ThreadPage/ThreadPage.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
 function App() {
 	return (
-		<div className="App">
+		<div className="App w-100">
 			<ThemeProvider>
 				<UserContextProvider>
 					<Navbar />
@@ -26,7 +26,9 @@ function App() {
 							<Route path="/login" element={<Login />} />
 							<Route path="/register" element={<Register />} />
 							<Route path="/general" element={<GeneralPage />} />
-							<Route path="/chat" element={<Chat />} />
+							<Route element={<RequireAuth />}>
+								<Route path="/chat" element={<Chat />} />
+							</Route>
 							<Route path="/forum">
 								<Route index element={<DashBoardPage />} />
 								<Route
@@ -44,8 +46,6 @@ function App() {
 					<Footer />
 				</UserContextProvider>
 			</ThemeProvider>
-			{/* <SideBar /> */}
-			{/* <MessageContainer /> */}
 		</div>
 	);
 }
