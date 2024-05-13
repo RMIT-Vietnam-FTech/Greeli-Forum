@@ -5,7 +5,7 @@ export default function Jumbotron() {
 	return (
     <>
       <div className="jumbotron container-fluid py-5 text-center">
-        <h1 className="text-light text-center pb-lg-5 pb-sm-3">
+        <h1 className="text-light text-center pb-5">
           Wanna be a part of our community builder team?
         </h1>
         <div className="d-block">

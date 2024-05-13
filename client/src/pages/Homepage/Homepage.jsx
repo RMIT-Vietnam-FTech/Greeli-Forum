@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "./component/Header.jsx";
-import Main from "./component/Main.jsx";
-import Jumbotron from "./component/Jumbotron.jsx";
+import Header from "./component/header.jsx";
+import Main from "./component/main.jsx";
+import Jumbotron from "./component/jumbotron.jsx";
 
 function Homepage() {
   return (

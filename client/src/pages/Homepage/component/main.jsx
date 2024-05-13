@@ -5,7 +5,7 @@ import { IoChatbubbles } from "react-icons/io5";
 import { ThemeContext } from "../../../context/ThemeContext.jsx";
 import { useUserContext } from "../../../context/UserContext.jsx";
 import "../../../scss/custom.css";
-import "../style/Main.css";
+import "../style/main.css";
 import Posts from "./RecommendPost.jsx";
 // import NewsData from "./data/new";
 // import NewList from "./newsItems";
@@ -18,7 +18,7 @@ const Main = () => {
       data-bs-theme={isDarkMode ? "dark" : "light"}
     >
       {/* What is Greeli?  */}
-      <section className="mx-md-5 mx-4 my-md-5 my-3 bg-greeli-subtle rounded-5 section">
+      <section className="mx-md-5 mx-4 mb-md-5 mb-3 bg-greeli-subtle rounded-5 section">
         <div className="col-12 p-4 mx-auto text-center">
           <h1 className="display-3 text-greeli-emphasis mb-3">
             What is <span className="text-primary-yellow">Greeli</span>?
@@ -92,9 +92,7 @@ const Main = () => {
       </section>
 
       {/* Recommend Post */}
-      <section
-        className="mx-md-5 mx-4 p-4 bg-greeli-subtle rounded-5 section"
-      >
+      <section className="mx-md-5 mx-4 p-4 bg-greeli-subtle rounded-5 section">
         <h2 className="d-block fw-bold text-center text-greeli-emphasis w-100">
           Recommend Post
         </h2>
