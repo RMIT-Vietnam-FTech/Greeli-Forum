@@ -1,13 +1,13 @@
 import express from "express";
-import { login, register } from "../controllers/user.js";
-import User from "../models/User.js";
+import { getUser, login, register, lock, unlock } from "../controllers/user.js";
+import { verifyToken, verifyAdmin } from "../middleware/auth.js";
+
 const router = express.Router();
 
+router.get("/find/:id", getUser);
 router.post("/login", login);
 router.post("/register", register);
-router.route("/:userId", async (req, res) => {
-	const { userId } = req.params;
-	const user = await User.findById(userId);
-	console.log(user);
-});
+router.put("/:adminId/:userId/lock",verifyAdmin, lock);
+router.put("/:adminId/:userId/unlock", verifyAdmin, unlock);
+
 export default router;

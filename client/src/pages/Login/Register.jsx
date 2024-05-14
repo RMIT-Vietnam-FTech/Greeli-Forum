@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState, useRef, useContext } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
-import { FaKey, FaUser } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Reaptcha from "reaptcha";
@@ -22,6 +22,7 @@ const Register = () => {
 	const [verify, setVerify] = useState(true);
 	const [captchaToken, setCaptchaToken] = useState(null);
 	const captchaRef = useRef(null);
+	const [showPassword, setShowPassword] = useState(false);
 
 	const registerSchema = Yup.object().shape({
 		username: Yup.string()
@@ -90,6 +91,14 @@ const Register = () => {
 		setPassword("");
 	};
 
+	const showPasswordButton = () => {
+		if (showPassword) {
+			setShowPassword(false);
+		} else {
+			setShowPassword(true);
+		}
+	};
+
 	const { isDarkMode } = useContext(ThemeContext);
 
 	return (
@@ -110,12 +119,13 @@ const Register = () => {
 					<Image
 						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
 						width={120}
-						className="my-4"
+						className="my-2"
 						alt="Greeli Forum Logo"
 					/>
 					<form
 						className="mt-4 mx-3 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
+						aria-label="register form"
 					>
 						<div
 							className={
@@ -134,7 +144,7 @@ const Register = () => {
 									{...register("username")}
 									className="form-control"
 									id="username"
-									placeholder="name@example.com"
+									placeholder="greeli17"
 									value={username}
 									onChange={(e) =>
 										setUsername(e.target.value)
@@ -149,7 +159,9 @@ const Register = () => {
 							</div>
 						</div>
 						{errors.username && (
-							<p className="error">{errors.username.message}</p>
+							<p className="error" tabIndex={0}>
+								{errors.username.message}
+							</p>
 						)}
 						<div
 							className={
@@ -168,7 +180,7 @@ const Register = () => {
 									{...register("email")}
 									className="form-control"
 									id="email"
-									placeholder="name@example.com"
+									placeholder="greeli@example.com"
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
 								/>
@@ -181,7 +193,9 @@ const Register = () => {
 							</div>
 						</div>
 						{errors.email && (
-							<p className="error">{errors.email.message}</p>
+							<p className="error" tabIndex={0}>
+								{errors.email.message}
+							</p>
 						)}
 						<div
 							className={
@@ -196,12 +210,13 @@ const Register = () => {
 							<div className="form-floating">
 								<input
 									name="password"
-									type="password"
+									type={showPassword ? "text" : "password"}
 									{...register("password")}
 									className="form-control"
 									id="password"
 									placeholder="password"
 									value={password}
+									autoComplete="on"
 									onChange={(e) =>
 										setPassword(e.target.value)
 									}
@@ -213,9 +228,19 @@ const Register = () => {
 									Password
 								</label>
 							</div>
+							<span
+								className="input-group-text text-login-emphasis"
+								onClick={showPasswordButton}
+								aria-label="show password button"
+								role="button"
+							>
+								{showPassword ? <FaEye /> : <FaEyeSlash />}
+							</span>
 						</div>
 						{errors.password && (
-							<p className="error">{errors.password.message}</p>
+							<p className="error" tabIndex={0}>
+								{errors.password.message}
+							</p>
 						)}
 						<div
 							className={
@@ -230,10 +255,11 @@ const Register = () => {
 							<div className="form-floating">
 								<input
 									name="confirmPassword"
-									type="password"
+									type={showPassword ? "text" : "password"}
 									{...register("confirmPassword")}
 									className="form-control"
 									id="confirmPassword"
+									autoComplete="on"
 									placeholder="Confirm Password"
 								/>
 								<label
@@ -243,9 +269,17 @@ const Register = () => {
 									Confirm Password
 								</label>
 							</div>
+							<span
+								className="input-group-text text-login-emphasis"
+								onClick={showPasswordButton}
+								aria-label="show password button"
+								role="button"
+							>
+								{showPassword ? <FaEye /> : <FaEyeSlash />}
+							</span>
 						</div>
 						{errors.confirmPassword && (
-							<p className="error">
+							<p className="error" tabIndex={0}>
 								{errors.confirmPassword.message}
 							</p>
 						)}

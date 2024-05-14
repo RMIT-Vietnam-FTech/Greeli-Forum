@@ -9,9 +9,12 @@ import multer from "multer";
 
 import chatRoutes from "./routes/chat.js";
 import messageRoutes from "./routes/message.js";
+import newsRoutes from "./routes/news.js";
 import postRoutes from "./routes/post.js";
 import threadRoutes from "./routes/thread.js";
 import userRoutes from "./routes/user.js";
+import topicRoutes from "./routes/topic.js";
+
 import { app, io, server } from "./socket/socket.js";
 
 /* CONFIGURATION */
@@ -45,6 +48,9 @@ app.use("/api/user", userRoutes);
 app.use("/api/v1/threads", threadRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
+app.use("/api/news", newsRoutes);
+app.use("/api/topic", topicRoutes);
+
 app.use("/api/v1/posts", postRoutes);
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
@@ -52,7 +58,7 @@ mongoose
 	.connect(process.env.MONGO_URL)
 	.then(() => {
 		server.listen(PORT, () => {
-			console.log(`SERVER IS RUNNING ON http://localhost:${PORT}`);
+			console.log(`SERVER IS RUNNING ON ${PORT}`);
 		});
 	})
 	.catch((error) => console.log(`${error}. SERVER IS NOT CONNECTING`));

@@ -89,16 +89,6 @@
     font-weight: bold;
 }
 
-.dropdown-item-dark-mode {
-    color: #DCB968;
-    background-color: #0A2A28;
-}
-
-.dropdown-item-light {
-    background-color: #fff;
-    color: #000;
-}
-
 .navigation-item {
     padding: 7px;
     padding-inline: 15px;
@@ -116,7 +106,19 @@
     cursor: pointer;
 }
 
+.navigation-item.active {
+    background-color: #365949;
+    color: #DCB968;
+    cursor: pointer;
+}
+
 .navigation-item-dark-mode:hover {
+    background-color:#DCB968;
+    color: #000;
+    cursor: pointer;
+}
+
+.navigation-item-dark-mode.active {
     background-color:#DCB968;
     color: #000;
     cursor: pointer;
@@ -167,11 +169,12 @@
 
 .card-img-top {
     width: 100%;
-    height: auto;
+    object-fit: cover;
 }
 
 .cards-body {
     padding: 15px;
+    height: 280px;
 }
 
 .cards-body h6 {
@@ -223,8 +226,18 @@
 }
 
 
-.dropdown-menu .dropdown-item:hover {
+.dropdown-menu .dropdown-item:active {
     background-color: #365949;
+}
+
+.dropdown-item-dark-mode {
+    color: #DCB968;
+    background-color: #0A2A28;
+}
+
+.dropdown-item-light {
+    background-color: #fff;
+    color: #000;
 }
 
 @media (max-width: 768px) {
@@ -273,8 +286,32 @@
     justify-content: center;
 }
 
-.card-date small{
-    color: #333;
+.events-cards-body {
+    padding: 15px;
+    height: auto;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
+    text-align: start;
+    margin-bottom: 0;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    color: #000;
+    margin-bottom: 10px;
+    text-align: start;
+}
+
+.card-date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    color: #666;
 }
 
 @media (max-width: 768px) {
@@ -286,7 +323,11 @@
     }
 
     .navigation-item h4 {
-        font-size: smaller;
+        font-size: 16px;
+    }
+
+    .navigation-item-dark-mode h4 {
+        font-size: 16px;
     }
 }
 
@@ -305,4 +346,36 @@
     .events_selection {
         gap: 3%;
     }
+}
+
+ /* REACT SLICK CONFIG */
+
+.darkTheme .slick-dots li.slick-active button:before {
+    opacity: .75;
+    color: white;
+}
+
+.darkTheme .slick-dots li button:before {
+    font-family: slick;
+    font-size: 6px;
+    line-height: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    content: '•';
+    text-align: center;
+    opacity: .25;
+    color: white;
+    -webkit-font-smoothing: antialiased;
+}
+
+ .slick-next:before, .slick-prev:before {
+    font-family: slick;
+    font-size: 20px;
+    line-height: 1;
+    opacity: .75;
+    color: #666;
+    -webkit-font-smoothing: antialiased;
 }

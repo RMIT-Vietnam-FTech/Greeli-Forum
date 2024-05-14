@@ -33,4 +33,9 @@ router
 		upload.single("uploadFile"),
 		threadController.createThread,
 	).delete(threadController.reset);
+router.get("/get/threadId/rule", verifyAdmin, getThreadRules);
+router.post("/create/threadId/rule", verifyAdmin, createThreadRule);
+router.put("/modify/threadId/rule/ruleId", verifyAdmin, modifyThreadRule);
+router.put("/delete/threadId/rule", verifyAdmin, deleteThreadRule);
+router.put("/delete/threadId/rule/ruleId", verifyAdmin, deleteThreadRuleByRuleIndex);
 export default router;

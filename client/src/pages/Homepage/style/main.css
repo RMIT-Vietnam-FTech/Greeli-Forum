@@ -1,29 +1,27 @@
 main {
     position: relative;
-    /* top: -5em; */
-    z-index: 3;
+    top: 0;
 }
-#about-section{
+.text-justify {
+    text-align: justify;
+}
+.feature {
+    padding: 0.2em;
+    border: 4px solid var(--bs-primary-yellow);
+}
+.section{
+    display: block;
     position: relative;
     top: -5em;
     z-index: 3;
 }
-.feature {
-    padding: 0.2em;
-    border: 5px solid var(--bs-primary-yellow);
+
+[data-bs-theme='dark'] .theme-button {
+    border: 2px solid #ffffff;
+    /* Dark mode border color */
 }
-@media screen and (max-width: 768px) {
-    .solution-container {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    .solution-item{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    }
-    
+
+[data-bs-theme='light'] .theme-button {
+    border: none;
+    /* Dark mode border color */
 }

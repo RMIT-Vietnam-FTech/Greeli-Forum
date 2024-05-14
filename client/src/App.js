@@ -1,60 +1,56 @@
 import React, { createContext, useContext, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
+import RequireAuth from "./components/Auth/RequireAuth.jsx";
 import Footer from "./components/Footer/footer";
-import MessageContainer from "./components/Message/MessageContainer.jsx";
 import Navbar from "./components/Navbar/Navbar";
-import SideBar from "./components/SideBar/SideBar.jsx";
-import { SocketContextProvider } from "./context/SocketContext.jsx";
+import LoginPopup from "./components/Popup/LoginPopup.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
 import Chat from "./pages/Chat/Chat";
-import DashBoardPage from "./pages/Forum/DashBoardPage.jsx";
-import PostPage from "./pages/Forum/PostPage/PostPage.jsx";
-import ThreadPage from "./pages/Forum/ThreadPage/ThreadPage.jsx";
+import DashBoardPage from "./pages/DashBoardPage.jsx";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Homepage from "./pages/Homepage/Homepage";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
+import PostPage from "./pages/PostPage/PostPage.jsx";
+import Profile from "./pages/Profile/Profile";
+import ThreadPage from "./pages/ThreadPage/ThreadPage.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
+
 function App() {
 	return (
-		<div className="App">
+		<div className="App w-100">
 			<ThemeProvider>
 				<UserContextProvider>
-					<SocketContextProvider>
-						<Navbar />
-						<div style={{ marginTop: "100px" }}>
-							<Routes>
-								<Route path="/" element={<Homepage />} />
-								<Route path="/login" element={<Login />} />
+					<Navbar />
+					<div className="h-100" style={{ marginTop: "80px" }}>
+						<Routes>
+							<Route path="/" element={<Homepage />} />
+							<Route path="/login" element={<Login />} />
+							<Route path="/register" element={<Register />} />
+							<Route path="/general" element={<GeneralPage />} />
+							<Route element={<RequireAuth />}>
+								<Route path="/profile" element={<Profile />} />
+							<Route path="/chat" element={<Chat />} />
+							</Route>
+							<Route path="/forum">
+								<Route index element={<DashBoardPage />} />
 								<Route
-									path="/register"
-									element={<Register />}
+									path="threads/:threadId"
+									element={<ThreadPage />}
 								/>
 								<Route
-									path="/general"
-									element={<GeneralPage />}
+									path="posts/:postId"
+									element={<PostPage />}
 								/>
-								<Route path="/chat" element={<Chat />} />
-								<Route path="/forum">
-									<Route index element={<DashBoardPage />} />
-									<Route
-										path="threads/:threadId"
-										element={<ThreadPage />}
-									/>
-									<Route
-										path="posts/:postId"
-										element={<PostPage />}
-									/>
-								</Route>
-							</Routes>
-						</div>
-						<Footer />
-					</SocketContextProvider>
+							</Route>
+							<Route path="*" element={<ErrorPage />} />
+						</Routes>
+					</div>
+					<Footer />
 				</UserContextProvider>
 			</ThemeProvider>
-			{/* <SideBar /> */}
-			{/* <MessageContainer /> */}
 		</div>
 	);
 }

@@ -9,6 +9,7 @@ import { ServerSideEncryptionByDefaultFilterSensitiveLog } from "@aws-sdk/client
 
 const createRandomName = (bytes = 32) =>
 	crypto.randomBytes(bytes).toString("hex");
+	crypto.randomBytes(bytes).toString("hex");
 
 export const createPost = async (req, res) => {
 	//req.body -> title, content, createBy{}
