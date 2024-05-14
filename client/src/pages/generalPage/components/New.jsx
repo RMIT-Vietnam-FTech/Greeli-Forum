@@ -326,11 +326,10 @@ export default function News() {
 				{isMobile ? (
 					<div className="dropdown mt-2">
 						<button
-							className={`${
-								isDarkMode
-									? "btn btn-secondary dropdown-toggle rounded-pill bg-primary-green-900 text-primary-yellow active"
-									: "btn btn-secondary dropdown-toggle rounded-pill bg-light text-primary-green active"
-							}`}
+							className={`${isDarkMode
+								? "btn btn-secondary dropdown-toggle rounded-pill bg-primary-green-900 text-primary-yellow active"
+								: "btn btn-secondary dropdown-toggle rounded-pill bg-light text-primary-green active"
+								}`}
 							type="button"
 							data-bs-toggle="dropdown"
 							aria-expanded="false"
@@ -402,10 +401,87 @@ export default function News() {
 				)}
 
 				{loading ? (
-					<button class="btn btn-primary" type="button" disabled>
-						<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-						‎ Loading...
-					</button>
+					<>
+						<button className="btn btn-primary" type="button" disabled>
+							<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+							‎ Loading...
+						</button>
+						<div style={{ height: '450px' }}></div>
+
+						{/* <section className="loadingContainer">
+							<div className="loading-news-card">
+								<img className="loading-card-img-top" src={"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"} alt="News" style={{ height: "200px", objectFit: "cover" }} />
+								<div className="cards-body">
+									<h6>...loading</h6>
+									<h4>...loading</h4>
+									<p>...loading</p>
+									<div className="user-info">
+										<img
+											className="circle-img"
+											src={"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"}
+											alt="...loading"
+											style={{ height: "50px", width: "50px", borderRadius: "50%" }}
+										/>
+										<span>...loading</span>
+									</div>
+								</div>
+							</div>
+
+							<div className="loading-news-card">
+								<img className="loading-card-img-top" src={"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"} alt="News" style={{ height: "200px", objectFit: "cover" }} />
+								<div className="cards-body">
+									<h6>...loading</h6>
+									<h4>...loading</h4>
+									<p>...loading</p>
+									<div className="user-info">
+										<img
+											className="circle-img"
+											src={"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"}
+											alt="...loading"
+											style={{ height: "50px", width: "50px", borderRadius: "50%" }}
+										/>
+										<span>...loading</span>
+									</div>
+								</div>
+							</div>
+
+							<div className="loading-news-card">
+								<img className="loading-card-img-top" src={"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"} alt="News" style={{ height: "200px", objectFit: "cover" }} />
+								<div className="cards-body">
+									<h6>...loading</h6>
+									<h4>...loading</h4>
+									<p>...loading</p>
+									<div className="user-info">
+										<img
+											className="circle-img"
+											src={"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"}
+											alt="...loading"
+											style={{ height: "50px", width: "50px", borderRadius: "50%" }}
+										/>
+										<span>...loading</span>
+									</div>
+								</div>
+							</div>
+
+							<div className="loading-news-card">
+								<img className="loading-card-img-top" src={"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"} alt="News" style={{ height: "200px", objectFit: "cover" }} />
+								<div className="cards-body">
+									<h6>...loading</h6>
+									<h4>...loading</h4>
+									<p>...loading</p>
+									<div className="user-info">
+										<img
+											className="circle-img"
+											src={"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"}
+											alt="...loading"
+											style={{ height: "50px", width: "50px", borderRadius: "50%" }}
+										/>
+										<span>...loading</span>
+									</div>
+								</div>
+							</div>
+						</section> */}
+					</>
 				) : error ? (
 					<p>{error}</p>
 				) : (
