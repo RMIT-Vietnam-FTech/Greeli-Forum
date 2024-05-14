@@ -139,7 +139,7 @@
 // 				) : (
 // 					<ul className="nav nav-pills selection">
 // 						<li
-// 							className={`${isActive("All")} ${isDarkMode ? 'navigation-item-dark-mode' : 'navigation-item'}`} 
+// 							className={`${isActive("All")} ${isDarkMode ? 'navigation-item-dark-mode' : 'navigation-item'}`}
 // 							onClick={() => setCategory("All")}
 // 						>
 // 							<h4>All</h4>
@@ -189,18 +189,38 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import Slider from "react-slick";
 import { ThemeContext } from "../../../context/ThemeContext";
-import fetchNewsByCategory from "../data/newsData"
+import fetchNewsByCategory from "../data/newsData";
 import "../style.css";
 
-const Card = ({ image, topic, title, description, userImage, userName, url }) => {
+const Card = ({
+	image,
+	topic,
+	title,
+	description,
+	userImage,
+	userName,
+	url,
+}) => {
 	const truncateText = (text, maxLength) => {
-		if (text == null || typeof text !== "string") { return ""; }
-		return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+		if (text == null || typeof text !== "string") {
+			return "";
+		}
+		return text.length > maxLength
+			? text.substring(0, maxLength) + "..."
+			: text;
 	};
 
 	return (
 		<div className="news-card" onClick={() => window.open(url, "_blank")}>
-			<img className="card-img-top" src={image || "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"} alt="News" style={{ height: "200px", objectFit: "cover" }} />
+			<img
+				className="card-img-top"
+				src={
+					image ||
+					"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"
+				}
+				alt="News"
+				style={{ height: "200px", objectFit: "cover" }}
+			/>
 			<div className="cards-body">
 				<h6>{topic}</h6>
 				<h4>{truncateText(title, 50)}</h4>
@@ -208,9 +228,16 @@ const Card = ({ image, topic, title, description, userImage, userName, url }) =>
 				<div className="user-info">
 					<img
 						className="circle-img"
-						src={userImage || "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"}
+						src={
+							userImage ||
+							"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"
+						}
 						alt={userName}
-						style={{ height: "50px", width: "50px", borderRadius: "50%" }}
+						style={{
+							height: "50px",
+							width: "50px",
+							borderRadius: "50%",
+						}}
 					/>
 					<span>{userName}</span>
 				</div>
@@ -336,10 +363,18 @@ export default function News() {
 						>
 							{category}
 						</button>
-						<ul className={`${isDarkMode ? 'bg-dark' : 'bg-light'} dropdown-menu`}>
+						<ul
+							className={`${
+								isDarkMode ? "bg-dark" : "bg-light"
+							} dropdown-menu`}
+						>
 							<li>
 								<button
-									className={`${isDarkMode ? 'dropdown-item-dark-mode' : 'dropdown-item-light'} dropdown-item`}
+									className={`${
+										isDarkMode
+											? "dropdown-item-dark-mode"
+											: "dropdown-item-light"
+									} dropdown-item`}
 									onClick={() => setCategory("All")}
 								>
 									All
@@ -347,7 +382,11 @@ export default function News() {
 							</li>
 							<li>
 								<button
-									className={`${isDarkMode ? 'dropdown-item-dark-mode' : 'dropdown-item-light'} dropdown-item`}
+									className={`${
+										isDarkMode
+											? "dropdown-item-dark-mode"
+											: "dropdown-item-light"
+									} dropdown-item`}
 									onClick={() => setCategory("Business")}
 								>
 									Business
@@ -355,7 +394,11 @@ export default function News() {
 							</li>
 							<li>
 								<button
-									className={`${isDarkMode ? 'dropdown-item-dark-mode' : 'dropdown-item-light'} dropdown-item`}
+									className={`${
+										isDarkMode
+											? "dropdown-item-dark-mode"
+											: "dropdown-item-light"
+									} dropdown-item`}
 									onClick={() => setCategory("Health")}
 								>
 									Health
@@ -363,7 +406,11 @@ export default function News() {
 							</li>
 							<li>
 								<button
-									className={`${isDarkMode ? 'dropdown-item-dark-mode' : 'dropdown-item-light'} dropdown-item`}
+									className={`${
+										isDarkMode
+											? "dropdown-item-dark-mode"
+											: "dropdown-item-light"
+									} dropdown-item`}
 									onClick={() => setCategory("Sports")}
 								>
 									Sports
@@ -374,25 +421,41 @@ export default function News() {
 				) : (
 					<ul className="nav nav-pills selection">
 						<li
-							className={`${isDarkMode ? 'navigation-item-dark-mode' : 'navigation-item'} ${isActive("All")}`}
+							className={`${
+								isDarkMode
+									? "navigation-item-dark-mode"
+									: "navigation-item"
+							} ${isActive("All")}`}
 							onClick={() => setCategory("All")}
 						>
 							<h4>All</h4>
 						</li>
 						<li
-							className={`${isDarkMode ? 'navigation-item-dark-mode' : 'navigation-item'} ${isActive("Business")}`}
+							className={`${
+								isDarkMode
+									? "navigation-item-dark-mode"
+									: "navigation-item"
+							} ${isActive("Business")}`}
 							onClick={() => setCategory("Business")}
 						>
 							<h4>Business</h4>
 						</li>
 						<li
-							className={`${isDarkMode ? 'navigation-item-dark-mode' : 'navigation-item'} ${isActive("Health")}`}
+							className={`${
+								isDarkMode
+									? "navigation-item-dark-mode"
+									: "navigation-item"
+							} ${isActive("Health")}`}
 							onClick={() => setCategory("Health")}
 						>
 							<h4>Health</h4>
 						</li>
 						<li
-							className={`${isDarkMode ? 'navigation-item-dark-mode' : 'navigation-item'} ${isActive("Sports")}`}
+							className={`${
+								isDarkMode
+									? "navigation-item-dark-mode"
+									: "navigation-item"
+							} ${isActive("Sports")}`}
 							onClick={() => setCategory("Sports")}
 						>
 							<h4>Sports</h4>
@@ -486,8 +549,15 @@ export default function News() {
 					<p>{error}</p>
 				) : (
 					<section className="newsContainer">
-						<div onWheel={handleWheel} className={`${isDarkMode ? 'darkTheme' : ''}`}>
-							<Slider ref={sliderRef} {...settings} className="slider">
+						<div
+							onWheel={handleWheel}
+							className={`${isDarkMode ? "darkTheme" : ""}`}
+						>
+							<Slider
+								ref={sliderRef}
+								{...settings}
+								className="slider"
+							>
 								{newsData.map((item, index) => (
 									<Card
 										key={index}
@@ -507,5 +577,4 @@ export default function News() {
 			</section>
 		</>
 	);
-};
-
+}

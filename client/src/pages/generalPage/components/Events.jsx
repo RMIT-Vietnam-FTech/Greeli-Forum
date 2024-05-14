@@ -81,7 +81,10 @@ export default function Events() {
 
 	return (
 		<>
-			<section className="news bg-greeli-subtle" data-bs-theme={isDarkMode ? "dark" : "light"}>
+			<section
+				className="news bg-greeli-subtle"
+				data-bs-theme={isDarkMode ? "dark" : "light"}
+			>
 				<h4 className="popularNews text-general-emphasis">EVENTS</h4>
 				<ul className="nav nav-pills events_selection">
 					<li
@@ -108,7 +111,11 @@ export default function Events() {
 
 				<section className="newsContainer">
 					<div onWheel={handleWheel}>
-						<Slider ref={sliderRef} {...settings} className="slider">
+						<Slider
+							ref={sliderRef}
+							{...settings}
+							className="slider"
+						>
 							{filteredData.map((item) => (
 								<Card
 									key={item.id}

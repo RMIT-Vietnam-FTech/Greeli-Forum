@@ -1,12 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
+import Cookies from "universal-cookie";
 import ChatBox from "../../components/ChatBox/ChatBox";
 import Conversation from "../../components/Conversation/Conversation";
 import { useUserContext } from "../../context/UserContext";
 import "./chat.css";
 const Chat = () => {
 	const socket = useRef();
+	const cookies = new Cookies();
 	const { user } = useUserContext();
 	const [chats, setChats] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
@@ -14,6 +16,7 @@ const Chat = () => {
 	const [sendMessage, setSendMessage] = useState(null);
 	const [receiveMessage, setReceiveMessage] = useState(null);
 	const userId = JSON.parse(user).id;
+	const token = cookies.get("TOKEN") || null;
 	// console.log(onlineUsers);
 
 	useEffect(() => {
@@ -43,6 +46,10 @@ const Chat = () => {
 			const configuration = {
 				method: "get",
 				url: `http://localhost:3001/api/chat/find/${userId}`,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
 			};
 			axios(configuration)
 				.then((result) => {
@@ -50,7 +57,7 @@ const Chat = () => {
 					setChats(result.data);
 				})
 				.catch((error) => {
-					console.log(error);
+					console.log(error.response.data);
 				});
 		};
 		getChats();
@@ -61,7 +68,6 @@ const Chat = () => {
 		if (socket.current === null) return;
 		if (sendMessage !== null) {
 			socket.current.emit("send-message", sendMessage);
-			console.log(sendMessage);
 		}
 		return () => {
 			socket.current.off("send-message");
@@ -74,17 +80,17 @@ const Chat = () => {
 
 		socket.current.on("receive-message", (data) => {
 			setReceiveMessage(data);
-			console.log(receiveMessage);
 		});
 		return () => {
 			socket.current.off("receive-message");
 		};
-	}, [socket.current, chats]);
+	}, [socket.current]);
 
 	const checkOnlineStatus = (chat) => {
 		const chatMember = chat.members.find((member) => member !== userId);
 		const online = onlineUsers.find((user) => user.userId === chatMember);
-		return online ? true : false;
+		// return online ? true : false;
+		return !!online;
 	};
 	return (
 		<div className="Chat">
@@ -94,8 +100,11 @@ const Chat = () => {
 					<h2>Chat</h2>
 					<div className="Chat-list">
 						Conversations
-						{chats?.map((chat) => (
-							<div onClick={() => setCurrentChat(chat)}>
+						{chats?.map((chat, index) => (
+							<div
+								onClick={() => setCurrentChat(chat)}
+								key={index}
+							>
 								<Conversation
 									data={chat}
 									currentUserId={userId}

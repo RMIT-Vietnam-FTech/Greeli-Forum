@@ -190,7 +190,7 @@
 
 .cards-body {
     padding: 15px;
-    height: 280px;
+    height: auto;
 }
 
 .cards-body h6 {

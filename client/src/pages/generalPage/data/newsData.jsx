@@ -171,36 +171,36 @@
 
 // export default NewsData;
 
-
-import axios from 'axios';
+import axios from "axios";
 
 const API_KEY = "ccdf2d576ae44d91b7ea44c94bccb8ed";
 const BASE_URL = "https://newsapi.org/v2";
-const categories = ['business', 'health', 'sports'];
+const categories = ["business", "health", "sports"];
 
 // Create an axios instance configured with your API key and base URL
 const api = axios.create({
-  baseURL: BASE_URL,
-  params: { apiKey: API_KEY, language: 'en' } 
+	baseURL: BASE_URL,
+	params: { apiKey: API_KEY, language: "en" },
 });
 
 const fetchNewsByCategory = async (category) => {
-  try {
-    if (category === "All") {
-      const promises = categories.map(cat =>
-        api.get('/top-headlines', { params: { category: cat } })
-      );
-      const responses = await Promise.all(promises);
-      return responses.flatMap(response => response.data.articles);
-    } else {
-      const response = await api.get('/top-headlines', { params: { category } });
-      return response.data.articles;
-    }
-  } catch (error) {
-    console.error(`Error fetching news for category ${category}:`, error);
-    throw error; 
-  }
+	try {
+		if (category === "All") {
+			const promises = categories.map((cat) =>
+				api.get("/top-headlines", { params: { category: cat } }),
+			);
+			const responses = await Promise.all(promises);
+			return responses.flatMap((response) => response.data.articles);
+		} else {
+			const response = await api.get("/top-headlines", {
+				params: { category },
+			});
+			return response.data.articles;
+		}
+	} catch (error) {
+		console.error(`Error fetching news for category ${category}:`, error);
+		throw error;
+	}
 };
 
 export default fetchNewsByCategory;
-

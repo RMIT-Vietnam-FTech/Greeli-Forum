@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Carousel } from "react-bootstrap";
 
 const NewList = (props) => {
@@ -9,7 +9,11 @@ const NewList = (props) => {
 
 	const Card = (props) => {
 		return (
-			<div className={`card mx-2 shadow-none bg-greeli-subtle bg-greeli-subtle shadow-none ${isMobile ? "col-12" : "col-md-3"}`}>
+			<div
+				className={`card mx-2 shadow-none bg-greeli-subtle bg-greeli-subtle shadow-none ${
+					isMobile ? "col-12" : "col-md-3"
+				}`}
+			>
 				<img
 					src={props.img}
 					className="card-img-top"
@@ -27,25 +31,26 @@ const NewList = (props) => {
 		);
 	};
 
-  // Handle window resize for dynamic responsiveness
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+	// Handle window resize for dynamic responsiveness
+	useEffect(() => {
+		const handleResize = () => setIsMobile(window.innerWidth <= 768);
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 
 	// Fetch data from API
 	useEffect(() => {
-    // Fetch data using Axios when component mounts
-    	axios.get("http://localhost:3001/api/news/get")
-      	.then(response => {
-        	setData(response.data);
-			console.log(response.data);
-      	})
-      	.catch(error => {
-        	console.error('Error fetching data:', error);
-      	});
-  	}, []);
+		// Fetch data using Axios when component mounts
+		axios
+			.get("http://localhost:3001/api/news/get")
+			.then((response) => {
+				setData(response.data);
+				console.log(response.data);
+			})
+			.catch((error) => {
+				console.error("Error fetching data:", error);
+			});
+	}, []);
 	return (
 		<>
 			<div className="container my-5 p-5 flex-column">
@@ -91,3 +96,4 @@ const NewList = (props) => {
 };
 
 export default NewList;
+

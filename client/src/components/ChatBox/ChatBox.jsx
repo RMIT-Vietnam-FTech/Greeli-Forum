@@ -2,11 +2,14 @@ import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import InputEmoji from "react-input-emoji";
 import "./ChatBox.css";
+import Cookies from "universal-cookie";
 const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 	const [userData, setUserData] = useState(null);
 	const [messages, setMessages] = useState([]);
 	const [newMessage, setNewMessage] = useState("");
 	const scroll = useRef();
+	const cookies = new Cookies();
+	const token = cookies.get("TOKEN");
 
 	useEffect(() => {
 		const getChatData = async () => {
@@ -14,6 +17,10 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 			const configuration = {
 				method: "get",
 				url: `http://localhost:3001/api/user/find/${receiverId}`,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
 			};
 			axios(configuration)
 				.then((result) => {
@@ -32,6 +39,10 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 			const configuration = {
 				method: "get",
 				url: `http://localhost:3001/api/message/find/${chatId}`,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
 			};
 			axios(configuration)
 				.then((result) => {
@@ -59,8 +70,12 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 		// send message to database
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/message/create`,
+			url: "http://localhost:3001/api/message/create",
 			data: message,
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
 		};
 
 		// send message to socket server
@@ -98,7 +113,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 						<div className="chat-header">
 							<div className="follower">
 								<div>
-									<div className="online-dot"></div>
+									<div className="online-dot" />
 									<img
 										src=""
 										alt=""
@@ -120,8 +135,8 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 						</div>
 						{/* chatbox messages */}
 						<div className="chat-body">
-							{messages.map((message) => (
-								<>
+							{messages.map((message, index) => (
+								<div key={index}>
 									<div
 										ref={scroll}
 										className={
@@ -132,7 +147,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 									>
 										<span>{message.text}</span>{" "}
 									</div>
-								</>
+								</div>
 							))}
 						</div>
 						<div className="chat-sender">
@@ -144,6 +159,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 							<button
 								className="send-button button"
 								onClick={handleSend}
+								type="submit"
 							>
 								Send
 							</button>

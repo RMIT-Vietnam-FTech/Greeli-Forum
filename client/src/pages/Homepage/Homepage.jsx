@@ -1,13 +1,14 @@
 import React from "react";
-import HeroSection from "./hero.jsx";
-import Jumbotron from "./jumbotron.jsx";
-import Main from "./main.jsx";
+import Header from "./component/Header";
+import Main from "./component/Main";
+import Jumbotron from "./component/Jumbotron";
 
 function Homepage() {
 	return (
 		<div className="App">
-			<HeroSection />
+			<Header />
 			<Main />
+			<Jumbotron />
 		</div>
 	);
 }
