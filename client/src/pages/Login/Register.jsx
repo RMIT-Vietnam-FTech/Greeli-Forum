@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState, useRef, useContext } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
-import { FaKey, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Reaptcha from "reaptcha";

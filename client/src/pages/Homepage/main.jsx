@@ -23,7 +23,10 @@ export default function Main() {
 					className="p-4 bg-greeli-subtle mx-5 rounded-5"
 					id="about-section"
 				>
-					<div className="container mt-5 mx-auto" aria-label="about section">
+					<div
+						className="container mt-5 mx-auto"
+						aria-label="about section"
+					>
 						<div className="text-center px-4">
 							<h1 className="fw-bold display-3 pb-4 text-greeli-emphasis">
 								What is{" "}
@@ -127,5 +130,5 @@ export default function Main() {
 				{/* Jumbotron Section End */}
 			</main>
 		</>
-	)
+	);
 }

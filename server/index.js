@@ -50,6 +50,7 @@ app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/topics", topicRoutes);
+app.use("/api/v1/news", newsRoutes);
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
 mongoose

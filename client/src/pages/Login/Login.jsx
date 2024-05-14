@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useState, useContext } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
-import { FaKey, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -102,7 +102,7 @@ const Login = () => {
 						The guide to sustainable life
 					</h1>
 					<Image
-					src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
 						width={120}
 						className="my-2"
 						alt="Greeli Forum Logo"
