@@ -10,7 +10,7 @@ import { UserContextProvider } from "./context/UserContext.jsx";
 import Chat from "./pages/Chat/Chat";
 import DashBoardPage from "./pages/DashBoardPage.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
-import Homepage from "./pages/Homepage/Homepage";
+import Homepage from "./pages/Homepage/Homepage.jsx";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
 import PostPage from "./pages/PostPage/PostPage.jsx";

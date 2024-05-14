@@ -216,7 +216,7 @@ const Navbar = () => {
 						<IoMoon className="moon" />
 					</label>
 					{userId === null ? (
-						<Link to="/login" className="login-button theme-button">
+						<Link to="/login" className="login-button theme-button" style={{textDecoration: "none"}}>
 							Login
 						</Link>
 					) : (

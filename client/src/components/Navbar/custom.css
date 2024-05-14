@@ -28,6 +28,7 @@
 
   .login-button:hover {
     background-color: #0A2A28;
+    color: white;
   }
 
   .navbar-logger {

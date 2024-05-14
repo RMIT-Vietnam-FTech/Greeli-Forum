@@ -6,6 +6,12 @@ export const register = async (req, res) => {
 	try {
 		const { username, email, password } = req.body;
 		console.log(username, email, password);
+		const userEmail = await User.findOne({ email: email });
+		if (userEmail) return res.status(400).json({ error: "Email has been used" });
+
+		const userName = await User.findOne({ username: username });
+		if (userName) return res.status(400).json({ error: "Username has been used" });
+		
 		const salt = await bcrypt.genSalt(10);
 		const hashPassword = await bcrypt.hash(password, salt);
 		const newUser = new User({

@@ -30,3 +30,15 @@ export const verifyAdmin = async (req, res, next) => {
 	}
 	next();
 };
+
+export const verifyThreadAdmin = async (req, res, next) => {
+	const user = await User.findById(req.params.adminThreadId);
+	if (!user) return res.status(400).json({ error: "User doesn't exist" });
+	// if (!req.user || req.user.role !== "admin") {
+		if (user.role !== "admin") {
+		return res
+			.status(403)
+			.json({ error: "Forbidden (Admin access required)" });
+	}
+	next();
+};
