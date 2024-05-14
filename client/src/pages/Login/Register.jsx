@@ -216,6 +216,7 @@ const Register = () => {
 									id="password"
 									placeholder="password"
 									value={password}
+									autoComplete="on"
 									onChange={(e) =>
 										setPassword(e.target.value)
 									}
@@ -258,6 +259,7 @@ const Register = () => {
 									{...register("confirmPassword")}
 									className="form-control"
 									id="confirmPassword"
+									autoComplete="on"
 									placeholder="Confirm Password"
 								/>
 								<label
