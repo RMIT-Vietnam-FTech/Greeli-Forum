@@ -1,6 +1,8 @@
 import Thread from "../models/Thread.js";
 import User from "../models/User.js";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
+import dotenv from "dotenv";
+
 const createRandomName = (bytes = 32) =>
 	crypto.randomBytes(bytes).toString("hex");
 
@@ -48,7 +50,12 @@ export const getThreads = async (req, res) => {
 
 export const getThread = async (req, res) => {
 	try {
-	} catch (error) {}
+    const { threadId } = req.params;
+    const thread = await Thread.findById({ _id: threadId });
+    res.status(200).json(thread);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const modifyThreadContent = async (req, res) => {

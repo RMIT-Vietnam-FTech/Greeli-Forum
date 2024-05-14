@@ -1,13 +1,6 @@
 import express from "express";
 import multer from "multer";
-import {
-  createThread,
-  getThreadRules,
-  createThreadRule,
-  modifyThreadRule,
-  deleteThreadRule,
-  deleteThreadRuleByRuleIndex,
-} from "../controllers/thread.js";
+import * as threadController from "../controllers/thread.js";
 import { verifyAdmin, verifyToken } from "../middleware/auth.js";
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -39,9 +32,10 @@ router
 		upload.single("uploadFile"),
 		threadController.createThread,
 	);
-router.get("/get/threadId/rule", verifyAdmin, getThreadRules);
-router.post("/create/threadId/rule", verifyAdmin, createThreadRule);
-router.put("/modify/threadId/rule/ruleId", verifyAdmin, modifyThreadRule);
-router.put("/delete/threadId/rule", verifyAdmin, deleteThreadRule);
-router.put("/delete/threadId/rule/ruleId", verifyAdmin, deleteThreadRuleByRuleIndex);
+router.get("/get/threadId/rule", verifyAdmin, threadController.getThreadRules);
+router.post("/create/threadId/rule", verifyAdmin, threadController.createThreadRule);
+router.post("/create",threadController.createThread);
+router.put("/modify/threadId/rule/ruleId", verifyAdmin, threadController.modifyThreadRule);
+router.put("/delete/threadId/rule", verifyAdmin, threadController.deleteThreadRule);
+router.put("/delete/threadId/rule/ruleId", verifyAdmin, threadController.deleteThreadRuleByRuleIndex);
 export default router;

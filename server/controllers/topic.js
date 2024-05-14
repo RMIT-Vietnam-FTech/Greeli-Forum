@@ -4,9 +4,10 @@ import Topic from "../models/Topic.js";
 export const createTopic = async (req, res) => {
   try {
     const {title, threads} = req.body;
-    const newTopic = await new Topic(
-        title,
-        threads,
+    const newTopic = new Topic({
+        title : title,
+        threads : threads,
+    }
     );
     const savedTopic = await newTopic.save();
     res.status(201).json(savedTopic);
