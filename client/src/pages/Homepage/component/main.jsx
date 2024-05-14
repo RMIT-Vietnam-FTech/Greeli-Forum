@@ -5,7 +5,7 @@ import { IoChatbubbles } from "react-icons/io5";
 import { ThemeContext } from "../../../context/ThemeContext.jsx";
 import { useUserContext } from "../../../context/UserContext.jsx";
 import "../../../scss/custom.css";
-import "../style/main.css";
+import "../style/Main.css";
 import Posts from "./RecommendPost.jsx";
 // import NewsData from "./data/new";
 // import NewList from "./newsItems";
@@ -19,7 +19,7 @@ const Main = () => {
 		>
 			{/* What is Greeli?  */}
 			<section className="mx-md-5 mx-4 mb-md-5 mb-3 bg-greeli-subtle rounded-5 section">
-				<div className="col-12 p-4 mx-auto text-center">
+				<div className="col-12 p-5 mx-auto text-center">
 					<h1 className="display-3 text-greeli-emphasis mb-3">
 						What is{" "}
 						<span className="text-primary-yellow">Greeli</span>?
