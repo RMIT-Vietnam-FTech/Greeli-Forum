@@ -144,9 +144,13 @@
 }
 
 .newsContainer {
-    justify-content: center;
-    align-items: center;
     margin-top: 20px;
+}
+
+.loadingContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .slider {
@@ -172,9 +176,21 @@
     object-fit: cover;
 }
 
+.loading-card-img-top {
+    width: 200px;
+}
+
+.loading-news-card {
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    width: 200px;
+}
+
 .cards-body {
     padding: 15px;
-    height: 280px;
+    height: auto;
 }
 
 .cards-body h6 {

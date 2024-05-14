@@ -1,16 +1,16 @@
 import React from "react";
-import Header from "./component/header.jsx";
-import Main from "./component/main.jsx";
-import Jumbotron from "./component/jumbotron.jsx";
+import Header from "./component/Header";
+import Main from "./component/Main";
+import Jumbotron from "./component/Jumbotron";
 
 function Homepage() {
-  return (
-    <div className="App">
-      <Header />
-      <Main />
-      <Jumbotron />
-    </div>
-  );
+	return (
+		<div className="App">
+			<Header />
+			<Main />
+			<Jumbotron />
+		</div>
+	);
 }
 
 export default Homepage;
