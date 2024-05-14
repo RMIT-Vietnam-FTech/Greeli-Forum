@@ -18,11 +18,10 @@ export const createNews = async (req, res) => {
 // READ news
 export const getNews = async (req, res) => {
 	try {
-        const newsList = await News.find();
+		const newsList = await News.find();
 		console.log(newsList);
-        res.status(201).json(newsList);
+		res.status(201).json(newsList);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
 };
-
