@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 export const verifyToken = async (req, res, next) => {
 	try {
@@ -19,7 +20,10 @@ export const verifyToken = async (req, res, next) => {
 };
 
 export const verifyAdmin = async (req, res, next) => {
-	if (!req.user || req.user.role !== "admin") {
+	const user = await User.findById(req.params.adminId);
+	if (!user) return res.status(400).json({ error: "User doesn't exist" });
+	// if (!req.user || req.user.role !== "admin") {
+		if (user.role !== "admin") {
 		return res
 			.status(403)
 			.json({ error: "Forbidden (Admin access required)" });

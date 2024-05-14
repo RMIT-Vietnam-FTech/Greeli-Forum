@@ -148,7 +148,9 @@ export default function Footer() {
 					<div className="text-light text-center py-3 px-4">
 						Copyright ©2024 All rights reserved | This website is
 						designed and built by{" "}
-						<span className="text-primary-yellow">RMIT FTech Team</span>
+						<span className="text-primary-yellow">
+							RMIT FTech Team
+						</span>
 					</div>
 				</div>
 			</footer>

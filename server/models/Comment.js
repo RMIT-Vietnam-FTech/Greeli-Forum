@@ -6,6 +6,10 @@ const commentSchema = new mongoose.Schema({
 		required: true,
 	},
 	createdBy: {
+		userId: {
+			type: String,
+			required: true,
+		},
 		username: {
 			type: String,
 			required: true,
@@ -15,10 +19,19 @@ const commentSchema = new mongoose.Schema({
 			required: true,
 		},
 	},
-	replies: {
+	upvote: {
 		type: Array,
-	}
-}, { timestamps: true });
-
+		default: [],
+	},
+	replies: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Comment",
+		},
+	],
+});
+{
+	timestamps: true;
+}
 const Comment = mongoose.model("Comment", commentSchema);
 export default Comment;

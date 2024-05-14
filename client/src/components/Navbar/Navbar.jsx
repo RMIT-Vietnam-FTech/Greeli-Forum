@@ -1,26 +1,30 @@
 import React, { useContext } from "react";
 import Image from "react-bootstrap/Image";
-import Cookies from "universal-cookie";
 import { FaUser } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { IoMoon, IoSunny } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
-import "../../scss/custom.css";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 import { ThemeContext } from "../../context/ThemeContext";
-import "./custom.css";
 import { UserContext, useUserContext } from "../../context/UserContext";
-import { Link } from "react-router-dom";
+import "../../scss/custom.css";
+import "./custom.css";
 
 const Navbar = () => {
 	const cookies = new Cookies();
+	const navigate = useNavigate();
 	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
 	const { user, setUser, toggleUserInfo } = useUserContext();
+	const userId = JSON.parse(user)?.id || null;
 	const logout = () => {
+		console.log(user);
 		console.log("logout");
 		// toggleUserInfo()
 		localStorage.removeItem("user");
 		cookies.remove("TOKEN", { path: "/" });
 		setUser(null);
+		navigate("/", { replace: true });
 	};
 	return (
 		<nav
@@ -28,7 +32,7 @@ const Navbar = () => {
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<div className="container-fluid">
-				<button
+				{/* <button
 					className="navbar-toggler"
 					type="button"
 					data-bs-toggle="offcanvas"
@@ -39,7 +43,7 @@ const Navbar = () => {
 					<span className="text-greeli-emphasis">
 						<FiMoreVertical />
 					</span>
-				</button>
+				</button> */}
 				<Link className="brand d-flex" to="/">
 					<Image
 						className="me-0 me-md-3"
@@ -74,43 +78,57 @@ const Navbar = () => {
 					<div className="offcanvas-body">
 						<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
 							<li className="nav-item">
-								<Link
-									className="nav-link active text-greeli-emphasis"
+								<NavLink
+									activeclassname="active"
+									className="nav-link text-greeli-emphasis"
+									aria-current="page"
+									to="/"
+								>
+									Home
+								</NavLink>
+							</li>
+							<li className="nav-item">
+								<NavLink
+									activeclassname="active"
+									className="nav-link text-greeli-emphasis"
 									aria-current="page"
 									to="/general"
 								>
 									General
-								</Link>
+								</NavLink>
 							</li>
 							<li className="nav-item">
-								<Link
+								<NavLink
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
-									to="/"
+									to="/forum"
 								>
 									Forum
-								</Link>
+								</NavLink>
 							</li>
 							<li className="nav-item">
-								<Link
+								<NavLink
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
-									to="/general"
+									to="/about"
 								>
 									About
-								</Link>
+								</NavLink>
 							</li>
 							<li className="nav-item">
-								<a
+								<NavLink
+									activeclassname="active"
 									className="nav-link text-greeli-emphasis"
-									href="/"
+									to="/contact"
 								>
 									Contact
-								</a>
+								</NavLink>
 							</li>
 						</ul>
 					</div>
 				</div>
 
-				<div
+				{/* <div
 					className="offcanvas offcanvas-start offCanvasForum"
 					tabIndex="-1"
 					id="offcanvasForum"
@@ -167,34 +185,50 @@ const Navbar = () => {
 							</li>
 						</ul>
 					</div>
-				</div>
+				</div> */}
 
 				<div className="d-flex flex-row align-items-center gap-3">
-					<a className="nav-link" href="/">
-						<FaUser className="icon text-greeli-emphasis" />
-					</a>
+					<NavLink
+						className=""
+						to="/profile"
+						role="user profile page"
+						aria-label="link to user profile page"
+					>
+						<FaUser
+							className="icon text-greeli-emphasis"
+							alt="user icon"
+						/>
+					</NavLink>
 					<input
 						type="checkbox"
 						id="darkmode-toggle"
 						checked={isDarkMode}
 						onChange={toggleDarkMode}
+						role="checkbox"
 					/>
 					<label
 						htmlFor="darkmode-toggle"
 						className="darkmode-toggle"
+						aria-label="toggle dark mode button"
+						tabIndex={0}
 					>
 						<IoSunny className="sun" />
 						<IoMoon className="moon" />
 					</label>
-					{!user && (
-						<Link to="/login" className="login-button">
+					{userId === null ? (
+						<Link to="/login" className="login-button theme-button">
 							Login
 						</Link>
-					)}
-					{user && (
-						<button className="login-button" onClick={logout}>
-							Logout
-						</button>
+					) : (
+						user !== null && (
+							<button
+								className="login-button theme-button"
+								onClick={logout}
+								type="button"
+							>
+								Logout
+							</button>
+						)
 					)}
 					<button
 						className="navbar-toggler"

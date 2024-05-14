@@ -1,20 +1,35 @@
 import mongoose from "mongoose";
+import Comment from "./Comment.js";
 
 const postSchema = new mongoose.Schema(
 	{
+		belongToThread: {
+			type: mongoose.Schema.Types.ObjectId,
+			require: true,
+		},
 		title: {
 			type: String,
 			required: true,
 		},
+		uploadFile: {
+			type: String,
+			required: false,
+		},
 		content: {
 			type: String,
-			required: true,
+			required: false,
 		},
-		postImage: {
-			type: String,
-			required: true,
-		},
+		comments: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Comment",
+			},
+		],
 		createdBy: {
+			userId: {
+				type: String,
+				required: true,
+			},
 			username: {
 				type: String,
 				required: true,
@@ -23,10 +38,6 @@ const postSchema = new mongoose.Schema(
 				type: String,
 				required: true,
 			},
-		},
-		parentThread: {
-			type: String,
-			required: true,
 		},
 		isApproved: {
 			type: Boolean,
@@ -39,3 +50,5 @@ const postSchema = new mongoose.Schema(
 	},
 	{ timestamps: true },
 );
+
+export default mongoose.model("Post", postSchema);

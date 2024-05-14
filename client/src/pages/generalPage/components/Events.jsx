@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import Slider from "react-slick";
 import { ThemeContext } from "../../../context/ThemeContext";
 // import "slick-carousel/slick/slick-theme.css";
@@ -10,11 +10,11 @@ const Card = ({ image, title, description, date, event }) => {
 	return (
 		<div className="card">
 			<img src={image} className="card-img-top" alt={title} />
-			<div className="cards-body">
+			<div className="events-cards-body">
 				<h5 className="card-title">{title}</h5>
 				<p className="card-text">{description}</p>
 				<p className="card-date">
-					<small className="text-muted">{date}</small>
+					<small className="date">{date}</small>
 				</p>
 			</div>
 		</div>
@@ -24,7 +24,7 @@ const Card = ({ image, title, description, date, event }) => {
 export default function Events() {
 	const settings = {
 		dots: false,
-		infinite: false,
+		infinite: true,
 		speed: 500,
 		slidesToShow: 3,
 		slidesToScroll: 3,
@@ -33,18 +33,19 @@ export default function Events() {
 			{
 				breakpoint: 1024,
 				settings: {
-					slidesToShow: 3,
-					slidesToScroll: 3,
-					infinite: true,
-					dots: true,
+					slidesToShow: 2,
+					slidesToScroll: 2,
+					dots: false,
+					lazyLoad: true,
 				},
 			},
 			{
 				breakpoint: 600,
 				settings: {
-					slidesToShow: 2,
-					slidesToScroll: 2,
-					initialSlide: 2,
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					dots: false,
+					lazyLoad: true,
 				},
 			},
 			{
@@ -52,6 +53,8 @@ export default function Events() {
 				settings: {
 					slidesToShow: 1,
 					slidesToScroll: 1,
+					dots: false,
+					lazyLoad: true,
 				},
 			},
 		],
@@ -69,26 +72,37 @@ export default function Events() {
 
 	const { isDarkMode } = useContext(ThemeContext);
 
+	const sliderRef = useRef();
+	const handleWheel = (e) => {
+		if (e.deltaX > 0) {
+			sliderRef.current.slickNext();
+		}
+	};
+
 	return (
 		<>
 			<section
-				className="news"
+				className="news bg-greeli-subtle"
 				data-bs-theme={isDarkMode ? "dark" : "light"}
 			>
-				<h4 className="popularNews">EVENTS</h4>
+				<h4 className="popularNews text-general-emphasis">EVENTS</h4>
 				<ul className="nav nav-pills events_selection">
 					<li
-						className={`navigation-item ${isActive(
-							"Social activities",
-						)}`}
+						className={`${
+							isDarkMode
+								? "navigation-item-dark-mode"
+								: "navigation-item"
+						} ${isActive("Social activities")}`}
 						onClick={() => setCategory("Social activities")}
 					>
 						<h4>Social activities</h4>
 					</li>
 					<li
-						className={`navigation-item ${isActive(
-							"Social events",
-						)}`}
+						className={`${
+							isDarkMode
+								? "navigation-item-dark-mode"
+								: "navigation-item"
+						} ${isActive("Social events")}`}
 						onClick={() => setCategory("Social events")}
 					>
 						<h4>Social events</h4>
@@ -96,18 +110,24 @@ export default function Events() {
 				</ul>
 
 				<section className="newsContainer">
-					<Slider {...settings} className="slider">
-						{filteredData.map((item) => (
-							<Card
-								key={item.id}
-								image={item.image}
-								title={item.title}
-								description={item.description}
-								date={item.date}
-								event={item.event}
-							/>
-						))}
-					</Slider>
+					<div onWheel={handleWheel}>
+						<Slider
+							ref={sliderRef}
+							{...settings}
+							className="slider"
+						>
+							{filteredData.map((item) => (
+								<Card
+									key={item.id}
+									image={item.image}
+									title={item.title}
+									description={item.description}
+									date={item.date}
+									event={item.event}
+								/>
+							))}
+						</Slider>
+					</div>
 				</section>
 			</section>
 		</>
