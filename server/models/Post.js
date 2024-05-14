@@ -34,9 +34,9 @@ const postSchema = new mongoose.Schema(
 				type: String,
 				required: true,
 			},
-			userImage: {
+			profileImage: {
 				type: String,
-				required: true,
+				default: null,
 			},
 		},
 		isApproved: {
@@ -50,5 +50,5 @@ const postSchema = new mongoose.Schema(
 	},
 	{ timestamps: true },
 );
-
-export default mongoose.model("Post", postSchema);
+const Post = mongoose.model("Post", postSchema);
+export default Post;

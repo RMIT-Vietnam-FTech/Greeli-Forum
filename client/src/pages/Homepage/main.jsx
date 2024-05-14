@@ -28,7 +28,7 @@ export default function Main() {
 						aria-label="about section"
 					>
 						<div className="text-center px-4">
-							<h1 className="fw-bold display-3 pb-4 text-greeli-emphasis">
+							<h1 className="fw-bold display-3 pb-4 text-error-emphasis">
 								What is{" "}
 								<span className="text-primary-yellow">
 									Greeli
