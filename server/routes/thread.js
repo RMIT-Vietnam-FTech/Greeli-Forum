@@ -10,6 +10,7 @@ const upload = multer({
 			file.mimetype === "image/jpeg" ||
 			file.mimetype === "image/png" ||
 			file.mimetype === "image/gif" ||
+			file.mimetype === "image/webp"||
 			file.mimetype === "video/mp4" ||
 			file.mimetype === "video/webm"
 		) {
@@ -31,5 +32,5 @@ router
 		verifyToken,
 		upload.single("uploadFile"),
 		threadController.createThread,
-	);
+	).delete(threadController.reset);
 export default router;

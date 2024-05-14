@@ -6,18 +6,7 @@ threadRouter.route("/")
     const object = [];
     for(let i =0; i < threadData.length; ++i){
         object.push(
-            {
-                _id: threadData[i]._id,
-                title: threadData[i].title,
-                content: threadData[i].content,
-                uploadFile: threadData[i].uploadFile,
-                createDate:threadData[i].createDate,
-                createBy:{
-                    username: threadData[i].createBy.username,
-                    profileImage: threadData[i].createBy.profileImage
-                } ,
-                posts: threadData[i].posts
-            }
+            threadData[i]
         );
     }
         res.json(object);
@@ -29,18 +18,7 @@ threadRouter.route("/:threadId")
     for(let i =0; i < threadData.length; ++i){
         if(threadId==threadData[i]._id){
             res.json(
-                {
-                  _id: threadData[i]._id,
-                  title: threadData[i].title,
-                  content: threadData[i].content,
-                  uploadFile: threadData[i].uploadFile,
-                  createDate:threadData[i].createDate,
-                  createBy:{
-                      username: threadData[i].createBy.username,
-                      profileImage: threadData[i].createBy.profileImage
-                  } ,
-                  posts: threadData[i].posts
-                }
+             threadData[i] 
         );
         }
         

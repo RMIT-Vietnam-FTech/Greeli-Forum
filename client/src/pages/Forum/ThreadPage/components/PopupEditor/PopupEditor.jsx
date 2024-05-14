@@ -12,7 +12,6 @@ import ts from "highlight.js/lib/languages/typescript";
 import html from "highlight.js/lib/languages/xml";
 
 import MenuBarLight from "../../../../../components/forum/EditTextEditor/MenuBarLight";
-import MenuBar from "../../../../Testing/MenuBar";
 //Utilities in tiptap
 lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);

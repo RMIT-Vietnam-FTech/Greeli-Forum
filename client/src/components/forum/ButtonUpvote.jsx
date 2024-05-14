@@ -9,11 +9,11 @@ export default function ButtonUpvote({ upvote }) {
 			console.log("check index: " + index);
 			if (index > -1) {
 				upvote.splice(index, 1);
-				setNOfUpvote((data) => data - 1);
+				setNofUpvote((data) => data - 1);
 			}
 		} else {
 			upvote.push(); //push objectID of user -> update backend
-			setNOfUpvote((data) => data + 1);
+			setNofUpvote((data) => data + 1);
 		}
 	}
 	const [nOfUpvote, setNofUpvote] = useState(upvote.length);

@@ -15,7 +15,6 @@ import ThreadPage from "./pages/Forum/ThreadPage/ThreadPage.jsx";
 import Homepage from "./pages/Homepage/Homepage";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
-import Testing from "./pages/Testing/testing.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
 function App() {
 	return (
@@ -39,10 +38,6 @@ function App() {
 								<Route path="/chat" element={<Chat />} />
 								<Route path="/forum">
 									<Route index element={<DashBoardPage />} />
-									<Route
-										path="testing"
-										element={<Testing />}
-									/>
 									<Route
 										path="threads/:threadId"
 										element={<ThreadPage />}

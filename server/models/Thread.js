@@ -11,10 +11,12 @@ const threadSchema = new mongoose.Schema(
 		content: {
 			type: String,
 			required: false,
+			default:null
 		},
 		uploadFile: {
 			type: String,
 			required: false,
+			default: null
 		},
 		posts: [
 			{
@@ -29,7 +31,7 @@ const threadSchema = new mongoose.Schema(
 			},
 		],
 		createdBy: {
-			useId: {
+			userId: {
 				type: String,
 				required: true,
 			},
@@ -39,7 +41,8 @@ const threadSchema = new mongoose.Schema(
 			},
 			profileImage: {
 				type: String,
-				required: true,
+				required: false,
+				default: null
 			},
 		},
 	},

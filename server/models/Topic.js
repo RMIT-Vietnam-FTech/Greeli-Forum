@@ -1,16 +1,17 @@
 import mongoose from "mongoose";
 
-const topicSchem = new mongoose.Schema({
+const topicSchema = new mongoose.Schema({
 	title: {
 		type: String,
 		required: true,
 	},
 	threads: [
 		{
-			type: String,
+			type: mongoose.Schema.Types.ObjectId,
+			ref:"Thread"
 		},
 	],
 });
 
-const Thread = mongoose.model("Thread", threadSchema);
-export default Thread;
+const Topic = mongoose.model("Topic", topicSchema);
+export default Topic;

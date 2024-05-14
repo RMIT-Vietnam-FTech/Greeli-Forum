@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { IoIosArrowUp } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
 import NewThreadPopUp from "../../pages/Forum/ThreadPage/components/NewThreadPopUp";
+const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function AuthLeftSideBar() {
 	const [isOpen, setIsOpen] = useState(false);
 	return (
@@ -35,8 +36,22 @@ export default function AuthLeftSideBar() {
 						<IoAdd />
 					</p>
 				</div>
+
 			</div>
 			<NewThreadPopUp isOpen={isOpen} setIsOpen={setIsOpen} />
 		</section>
 	);
+}
+
+function CreatedThread(){
+const { data, error, isLoading } = useSwr(
+		`http://localhost:9000/api/v1/threads?createdBy=${JSON.parse(localStorage.getItem("user")).id}`,
+		fetcher,
+	);
+	if (error) {
+		return <div>is error</div>;
+	}
+	if (isLoading) {
+		return <div>is loading</div>;
+	}
 }

@@ -2,7 +2,6 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { createContext } from "react";
 import useSwr from "swr";
-import useData from "../hook/useData";
 export const AuthorizationContext = createContext(false);
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);

@@ -1,8 +1,11 @@
-import crypto from "node:crypto";
+
+
+import * as crypto from 'crypto';
 import Post from "../models/Post.js";
 import Thread from "../models/Thread.js";
 import User from "../models/User.js";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
+import { ServerSideEncryptionByDefaultFilterSensitiveLog } from "@aws-sdk/client-s3";
 
 const createRandomName = (bytes = 32) =>
 	crypto.randomBytes(bytes).toString("hex");
@@ -169,7 +172,12 @@ export const deletePost = async (req, res) => {
 	}
 };
 
-export const archivedPost = async (req, res) => {
-	try {
-	} catch (error) {}
-};
+export const deleteAllPost = async (req, res) =>{
+	try{
+		await Post.deleteMany({});
+		res.status(200).json("success");
+	}
+	catch(error){
+		res.status(500).json({message: error.message});
+	}
+}
