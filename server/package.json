@@ -9,6 +9,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "gridfs-stream": "^1.1.1",
+    "group-project-cosc3060-2024a-ftech": "file:..",
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.5.0",
