@@ -6,6 +6,7 @@ import ChatBox from "../../components/ChatBox/ChatBox";
 import Conversation from "../../components/Conversation/Conversation";
 import { useUserContext } from "../../context/UserContext";
 import "./chat.css";
+import LoginPopup from "../../components/Popup/LoginPopup";
 const Chat = () => {
 	const socket = useRef();
 	const cookies = new Cookies();
@@ -15,6 +16,7 @@ const Chat = () => {
 	const [onlineUsers, setOnlineUsers] = useState([]);
 	const [sendMessage, setSendMessage] = useState(null);
 	const [receiveMessage, setReceiveMessage] = useState(null);
+	const [error, setError] = useState("");
 	const userId = JSON.parse(user).id;
 	const token = cookies.get("TOKEN") || null;
 	// console.log(onlineUsers);
@@ -57,7 +59,8 @@ const Chat = () => {
 					setChats(result.data);
 				})
 				.catch((error) => {
-					console.log(error.response.data);
+					setError(error.response.data.error)
+					console.log(error);
 				});
 		};
 		getChats();
@@ -95,6 +98,7 @@ const Chat = () => {
 	return (
 		<div className="Chat">
 			{/* Left Side */}
+			{(error === "invalid token") && <LoginPopup isShow={true}/>}
 			<div className="Left-side-chat">
 				<div className="Chat-container">
 					<h2>Chat</h2>

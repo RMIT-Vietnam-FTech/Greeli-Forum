@@ -59,6 +59,8 @@ const LoginPopup = ({ isShow }) => {
 				// set user context
 				setUser(JSON.stringify(result.data));
 				navigate(<Outlet />, { replace: true });
+				setShowModal(false);
+				window.location.reload();
 			})
 			.catch((error) => {
 				console.log(error.response.data.error);
@@ -93,7 +95,7 @@ const LoginPopup = ({ isShow }) => {
 								className="modal-title fs-5"
 								id="exampleModalLabel"
 							>
-								Login
+								Login to continue
 							</h1>
 							<button
 								type="button"

@@ -55,7 +55,7 @@ const Login = () => {
 			.then((result) => {
 				if (result.data) {
 					toast.success("Successfully Login!", {
-						duration: 4000,
+						duration: 3000,
 						position: "top-center"
 					})
 					setIsLogin(true)
@@ -69,11 +69,11 @@ const Login = () => {
 				// set user context
 				setUser(JSON.stringify(result.data));
 				// navigate(from, { replace: true });
-				setTimeout(() => {navigate(from, { replace: true })}, 3000)
+				setTimeout(() => {navigate(from, { replace: true })}, 2000)
 			})
 			.catch((error) => {
 				toast.error(error.response.data.error, {
-					duration: 4000,
+					duration: 3000,
 					position: "top-center"
 				})
 				console.log(error.response.data.error);
