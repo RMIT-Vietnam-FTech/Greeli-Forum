@@ -1,5 +1,4 @@
 import express from "express";
-import express from "express";
 import multer from "multer";
 import { createPost, getPosts } from "../controllers/post.js";
 import * as PostController from "../controllers/post.js";

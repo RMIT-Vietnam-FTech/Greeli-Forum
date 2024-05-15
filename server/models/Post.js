@@ -14,6 +14,7 @@ const postSchema = new mongoose.Schema(
 		uploadFile: {
 			type: String,
 			required: false,
+			default: null
 		},
 		content: {
 			type: String,
