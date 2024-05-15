@@ -13,41 +13,34 @@ import ThreadBody from "./ThreadBody";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function ThreadPage() {
-	const { threadId } = useParams();
-	const path = `localhost:9000/api/v1/threads/${threadId}`;
-	const { data, error, isLoading } = useSwr(
-		`http://localhost:9000/api/v1/threads/${threadId}`,
-		fetcher,
-	);
-	if (error) {
-		return <div>is error</div>;
-	}
-	if (isLoading) {
-		return <div>is loading</div>;
-	}
-	return (
-		<>
-			<section className="container">
-				<section className="left-sidebar">
-					{localStorage.getItem("user") ? (
-						<AuthLeftSideBar />
-					) : (
-						<LeftSideBar />
-					)}
-				</section>
-				<section className="main-container">
-					<section className="main">
-						<ThreadHeader
-							title={data.title}
-							uploadFile={data.uploadFile}
-							content={data.content}
-							objectId={data._id}
-						/>
-						<ThreadBody posts={data.posts} />
-					</section>
-					<section className="right-sidebar"></section>
-				</section>
-			</section>
-		</>
-	);
+  const { threadId } = useParams();
+  const path = `http://localhost:3001/api/v1/threads/${threadId}`;
+  const { data, error, isLoading } = useSwr(path, fetcher);
+  if (error) {
+    return <div>is error</div>;
+  }
+  if (isLoading) {
+    return <div>is loading</div>;
+  }
+  return (
+    <>
+      <section className="container">
+        <section className="left-sidebar">
+          {localStorage.getItem("user") ? <AuthLeftSideBar /> : <LeftSideBar />}
+        </section>
+        <section className="main-container">
+          <section className="main">
+            <ThreadHeader
+              title={data.title}
+              uploadFile={data.uploadFile}
+              content={data.content}
+              objectId={data._id}
+            />
+            <ThreadBody belongToThread={data._id} />
+          </section>
+          <section className="right-sidebar"></section>
+        </section>
+      </section>
+    </>
+  );
 }

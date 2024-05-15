@@ -25,7 +25,7 @@ export default function InitialPost({ postData }) {
 						componentType="post"
 						objectId={postData._id}
 					>
-						<DropDown componentType="post" />
+						<DropDown componentType="post" postId={postData._id} threadId={postData.belongToThread} />
 					</AuthorizationContextProvider>
 				</div>
 
@@ -43,7 +43,7 @@ export default function InitialPost({ postData }) {
 							/>
 						</div>
 					) : null}
-					<EditTextEditor content={postData.content} />
+					<EditTextEditor componentType="post" content={JSON.parse(postData.content)} />
 				</div>
 			</EditContextProvider>
 		</section>

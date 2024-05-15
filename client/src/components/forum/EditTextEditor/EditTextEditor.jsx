@@ -68,7 +68,7 @@ export default function EditTextEditor({ content, componentType }) {
 				}
 				slotAfter={
 					editContext.isEdit ? (
-						<EditTextBar content={content} />
+						<EditTextBar content={content} componentType={componentType} />
 					) : null
 				}
 				extensions={extensions}

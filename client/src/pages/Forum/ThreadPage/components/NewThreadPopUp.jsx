@@ -8,12 +8,14 @@ import { RiCloseLargeLine } from "react-icons/ri";
 import Slider from "react-slick";
 import DropZoneFile from "./DropZoneFile";
 import PopupEditor from "./PopupEditor/PopupEditor";
+import { useNavigate } from "react-router-dom";
 
 export default function NewThreadPopUp({ isOpen, setIsOpen }) {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState();
   const [addedTopics, setAddedTopics] = useState([]);
   const [isNext, setIsNext] = useState(false);
+  const navigate = useNavigate();
   const defaultTopics = [
     "Health",
     "Transportation",
@@ -38,23 +40,27 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
         setDescription([]);
         const formData = new FormData();
         formData.append("title", threadTitleInput.value);
-        if(file){
-        formData.append("uploadFile", file[0]);
-        }
-        else{
-        formData.append("uploadFile", null);
+        if (file) {
+          formData.append("uploadFile", file[0]);
+        } else {
+          formData.append("uploadFile", null);
         }
         formData.append("content", JSON.stringify(description));
         for (let i = 0; i < addedTopics.length; ++i) {
           formData.append("topics[]", addedTopics[i]);
         }
-        await axios.post("http://localhost:3001/api/v1/threads", formData, {
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
-          },
-        });
+        const res = await axios.post(
+          "http://localhost:3001/api/v1/threads",
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                JSON.parse(localStorage.getItem("user")).token
+              }`,
+            },
+          }
+        );
+        navigate(`/forum/threads/${res.data}`);
       }
     } catch (e) {
       console.error(e.message);

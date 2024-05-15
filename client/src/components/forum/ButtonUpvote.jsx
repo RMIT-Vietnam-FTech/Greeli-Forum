@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import { BsArrowUpSquareFill } from "react-icons/bs";
 export default function ButtonUpvote({ upvote }) {

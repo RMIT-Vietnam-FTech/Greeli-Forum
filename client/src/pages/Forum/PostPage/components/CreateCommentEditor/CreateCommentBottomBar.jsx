@@ -40,8 +40,7 @@ export default function EditTextBar({ content }) {
 
 			editor.commands.setContent("");
 			// store data in database
-			//command PUT or POST  on what link
-			//--> POST when edit, PUT when create, pass type and
+
 		} else {
 			// toggle error text editor
 		}

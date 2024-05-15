@@ -63,7 +63,7 @@ const Login = () => {
 				navigate(from, { replace: true });
 			})
 			.catch((error) => {
-				console.log(error.response.data.error);
+				console.error(error.response.data);
 			});
 	};
 
