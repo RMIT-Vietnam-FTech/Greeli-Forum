@@ -12,6 +12,7 @@ import DashBoardPage from "./pages/DashBoardPage.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Homepage from "./pages/Homepage/Homepage.jsx";
 import Login from "./pages/Login/Login";
+import ContactPage from "./pages/ContactPage/Contact.jsx";
 import Register from "./pages/Login/Register";
 import PostPage from "./pages/PostPage/PostPage.jsx";
 import Profile from "./pages/Profile/Profile";
@@ -20,39 +21,34 @@ import GeneralPage from "./pages/generalPage/generalPage";
 
 function App() {
 	return (
-		<div className="App w-100">
-			<ThemeProvider>
-				<UserContextProvider>
-					<Navbar />
-					<div className="h-100" style={{ marginTop: "80px" }}>
-						<Routes>
-							<Route path="/" element={<Homepage />} />
-							<Route path="/login" element={<Login />} />
-							<Route path="/register" element={<Register />} />
-							<Route path="/general" element={<GeneralPage />} />
-							<Route element={<RequireAuth />}>
-								<Route path="/profile" element={<Profile />} />
-							<Route path="/chat" element={<Chat />} />
-							</Route>
-							<Route path="/forum">
-								<Route index element={<DashBoardPage />} />
-								<Route
-									path="threads/:threadId"
-									element={<ThreadPage />}
-								/>
-								<Route
-									path="posts/:postId"
-									element={<PostPage />}
-								/>
-							</Route>
-							<Route path="*" element={<ErrorPage />} />
-						</Routes>
-					</div>
-					<Footer />
-				</UserContextProvider>
-			</ThemeProvider>
-		</div>
-	);
+    <div className="App w-100">
+      <ThemeProvider>
+        <UserContextProvider>
+          <Navbar />
+          <div className="h-100" style={{ marginTop: "80px" }}>
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/general" element={<GeneralPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route element={<RequireAuth />}>
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/chat" element={<Chat />} />
+              </Route>
+              <Route path="/forum">
+                <Route index element={<DashBoardPage />} />
+                <Route path="threads/:threadId" element={<ThreadPage />} />
+                <Route path="posts/:postId" element={<PostPage />} />
+              </Route>
+              <Route path="*" element={<ErrorPage />} />
+            </Routes>
+          </div>
+          <Footer />
+        </UserContextProvider>
+      </ThemeProvider>
+    </div>
+  );
 }
 
 export default App;
