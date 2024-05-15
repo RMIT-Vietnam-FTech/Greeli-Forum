@@ -35,8 +35,8 @@ app.use(cors({
 }));
 
 app.use((req, res, next) => {
-	res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' http://localhost:3001;");
-	res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://cdnjs.cloudflare.com");
+	res.setHeader("Content-Security-Policy", "default-src 'self'; connect-src 'self' http://localhost:3001;");
+	res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://cdnjs.cloudflare.com;");
 	res.setHeader("Content-Security-Policy", "default-src 'self'; img-src 'self' data:;");
 	next();
 })
