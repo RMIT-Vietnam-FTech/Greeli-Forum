@@ -85,3 +85,21 @@ export const unlock = async (req,res) => {
      res.status(500).json({ error: error.message });
    }
  };
+
+ export const getProfile = async (req, res) => {
+	try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      console.log('User not found');
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    console.log('User found:', user);
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error('Error fetching user:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
