@@ -24,14 +24,22 @@ dotenv.config();
 // const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(helmet());
-// app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-// app.use(cors());
+app.use(cors());
+
+app.use((req, res, next) => {
+	res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' http://localhost:3001;");
+	res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://cdnjs.cloudflare.com");
+	res.setHeader("Content-Security-Policy", "default-src 'self'; img-src 'self' data:;");
+	next();
+})
 
 app.use(express.static(path.join(__dirname, "/client/build")))
+
 /*FILE STORAGE*/
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -41,6 +49,7 @@ const storage = multer.diskStorage({
 		cb(null, file.originalname);
 	},
 });
+
 
 const upload = multer({ storage });
 
