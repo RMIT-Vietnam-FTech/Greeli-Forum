@@ -6,7 +6,7 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import multer from "multer";
-
+import path from "path";
 import chatRoutes from "./routes/chat.js";
 import messageRoutes from "./routes/message.js";
 import newsRoutes from "./routes/news.js";
@@ -18,6 +18,8 @@ import topicRoutes from "./routes/topic.js";
 import { app, io, server } from "./socket/socket.js";
 
 /* CONFIGURATION */
+const __dirname = path.resolve();
+
 dotenv.config();
 // const app = express();
 app.use(express.json());
@@ -29,6 +31,7 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
+app.use(express.static(path.join(__dirname, "/client/build")))
 /*FILE STORAGE*/
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
@@ -51,6 +54,9 @@ app.use("/api/message", messageRoutes);
 app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/topics", topicRoutes);
 app.use("/api/v1/news", newsRoutes);
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "client", "build", "index.html"))
+})
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
 mongoose
