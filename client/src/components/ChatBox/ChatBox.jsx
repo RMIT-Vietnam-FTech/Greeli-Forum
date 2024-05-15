@@ -16,7 +16,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 			const receiverId = chat.members.find((id) => id !== currentUserId);
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/user/find/${receiverId}`,
+				url: `/api/user/find/${receiverId}`,
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 			const chatId = chat._id;
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/message/find/${chatId}`,
+				url: `/api/message/find/${chatId}`,
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -70,7 +70,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 		// send message to database
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/message/create",
+			url: "/api/message/create",
 			data: message,
 			headers: {
 				"Content-Type": "application/json",

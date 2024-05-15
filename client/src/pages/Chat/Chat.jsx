@@ -45,7 +45,7 @@ const Chat = () => {
 		const getChats = async () => {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/chat/find/${userId}`,
+				url: `/api/chat/find/${userId}`,
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
