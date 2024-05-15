@@ -11,6 +11,7 @@ function Posts() {
 					src={props.img}
 					alt="News"
 					className="card-img-top rounded-top-3"
+					crossOrigin="anonymous"
 				/>
 				<div className="cards-body">
 					<p className="card-date">

@@ -26,7 +26,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(helmet.contentSecurityPolicy())
+// app.use(helmet({
+// 	contentSecurityPolicy: {
+// 		"script-src": ["'self'", "cdnjs.cloudflare.com"],
+// 		"connect-src": ["'self'", "localhost:3001"],
+// 		"img-src" : ["'self'", "i.pinimg.com"],
+// 		"style-src": ["'report-sample'", "'self'", "cdnjs.cloudflare.com", "'nonce-dfaggewgwe'"],
+// 		"font-src": ["'self", "cdnjs.cloudflare.com"]
+// 	}
+// }))
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
@@ -34,12 +42,12 @@ app.use(cors({
 	origin: ["https://group-project-cosc3060-2024a-ftech.onrender.com"],
 }));
 
-app.use((req, res, next) => {
-	res.setHeader("Content-Security-Policy", "default-src 'self'; connect-src 'self' http://localhost:3001;");
-	res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://cdnjs.cloudflare.com;");
-	res.setHeader("Content-Security-Policy", "default-src 'self'; img-src 'self' data:;");
-	next();
-})
+// app.use((req, res, next) => {
+// 	res.setHeader("Content-Security-Policy", "default-src 'self'; connect-src 'self' http://localhost:3001;");
+// 	res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://cdnjs.cloudflare.com;");
+// 	res.setHeader("Content-Security-Policy", "default-src 'self'; img-src 'self' data:;");
+// 	next();
+// })
 
 app.use(express.static(path.join(__dirname, "/client/build")))
 
