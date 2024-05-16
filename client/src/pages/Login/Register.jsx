@@ -2,8 +2,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import React, { useState, useRef, useContext } from "react";
 import Image from "react-bootstrap/Image";
-import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
@@ -70,17 +70,17 @@ const Register = () => {
 				console.log(result.data.message);
 				toast.success("Register successfully!", {
 					duration: 4000,
-					position: "top-center"
-				})
+					position: "top-center",
+				});
 				setTimeout(() => {
-					navigate("/login", {replace: true})
-				}, 3000)
+					navigate("/login", { replace: true });
+				}, 3000);
 			})
 			.catch((error) => {
 				toast.error(error.response.data.error, {
 					duration: 4000,
-					position: "top-center"
-				})
+					position: "top-center",
+				});
 			});
 	};
 
@@ -126,7 +126,7 @@ const Register = () => {
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<div className="row">
-			<Toaster position="top-center"/>
+				<Toaster position="top-center" />
 				<div
 					className="col-md-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
@@ -317,7 +317,7 @@ const Register = () => {
 						>
 							Register
 						</button>
-						<p className="mt-1 mb-3 text-center text-greeli-emphasis">	
+						<p className="mt-1 mb-3 text-center text-greeli-emphasis">
 							Have an account?{" "}
 							<Link
 								to="/login"

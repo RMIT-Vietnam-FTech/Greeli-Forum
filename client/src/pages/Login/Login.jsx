@@ -2,8 +2,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import React, { useState, useContext } from "react";
 import Image from "react-bootstrap/Image";
-import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -56,10 +56,10 @@ const Login = () => {
 				if (result.data) {
 					toast.success("Successfully Login!", {
 						duration: 3000,
-						position: "top-center"
-					})
-					setIsLogin(true)
-				} 
+						position: "top-center",
+					});
+					setIsLogin(true);
+				}
 				cookies.set("TOKEN", result.data.token, {
 					path: "/",
 					maxAge: 60 * 60 * 24 * 3,
@@ -69,19 +69,21 @@ const Login = () => {
 				// set user context
 				setUser(JSON.stringify(result.data));
 				// navigate(from, { replace: true });
-				setTimeout(() => {navigate(from, { replace: true })}, 2000)
+				setTimeout(() => {
+					navigate(from, { replace: true });
+				}, 2000);
 			})
 			.catch((error) => {
 				toast.error(error.response.data.error, {
 					duration: 3000,
-					position: "top-center"
-				})
+					position: "top-center",
+				});
 				console.log(error.response.data.error);
 			});
 	};
 
 	const onSubmit = async (e) => {
-		login()
+		login();
 		setEmail("");
 		setPassword("");
 	};
@@ -101,7 +103,7 @@ const Login = () => {
 		>
 			{/* <div>{JSON.parse(user).id}</div> */}
 			<div className="row">
-			<Toaster position="top-center"/>
+				<Toaster position="top-center" />
 				{/* {(isLogin === true) && (toast.success("success"))} */}
 				<div
 					className=" col-sm-12 col-lg-6 bg-image"
@@ -197,7 +199,9 @@ const Login = () => {
 							</div>
 							<span
 								className="input-group-text text-login-emphasis"
-								onClick={() => {showPasswordButton()}}
+								onClick={() => {
+									showPasswordButton();
+								}}
 								aria-label="show password button"
 								role="button"
 							>

@@ -225,7 +225,6 @@ const LoginPopup = ({ isShow }) => {
 										value="remember-me"
 										id="flexCheckDefault"
 										aria-checked="true"
-										role="checkbox"
 										checked
 									/>
 									<label
@@ -258,7 +257,7 @@ const LoginPopup = ({ isShow }) => {
 			</div>
 
 			{/* Dark overlay */}
-			{showModal && <div className="modal-backdrop fade show"></div>}
+			{showModal && <div className="modal-backdrop fade show" />}
 		</div>
 	);
 };
