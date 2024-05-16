@@ -7,35 +7,45 @@ import {
 	MdOutlineTransgender,
 	MdPhone,
 } from "react-icons/md";
+import axios from "axios";
 
 const BasicInfo = (props) => {
+	const { id, type, basicInfo, updateBasicInfo, toaster } = props;
+	const displayInfo = basicInfo[type];
 	const [isEditing, setIsEditing] = useState(false);
+	const [currentInput, setCurrentInput] = useState("");
 
 	const editInfoHandler = (event) => {
-		const newInput = event.target.value;
-		props.setBasicInfo((preVal) => {
-			if (props.type === "email") {
-				return {
-					...preVal,
-					email: newInput,
-				};
-			} else if (props.type === "tel") {
-				return {
-					...preVal,
-					tel: newInput,
-				};
-			} else if (props.type === "address") {
-				return {
-					...preVal,
-					address: newInput,
-				};
-			} else if (props.type === "gender") {
-				return {
-					...preVal,
-					gender: newInput,
-				};
-			}
-		});
+		const newInput = currentInput;
+		var newBasicInfo;
+		if (type === "email") {
+			newBasicInfo = {
+				...basicInfo,
+				email: newInput,
+			};
+		} else if (type === "tel") {
+			newBasicInfo = {
+				...basicInfo,
+				tel: newInput,
+			};
+		} else if (type === "address") {
+			newBasicInfo = {
+				...basicInfo,
+				address: newInput,
+			};
+		} else if (type === "gender") {
+			newBasicInfo = {
+				...basicInfo,
+				gender: newInput,
+			};
+		}
+		// console.log(newBasicInfo);
+		updateBasicInfo(newBasicInfo);
+	};
+
+	const handleInput = (event) => {
+		setCurrentInput(event.target.value);
+		// console.log(event);
 	};
 
 	const iconArray = [
@@ -48,12 +58,12 @@ const BasicInfo = (props) => {
 		return (
 			<div className="container-fluid text-white info-item py-2">
 				<div className="row d-flex flex-row items-align-center g-1">
-					<div className="col-1">{iconArray[props.id]}</div>
+					<div className="col-1">{iconArray[id]}</div>
 					<input
 						type="text"
 						className="col-8 px-2"
-						value={props.basicInfo[props.type]}
-						onChange={editInfoHandler}
+						value={currentInput}
+						onChange={handleInput}
 						style={{
 							border: "solid white 1px",
 							borderRadius: "4px",
@@ -65,7 +75,8 @@ const BasicInfo = (props) => {
 					<MdCheckCircle
 						size={"2vw"}
 						className="col-2"
-						onClick={() => {
+						onClick={(e) => {
+							editInfoHandler(e);
 							setIsEditing(false);
 							toast.success("Info Updated");
 						}}
@@ -77,8 +88,8 @@ const BasicInfo = (props) => {
 		return (
 			<div className="container w-100 text-white info-item">
 				<div className="row w-100">
-					<div className="col-1">{iconArray[props.id]}</div>
-					<p className="col-9">{props.basicInfo[props.type]}</p>
+					<div className="col-1">{iconArray[id]}</div>
+					<p className={`col-9 `}>{displayInfo}</p>
 					<p
 						className="col-2"
 						onClick={() => {
@@ -94,3 +105,10 @@ const BasicInfo = (props) => {
 };
 
 export default BasicInfo;
+
+// CODE FOR CONDITIONAL FORMATTING
+// ${
+// 	displayInfo.substring(0, 14) === "Please update"
+// 		? "font-italic font-weight-light"
+// 		: "font-weight-normal"
+// }

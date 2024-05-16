@@ -55,8 +55,20 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			default: null,
 		},
+		tel: {
+			type: String,
+			default: null,
+		},
+		address: {
+			type: String,
+			default: null,
+		},
+		gender: {
+			type: String,
+			default: null,
+		},
 	},
-	{ timestamps: true },
+	{ timestamps: true }
 );
 
 const User = mongoose.model("User", userSchema);

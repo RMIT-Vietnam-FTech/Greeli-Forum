@@ -22,19 +22,16 @@ const Main = () => {
 			<section className="mx-md-5 mx-4 mb-md-5 mb-3 bg-greeli-subtle rounded-5 section">
 				<div className="col-12 p-4 mx-auto text-center">
 					<h1 className="display-4 fw-semibold text-greeli-emphasis mb-3">
-						What is{" "}
-						<span className="text-primary-yellow">Greeli</span>?
+						What is <span className="text-primary-yellow">Greeli</span>?
 					</h1>
 					<p className="fs-5 text-greeli-emphasis text-justify mb-3">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit.
-						Quisquam consectetur totam quibusdam animi nulla omnis
-						deleniti aliquid! Veritatis distinctio voluptatem dicta
-						quisquam sit voluptate odit, placeat illo, sunt unde
-						nulla? Lorem ipsum dolor sit amet, consectetur
-						adipisicing elit. Alias voluptatum minus fugiat tempora,
-						natus corrupti. Soluta incidunt aut officiis adipisci
-						earum impedit minima itaque quod non voluptatibus, modi
-						tempora beatae?
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
+						consectetur totam quibusdam animi nulla omnis deleniti aliquid!
+						Veritatis distinctio voluptatem dicta quisquam sit voluptate odit,
+						placeat illo, sunt unde nulla? Lorem ipsum dolor sit amet,
+						consectetur adipisicing elit. Alias voluptatum minus fugiat tempora,
+						natus corrupti. Soluta incidunt aut officiis adipisci earum impedit
+						minima itaque quod non voluptatibus, modi tempora beatae?
 					</p>
 					<Link to="/about" className="d-inline-flex">
 						<button
@@ -61,9 +58,9 @@ const Main = () => {
 							Collaborative Forum
 						</h5>
 						<p className="text-white text-justify">
-							Paragraph of text beneath the heading to explain the
-							heading. We'll add onto it with another sentence and
-							probably just keep going until we run out of words.
+							Paragraph of text beneath the heading to explain the heading.
+							We'll add onto it with another sentence and probably just keep
+							going until we run out of words.
 						</p>
 					</div>
 					<div className="p-md-4 w-60 w-md-100 text-center solution-item">
@@ -74,9 +71,9 @@ const Main = () => {
 							Real-time Chatting
 						</h5>
 						<p className="text-white text-justify">
-							Paragraph of text beneath the heading to explain the
-							heading. We'll add onto it with another sentence and
-							probably just keep going until we run out of words.
+							Paragraph of text beneath the heading to explain the heading.
+							We'll add onto it with another sentence and probably just keep
+							going until we run out of words.
 						</p>
 					</div>
 					<div className="p-md-4 w-60 w-md-100 text-center solution-item">
@@ -87,9 +84,9 @@ const Main = () => {
 							Informative Platform
 						</h5>
 						<p className="text-white text-justify">
-							Paragraph of text beneath the heading to explain the
-							heading. We'll add onto it with another sentence and
-							probably just keep going until we run out of words.
+							Paragraph of text beneath the heading to explain the heading.
+							We'll add onto it with another sentence and probably just keep
+							going until we run out of words.
 						</p>
 					</div>
 				</div>

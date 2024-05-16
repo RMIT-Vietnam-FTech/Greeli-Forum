@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Toaster } from "react-hot-toast";
 import "../../scss/custom.scss";
 import BasicInfo from "./components/BasicInfo";
@@ -9,13 +10,86 @@ import "./styles.css";
 
 const Profile = () => {
 	const user = demoUserInfo[0];
-	const initialBasicInfo = {
-		email: user.email,
-		tel: user.tel,
-		address: user.address,
-		gender: user.gender,
+	// const initialBasicInfo = {
+	// 	email: user.email,
+	// 	tel: user.tel,
+	// 	address: user.address,
+	// 	gender: user.gender,
+	// };
+
+	const [basicInfo, setBasicInfo] = useState({});
+
+	// GET ID FROM LOCAL STORAGE
+	const userId = JSON.parse(localStorage.getItem("user")).id;
+	// console.log(userId);
+
+	// FETCH USER INFO FROM DB THROUGH ID: username, email, role, profileImage
+	// EXCEPT tel, address, gender
+	useEffect(() => {
+		async function fetchUser() {
+			const configuration = {
+				method: "get",
+				url: `http://localhost:3001/api/user/${userId}`,
+			};
+			await axios(configuration)
+				.then((result) => {
+					// console.log(result);
+					const { user } = result.data;
+					// console.log(user);
+
+					const { username, email, role } = user;
+					const tel = user.tel ? user.tel : "Please update your phone number";
+					const address = user.address
+						? user.address
+						: "Please update your address";
+					const gender = user.gender
+						? user.gender
+						: "Please update your gender";
+					const profileImage = user.profileImage ? user.profileImage : "";
+
+					const fetchedBasicInfo = {
+						userId: userId,
+						username: username,
+						email: email,
+						role: role,
+						profileImage: profileImage,
+						tel: tel,
+						address: address,
+						gender: gender,
+					};
+					// console.log(fetchedBasicInfo);
+
+					setBasicInfo(fetchedBasicInfo);
+				})
+				.catch((error) => {
+					console.log("Error", error);
+				});
+		}
+
+		fetchUser();
+	}, [userId]);
+
+	// Let user input and update these info
+	const handleUpdateBasicInfo = (newBasicInfo) => {
+		// console.log(newBasicInfo);
+		setBasicInfo(newBasicInfo);
+		updateUserData(newBasicInfo);
 	};
-	const [basicInfo, setBasicInfo] = useState(initialBasicInfo);
+
+	const updateUserData = (basicInfo) => {
+		const configuration = {
+			method: "post",
+			url: `http://localhost:3001/api/user/${basicInfo.userId}/update`,
+			data: basicInfo,
+		};
+		axios(configuration)
+			.then((result) => {
+				console.log(result.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	return (
 		<div className="container-fluid profile-container bg-primary-green-900">
@@ -25,8 +99,8 @@ const Profile = () => {
 			<div className="row full-height">
 				<div className="d-flex flex-column justify-content-between p-5 pb-0 col-12 col-lg-7 full-height overflow-hidden">
 					<ProfileShow
-						userName={user.userName}
-						role={user.role}
+						userName={basicInfo.username}
+						role={basicInfo.role}
 						threadsNum={user.threadsNum}
 						postsNum={user.postsNum}
 						joinedDate={user.joinedDate}
@@ -50,28 +124,28 @@ const Profile = () => {
 							id={0}
 							type="email"
 							basicInfo={basicInfo}
-							setBasicInfo={setBasicInfo}
+							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
 						/>
 						<BasicInfo
 							id={1}
 							type="tel"
 							basicInfo={basicInfo}
-							setBasicInfo={setBasicInfo}
+							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
 						/>
 						<BasicInfo
 							id={2}
 							type="address"
 							basicInfo={basicInfo}
-							setBasicInfo={setBasicInfo}
+							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
 						/>
 						<BasicInfo
 							id={3}
 							type="gender"
 							basicInfo={basicInfo}
-							setBasicInfo={setBasicInfo}
+							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
 						/>
 					</div>
