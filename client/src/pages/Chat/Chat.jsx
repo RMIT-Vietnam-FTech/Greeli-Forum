@@ -95,7 +95,7 @@ const Chat = () => {
 		const getAllUsers = async () => {
 			const configuration = {
 				method: "get",
-				url: "http://localhost:3001/api/user/getAll",
+				url: "/api/user/getAll",
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -128,7 +128,7 @@ const Chat = () => {
 
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/chat/create",
+			url: "/api/chat/create",
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${token}`,
