@@ -31,9 +31,13 @@ const Profile = () => {
 						postsNum={user.postsNum}
 						joinedDate={user.joinedDate}
 					/>
-					<div className="mt-3"><div className="btn-edit-container d-flex justify-content-center"><button className="d-lg-none py-1 px-3 bg-primary-yellow text-white text-center rounded-pill">
-						Edit Profile
-					</button></div></div>
+					<div className="mt-3">
+						<div className="btn-edit-container d-flex justify-content-center">
+							<button className="d-lg-none py-1 px-3 bg-primary-yellow text-white text-center rounded-pill">
+								Edit Profile
+							</button>
+						</div>
+					</div>
 					<PostsGallery profilePosts={user.profilePosts} />
 				</div>
 				<div className="d-lg-flex d-none flex-column justify-content-between py-5 px-5 col-5 full-height right-part">

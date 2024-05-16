@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import InputEmoji from "react-input-emoji";
-import "./ChatBox.css";
 import Cookies from "universal-cookie";
+import "./ChatBox.css";
 const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 	const [userData, setUserData] = useState(null);
 	const [messages, setMessages] = useState([]);
@@ -135,8 +135,8 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 						</div>
 						{/* chatbox messages */}
 						<div className="chat-body">
-							{messages.map((message, index) => (
-								<div key={index}>
+							{messages.map((message) => (
+								<div key={message?._id}>
 									<div
 										ref={scroll}
 										className={

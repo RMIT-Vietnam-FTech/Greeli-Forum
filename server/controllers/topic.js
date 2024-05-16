@@ -4,9 +4,10 @@ import Topic from "../models/Topic.js";
 export const createTopic = async (req, res) => {
   try {
     const {title, threads} = req.body;
-    const newTopic = await new Topic(
-        title,
-        threads,
+    const newTopic = new Topic({
+        title : title,
+        threads : threads,
+    }
     );
     const savedTopic = await newTopic.save();
     res.status(201).json(savedTopic);
@@ -29,7 +30,7 @@ export const getTopic = async (req, res) => {
 // GET Topic by ID
 export const getTopicById = async (req, res) => {
   try {
-    const topic = await Topic.findById(req.params.id);
+    const topic = await Topic.findById(req.params.topicId);
     if (!topic) return res.status(404).json({ message: "Topic not found" });
     res.status(200).json(topic);
   } catch (error) {
