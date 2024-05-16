@@ -6,14 +6,14 @@ import axios from "axios";
 function Posts() {
 	const Post = (props) => {
 		return (
-			<div className="news-card rounded-3">
+			<div className="news-card  rounded-3">
 				<img
 					src={props.img}
 					alt="News"
 					className="card-img-top rounded-top-3"
 					crossOrigin="anonymous"
 				/>
-				<div className="cards-body">
+				<div className="cards-body h-auto">
 					<p className="card-date">
 						<small>{props.date}</small>
 					</p>

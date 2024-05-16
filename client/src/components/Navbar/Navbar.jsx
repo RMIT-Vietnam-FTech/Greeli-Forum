@@ -11,7 +11,7 @@ import { UserContext, useUserContext } from "../../context/UserContext";
 import "../../scss/custom.css";
 import "./custom.css";
 
-const Navbar = () => {
+const Navbar = ({ isForum }) => {
 	const cookies = new Cookies();
 	const navigate = useNavigate();
 	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
@@ -32,18 +32,20 @@ const Navbar = () => {
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<div className="container-fluid">
-				{/* <button
-					className="navbar-toggler"
-					type="button"
-					data-bs-toggle="offcanvas"
-					data-bs-target="#offcanvasForum"
-					aria-controls="offcanvasForum"
-					aria-label="Toggle navigation"
-				>
-					<span className="text-greeli-emphasis">
-						<FiMoreVertical />
-					</span>
-				</button> */}
+				{isForum && (
+					<button
+						className="navbar-toggler"
+						type="button"
+						data-bs-toggle="offcanvas"
+						data-bs-target="#offcanvasForum"
+						aria-controls="offcanvasForum"
+						aria-label="Toggle navigation"
+					>
+						<span className="text-greeli-emphasis">
+							<FiMoreVertical />
+						</span>
+					</button>
+				)}
 				<Link className="brand d-flex" to="/">
 					<Image
 						className="me-0 me-md-3"
@@ -128,64 +130,66 @@ const Navbar = () => {
 					</div>
 				</div>
 
-				{/* <div
-					className="offcanvas offcanvas-start offCanvasForum"
-					tabIndex="-1"
-					id="offcanvasForum"
-					aria-labelledby="offcanvasForumLabel"
-				>
-					<div className="offcanvas-header border-bottom border-danger">
-						<h5
-							className="offcanvas-title text-greeli-emphasis"
-							id="offcanvasNavbarLabel"
-						>
-							Topic
-						</h5>
-						<button
-							type="button"
-							className="btn-close"
-							data-bs-dismiss="offcanvas"
-							aria-label="Close"
-						/>
+				{isForum && (
+					<div
+						className="offcanvas offcanvas-start offCanvasForum"
+						tabIndex="-1"
+						id="offcanvasForum"
+						aria-labelledby="offcanvasForumLabel"
+					>
+						<div className="offcanvas-header border-bottom border-danger">
+							<h5
+								className="offcanvas-title text-greeli-emphasis"
+								id="offcanvasNavbarLabel"
+							>
+								Topic
+							</h5>
+							<button
+								type="button"
+								className="btn-close"
+								data-bs-dismiss="offcanvas"
+								aria-label="Close"
+							/>
+						</div>
+						<div className="offcanvas-body">
+							<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
+								<li className="nav-item">
+									<a
+										className="nav-link active text-greeli-emphasis"
+										aria-current="page"
+										href="/"
+									>
+										Healthy Eating
+									</a>
+								</li>
+								<li className="nav-item">
+									<a
+										className="nav-link text-greeli-emphasis"
+										href="/"
+									>
+										Exercise
+									</a>
+								</li>
+								<li className="nav-item">
+									<a
+										className="nav-link text-greeli-emphasis"
+										href="/"
+									>
+										Recycle Product
+									</a>
+								</li>
+								<li className="nav-item">
+									<a
+										className="nav-link text-greeli-emphasis"
+										href="/"
+									>
+										Sleeping
+									</a>
+								</li>
+							</ul>
+						</div>
 					</div>
-					<div className="offcanvas-body">
-						<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
-							<li className="nav-item">
-								<a
-									className="nav-link active text-greeli-emphasis"
-									aria-current="page"
-									href="/"
-								>
-									Healthy Eating
-								</a>
-							</li>
-							<li className="nav-item">
-								<a
-									className="nav-link text-greeli-emphasis"
-									href="/"
-								>
-									Exercise
-								</a>
-							</li>
-							<li className="nav-item">
-								<a
-									className="nav-link text-greeli-emphasis"
-									href="/"
-								>
-									Recycle Product
-								</a>
-							</li>
-							<li className="nav-item">
-								<a
-									className="nav-link text-greeli-emphasis"
-									href="/"
-								>
-									Sleeping
-								</a>
-							</li>
-						</ul>
-					</div>
-				</div> */}
+				)}
 
 				<div className="d-flex flex-row align-items-center gap-3">
 					<NavLink
@@ -216,7 +220,11 @@ const Navbar = () => {
 						<IoMoon className="moon" />
 					</label>
 					{userId === null ? (
-						<Link to="/login" className="login-button theme-button">
+						<Link
+							to="/login"
+							className="login-button theme-button"
+							style={{ textDecoration: "none" }}
+						>
 							Login
 						</Link>
 					) : (

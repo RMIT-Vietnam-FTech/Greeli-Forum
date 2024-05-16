@@ -59,6 +59,8 @@ const LoginPopup = ({ isShow }) => {
 				// set user context
 				setUser(JSON.stringify(result.data));
 				navigate(<Outlet />, { replace: true });
+				setShowModal(false);
+				window.location.reload();
 			})
 			.catch((error) => {
 				console.log(error.response.data.error);
@@ -93,7 +95,7 @@ const LoginPopup = ({ isShow }) => {
 								className="modal-title fs-5"
 								id="exampleModalLabel"
 							>
-								Login
+								Login to continue
 							</h1>
 							<button
 								type="button"
@@ -223,7 +225,6 @@ const LoginPopup = ({ isShow }) => {
 										value="remember-me"
 										id="flexCheckDefault"
 										aria-checked="true"
-										role="checkbox"
 										checked
 									/>
 									<label
@@ -256,7 +257,7 @@ const LoginPopup = ({ isShow }) => {
 			</div>
 
 			{/* Dark overlay */}
-			{showModal && <div className="modal-backdrop fade show"></div>}
+			{showModal && <div className="modal-backdrop fade show" />}
 		</div>
 	);
 };

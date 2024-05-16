@@ -1,9 +1,9 @@
-import "../../scss/custom.css";
 import React, { useContext } from "react";
 import { FaMap } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa6";
 import { IoIosMail } from "react-icons/io";
 import { ThemeContext } from "../../context/ThemeContext";
+import "../../scss/custom.css";
 
 const Contact = () => {
 	const { isDarkMode } = useContext(ThemeContext);
