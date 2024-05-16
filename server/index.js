@@ -39,7 +39,7 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors({
-	origin: ["https://group-project-cosc3060-2024a-ftech.onrender.com", "https://i.pinimg.com/"],
+	origin: ["https://group-project-cosc3060-2024a-ftech.onrender.com"],
 }));
 
 // app.use((req, res, next) => {

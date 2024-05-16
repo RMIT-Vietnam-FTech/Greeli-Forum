@@ -20,7 +20,7 @@ const Chat = () => {
 	// console.log(onlineUsers);
 
 	useEffect(() => {
-		socket.current = io("http://localhost:3001");
+		socket.current = io("https://group-project-cosc3060-2024a-ftech.onrender.com");
 		socket.current.connect();
 		return () => {
 			socket.current.disconnect();
