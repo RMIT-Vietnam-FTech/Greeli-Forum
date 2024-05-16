@@ -10,18 +10,13 @@ import "./styles.css";
 
 const Profile = () => {
 	const user = demoUserInfo[0];
-	// const initialBasicInfo = {
-	// 	email: user.email,
-	// 	tel: user.tel,
-	// 	address: user.address,
-	// 	gender: user.gender,
-	// };
 
 	const [basicInfo, setBasicInfo] = useState({});
 
 	// GET ID FROM LOCAL STORAGE
 	const userId = JSON.parse(localStorage.getItem("user")).id;
 	// console.log(userId);
+	// ----------------------------
 
 	// FETCH USER INFO FROM DB THROUGH ID: username, email, role, profileImage
 	// EXCEPT tel, address, gender
@@ -68,8 +63,9 @@ const Profile = () => {
 
 		fetchUser();
 	}, [userId]);
+	// ----------------------------
 
-	// Let user input and update these info
+	// LET USER EDIT THEIR INFO
 	const handleUpdateBasicInfo = (newBasicInfo) => {
 		// console.log(newBasicInfo);
 		setBasicInfo(newBasicInfo);
@@ -90,6 +86,7 @@ const Profile = () => {
 				console.log(error);
 			});
 	};
+	// ----------------------------
 
 	return (
 		<div className="container-fluid profile-container bg-primary-green-900">
