@@ -24,11 +24,11 @@ function App() {
 	const [isForum, setIsForum] = useState(false);
 	useEffect(() => {
 		if (location.pathname === "/forum") {
-			setIsForum(true)
+			setIsForum(true);
 		} else {
-			setIsForum(false)
+			setIsForum(false);
 		}
-	}, [location.pathname])
+	}, [location.pathname]);
 	return (
 		<div className="App w-100">
 			<ThemeProvider>

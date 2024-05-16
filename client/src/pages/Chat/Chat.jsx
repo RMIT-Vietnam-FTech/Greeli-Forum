@@ -107,16 +107,14 @@ const Chat = () => {
 					setUserList(result.data);
 				})
 				.catch((error) => {
-					setError(error.response.data.error)
+					setError(error.response.data.error);
 					console.log(error);
 				});
 		};
 		getAllUsers();
 	}, []);
 
-	useEffect(() => {
-
-	}, [error])
+	useEffect(() => {}, [error]);
 
 	const checkOnlineStatus = (chat) => {
 		const chatMember = chat.members.find((member) => member !== userId);
@@ -146,7 +144,7 @@ const Chat = () => {
 				setUpdateChat((prev) => prev + 1);
 			})
 			.catch((error) => {
-				setError(error.response.data.error)
+				setError(error.response.data.error);
 				console.log(error);
 			});
 	};
@@ -261,7 +259,7 @@ const Chat = () => {
 					</div>
 				</div>
 			</div>
-			{error && <LoginPopup isShow={true}/>}
+			{error && <LoginPopup isShow={true} />}
 		</div>
 	);
 };
