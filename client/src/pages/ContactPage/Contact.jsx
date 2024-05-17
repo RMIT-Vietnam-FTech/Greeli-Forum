@@ -1,14 +1,75 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FaMap } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa6";
 import { IoIosMail } from "react-icons/io";
 import { ThemeContext } from "../../context/ThemeContext";
 import "../../scss/custom.css";
+import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 const Contact = () => {
 	const { isDarkMode } = useContext(ThemeContext);
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [message, setMessage] = useState("");
+	const feedBackSchema = Yup.object().shape({
+		name: Yup.string()
+			.required("Your name is required"),
+		email: Yup.string()
+			.required("Your email is required")
+			.email("Email is invalid"),
+		message: Yup.string()
+			.required("Your message is required"),
+	});
+
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+	} = useForm({ resolver: yupResolver(feedBackSchema) });
+
+	const feedback = () => {
+		const configuration = {
+			method: "post",
+			url: "http://localhost:3001/api/feedback/create",
+			data: {
+				name,
+				email,
+				message,
+			},
+		};
+		axios(configuration)
+			.then((result) => {
+				console.log(result)
+				if (result.data) {
+					toast.success("Send Feedback Successfully!", {
+						duration: 2000,
+						position: "top-center",
+					});
+				}
+			})
+			.catch((error) => {
+				toast.error(error.response.data.error, {
+					duration: 3000,
+					position: "top-center",
+				});
+				console.log(error.response.data.error);
+			});
+	};
+
+	const submitFeedBack = () => {
+		feedback();
+		setName("");
+		setEmail("");
+		setMessage("");
+	}
 	return (
 		<>
+			<Toaster />
 			<main
 				className="container-fluid bg-primary-green"
 				data-bs-theme={isDarkMode ? "dark" : "light"}
@@ -66,39 +127,63 @@ const Contact = () => {
 						<h3 className="mb-4">
 							If you have any feedback, please contact us
 						</h3>
-						<form action="mailto:ftech.admin@gmail.com">
+						<form onSubmit={handleSubmit(submitFeedBack)} aria-label="login form">
 							<div className="form-floating mb-4">
 								<input
 									type="text"
+									{...register("name")}
 									className="form-control border border-primary-green"
 									id="floatingInput"
 									placeholder="Your name"
+									value={name}
+									onChange={(e) => setName(e.target.value)}
 								/>
 								<label htmlFor="floatingInput">Your name</label>
 							</div>
+							{errors.name && (
+							<p className="error text-start" tabIndex={0}>
+								{errors.name.message}
+							</p>
+						)}
 							<div className="form-floating mb-4">
 								<input
 									type="email"
 									className="form-control border border-primary-green"
+									{...register("email")}
 									id="floatingInput"
 									placeholder="Your email"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
 								/>
 								<label htmlFor="floatingInput">
 									Your email
 								</label>
 							</div>
+							{errors.email && (
+							<p className="error text-start" tabIndex={0}>
+								{errors.email.message}
+							</p>
+						)}
 							<div className="form-floating mb-4">
 								<textarea
 									className="form-control border border-primary-green"
 									placeholder="Your message here..."
 									id="floatingTextarea"
+									{...register("message")}
 									rows={5}
 									defaultValue={""}
+									value={message}
+									onChange={(e) => setMessage(e.target.value)}
 								/>
 								<label htmlFor="floatingTextarea">
 									Your message here...
 								</label>
 							</div>
+							{errors.message && (
+							<p className="error text-start" tabIndex={0}>
+								{errors.message.message}
+							</p>
+						)}
 							<button
 								type="submit"
 								className="btn btn-lg btn-outline-primary-green"
