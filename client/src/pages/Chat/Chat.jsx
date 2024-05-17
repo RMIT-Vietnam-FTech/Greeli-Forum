@@ -211,6 +211,14 @@ const Chat = () => {
 				/>
 			</div>
 			{/* pop up list friend */}
+			<button
+					type="button"
+					class="btn btn-primary"
+					data-bs-toggle="modal"
+					data-bs-target="#staticBackdrop"
+				>
+					Create Chat
+				</button>
 			<div
 				className="modal fade"
 				id="staticBackdrop"
@@ -245,8 +253,8 @@ const Chat = () => {
 								>
 									<div>
 										<img
-											src=""
-											alt=""
+											src={user?.profileImage}
+											alt="User profile image"
 											className="followerImage"
 											style={{
 												width: "50px",
@@ -270,9 +278,6 @@ const Chat = () => {
 								data-bs-dismiss="modal"
 							>
 								Close
-							</button>
-							<button type="button" className="btn btn-primary">
-								Understood
 							</button>
 						</div>
 					</div>
