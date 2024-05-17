@@ -212,7 +212,7 @@ const Chat = () => {
 			</div>
 			{/* pop up list friend */}
 			<div
-				class="modal fade"
+				className="modal fade"
 				id="staticBackdrop"
 				data-bs-backdrop="static"
 				data-bs-keyboard="false"
@@ -220,23 +220,23 @@ const Chat = () => {
 				aria-labelledby="staticBackdropLabel"
 				aria-hidden="true"
 			>
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
+				<div className="modal-dialog">
+					<div className="modal-content">
+						<div className="modal-header">
 							<h1
-								class="modal-title fs-5"
+								className="modal-title fs-5"
 								id="staticBackdropLabel"
 							>
 								Modal title
 							</h1>
 							<button
 								type="button"
-								class="btn-close"
+								className="btn-close"
 								data-bs-dismiss="modal"
 								aria-label="Close"
 							/>
 						</div>
-						<div class="modal-body">
+						<div className="modal-body">
 							{userList?.map((user) => (
 								<div
 									className="follower conversation"
@@ -263,15 +263,15 @@ const Chat = () => {
 								</div>
 							))}
 						</div>
-						<div class="modal-footer">
+						<div className="modal-footer">
 							<button
 								type="button"
-								class="btn btn-secondary"
+								className="btn btn-secondary"
 								data-bs-dismiss="modal"
 							>
 								Close
 							</button>
-							<button type="button" class="btn btn-primary">
+							<button type="button" className="btn btn-primary">
 								Understood
 							</button>
 						</div>
