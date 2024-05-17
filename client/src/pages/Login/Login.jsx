@@ -140,7 +140,7 @@ const Login = () => {
 									name="email"
 									type="text"
 									{...register("email")}
-									className="form-control text-body-color"
+									className="form-control"
 									id="floatingInput"
 									placeholder="name@example.com"
 									value={email}
