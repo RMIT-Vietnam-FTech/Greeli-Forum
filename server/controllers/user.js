@@ -46,6 +46,11 @@ export const login = async (req, res) => {
 			{ expiresIn: "5m" }
 		);
 		delete user.password;
+
+		const updates = {
+			lastActive: Date.now(),
+		};
+
 		res.status(200).json({
 			token: token,
 			id: user._id,

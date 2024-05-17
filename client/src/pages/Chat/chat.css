@@ -1,76 +1,124 @@
 .Chat {
-    position: relative;
-    display: grid;
-    grid-template-columns: 22% auto;
-    gap: 1rem;
-  }
+  position: relative;
+  display: grid;
+  grid-template-columns: 22% auto;
+  height: calc(100vh - 80px);
+  box-sizing: content-box;
+}
+
+/* LEFT SIDE */
+.Left-side-chat {
+  display: flex;
+  flex-direction: column;
   
-  .Left-side-chat {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+}
+
+.Left-side-chat-dark {
+  background-color: #0A2A28;
+}
+
+
+.Left-side-chat-light {
+  background-color: #F9FAFB;
+}
+
+.Chat-container {
+  display: flex;
+  flex-direction: column;
+  background: var(--cardColor);
+  border-radius: 1rem;
+  padding: 1rem;
+  height: calc(100vh - 80px);
+  min-height: 80vh;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.Chat-container::-webkit-scrollbar {
+  display: none;
+}
+
+.Chat-container::-webkit-scrollbar-thumb {
+ display: none;
+}
+
+.Chat-container::-webkit-scrollbar-track {
+  display: none;
+}
+
+.title-dark {
+  color: #DCB968;
+  text-align: center;
+  padding: 10px;
+}
+
+.title-light {
+  color: #365949;
+  text-align: center;
+  padding: 10px;
+}
+
+.Chat-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* RIGHT SIDE */
+.Right-side-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.conversation:hover {
+  background: #80808038;
+  cursor: pointer;
+}
+
+.conversation {
+  border-radius: 0.5rem;
+  padding: 10px;
+}
+
+.conversation>div {
+  position: relative;
+}
+
+.online-dot {
+  background-color: greenyellow;
+  border-radius: 50%;
+  position: absolute;
+  left: 2rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+
+.chatbox-empty-message {
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+
+@media (max-width: 768px) {
+  .Left-side-chat.d-none {
+    display: none;
   }
-  
-  .Chat-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    background: var(--cardColor);
-    border-radius: 1rem;
-    padding: 1rem;
-    height: auto;
-    min-height: 80vh;
-    overflow: scroll;
+
+  .Right-side-chat.d-none {
+    display: none;
   }
-  
-  .Chat-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+
+  .Right-side-chat.d-full {
+    width: 100vw;
   }
-  
-  .Right-side-chat {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+
+  .Left-side-chat.d-full {
+    width: 100vw;
   }
-  .conversation:hover {
-    background: #80808038;
-    cursor: pointer;
-  }
-  
-  .conversation {
-    border-radius: 0.5rem;
-    padding: 10px;
-  }
-  
-  .conversation > div {
-    position: relative;
-  }
-  
-  .online-dot {
-    background-color: greenyellow;
-    border-radius: 50%;
-    position: absolute;
-    left: 2rem;
-    width: 1rem;
-    height: 1rem;
-  }
-  
-  
-  .chatbox-empty-message {
-    display: flex;
-    align-self: center;
-    justify-content: center;
-    font-size: 20px;
-  }
-  
-  
-  @media screen and (max-width: 768px) {
-   .Chat {
-      grid-template-columns: 16% auto;
-    }
-     .follower.conversation>div>.name{
-      display: none;
-     }
-  }
+}
+
+
+
