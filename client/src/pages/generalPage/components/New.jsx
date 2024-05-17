@@ -356,10 +356,11 @@ export default function News() {
 				{isMobile ? (
 					<div className="dropdown mt-2">
 						<button
-							className={`${isDarkMode
-								? "btn btn-secondary dropdown-toggle rounded-pill bg-primary-green-900 text-primary-yellow active"
-								: "btn btn-secondary dropdown-toggle rounded-pill bg-light text-primary-green active"
-								}`}
+							className={`${
+								isDarkMode
+									? "btn btn-secondary dropdown-toggle rounded-pill bg-primary-green-900 text-primary-yellow active"
+									: "btn btn-secondary dropdown-toggle rounded-pill bg-light text-primary-green active"
+							}`}
 							type="button"
 							data-bs-toggle="dropdown"
 							aria-expanded="false"
@@ -468,11 +469,19 @@ export default function News() {
 
 				{loading ? (
 					<>
-						<button className="btn btn-primary" type="button" disabled>
-							<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+						<button
+							className="btn btn-primary"
+							type="button"
+							disabled
+						>
+							<span
+								className="spinner-border spinner-border-sm"
+								role="status"
+								aria-hidden="true"
+							></span>
 							‎ Loading...
 						</button>
-						<div style={{ height: '450px' }}></div>
+						<div style={{ height: "450px" }}></div>
 
 						{/* <section className="loadingContainer">
 							<div className="loading-news-card">

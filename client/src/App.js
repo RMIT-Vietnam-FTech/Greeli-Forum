@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import RequireAuth from "./components/Auth/RequireAuth.jsx";
 import Footer from "./components/Footer/footer";
@@ -8,31 +8,43 @@ import LoginPopup from "./components/Popup/LoginPopup.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
 import Chat from "./pages/Chat/Chat";
+import ContactPage from "./pages/ContactPage/Contact.jsx";
 import DashBoardPage from "./pages/DashBoardPage.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
-import Homepage from "./pages/Homepage/Homepage";
+import Homepage from "./pages/Homepage/Homepage.jsx";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
 import PostPage from "./pages/PostPage/PostPage.jsx";
 import Profile from "./pages/Profile/Profile";
 import ThreadPage from "./pages/ThreadPage/ThreadPage.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
-
+import Upload from "./pages/UploadImage/Upload.jsx";
 function App() {
+	let location = useLocation();
+	const [isForum, setIsForum] = useState(false);
+	useEffect(() => {
+		if (location.pathname === "/forum") {
+			setIsForum(true);
+		} else {
+			setIsForum(false);
+		}
+	}, [location.pathname]);
 	return (
 		<div className="App w-100">
 			<ThemeProvider>
 				<UserContextProvider>
-					<Navbar />
+					<Navbar isForum={isForum} />
 					<div className="h-100" style={{ marginTop: "80px" }}>
 						<Routes>
 							<Route path="/" element={<Homepage />} />
 							<Route path="/login" element={<Login />} />
 							<Route path="/register" element={<Register />} />
 							<Route path="/general" element={<GeneralPage />} />
+							<Route path="/contact" element={<ContactPage />} />
+							<Route path="/upload" element={<Upload />}/>
 							<Route element={<RequireAuth />}>
 								<Route path="/profile" element={<Profile />} />
-							<Route path="/chat" element={<Chat />} />
+								<Route path="/chat" element={<Chat />} />
 							</Route>
 							<Route path="/forum">
 								<Route index element={<DashBoardPage />} />

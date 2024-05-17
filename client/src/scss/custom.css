@@ -353,7 +353,11 @@ p {
 abbr[title] {
   -webkit-text-decoration: underline dotted;
           text-decoration: underline dotted;
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted;
   cursor: help;
+  -webkit-text-decoration-skip-ink: none;
+          text-decoration-skip-ink: none;
   -webkit-text-decoration-skip-ink: none;
           text-decoration-skip-ink: none;
 }
@@ -13947,6 +13951,11 @@ a:hover {
   transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
 }
 
+.form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
+  color: var(--bs-body-color);
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
 .form-floating > .form-control:focus ~ label,
 .form-floating > .form-control:not(:placeholder-shown) ~ label,
 .form-floating > .form-control-plaintext ~ label,
@@ -13990,4 +13999,18 @@ a:hover {
   --bs-offcanvas-box-shadow: var(--bs-box-shadow-sm);
   --bs-offcanvas-transition: transform 0.3s ease-in-out;
   --bs-offcanvas-title-line-height: 1.5;
+}
+
+.modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: var(--bs-greeli-text-emphasis);
+  pointer-events: auto;
+  background-color: var(--bs-greeli-bg-subtle);
+  background-clip: padding-box;
+  border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
+  border-radius: var(--bs-modal-border-radius);
+  outline: 0;
 }/*# sourceMappingURL=custom.css.map */
