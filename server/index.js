@@ -14,6 +14,7 @@ import postRoutes from "./routes/post.js";
 import threadRoutes from "./routes/thread.js";
 import userRoutes from "./routes/user.js";
 import topicRoutes from "./routes/topic.js";
+import feedbackRoutes from "./routes/feedback.js"
 
 import { app, io, server } from "./socket/socket.js";
 
@@ -22,6 +23,7 @@ const __dirname = path.resolve();
 
 dotenv.config();
 // const app = express();
+app.use(express.static("public"))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(helmet());
@@ -54,10 +56,10 @@ app.use(express.static(path.join(__dirname, "/client/build")))
 /*FILE STORAGE*/
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		cb(null, "public/assets");
+		cb(null, "./public/image/avatar");
 	},
 	filename: (req, file, cb) => {
-		cb(null, file.originalname);
+		cb(null, `${Date.now()}_${file.originalname}`);
 	},
 });
 
@@ -74,6 +76,15 @@ app.use("/api/message", messageRoutes);
 app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/topics", topicRoutes);
 app.use("/api/v1/news", newsRoutes);
+app.use("/api/feedback", feedbackRoutes)
+app.post("/api/upload", upload.single("image"), (req, res) => {
+	try {
+		console.log(req.file)
+		res.status(201).json('File uploaded succesfully!')
+	} catch (error) {
+		console.log(error)
+	}
+})
 app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname, "client", "build", "index.html"))
 })

@@ -20,6 +20,7 @@ const Register = () => {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPasword] = useState("");
 	const [verify, setVerify] = useState(true);
 	const [captchaToken, setCaptchaToken] = useState(null);
 	const captchaRef = useRef(null);
@@ -108,6 +109,7 @@ const Register = () => {
 		setUsername("");
 		setEmail("");
 		setPassword("");
+		setConfirmPasword("");
 	};
 
 	const showPasswordButton = () => {
@@ -281,6 +283,8 @@ const Register = () => {
 									id="confirmPassword"
 									autoComplete="on"
 									placeholder="Confirm Password"
+									value={confirmPassword}
+									onChange={(e) => setConfirmPasword(e.target.value)}
 								/>
 								<label
 									for="confirmPassword"
