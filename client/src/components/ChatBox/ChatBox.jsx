@@ -52,21 +52,32 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
       senderId: currentUserId,
       text: newMessage,
     };
-    const config = {
-      method: "post",
-      url: "/api/message/create",
+    const configuration = {
+      method: 'post',
+      url: 'http://localhost:3001/api/message/create',
       data: message,
       headers: { "Content-Type'": "application/json", Authorization: `Bearer ${token}` },
     };
-    try {
-      const response = await axios(config);
-      setMessages([...messages, response.data]);
-      setNewMessage('');
-      setSendMessage({ ...message, receiverId: chat.members.find((id) => id !== currentUserId) });
-    } catch (error) {
-      console.log(error);
-    }
+
+    const receiverId = chat.members.find((id) => id !== currentUserId);
+		setSendMessage({ ...message, receiverId });
+		axios(configuration)
+			.then((result) => {
+				console.log(result);
+				setMessages([...messages, result.data]);
+				setNewMessage("");
+			})
+			.catch((error) => {
+				console.log(error);
+			});
   };
+  useEffect(() => {
+		console.log("Message Arrived: ", receiveMessage);
+		if (receiveMessage !== null && receiveMessage?.chatId === chat._id) {
+			console.log("Data receive");
+			setMessages([...messages, receiveMessage]);
+		}
+	}, [receiveMessage]);
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {

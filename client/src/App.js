@@ -9,15 +9,15 @@ import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
 import Chat from "./pages/Chat/Chat";
 import ContactPage from "./pages/ContactPage/Contact.jsx";
-import DashBoardPage from "./pages/DashBoardPage.jsx";
+import DashBoardPage from "./pages/Forum/DashBoardPage.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import Homepage from "./pages/Homepage/Homepage.jsx";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
-import PostPage from "./pages/PostPage/PostPage.jsx";
 import Profile from "./pages/Profile/Profile";
-import ThreadPage from "./pages/ThreadPage/ThreadPage.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
+import PostPage from "./pages/Forum/PostPage/PostPage.jsx";
+import ThreadPage from "./pages/Forum/ThreadPage/ThreadPage.jsx";
 import Upload from "./pages/UploadImage/Upload.jsx";
 function App() {
 	let location = useLocation();

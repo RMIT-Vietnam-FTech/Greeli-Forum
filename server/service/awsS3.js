@@ -2,9 +2,7 @@ import {
   S3Client,
   PutObjectCommand,
   DeleteObjectCommand,
-  GetObjectCommand,
 } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import dotenv from "dotenv/config";
 
@@ -24,13 +22,17 @@ const s3Client = new S3Client(s3ClientObject);
 // console.log(s3ClientObject);
 
 export function uploadFileData(fileBuffer, fileName, mimetype) {
-  const uploadParams = {
-    Bucket: bucketName,
-    Body: fileBuffer,
-    Key: fileName,
-    ContentType: mimetype,
-  };
-  return s3Client.send(new PutObjectCommand(uploadParams));
+  try {
+    const uploadParams = {
+      Bucket: bucketName,
+      Body: fileBuffer,
+      Key: fileName,
+      ContentType: mimetype,
+    };
+    return s3Client.send(new PutObjectCommand(uploadParams));
+  } catch (e) {
+    console.error(e.message);
+  }
 }
 
 export function deleteFileData(fileName) {

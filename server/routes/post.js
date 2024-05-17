@@ -11,8 +11,9 @@ const upload = multer({
       file.mimetype === "image/jpeg" ||
       file.mimetype === "image/png" ||
       file.mimetype === "image/gif" ||
-      file.mimetype == "video/mp4" ||
-      file.mimetype == "video/webm"
+      file.mimetype === "image/webp" ||
+      file.mimetype === "video/mp4" ||
+      file.mimetype === "video/webm"
     ) {
       callback(null, true);
     } else {
@@ -27,14 +28,18 @@ const upload = multer({
 const router = express.Router();
 
 router
-	.route("/")
-	.get(PostController.getPosts)
-	.post(verifyToken, upload.single("uploadFile"), PostController.createPost);
+  .route("/")
+  .get(PostController.getPosts)
+  .post(verifyToken, upload.single("uploadFile"), PostController.createPost)
+  .delete(PostController.deleteAllPost);
 
 router
-	.route("/:postId")
-	.get(PostController.getPost)
-	.put(verifyToken, PostController.modifyPost)
-	.delete(verifyToken, PostController.deletePost);
+  .route("/:postId")
+  .get(PostController.getPost)
+  .put(verifyToken, PostController.modifyPost)
+  .delete(verifyToken, PostController.deletePost);
 
+  router.route("/:postId/upvote")
+  .post(verifyToken, PostController.postUpVote)
+  .delete(verifyToken, PostController.deleteUpvote);
 export default router;

@@ -1,6 +1,6 @@
 import { IoMdMore } from "react-icons/io";
 import { MdInsertComment, MdShare } from "react-icons/md";
-import { TbArrowBigDown, TbArrowBigUpFilled } from "react-icons/tb";
+import { TbArrowBigDown,  } from "react-icons/tb";
 
 const PostItem = (props) => {
 	const {
@@ -43,10 +43,10 @@ const PostItem = (props) => {
 						<p className="text-white mt-3">{content}</p>
 						<div className="d-flex justify-content-start interaction-menu">
 							<div className="bg-primary-green-900 text-white d-flex flex-row justify-content-around align-items-center py-2 upvote">
-								<TbArrowBigUpFilled
+								{/* <TbArrowBigUpFilled
 									size={"2vw"}
 									color={"white"}
-								/>
+								/> */}
 								<p className="p-0 m-0">{upvote}</p>
 								<TbArrowBigDown size={"2vw"} color={"white"} />
 							</div>
