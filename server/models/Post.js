@@ -14,6 +14,7 @@ const postSchema = new mongoose.Schema(
 		uploadFile: {
 			type: String,
 			required: false,
+			default: null
 		},
 		content: {
 			type: String,
@@ -47,6 +48,10 @@ const postSchema = new mongoose.Schema(
 			type: Array,
 			default: [],
 		},
+		verifiedAt:{
+			type: Date,
+			default: ()=>new Date()
+		}
 	},
 	{ timestamps: true },
 );
