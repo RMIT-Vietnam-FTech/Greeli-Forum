@@ -1,13 +1,13 @@
 import express from "express";
 import * as UserController from "../controllers/user.js"; 
 import { verifyToken, verifyAdmin } from "../middleware/auth.js";
-import User from "../models/User.js";
 
 const router = express.Router();
 
-router.get("/:id", UserController.getUser);
 router.post("/login", UserController.login);
 router.post("/register", UserController.register);
+router.get("/find/:id", verifyToken, UserController.getUser);
+router.get("getAll", verifyToken, UserController.getAllUser);
 router.put("/:adminId/:userId/lock",verifyToken, verifyAdmin, UserController.lock);
 router.put("/:adminId/:userId/unlock",verifyToken, verifyAdmin, UserController.unlock);
 

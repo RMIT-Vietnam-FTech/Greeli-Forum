@@ -44,13 +44,13 @@ export const login = async (req, res) => {
 		const token = jwt.sign(
 			{ id: user._id, email: user.email, role: user.role },
 			process.env.JWT_SECRET,
-			{ expiresIn: "3d" },
+			{ expiresIn: "10m" },
 		);
 		delete user.password; 
 
-    const updates = {
-      lastActive: Date.now()
-  };
+		const updates = {
+			lastActive: Date.now()
+		};
   
 		res.status(200).json({
 			token: token,
