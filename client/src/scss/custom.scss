@@ -362,3 +362,17 @@ a {
 	--bs-offcanvas-transition: transform 0.3s ease-in-out;
 	--bs-offcanvas-title-line-height: 1.5;
 }
+
+.modal-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	color: var(--bs-greeli-text-emphasis);
+	pointer-events: auto;
+	background-color: var(--bs-greeli-bg-subtle);
+	background-clip: padding-box;
+	border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
+	border-radius: var(--bs-modal-border-radius);
+	outline: 0;
+  }
