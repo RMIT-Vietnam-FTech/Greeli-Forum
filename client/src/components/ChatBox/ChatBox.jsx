@@ -106,7 +106,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
           <div className={`${isDarkMode ? "chat-header-dark" : "chat-header-light"} chat-header`}>
             {userData && (
               <>
-                <img src={userData.profilePicture || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'} alt={userData.username} className={`followerImage ${userData.isOnline ? 'online' : 'offline'}`} />
+                <img src={userData.profileImage || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'} alt={userData.username} className={`followerImage ${userData.isOnline ? 'online' : 'offline'}`} />
                 <span className="fw-bold">{userData.username}</span>
               </>
             )}

@@ -39,7 +39,7 @@ const Conversation = ({ data, currentUserId, online, isActive }) => {
 				{userData ? (
 					<>
 						<img
-							src={userData.profilePicture || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'}
+							src={userData?.profileImage || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'}
 							alt={userData.username}
 							className={`conversation-image ${online ? 'online' : 'offline'}`}
 						/>
