@@ -12,63 +12,61 @@ import axios from "axios";
 import "./Contact.css";
 
 const Contact = () => {
-	const { isDarkMode } = useContext(ThemeContext);
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [message, setMessage] = useState("");
-	const feedBackSchema = Yup.object().shape({
-		name: Yup.string()
-			.required("Your name is required"),
-		email: Yup.string()
-			.required("Your email is required")
-			.email("Email is invalid"),
-		message: Yup.string()
-			.required("Your message is required"),
-	});
+  const { isDarkMode } = useContext(ThemeContext);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const feedBackSchema = Yup.object().shape({
+    name: Yup.string().required("Your name is required"),
+    email: Yup.string()
+      .required("Your email is required")
+      .email("Email is invalid"),
+    message: Yup.string().required("Your message is required"),
+  });
 
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors },
-	} = useForm({ resolver: yupResolver(feedBackSchema) });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(feedBackSchema) });
 
-	const feedback = () => {
-		const configuration = {
-			method: "post",
-			url: "http://localhost:3001/api/feedback/create",
-			data: {
-				name,
-				email,
-				message,
-			},
-		};
-		axios(configuration)
-			.then((result) => {
-				console.log(result)
-				if (result.data) {
-					toast.success("Send Feedback Successfully!", {
-						duration: 2000,
-						position: "top-center",
-					});
-				}
-			})
-			.catch((error) => {
-				toast.error(error.response.data.error, {
-					duration: 3000,
-					position: "top-center",
-				});
-				console.log(error.response.data.error);
-			});
-	};
+  const feedback = () => {
+    const configuration = {
+      method: "post",
+      url: "http://localhost:3001/api/feedback/create",
+      data: {
+        name,
+        email,
+        message,
+      },
+    };
+    axios(configuration)
+      .then((result) => {
+        console.log(result);
+        if (result.data) {
+          toast.success("Send Feedback Successfully!", {
+            duration: 2000,
+            position: "top-center",
+          });
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.data.error, {
+          duration: 3000,
+          position: "top-center",
+        });
+        console.log(error.response.data.error);
+      });
+  };
 
-	const submitFeedBack = () => {
-		feedback();
-		setName("");
-		setEmail("");
-		setMessage("");
-	}
-	return (
+  const submitFeedBack = () => {
+    feedback();
+    setName("");
+    setEmail("");
+    setMessage("");
+  };
+  return (
     <>
       <Toaster />
       <main
