@@ -51,7 +51,7 @@ app.use(cors({
 // })
 
 app.use(express.static(path.join(__dirname, "/client/build")))
-app.use(express.static(path.join(__dirname, "server/public")))
+app.use(express.static(path.join(__dirname, "/server/public")))
 /*FILE STORAGE*/
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
