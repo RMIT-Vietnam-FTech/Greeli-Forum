@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function NewThreadPopUp({ isOpen, setIsOpen }) {
   const [file, setFile] = useState(null);
-  const [description, setDescription] = useState();
+  const [description, setDescription] = useState([]);
   const [addedTopics, setAddedTopics] = useState([]);
   const [isNext, setIsNext] = useState(false);
   const navigate = useNavigate();

@@ -47,12 +47,12 @@ export default function Comment({ commentData }) {
 
           <div className="ms-5">
             <EditContextProvider>
-              <TextEditor content={commentData.content} />
+              <TextEditor content={JSON.parse(commentData.content)} />
             </EditContextProvider>
-            <ButtonUpvote upvote={commentData.upvote} />
+            <ButtonUpvote upvote={commentData.upvote} commentId={commentData._id} />
             <EditContextProvider>
-              <ReplyButton />
-              {isReply ? <ReplyEditor /> : null}
+              <ReplyButton nOfReply={commentData.replies.length} />
+              {isReply ? <ReplyEditor parentId={commentData._id}/> : null}
             </EditContextProvider>
           </div>
           <div className="ms-5">

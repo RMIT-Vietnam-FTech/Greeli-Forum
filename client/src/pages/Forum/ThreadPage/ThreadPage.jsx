@@ -36,7 +36,7 @@ export default function ThreadPage() {
               content={data.content}
               objectId={data._id}
             />
-            <ThreadBody belongToThread={data._id} />
+            <ThreadBody threadData={data} />
           </section>
           <section className="right-sidebar"></section>
         </section>

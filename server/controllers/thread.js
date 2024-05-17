@@ -52,7 +52,7 @@ export const createThread = async (req, res) => {
       }
       res.status(201).json(thread._id);
     } else {
-      res.status(403).json("Forbidden");
+      res.status(403).send("Forbidden");
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -65,7 +65,7 @@ export const getThreads = async (req, res) => {
     if (topicName) {
       const topic = await Topic.findOne({ title: topicName });
       if (!topic)
-        return res.status(404).json("Topic id is not found or invalid");
+        return res.status(404).send("Topic id is not found or invalid");
       filter._id = { $in: topic.threads };
     }
     const threads = await Thread.find(filter);
@@ -80,7 +80,7 @@ export const getThread = async (req, res) => {
     const threadId = req.params.threadId;
     const thread = await Thread.findById(threadId);
     if (!thread)
-      return res.status(404).json("threadId is not found or invalid");
+      return res.status(404).send("threadId is not found or invalid");
     res.status(200).json(thread);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -95,9 +95,9 @@ export const modifyThreadContent = async (req, res) => {
     const threadId = req.params.threadId;
     const thread = await Thread.findById(threadId);
     if (!thread)
-      return res.status(404).json("threadId is not found or invalid");
+      return res.status(404).send("threadId is not found or invalid");
     if (thread.createdBy.userId !== req.user.id)
-      return res.status(403).json("Unauthorized!");
+      return res.status(403).send("Unauthorized!");
     thread.content = content;
     await thread.save();
     res.status(204).json("success");
@@ -123,9 +123,12 @@ export const reset = async (req, res) => {
   );
   await User.updateMany(
     { _id: req.user.id },
-    { $pull: { followThread: { $in: user.followThread} } }
+    { $pull: { followThread: { $in: user.followThread } } }
   );
-  await Topic.create({ title: "Health" });
+  await User.updateMany(
+    { _id: req.user.id },
+    { $pull: { archivedPost: { $in: user.archivedPost } } }
+  );
   await Topic.create({ title: "Transportation" });
   await Topic.create({ title: "Environment" });
   await Topic.create({ title: "Energy" });
@@ -148,7 +151,7 @@ export const createThreadRule = async (req, res) => {
   try {
     const thread = await Thread.findById(threadId);
     if (!thread)
-      return res.status(404).json({ message: "threadId not found or invalid" });
+      return res.status(404).send({ message: "threadId not found or invalid" });
     thread.rule.push(newRule);
     await thread.save();
     res.status(201).json("create is succeed");
@@ -179,9 +182,9 @@ export const modifyThreadRule = async (req, res) => {
   try {
     const thread = await Thread.findById(threadId);
     if (!thread)
-      return res.status(404).json({ message: "threadId not found or invalid" });
+      return res.status(404).send({ message: "threadId not found or invalid" });
     if (thread.createdBy.userId !== req.user.id)
-      return res.status(403).json("Unauthorized");
+      return res.status(403).send("Unauthorized");
 
     //update rule
     thread.rule[index].title = title;
@@ -201,9 +204,9 @@ export const deleteThreadRule = async (req, res) => {
   const index = req.query.index;
   try {
     const thread = await Thread.findById(threadId);
-    if (!thread) return res.status(404).json({ message: "Thread not found" });
+    if (!thread) return res.status(404).send({ message: "Thread not found" });
     if (thread.createdBy.userId !== req.user.id)
-      return res.status(403).json("Unauthorized");
+      return res.status(403).send("Unauthorized");
 
     //delete rule
     thread.rule.splice(index, 1);
@@ -220,9 +223,9 @@ export const deleteThreadRules = async (req, res) => {
   const threadId = req.params.threadId;
   try {
     const thread = await Thread.findById(threadId);
-    if (!thread) return res.status(404).json({ message: "Thread not found" });
+    if (!thread) return res.status(404).send({ message: "Thread not found" });
     if (thread.createdBy.userId !== req.user.id)
-      return res.status(403).json("Unauthorized");
+      return res.status(403).send("Unauthorized");
 
     //delete all rule
     thread.rule.length = 0;

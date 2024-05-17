@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useSwr from "swr";
 import "../assets/forum.scss";
 import AuthLeftSideBar from "../../../components/forum/AuthLeftSideBar";
@@ -8,6 +8,7 @@ import { CommentContextProvider } from "../../../context/CommentContext";
 import Comments from "./Comments";
 import InitialPost from "./IntialPost";
 const fetcher = (url) => axios.get(url).then((res) => res.data);
+
 export default function PostPage() {
   const { postId } = useParams();
   const { data, error, isLoading } = useSwr(
@@ -20,7 +21,25 @@ export default function PostPage() {
   if (isLoading) {
     return <div>is loading</div>;
   }
-//   if (data.isApproved) {
+  return <PostPageStructure postData={data} />;
+}
+function PostPageStructure({ postData }) {
+  const navigate = useNavigate();
+  const { data, error, isLoading } = useSwr(
+    `http://localhost:3001/api/v1/threads/${postData.belongToThread}`,
+    fetcher
+  );
+  if (error) {
+    return 0;
+  }
+  if (isLoading) {
+    return 0;
+  }
+  if (
+    data.createdBy.userId == JSON.parse(localStorage.getItem("user")).id ||
+    postData.createdBy.userId == JSON.parse(localStorage.getItem("user")).id ||
+    postData.isApproved
+  ) {
     return (
       <section className="container">
         <section className="left-sidebar">
@@ -28,13 +47,17 @@ export default function PostPage() {
         </section>
         <section className="main-container">
           <section className="main">
-            <InitialPost postData={data} />
-            <Comments />
+            <InitialPost postData={postData} />
+            <Comments
+              postData={postData}
+              threadAdminId={data.createdBy.userId}
+            />
           </section>
           <section className="right-sidebar"></section>
         </section>
       </section>
     );
-//   }
-//   return <></>;
+  } else {
+    navigate("/forum");
+  }
 }

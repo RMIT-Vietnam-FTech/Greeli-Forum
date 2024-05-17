@@ -48,6 +48,10 @@ const postSchema = new mongoose.Schema(
 			type: Array,
 			default: [],
 		},
+		verifiedAt:{
+			type: Date,
+			default: ()=>new Date()
+		}
 	},
 	{ timestamps: true },
 );

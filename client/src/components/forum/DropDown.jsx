@@ -1,5 +1,4 @@
-import { createContext } from "react";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 import { AuthorizationContext } from "../../context/AuthorizationContext";
 import { EditContext } from "../../context/EditContext";
@@ -11,14 +10,87 @@ export default function DropDown({
   threadId,
   postId,
 }) {
-	// console.log(`check input: \n componentType:${componentType}\n threadId: ${threadId}\n postId: ${postId}`)
+  // console.log(`check input: \n componentType:${componentType}\n threadId: ${threadId}\n postId: ${postId}`)
   const editContext = useContext(EditContext);
   const authorizationContext = useContext(AuthorizationContext);
+  const [isSaved, setIsSaved] = useState(false);
   const navigate = useNavigate();
+  useEffect(() => {
+    checkSavingStatus().then((res) => {
+      setIsSaved(res);
+    });
+  }, []);
+  async function checkSavingStatus() {
+    const path = `http://localhost:3001/api/user/${
+      JSON.parse(localStorage.getItem("user")).id
+    }/archived_posts`;
+    const archivedPosts = await axios
+      .get(path, {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("user")).token
+          }`,
+        },
+      })
+      .then((res) => res.data);
+    return archivedPosts.some((object) => {
+      return object._id === postId;
+    });
+  }
+
   function handleEdit() {
     editContext.setIsEdit(true);
   }
-  function handleSave() {}
+
+  async function handleSave() {
+    try {
+      const path = `http://localhost:3001/api/user/${
+        JSON.parse(localStorage.getItem("user")).id
+      }/archived_posts`;
+      await axios.post(
+        path,
+        {
+          postId: postId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).token
+            }`,
+          },
+        }
+      );
+      setIsSaved(true);
+    } catch (e) {
+      console.error(e.message.data);
+    }
+  }
+
+  async function handleUnSave() {
+    try {
+      const path = `http://localhost:3001/api/user/${
+        JSON.parse(localStorage.getItem("user")).id
+      }/archived_posts`;
+      await axios.delete(
+        path,
+
+        {
+          data: {
+            postId: postId,
+          },
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).token
+            }`,
+          },
+        }
+      );
+      setIsSaved(false);
+    } catch (e) {
+      console.error(e.message.data);
+    }
+  }
+
   async function handleDelete() {
     try {
       //delete and redirect
@@ -81,8 +153,8 @@ export default function DropDown({
           ) : null}
 
           <li>
-            <a className="dropdown-item" onClick={handleSave} href="#">
-              Save
+            <a className="dropdown-item" onClick={isSaved?handleUnSave:handleSave} href="#">
+              {isSaved?"unsaved":"save"}
             </a>
           </li>
           <li>

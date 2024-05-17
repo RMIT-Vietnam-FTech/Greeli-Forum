@@ -20,8 +20,9 @@ lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);
 lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
-export default function ReplyEditor() {
+export default function ReplyEditor({parentId}) {
 	const placeholder = "Reply ...";
+	const commentParentId = parentId;
 
 	const extensions = [
 		StarterKit.configure({
@@ -53,7 +54,7 @@ export default function ReplyEditor() {
 					},
 				}}
 				slotBefore={<MenuBar className="" />}
-				slotAfter={<ReplyBottomBar />}
+				slotAfter={<ReplyBottomBar parentId={commentParentId} />}
 				extensions={extensions}
 				content=""
 			></EditorProvider>

@@ -4,7 +4,7 @@ const commentSchema = new mongoose.Schema({
   parentId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Comment",
-    default: null,
+    default: null
   },
   content: {
     type: String,
@@ -34,10 +34,12 @@ const commentSchema = new mongoose.Schema({
       ref: "Comment",
     },
   ],
-});
+},
 {
-  timestamps: true;
+  timestamps: true
 }
+);
+
 
 const Comment = mongoose.model("Comment", commentSchema);
 export default Comment;

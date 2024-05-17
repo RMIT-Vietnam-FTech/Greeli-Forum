@@ -9,4 +9,8 @@ router
   .get(commentController.getComments)
   .post(verifyToken,commentController.createComment);
 
+router.route("/:commentId/upvote")
+.post(verifyToken, commentController.postUpVote)
+.delete(verifyToken, commentController.deleteUpvote);
+
 export default router;

@@ -1,22 +1,141 @@
 import axios from "axios";
 import Post from "../PostPage/components/Post";
-import { useState } from "react";
-import useSWR from "swr";
-const fetcher = (url) => axios.get(url).then((res) => res.data);
-export default function ThreadBody({belongToThread}) {
-  const [page, setPage] = useState(1);
-  const path = `http://localhost:3001/api/v1/posts?page=${page}&belongToThread=${belongToThread}`;
-  console.log("check path: "+ path);
-  const {data, error, isLoading} = useSWR(path, fetcher);
-  if (error) {
-    return 0;
-  }
+import { useEffect, useRef, useState } from "react";
+import useSWRInfinite from "swr/infinite";
+import { useInView } from "react-intersection-observer";
+import { IoMdArrowDropdown } from "react-icons/io";
+
+const fetcher = (url) => axios.get(url).then((res) => res.data.data);
+
+const verifyAdminFetcher = async (url) => {
+  return await axios
+    .get(url, {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`,
+      },
+    })
+    .then((res) => res.data.data);
+};
+const getMetadata = async (url) => {
+  return await axios
+    .get(url, {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`,
+      },
+    })
+    .then((res) => res.data.metadata);
+};
+
+export default function ThreadBody({ threadData }) {
+  const isThreadAdmin =
+    threadData.createdBy.userId == JSON.parse(localStorage.getItem("user")).id;
+  const [metadata, setMetadata] = useState();
+  const [sortOption, setSortOption] = useState("Hot");
+  useEffect(() => {
+    getMetadata(
+      isThreadAdmin
+        ? `http://localhost:3001/api/v1/admin/posts?page=1&belongToThread=${threadData._id}`
+        : `http://localhost:3001/api/v1/posts?page=1&belongToThread=${threadData._id}`
+    ).then((res) => {
+      setMetadata(res);
+    });
+  }, []);
+  // console.log(`check metadata: ${JSON.stringify(metadata)}`);
+  const { ref, inView, entry } = useInView({
+    threshold: 0,
+    onChange: (inView, entry) => {
+      let limit;
+      let total;
+      if (metadata) {
+        limit = metadata.limit;
+        total = metadata.total;
+      } else {
+        limit = 10;
+        total = 21;
+      }
+      // console.log(`check size: ${size}\n check limit: ${limit}\n check total: ${total}`)
+      if (inView && size * limit <= total) {
+        setSize(size + 1);
+      }
+    },
+  });
+
+  const { data, mutate, size, setSize, isValidating, isLoading } =
+    useSWRInfinite(
+      (index, prevData) =>
+        prevData && !prevData.length
+          ? null
+          : isThreadAdmin
+          ? `http://localhost:3001/api/v1/admin/posts?page=${
+              index + 1
+            }&belongToThread=${threadData._id}&sort=${sortOption}`
+          : `http://localhost:3001/api/v1/posts?page=${
+              index + 1
+            }&belongToThread=${threadData._id}&sort=${sortOption}`,
+
+      isThreadAdmin ? verifyAdminFetcher : fetcher
+    );
+
   if (isLoading) {
     return 0;
   }
-  // console.log("data page: "+ JSON.stringify(data[0].data));
-  return data[0].data.map((postData) => {
-  	return( <Post key={postData._id} postData={postData} />);
-  });
-  return <></>;
+
+  const issues = data ? [].concat(...data) : [];
+
+  return (
+    <>
+      {/*sorting*/}
+      <div className="position-relative">
+        <div className="dropdown ms-3">
+          <button
+            className={
+              "btn  d-flex gap-1 bg-primary-green-300  d-flex rounded-5 px-4 "
+            }
+            data-bs-toggle="dropdown"
+          >
+            <p className="m-0 p-0">{sortOption}</p>
+            <div>
+              <IoMdArrowDropdown />
+            </div>
+          </button>
+          <ul className="dropdown-menu">
+            <li>
+              <a className={"dropdown-item"} onClick={()=>{setSortOption("Hot")}}>
+                Hot
+              </a>
+            </li>
+            <li>
+              <a className={"dropdown-item"}  onClick={()=>{setSortOption("New")}}>
+               New 
+              </a>
+            </li>
+            <li>
+              <a className={"dropdown-item"} onClick={()=>{setSortOption("Top")}}>
+               Top 
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/*Post items*/}
+        <div>
+          {issues.map((postData) => {
+            return (
+              <Post
+                key={postData._id}
+                postData={postData}
+                threadName={threadData.title}
+                isThreadAdmin={isThreadAdmin}
+              />
+            );
+          })}
+        </div>
+        <div className="mt-2" ref={ref}></div>
+      </div>
+    </>
+  );
 }

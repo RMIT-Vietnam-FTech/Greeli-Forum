@@ -15,13 +15,14 @@ export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
   async function handleData() {
     try {
       //clear text, clear file, clear input
-      setFile(null);
-      setIsOpen(false);
+
       const postTitleInput = document.querySelector(".post-title");
       if (
         postTitleInput.value.length >= 5 &&
         postTitleInput.value.length <= 100
       ) {
+        setFile(null);
+        setIsOpen(false);
         const formData = new FormData();
         formData.append("title", postTitleInput.value);
         if (file) {

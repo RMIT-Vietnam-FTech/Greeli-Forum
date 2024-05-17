@@ -11,6 +11,7 @@ import chatRoutes from "./routes/chat.js";
 import messageRoutes from "./routes/message.js";
 import newsRoutes from "./routes/news.js";
 import postRoutes from "./routes/post.js";
+import adminPostRoutes from "./routes/adminPost.js";
 import threadRoutes from "./routes/thread.js";
 import userRoutes from "./routes/user.js";
 import topicRoutes from "./routes/topic.js";
@@ -50,6 +51,7 @@ app.use("/api/message", messageRoutes);
 app.use("/api/news", newsRoutes);
 app.use("/api/topic", topicRoutes);
 app.use("/api/v1/posts", postRoutes);
+app.use("/api/v1/admin/posts", adminPostRoutes);
 app.use("/api/v1/threads", threadRoutes);
 app.use("/api/v1/comments", commentRoutes);
 
