@@ -3,9 +3,10 @@ import axios from "axios";
 import React, { useState, useRef, useContext } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
-import { FaKey, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
+import toast, { Toaster } from "react-hot-toast";
+import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -23,7 +24,7 @@ const Register = () => {
 	const [captchaToken, setCaptchaToken] = useState(null);
 	const captchaRef = useRef(null);
 	const [showPassword, setShowPassword] = useState(false);
-
+	const navigate = useNavigate();
 	const registerSchema = Yup.object().shape({
 		username: Yup.string()
 			.required("Username is required")
@@ -67,9 +68,19 @@ const Register = () => {
 		axios(configuration)
 			.then((result) => {
 				console.log(result.data.message);
+				toast.success("Register successfully!", {
+					duration: 4000,
+					position: "top-center",
+				});
+				setTimeout(() => {
+					navigate("/login", { replace: true });
+				}, 3000);
 			})
 			.catch((error) => {
-				console.log(error);
+				toast.error(error.response.data.error, {
+					duration: 4000,
+					position: "top-center",
+				});
 			});
 	};
 
@@ -85,6 +96,14 @@ const Register = () => {
 
 	const onSubmit = (e) => {
 		// e.preventDefault();
+		// toast.promise(
+		// 	registerAccount(),
+		// 	 {
+		// 	   loading: 'Saving...',
+		// 	   success: <b>Settings saved!</b>,
+		// 	   error: <b>Could not save.</b>,
+		// 	 }
+		//    );
 		registerAccount();
 		setUsername("");
 		setEmail("");
@@ -107,6 +126,7 @@ const Register = () => {
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<div className="row">
+				<Toaster position="top-center" />
 				<div
 					className="col-md-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
@@ -216,6 +236,7 @@ const Register = () => {
 									id="password"
 									placeholder="password"
 									value={password}
+									autoComplete="on"
 									onChange={(e) =>
 										setPassword(e.target.value)
 									}
@@ -258,6 +279,7 @@ const Register = () => {
 									{...register("confirmPassword")}
 									className="form-control"
 									id="confirmPassword"
+									autoComplete="on"
 									placeholder="Confirm Password"
 								/>
 								<label
@@ -298,7 +320,7 @@ const Register = () => {
 						<p className="mt-1 mb-3 text-center text-greeli-emphasis">
 							Have an account?{" "}
 							<Link
-								to="/"
+								to="/login"
 								className="text-primary-yellow"
 								style={{ textDecoration: "none" }}
 							>

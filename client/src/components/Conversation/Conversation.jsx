@@ -1,7 +1,11 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import Cookies from "universal-cookie";
 const Conversation = ({ data, currentUserId, online }) => {
 	const [userData, setUserData] = useState(null);
+	const cookies = new Cookies();
+	const token = cookies.get("TOKEN");
+
 	useEffect(() => {
 		console.log(data);
 		const getUserData = async () => {
@@ -9,6 +13,10 @@ const Conversation = ({ data, currentUserId, online }) => {
 			const configuration = {
 				method: "get",
 				url: `http://localhost:3001/api/user/find/${userId}`,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
 			};
 			axios(configuration)
 				.then((result) => {
@@ -20,6 +28,7 @@ const Conversation = ({ data, currentUserId, online }) => {
 		};
 		getUserData();
 	}, []);
+
 	return (
 		<>
 			<div className="follower conversation">

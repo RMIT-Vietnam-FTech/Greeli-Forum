@@ -23,7 +23,7 @@ const s3Client = new S3Client(s3ClientObject);
 // console.log(uploadParams);
 // console.log(s3ClientObject);
 
-export function uploadFile(fileBuffer, fileName, mimetype) {
+export function uploadFileData(fileBuffer, fileName, mimetype) {
   const uploadParams = {
     Bucket: bucketName,
     Body: fileBuffer,
@@ -33,7 +33,7 @@ export function uploadFile(fileBuffer, fileName, mimetype) {
   return s3Client.send(new PutObjectCommand(uploadParams));
 }
 
-export function deleteFile(fileName) {
+export function deleteFileData(fileName) {
   const deleteParams = {
     Bucket: bucketName,
     Key: fileName,

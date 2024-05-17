@@ -8,14 +8,11 @@ import "../Footer/footer.css";
 export default function Footer() {
 	return (
 		<>
-			<footer className="container-fluid bg-primary-green-700 pt-5">
-				<div
-					className="row row-cols-lg-3 row-cols-md-12 justify-content-around mx-lg-3"
-					id="footer-content"
-				>
+			<footer className="bg-primary-green-700 pt-5" id="footer-content">
+				<div className="container d-flex flex-column flex-md-row">
 					{/* Who are we Section */}
-					<div
-						className="col-lg-3 col-md-3 footer-section"
+					<section
+						className="container flex-column align-items-center align-items-md-start footer-section"
 						id="intro"
 					>
 						<h3 className="fw-bold text-light">Who are we</h3>
@@ -31,11 +28,11 @@ export default function Footer() {
 							className="pt-5"
 							id="weblogo"
 						/>
-					</div>
+					</section>
 
 					{/* Important Link Section*/}
-					<div className="col-lg-3 col-md-3 footer-section">
-						<h3 className="fw-bold text-light">Important Link</h3>
+					<section className="container flex-column align-items-center footer-section">
+						<h3 className="fw-bold text-light">Link</h3>
 						<ul className="nav flex-column">
 							<li className="mb-2">
 								<a
@@ -86,11 +83,11 @@ export default function Footer() {
 								</a>
 							</li>
 						</ul>
-					</div>
+					</section>
 
 					{/* Contact Info Section*/}
-					<div
-						className="col-lg-3 col-md-3 footer-section"
+					<section
+						className="container flex-column align-items-center footer-section"
 						id="contact-info"
 					>
 						<h3 className="fw-bold text-light">Contact Info</h3>
@@ -140,9 +137,8 @@ export default function Footer() {
 								</a>
 							</li>
 						</ul>
-					</div>
+					</section>
 				</div>
-
 				{/* copyright of Greeli */}
 				<div className="mx-lg-4 mt-5" id="copyright">
 					<div className="text-light text-center py-3 px-4">

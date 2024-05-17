@@ -1,12 +1,15 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import InputEmoji from "react-input-emoji";
+import Cookies from "universal-cookie";
 import "./ChatBox.css";
 const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 	const [userData, setUserData] = useState(null);
 	const [messages, setMessages] = useState([]);
 	const [newMessage, setNewMessage] = useState("");
 	const scroll = useRef();
+	const cookies = new Cookies();
+	const token = cookies.get("TOKEN");
 
 	useEffect(() => {
 		const getChatData = async () => {
@@ -14,6 +17,10 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 			const configuration = {
 				method: "get",
 				url: `http://localhost:3001/api/user/find/${receiverId}`,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
 			};
 			axios(configuration)
 				.then((result) => {
@@ -32,6 +39,10 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 			const configuration = {
 				method: "get",
 				url: `http://localhost:3001/api/message/find/${chatId}`,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
 			};
 			axios(configuration)
 				.then((result) => {
@@ -61,6 +72,10 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 			method: "post",
 			url: "http://localhost:3001/api/message/create",
 			data: message,
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
 		};
 
 		// send message to socket server
@@ -121,7 +136,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 						{/* chatbox messages */}
 						<div className="chat-body">
 							{messages.map((message) => (
-								<div>
+								<div key={message?._id}>
 									<div
 										ref={scroll}
 										className={

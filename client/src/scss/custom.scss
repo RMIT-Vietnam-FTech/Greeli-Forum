@@ -64,6 +64,7 @@ $custom-colors: (
 // Merge the maps to add new customed colors
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
+
 @import "../../node_modules/bootstrap/scss/maps";
 @import "../../node_modules/bootstrap/scss/mixins";
 @import "../../node_modules/bootstrap/scss/utilities";
@@ -114,6 +115,15 @@ $theme-colors-bg-subtle-dark: map-merge(
 	$custom-colors-bg-subtle-dark
 );
 // $theme-colors-border-subtle-dark: map-merge($theme-colors-border-subtle-dark, $custom-colors-border-subtle-dark);
+
+[data-bs-theme='dark'] .theme-button {
+    border: 2px solid #ffffff;
+    /* Dark mode border color */
+}
+[data-bs-theme='light'] .theme-button {
+    border: none;
+    /* Dark mode border color */
+}
 
 // Include any default variable overrides here (though functions won't be available)
 
@@ -352,3 +362,17 @@ a {
 	--bs-offcanvas-transition: transform 0.3s ease-in-out;
 	--bs-offcanvas-title-line-height: 1.5;
 }
+
+.modal-content {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	color: var(--bs-greeli-text-emphasis);
+	pointer-events: auto;
+	background-color: var(--bs-greeli-bg-subtle);
+	background-clip: padding-box;
+	border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
+	border-radius: var(--bs-modal-border-radius);
+	outline: 0;
+  }

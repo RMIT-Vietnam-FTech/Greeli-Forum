@@ -3,7 +3,8 @@ import axios from "axios";
 import React, { useState, useContext } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
-import { FaKey, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
+import toast, { Toaster } from "react-hot-toast";
+import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
@@ -12,16 +13,16 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
 import "../../scss/custom.css";
 
-// import "./sass/custom.css";
-
 const Login = () => {
 	const { user, setUser } = useUserContext();
 	const navigate = useNavigate();
 	const location = useLocation();
+	const { isDarkMode } = useContext(ThemeContext);
 	const from = location.state?.from?.pathname || "/";
 	const cookies = new Cookies();
 	const backgroundImage = 'url("LoginBackground.png")';
 	const [email, setEmail] = useState("");
+	const [isLogin, setIsLogin] = useState(false);
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const loginSchema = Yup.object().shape({
@@ -30,7 +31,7 @@ const Login = () => {
 			.email("Email is invalid"),
 		password: Yup.string()
 			.required("Password is required")
-			.min(8, "Password must be at least 6 characters")
+			.min(6, "Password must be at least 6 characters")
 			.max(40, "Password must not exceed 40 characters"),
 	});
 
@@ -41,7 +42,7 @@ const Login = () => {
 		formState: { errors },
 	} = useForm({ resolver: yupResolver(loginSchema) });
 
-	const login = () => {
+	const login = async () => {
 		const configuration = {
 			method: "post",
 			url: "http://localhost:3001/api/user/login",
@@ -52,24 +53,36 @@ const Login = () => {
 		};
 		axios(configuration)
 			.then((result) => {
-				console.log(result.data);
+				if (result.data) {
+					toast.success("Successfully Login!", {
+						duration: 3000,
+						position: "top-center",
+					});
+					setIsLogin(true);
+				}
 				cookies.set("TOKEN", result.data.token, {
 					path: "/",
-					maxAge: 60 * 60 * 24 * 5,
-					httpOnly: true,
+					maxAge: 60 * 60 * 24 * 3,
 				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
 				// set user context
 				setUser(JSON.stringify(result.data));
-				navigate(from, { replace: true });
+				// navigate(from, { replace: true });
+				setTimeout(() => {
+					navigate(from, { replace: true });
+				}, 2000);
 			})
 			.catch((error) => {
+				toast.error(error.response.data.error, {
+					duration: 3000,
+					position: "top-center",
+				});
 				console.log(error.response.data.error);
 			});
 	};
 
-	const onSubmit = (e) => {
+	const onSubmit = async (e) => {
 		login();
 		setEmail("");
 		setPassword("");
@@ -83,7 +96,6 @@ const Login = () => {
 		}
 	};
 
-	const { isDarkMode } = useContext(ThemeContext);
 	return (
 		<main
 			className="container-fluid login"
@@ -91,9 +103,12 @@ const Login = () => {
 		>
 			{/* <div>{JSON.parse(user).id}</div> */}
 			<div className="row">
+				<Toaster position="top-center" />
+				{/* {(isLogin === true) && (toast.success("success"))} */}
 				<div
 					className=" col-sm-12 col-lg-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
+					aria-label="background image"
 				/>
 				<div className="col-12 col-lg-6 text-center login py-5 bg-greeli-subtle">
 					<h1 className="text-login-emphasis">GREELI</h1>
@@ -121,7 +136,7 @@ const Login = () => {
 							<span className="input-group-text">
 								<MdEmail className="text-login-emphasis" />
 							</span>
-							<div className="form-floating" role="email input">
+							<div className="form-floating">
 								<input
 									name="email"
 									type="text"
@@ -168,8 +183,9 @@ const Login = () => {
 									{...register("password")}
 									className="form-control"
 									id="floatingPassword"
-									placeholder="password correct"
+									placeholder="password"
 									value={password}
+									autoComplete="on"
 									onChange={(e) =>
 										setPassword(e.target.value)
 									}
@@ -183,7 +199,9 @@ const Login = () => {
 							</div>
 							<span
 								className="input-group-text text-login-emphasis"
-								onClick={showPasswordButton}
+								onClick={() => {
+									showPasswordButton();
+								}}
 								aria-label="show password button"
 								role="button"
 							>
@@ -202,7 +220,6 @@ const Login = () => {
 								value="remember-me"
 								id="flexCheckDefault"
 								aria-checked="true"
-								role="checkbox"
 								checked
 							/>
 							<label
@@ -231,6 +248,7 @@ const Login = () => {
 					</form>
 				</div>
 			</div>
+			{/* {isLogin && navigate(from, { replace: true })} */}
 		</main>
 	);
 };
