@@ -305,7 +305,7 @@ const Register = () => {
 						)}
 						<Reaptcha
 							className=" mb-4"
-							sitekey="6LeZuswpAAAAAJsWzzaLYK_ZmUoPAhJO0Sns-qlx"
+							sitekey="6Ld2nt8pAAAAANB0gjy0_G2vdBy80t8NO5E_tv0E"
 							ref={captchaRef}
 							onVerify={verifyCaptcha}
 							onLoad={onLoadCaptcha}
