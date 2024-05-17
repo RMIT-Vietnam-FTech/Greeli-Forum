@@ -23,7 +23,6 @@ const __dirname = path.resolve();
 
 dotenv.config();
 // const app = express();
-app.use(express.static("public"))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // app.use(helmet());
@@ -52,7 +51,7 @@ app.use(cors({
 // })
 
 app.use(express.static(path.join(__dirname, "/client/build")))
-
+app.use(express.static(path.join(__dirname, "server/public")))
 /*FILE STORAGE*/
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {

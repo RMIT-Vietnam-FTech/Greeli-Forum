@@ -42,7 +42,7 @@ export const login = async (req, res) => {
 		const token = jwt.sign(
 			{ id: user._id, email: user.email, role: user.role },
 			process.env.JWT_SECRET,
-			{ expiresIn: "5m" },
+			{ expiresIn: "3d" },
 		);
 		delete user.password; 
 		res.status(200).json({
