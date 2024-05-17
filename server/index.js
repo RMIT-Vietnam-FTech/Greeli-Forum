@@ -63,8 +63,16 @@ const storage = multer.diskStorage({
 	},
 });
 
+const fileFilter = (req, file, cb) => {
+	if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+		cb(null, true);
+	} else {
+		cb(null, false);
+		cb(new Error("Only .jpeg or .png files are allowed!"));
+	}
+}
 
-const upload = multer({ storage });
+const upload = multer({storage: storage, fileFilter: fileFilter});
 
 app.get("/api", (req, res) => {
 	res.status(201).json({ message: "hi there" });
