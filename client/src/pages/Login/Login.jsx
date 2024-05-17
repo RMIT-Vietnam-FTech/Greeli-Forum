@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useState, useContext } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -21,6 +22,7 @@ const Login = () => {
 	const cookies = new Cookies();
 	const backgroundImage = 'url("LoginBackground.png")';
 	const [email, setEmail] = useState("");
+	const [isLogin, setIsLogin] = useState(false);
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 	const loginSchema = Yup.object().shape({
@@ -40,7 +42,7 @@ const Login = () => {
 		formState: { errors },
 	} = useForm({ resolver: yupResolver(loginSchema) });
 
-	const login = () => {
+	const login = async () => {
 		const configuration = {
 			method: "post",
 			url: "http://localhost:3001/api/user/login",
@@ -51,7 +53,13 @@ const Login = () => {
 		};
 		axios(configuration)
 			.then((result) => {
-				console.log(result.data);
+				if (result.data) {
+					toast.success("Successfully Login!", {
+						duration: 3000,
+						position: "top-center",
+					});
+					setIsLogin(true);
+				}
 				cookies.set("TOKEN", result.data.token, {
 					path: "/",
 					maxAge: 60 * 60 * 24 * 3,
@@ -60,14 +68,21 @@ const Login = () => {
 				localStorage.setItem("user", JSON.stringify(result.data));
 				// set user context
 				setUser(JSON.stringify(result.data));
-				navigate(from, { replace: true });
+				// navigate(from, { replace: true });
+				setTimeout(() => {
+					navigate(from, { replace: true });
+				}, 2000);
 			})
 			.catch((error) => {
+				toast.error(error.response.data.error, {
+					duration: 3000,
+					position: "top-center",
+				});
 				console.log(error.response.data.error);
 			});
 	};
 
-	const onSubmit = (e) => {
+	const onSubmit = async (e) => {
 		login();
 		setEmail("");
 		setPassword("");
@@ -88,6 +103,8 @@ const Login = () => {
 		>
 			{/* <div>{JSON.parse(user).id}</div> */}
 			<div className="row">
+				<Toaster position="top-center" />
+				{/* {(isLogin === true) && (toast.success("success"))} */}
 				<div
 					className=" col-sm-12 col-lg-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
@@ -119,7 +136,7 @@ const Login = () => {
 							<span className="input-group-text">
 								<MdEmail className="text-login-emphasis" />
 							</span>
-							<div className="form-floating" role="email input">
+							<div className="form-floating">
 								<input
 									name="email"
 									type="text"
@@ -182,7 +199,9 @@ const Login = () => {
 							</div>
 							<span
 								className="input-group-text text-login-emphasis"
-								onClick={showPasswordButton}
+								onClick={() => {
+									showPasswordButton();
+								}}
 								aria-label="show password button"
 								role="button"
 							>
@@ -201,7 +220,6 @@ const Login = () => {
 								value="remember-me"
 								id="flexCheckDefault"
 								aria-checked="true"
-								role="checkbox"
 								checked
 							/>
 							<label
@@ -230,6 +248,7 @@ const Login = () => {
 					</form>
 				</div>
 			</div>
+			{/* {isLogin && navigate(from, { replace: true })} */}
 		</main>
 	);
 };

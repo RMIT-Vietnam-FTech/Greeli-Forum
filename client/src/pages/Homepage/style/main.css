@@ -25,3 +25,9 @@ main {
     border: none;
     /* Dark mode border color */
 }
+@media screen and (max-width: 576px) {
+    .section {
+        top: -2em;
+    }
+    
+}
