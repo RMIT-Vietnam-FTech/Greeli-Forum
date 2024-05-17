@@ -1,4 +1,3 @@
-import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import React, { useState, useContext } from "react";
 import Image from "react-bootstrap/Image";
@@ -11,7 +10,7 @@ import Cookies from "universal-cookie";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
-import "../../scss/custom.css";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const Login = () => {
 	const { user, setUser } = useUserContext();

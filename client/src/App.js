@@ -18,7 +18,7 @@ import PostPage from "./pages/PostPage/PostPage.jsx";
 import Profile from "./pages/Profile/Profile";
 import ThreadPage from "./pages/ThreadPage/ThreadPage.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
-
+import Upload from "./pages/UploadImage/Upload.jsx";
 function App() {
 	let location = useLocation();
 	const [isForum, setIsForum] = useState(false);
@@ -41,6 +41,7 @@ function App() {
 							<Route path="/register" element={<Register />} />
 							<Route path="/general" element={<GeneralPage />} />
 							<Route path="/contact" element={<ContactPage />} />
+							<Route path="/upload" element={<Upload />}/>
 							<Route element={<RequireAuth />}>
 								<Route path="/profile" element={<Profile />} />
 								<Route path="/chat" element={<Chat />} />
