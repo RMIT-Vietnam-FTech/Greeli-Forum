@@ -339,6 +339,9 @@ export default function News() {
 		if (e.deltaX > 0) {
 			sliderRef.current.slickNext();
 		}
+		if (e.deltaX < 0) {
+			sliderRef.current.slickPrev();
+		}
 	};
 
 	return (

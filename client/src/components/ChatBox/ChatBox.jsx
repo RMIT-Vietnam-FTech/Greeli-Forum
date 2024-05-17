@@ -1,178 +1,149 @@
-import axios from "axios";
-import React, { useState, useEffect, useRef } from "react";
-import InputEmoji from "react-input-emoji";
-import Cookies from "universal-cookie";
-import "./ChatBox.css";
+import React, { useState, useEffect, useContext, useRef } from 'react';
+import axios from 'axios';
+import Picker from '@emoji-mart/react';
+import data from '@emoji-mart/data';
+import './ChatBox.css';
+import Cookies from 'universal-cookie';
+import moment from 'moment';
+import { ThemeContext } from '../../context/ThemeContext'
+
 const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
-	const [userData, setUserData] = useState(null);
-	const [messages, setMessages] = useState([]);
-	const [newMessage, setNewMessage] = useState("");
-	const scroll = useRef();
-	const cookies = new Cookies();
-	const token = cookies.get("TOKEN");
+  const [userData, setUserData] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const chatBodyRef = useRef();
+  const emojiPickerRef = useRef();
+  const cookies = new Cookies();
+  const token = cookies.get('TOKEN');
+  const { isDarkMode } = useContext(ThemeContext);
 
-	useEffect(() => {
-		const getChatData = async () => {
-			const receiverId = chat.members.find((id) => id !== currentUserId);
-			const configuration = {
-				method: "get",
-				url: `http://localhost:3001/api/user/find/${receiverId}`,
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			};
-			axios(configuration)
-				.then((result) => {
-					setUserData(result.data);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		};
-		if (chat !== null) getChatData();
-	}, [chat, currentUserId]);
+  useEffect(() => {
+    const fetchMessagesAndUser = async () => {
+      const receiverId = chat.members.find((id) => id !== currentUserId);
+      const userConfig = {
+        method: 'get',
+        url: `http://localhost:3001/api/user/find/${receiverId}`,
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      };
+      const messagesConfig = {
+        method: 'get',
+        url: `http://localhost:3001/api/message/find/${chat._id}`,
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      };
+      try {
+        const userResponse = await axios(userConfig);
+        const messagesResponse = await axios(messagesConfig);
+        setUserData(userResponse.data);
+        setMessages(messagesResponse.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    if (chat) fetchMessagesAndUser();
+  }, [chat, currentUserId, token]);
 
-	useEffect(() => {
-		const fetchMessages = async () => {
-			const chatId = chat._id;
-			const configuration = {
-				method: "get",
-				url: `http://localhost:3001/api/message/find/${chatId}`,
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-			};
-			axios(configuration)
-				.then((result) => {
-					// console.log(result.data);
-					setMessages(result.data);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		};
-		if (chat !== null) fetchMessages();
-	}, [chat]);
+  const handleChange = (e) => setNewMessage(e.target.value);
 
-	const handleChange = (newMessage) => {
-		setNewMessage(newMessage);
-	};
+  const handleSend = async (e) => {
+    e.preventDefault();
+    const message = {
+      chatId: chat._id,
+      senderId: currentUserId,
+      text: newMessage,
+    };
+    const config = {
+      method: 'post',
+      url: 'http://localhost:3001/api/message/create',
+      data: message,
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    };
+    try {
+      const response = await axios(config);
+      setMessages([...messages, response.data]);
+      setNewMessage('');
+      setSendMessage({ ...message, receiverId: chat.members.find((id) => id !== currentUserId) });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-	const handleSend = (e) => {
-		e.preventDefault();
-		const message = {
-			chatId: chat._id,
-			senderId: currentUserId,
-			text: newMessage,
-		};
-		// send message to database
-		const configuration = {
-			method: "post",
-			url: "http://localhost:3001/api/message/create",
-			data: message,
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		};
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      handleSend(event);
+    }
+  };
 
-		// send message to socket server
-		const receiverId = chat.members.find((id) => id !== currentUserId);
-		setSendMessage({ ...message, receiverId });
+  const addEmoji = (emoji) => {
+    setNewMessage((prevMessage) => prevMessage + emoji.native);
+  };
 
-		axios(configuration)
-			.then((result) => {
-				console.log(result);
-				setMessages([...messages, result.data]);
-				setNewMessage("");
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-	useEffect(() => {
-		console.log("Message Arrived: ", receiveMessage);
-		if (receiveMessage !== null && receiveMessage?.chatId === chat._id) {
-			console.log("Data receive");
-			setMessages([...messages, receiveMessage]);
-		}
-	}, [receiveMessage]);
+  useEffect(() => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  }, [messages]);
 
-	// always scroll to the last message
-	useEffect(() => {
-		scroll.current?.scrollIntoView({ behavior: "smooth" });
-	}, [messages]);
+  // Handle click outside emoji picker
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+        setShowEmojiPicker(false);
+      }
+    };
 
-	return (
-		<>
-			<div className="ChatBox-container">
-				{chat ? (
-					<>
-						<div className="chat-header">
-							<div className="follower">
-								<div>
-									<div className="online-dot" />
-									<img
-										src=""
-										alt=""
-										className="followerImage"
-										style={{
-											width: "50px",
-											height: "50px",
-										}}
-									/>
-									<div
-										className="name"
-										style={{ fontSize: "0.8rem" }}
-									>
-										<span>{userData?.username}</span>
-									</div>
-								</div>
-							</div>
-							<hr />
-						</div>
-						{/* chatbox messages */}
-						<div className="chat-body">
-							{messages.map((message) => (
-								<div key={message?._id}>
-									<div
-										ref={scroll}
-										className={
-											message.senderId === currentUserId
-												? "message own"
-												: "message"
-										}
-									>
-										<span>{message.text}</span>{" "}
-									</div>
-								</div>
-							))}
-						</div>
-						<div className="chat-sender">
-							<div>+</div>
-							<InputEmoji
-								value={newMessage}
-								onChange={handleChange}
-							/>
-							<button
-								className="send-button button"
-								onClick={handleSend}
-								type="submit"
-							>
-								Send
-							</button>
-						</div>
-					</>
-				) : (
-					<span className="chatbox-empty-message">
-						Tap On chat to start a conversation
-					</span>
-				)}
-			</div>
-		</>
-	);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [emojiPickerRef]);
+
+  return (
+    <div className="ChatBox-container" data-bs-theme={isDarkMode ? "dark" : "light"}>
+      {chat ? (
+        <>
+          <div className={`${isDarkMode ? "chat-header-dark" : "chat-header-light"} chat-header`}>
+            {userData && (
+              <>
+                <img src={userData.profilePicture || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'} alt={userData.username} className={`followerImage ${userData.isOnline ? 'online' : 'offline'}`} />
+                <span className="fw-bold">{userData.username}</span>
+              </>
+            )}
+          </div>
+          <div className={`${isDarkMode ? "chat-body-dark" : "chat-body-light"} chat-body`} ref={chatBodyRef}>
+            {messages.map((message, index) => (
+              <div key={index} className={`message ${message.senderId === currentUserId ? 'own' : 'other'} ${isDarkMode ? "own-dark" : "own-light"}`}>
+                <div className="message-text">{message.text}</div>
+                <div className="message-time">{moment(message.createdAt).format('LT')}</div>
+              </div>
+            ))}
+          </div>
+          <div className={`${isDarkMode ? "chat-sender-dark" : "chat-sender-light"} chat-sender`}>
+            <textarea
+              value={newMessage}
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              placeholder="Type a message"
+              className={`${isDarkMode ? "form-control-dark" : "form-control-light"} form-control`}
+            />
+            <div className="emoji-picker-container" ref={emojiPickerRef}>
+              {showEmojiPicker && <Picker data={data} onEmojiSelect={addEmoji} />}
+            </div>
+            <button className={`${isDarkMode ? "emoji-button-dark" : "emoji-button-light"} emoji-button`} onClick={() => setShowEmojiPicker(!showEmojiPicker)}>😊</button>
+            <button className={`${isDarkMode ? "send-button-dark" : "send-button-light"} send-button`} onClick={handleSend}>
+              ➤
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className={`${isDarkMode ? "bg-dark text-light" : "bg-light text-primary-green"} before`}>
+          <img className={`${isDarkMode ? "DarkLogo" : "LightLogo"} logo`} src={`${isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}`} alt="Logo" />
+          <span className={`${isDarkMode ? "DarkSelectChat" : "LightSelectChat"} breathe`}>SELECT A CHAT TO START MESSAGING</span>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default ChatBox;
