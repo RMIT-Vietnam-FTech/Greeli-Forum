@@ -43,19 +43,12 @@ app.use(cors({
 	origin: ["https://group-project-cosc3060-2024a-ftech.onrender.com"],
 }));
 
-// app.use((req, res, next) => {
-// 	res.setHeader("Content-Security-Policy", "default-src 'self'; connect-src 'self' http://localhost:3001;");
-// 	res.setHeader("Content-Security-Policy", "default-src 'self'; style-src 'self' https://cdnjs.cloudflare.com;");
-// 	res.setHeader("Content-Security-Policy", "default-src 'self'; img-src 'self' data:;");
-// 	next();
-// })
-
 app.use(express.static(path.join(__dirname, "/client/build")))
 app.use(express.static(path.join(__dirname, "/server/public")))
 /*FILE STORAGE*/
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-		cb(null, "./public/image/avatar");
+		cb(null, path.join(__dirname, "/server/public/image/avatar"));
 	},
 	filename: (req, file, cb) => {
 		cb(null, `${Date.now()}_${file.originalname}`);
