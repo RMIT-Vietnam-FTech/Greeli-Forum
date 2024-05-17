@@ -7,7 +7,7 @@ const router = express.Router();
 router.post("/login", UserController.login);
 router.post("/register", UserController.register);
 router.get("/find/:id", verifyToken, UserController.getUser);
-router.get("getAll", verifyToken, UserController.getAllUser);
+router.get("/getAll", verifyToken, UserController.getAllUser);
 router.put("/:adminId/:userId/lock",verifyToken, verifyAdmin, UserController.lock);
 router.put("/:adminId/:userId/unlock",verifyToken, verifyAdmin, UserController.unlock);
 
