@@ -115,8 +115,8 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
 								<div>
 									<div className="online-dot" />
 									<img
-										src=""
-										alt=""
+										src={userData?.profileImage}
+										alt="profile image"
 										className="followerImage"
 										style={{
 											width: "50px",

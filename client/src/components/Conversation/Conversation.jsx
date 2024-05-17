@@ -36,7 +36,7 @@ const Conversation = ({ data, currentUserId, online }) => {
 					{online && <div className="online-dot" />}
 					<img
 						src={userData?.profileImage}
-						alt=""
+						alt="profile image"
 						className="followerImage"
 						style={{ width: "50px", height: "50px" }}
 					/>
