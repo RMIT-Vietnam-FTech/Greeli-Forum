@@ -12,6 +12,8 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 
+import "./login.css"
+
 const Login = () => {
 	const { user, setUser } = useUserContext();
 	const navigate = useNavigate();
