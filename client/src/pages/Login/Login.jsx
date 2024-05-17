@@ -143,13 +143,13 @@ const Login = () => {
 									type="text"
 									{...register("email")}
 									className="form-control"
-									id="floatingInput"
+									id="emailInput"
 									placeholder="name@example.com"
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
 								/>
 								<label
-									for="floatingInput"
+									for="emailInput"
 									className="text-greeli-emphasis"
 								>
 									Email address
