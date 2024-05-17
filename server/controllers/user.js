@@ -146,3 +146,154 @@ export const updateUserProfile = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
+
+export const changePassword = async (req, res) => {
+	try {
+		const data = req.body;
+		console.log(data);
+	} catch (error) {
+		console.error("Error changing password:", error.message);
+		res.status(500).json({ error: error.message });
+	}
+};
+
+export const getCreatedThread = async (req, res) => {
+	try {
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+
+		if (!user) return res.status(404).json("userId not found");
+		if (req.user.id !== userId) {
+			res.status(403).json("Unauthorized!");
+		}
+
+		const createdThreads = await Thread.find(
+			{ _id: { $in: user.createdThread } },
+			{ _id: 1, title: 1 }
+		);
+		res.status(200).json(createdThreads);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+export const getFollowThread = async (req, res) => {
+	try {
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+
+		if (!user) return res.status(404).json("userId not found");
+		if (req.user.id !== userId) {
+			res.status(403).json("Unauthorized!");
+		}
+
+		const followThreads = await Thread.find({
+			_id: { $in: user.followThread },
+		});
+		res.status(200).json(followThreads);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+export const postFollowThread = async (req, res) => {
+	try {
+		const { threadId } = req.body;
+		if (!threadId) return res.status(400).send("Bad Request");
+		const thread = await Thread.findById(threadId);
+		if (!thread) res.status(404).send("thread id not found or invalid");
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+		if (!user) return res.status(404).send("userId not found or invalid");
+		if (req.user.id !== userId) {
+			res.status(403).send("Unauthorized!");
+		}
+
+		thread.followedBy.push(user._id);
+		await thread.save();
+
+		user.followThread.push(threadId);
+		await user.save();
+		res.status(204).json("success");
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+export const deleteFollowThread = async (req, res) => {
+	try {
+		const { threadId } = req.body;
+		console.log("check threadId: " + threadId);
+		if (!threadId) return res.status(400).send("Bad Request");
+		const thread = await Thread.findById(threadId);
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+		if (!user) return res.status(404).send("userId not found or invalid");
+		if (req.user.id !== userId) {
+			res.status(403).send("Unauthorized!");
+		}
+		thread.followedBy.remove(req.user.id);
+		await thread.save();
+
+		user.followThread.remove(threadId);
+		await user.save();
+
+		res.status(204).json("success");
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+export const getArchivedPost = async (req, res) => {
+	try {
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+
+		if (!user) return res.status(404).json("userId not found");
+		if (req.user.id !== userId) {
+			res.status(403).json("Unauthorized!");
+		}
+
+		const archivedPosts = await Post.find({ _id: { $in: user.archivedPost } });
+		res.status(200).json(archivedPosts);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+export const postArchivedPost = async (req, res) => {
+	try {
+		const { postId } = req.body;
+		if (!postId) return res.status(400).json("Bad Request");
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+		if (!user) return res.status(404).json("userId not found or invalid");
+		if (req.user.id !== userId) {
+			res.status(403).json("Unauthorized!");
+		}
+
+		user.archivedPost.push(postId);
+		await user.save();
+
+		res.status(204).json("success");
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+export const deleteArchivedPost = async (req, res) => {
+	try {
+		const { postId } = req.body;
+		if (!postId) return res.status(400).json("Bad Request");
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+		if (!user) return res.status(404).json("userId not found or invalid");
+		console.log("user1: " + user._id);
+		console.log("user2: " + req.user.id);
+		if (req.user.id !== userId) {
+			res.status(403).json("Unauthorized!");
+		}
+		user.archivedPost.remove(postId);
+		await user.save();
+
+		res.status(204).json("success");
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};

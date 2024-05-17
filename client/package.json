@@ -1,92 +1,93 @@
 {
-  "name": "client",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.5.2",
-    "@hookform/resolvers": "^3.3.4",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
-    "@tiptap/core": "^2.3.1",
-    "@tiptap/extension-blockquote": "^2.3.0",
-    "@tiptap/extension-bold": "^2.3.0",
-    "@tiptap/extension-bullet-list": "^2.3.0",
-    "@tiptap/extension-character-count": "^2.3.0",
-    "@tiptap/extension-code-block-lowlight": "^2.3.1",
-    "@tiptap/extension-focus": "^2.3.1",
-    "@tiptap/extension-heading": "^2.3.0",
-    "@tiptap/extension-history": "^2.3.0",
-    "@tiptap/extension-italic": "^2.3.0",
-    "@tiptap/extension-link": "^2.3.0",
-    "@tiptap/extension-list-item": "^2.3.0",
-    "@tiptap/extension-ordered-list": "^2.3.0",
-    "@tiptap/extension-placeholder": "^2.3.0",
-    "@tiptap/extension-text-align": "^2.3.0",
-    "@tiptap/extension-underline": "^2.3.0",
-    "@tiptap/html": "^2.3.0",
-    "@tiptap/pm": "^2.3.0",
-    "@tiptap/react": "^2.3.0",
-    "@tiptap/starter-kit": "^2.3.0",
-    "axios": "^1.6.8",
-    "biome": "^0.3.3",
-    "bootstrap": "^5.3.3",
-    "compression": "^1.7.4",
-    "cors": "^2.8.5",
-    "lowlight": "^2.4.0",
-    "rc-image": "^7.6.0",
-    "react": "^18.2.0",
-    "react-bootstrap": "^2.10.2",
-    "react-dom": "^18.2.0",
-    "react-dropzone": "^14.2.3",
-    "react-hook-form": "^7.51.3",
-    "react-hot-toast": "^2.4.1",
-    "react-icons": "^5.2.0",
-    "react-input-emoji": "^5.9.0",
-    "react-multi-carousel": "^2.8.5",
-    "react-player": "^2.16.0",
-    "react-router-dom": "^6.23.0",
-    "react-scripts": "5.0.1",
-    "react-slick": "^0.30.2",
-    "reaptcha": "^1.12.1",
-    "sass": "^1.76.0",
-    "socket.io-client": "^4.7.5",
-    "swr": "^2.2.5",
-    "universal-cookie": "^7.1.4",
-    "web-vitals": "^2.1.4",
-    "yup": "^1.4.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "format": "biome format --write ./",
-    "lint": "biome lint --apply ./",
-    "check": "biome check --apply ./"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.7.3",
-    "install": "0.13.0",
-    "npm": "10.7.0",
-    "sass": "^1.76.0"
-  }
+	"name": "client",
+	"version": "0.1.0",
+	"private": true,
+	"dependencies": {
+		"@fortawesome/fontawesome-free": "^6.5.2",
+		"@hookform/resolvers": "^3.3.4",
+		"@testing-library/jest-dom": "^5.17.0",
+		"@testing-library/react": "^13.4.0",
+		"@testing-library/user-event": "^13.5.0",
+		"@tiptap/core": "^2.3.1",
+		"@tiptap/extension-blockquote": "^2.3.0",
+		"@tiptap/extension-bold": "^2.3.0",
+		"@tiptap/extension-bullet-list": "^2.3.0",
+		"@tiptap/extension-character-count": "^2.3.0",
+		"@tiptap/extension-code-block-lowlight": "^2.3.1",
+		"@tiptap/extension-focus": "^2.3.1",
+		"@tiptap/extension-heading": "^2.3.0",
+		"@tiptap/extension-history": "^2.3.0",
+		"@tiptap/extension-italic": "^2.3.0",
+		"@tiptap/extension-link": "^2.3.0",
+		"@tiptap/extension-list-item": "^2.3.0",
+		"@tiptap/extension-ordered-list": "^2.3.0",
+		"@tiptap/extension-placeholder": "^2.3.0",
+		"@tiptap/extension-text-align": "^2.3.0",
+		"@tiptap/extension-underline": "^2.3.0",
+		"@tiptap/html": "^2.3.0",
+		"@tiptap/pm": "^2.3.0",
+		"@tiptap/react": "^2.3.0",
+		"@tiptap/starter-kit": "^2.3.0",
+		"axios": "^1.6.8",
+		"bcryptjs": "^2.4.3",
+		"biome": "^0.3.3",
+		"bootstrap": "^5.3.3",
+		"compression": "^1.7.4",
+		"cors": "^2.8.5",
+		"lowlight": "^2.4.0",
+		"rc-image": "^7.6.0",
+		"react": "^18.2.0",
+		"react-bootstrap": "^2.10.2",
+		"react-dom": "^18.2.0",
+		"react-dropzone": "^14.2.3",
+		"react-hook-form": "^7.51.3",
+		"react-hot-toast": "^2.4.1",
+		"react-icons": "^5.2.0",
+		"react-input-emoji": "^5.9.0",
+		"react-multi-carousel": "^2.8.5",
+		"react-player": "^2.16.0",
+		"react-router-dom": "^6.23.0",
+		"react-scripts": "5.0.1",
+		"react-slick": "^0.30.2",
+		"reaptcha": "^1.12.1",
+		"sass": "^1.76.0",
+		"socket.io-client": "^4.7.5",
+		"swr": "^2.2.5",
+		"universal-cookie": "^7.1.4",
+		"web-vitals": "^2.1.4",
+		"yup": "^1.4.0"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject",
+		"format": "biome format --write ./",
+		"lint": "biome lint --apply ./",
+		"check": "biome check --apply ./"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.7.3",
+		"install": "0.13.0",
+		"npm": "10.7.0",
+		"sass": "^1.76.0"
+	}
 }

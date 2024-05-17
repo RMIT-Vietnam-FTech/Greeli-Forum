@@ -5,6 +5,7 @@ import "../../scss/custom.scss";
 import BasicInfo from "./components/BasicInfo";
 import PostsGallery from "./components/PostsGallery";
 import ProfileShow from "./components/ProfileShow";
+import ChangePassword from "./components/ChangePassword";
 import demoUserInfo from "./data";
 import "./styles.css";
 
@@ -21,6 +22,7 @@ const Profile = () => {
 	// FETCH USER INFO FROM DB THROUGH ID: username, email, role, profileImage
 	// EXCEPT tel, address, gender
 	useEffect(() => {
+		var fetchedBasicInfo = {};
 		async function fetchUser() {
 			const configuration = {
 				method: "get",
@@ -32,7 +34,7 @@ const Profile = () => {
 					const { user } = result.data;
 					// console.log(user);
 
-					const { username, email, role } = user;
+					const { username, email, role, password } = user;
 					const tel = user.tel ? user.tel : "Please update your phone number";
 					const address = user.address
 						? user.address
@@ -42,7 +44,7 @@ const Profile = () => {
 						: "Please update your gender";
 					const profileImage = user.profileImage ? user.profileImage : "";
 
-					const fetchedBasicInfo = {
+					fetchedBasicInfo = {
 						userId: userId,
 						username: username,
 						email: email,
@@ -51,14 +53,14 @@ const Profile = () => {
 						tel: tel,
 						address: address,
 						gender: gender,
+						password: password,
 					};
-					// console.log(fetchedBasicInfo);
-
-					setBasicInfo(fetchedBasicInfo);
 				})
 				.catch((error) => {
 					console.log("Error", error);
 				});
+			// console.log("Fetched Basic Info", fetchedBasicInfo);
+			setBasicInfo(fetchedBasicInfo);
 		}
 
 		fetchUser();
@@ -152,12 +154,11 @@ const Profile = () => {
 						<h2 className="fs-4 text-white border-bottom border-white fw-light">
 							Account Setting
 						</h2>
-						<div className="d-flex justify-content-between">
-							<p className="text-white">Password</p>
-							<button className="bg-primary-green-400 text-white rounded-pill border-none">
-								Reset Password
-							</button>
-						</div>
+						<ChangePassword
+							// currentPassword={basicInfo.password}
+							updateBasicInfo={handleUpdateBasicInfo}
+							basicInfo={basicInfo}
+						/>
 					</div>
 
 					{/* Deactivate button */}
