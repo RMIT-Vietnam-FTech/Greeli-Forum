@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext} from "react";
 import { io } from "socket.io-client";
 import Cookies from "universal-cookie";
 import ChatBox from "../../components/ChatBox/ChatBox";
@@ -7,6 +7,10 @@ import Conversation from "../../components/Conversation/Conversation";
 import LoginPopup from "../../components/Popup/LoginPopup";
 import { useUserContext } from "../../context/UserContext";
 import "./chat.css";
+import { ThemeContext } from '../../context/ThemeContext'
+
+
+
 const Chat = () => {
 	const socket = useRef();
 	const cookies = new Cookies();
@@ -21,7 +25,9 @@ const Chat = () => {
 	const [updateChat, setUpdateChat] = useState(0);
 	const userId = JSON.parse(user).id;
 	const token = cookies.get("TOKEN") || null;
-	// console.log(onlineUsers);
+	const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
+	const [showChatBox, setShowChatBox] = useState(false);
+	const { isDarkMode } = useContext(ThemeContext);
 
 	useEffect(() => {
 		socket.current = io("https://group-project-cosc3060-2024a-ftech.onrender.com");
@@ -31,7 +37,6 @@ const Chat = () => {
 		};
 	}, [user]);
 
-	// add current user to socket and receive list of online users
 	useEffect(() => {
 		if (socket.current === null) return;
 		socket.current.emit("new-user-add", userId);
@@ -41,7 +46,7 @@ const Chat = () => {
 		});
 
 		return () => {
-			socket.current.off("getOnlineUsers");
+			socket.current.off("get-users");
 		};
 	}, [socket.current]);
 
@@ -57,7 +62,6 @@ const Chat = () => {
 			};
 			axios(configuration)
 				.then((result) => {
-					// console.log(result.data);
 					setChats(result.data);
 				})
 				.catch((error) => {
@@ -68,7 +72,6 @@ const Chat = () => {
 		getChats();
 	}, [userId, updateChat]);
 
-	// sending mesage to socket server
 	useEffect(() => {
 		if (socket.current === null) return;
 		if (sendMessage !== null) {
@@ -79,10 +82,8 @@ const Chat = () => {
 		};
 	}, [sendMessage]);
 
-	// receive mesage from socket server
 	useEffect(() => {
 		if (socket.current === null) return;
-
 		socket.current.on("receive-message", (data) => {
 			setReceiveMessage(data);
 		});
@@ -90,6 +91,15 @@ const Chat = () => {
 			socket.current.off("receive-message");
 		};
 	}, [socket.current]);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsMobileView(window.innerWidth <= 768);
+		};
+
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
 
 	useEffect(() => {
 		const getAllUsers = async () => {
@@ -119,9 +129,20 @@ const Chat = () => {
 	const checkOnlineStatus = (chat) => {
 		const chatMember = chat.members.find((member) => member !== userId);
 		const online = onlineUsers.find((user) => user.userId === chatMember);
-		// return online ? true : false;
 		return !!online;
 	};
+
+	const handleChatClick = (chat) => {
+		setCurrentChat(chat);
+		if (isMobileView) {
+			setShowChatBox(true);
+		}
+	};
+
+	const handleBackClick = () => {
+		setShowChatBox(false);
+	};
+
 
 	const createChat = (user) => {
 		const receiverId = user._id;
@@ -150,40 +171,38 @@ const Chat = () => {
 	};
 
 	return (
-		<div className="Chat">
+		<div className="Chat" data-bs-theme={isDarkMode ? "dark" : "light"}>
 			{/* Left Side */}
 			{error === "invalid token" && <LoginPopup isShow={true} />}
-			<div className="Left-side-chat">
+			<div className={`Left-side-chat ${isMobileView && showChatBox ? 'd-none' : 'd-full'} ${isDarkMode ? "Left-side-chat-dark" : "Left-side-chat-light"}`}>
 				<div className="Chat-container">
-					<h2>Chat</h2>
+					<h2 className={`${isDarkMode ? "title-dark" : "title-light"}`}>GREELI CHAT</h2>
 					<div className="Chat-list">
-						Conversations
-						{chats?.map((chat) => (
+						{chats?.map((chat, index) => (
 							<div
-								onClick={() => setCurrentChat(chat)}
-								key={chat?._id}
+								onClick={() => handleChatClick(chat)}
+								key={index}
+								className={currentChat === chat ? 'active' : ''}
 							>
 								<Conversation
 									data={chat}
 									currentUserId={userId}
 									online={checkOnlineStatus(chat)}
+									isActive={currentChat === chat}
 								/>
 							</div>
 						))}
 					</div>
 				</div>
 			</div>
+
 			{/* Right Side */}
-			<div className="Right-side-chat">
-				<button
-					type="button"
-					class="btn btn-primary"
-					data-bs-toggle="modal"
-					data-bs-target="#staticBackdrop"
-				>
-					Create Chat
-				</button>
-				{/* Chatbody */}
+			<div className={`Right-side-chat ${isMobileView && !showChatBox ? 'd-none' : 'd-full'}`}>
+				{isMobileView && showChatBox && (
+					<button className="back-button" onClick={handleBackClick}>
+						<i className="fas fa-arrow-left"></i>
+					</button>
+				)}
 				<ChatBox
 					chat={currentChat}
 					currentUserId={userId}
@@ -263,4 +282,5 @@ const Chat = () => {
 		</div>
 	);
 };
+
 export default Chat;

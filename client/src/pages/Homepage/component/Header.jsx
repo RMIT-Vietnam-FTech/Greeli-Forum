@@ -1,5 +1,5 @@
 import React from "react";
-import "../style/header.css";
+import "../style/Header.css";
 
 const Header = () => {
 	return (
@@ -19,7 +19,7 @@ const Header = () => {
 						Welcome to{" "}
 						<span className="text-primary-yellow">Greeli</span>
 					</h1>
-					<h3 className="display-4 fw-semibold">
+					<h3 className="display-4 fw-semibold" id="hero-text">
 						The guide to sustainable living
 					</h3>
 				</div>
