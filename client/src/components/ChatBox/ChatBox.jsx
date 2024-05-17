@@ -22,14 +22,14 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
     const fetchMessagesAndUser = async () => {
       const receiverId = chat.members.find((id) => id !== currentUserId);
       const userConfig = {
-        method: 'get',
-        url: `http://localhost:3001/api/user/find/${receiverId}`,
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        method: "get",
+        url: `/api/user/find/${receiverId}`,
+        headers: { "Content-Type'": "application/json", Authorization: `Bearer ${token}` },
       };
       const messagesConfig = {
-        method: 'get',
-        url: `http://localhost:3001/api/message/find/${chat._id}`,
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        method: "get",
+        url: `/api/message/find/${chat._id}`,
+        headers: { "Content-Type'": "application/json", Authorization: `Bearer ${token}` },
       };
       try {
         const userResponse = await axios(userConfig);
@@ -53,10 +53,10 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
       text: newMessage,
     };
     const config = {
-      method: 'post',
-      url: 'http://localhost:3001/api/message/create',
+      method: "post",
+      url: "/api/message/create",
       data: message,
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      headers: { "Content-Type'": "application/json", Authorization: `Bearer ${token}` },
     };
     try {
       const response = await axios(config);
