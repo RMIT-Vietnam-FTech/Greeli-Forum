@@ -53,8 +53,8 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
       text: newMessage,
     };
     const configuration = {
-      method: 'post',
-      url: 'http://localhost:3001/api/message/create',
+      method: "post",
+      url: "/api/message/create",
       data: message,
       headers: { "Content-Type'": "application/json", Authorization: `Bearer ${token}` },
     };
