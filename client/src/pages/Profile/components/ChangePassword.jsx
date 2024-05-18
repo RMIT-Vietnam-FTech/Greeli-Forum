@@ -1,15 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Button from "react-bootstrap/Button";
-import * as bcrypt from "bcryptjs";
 import axios from "axios";
 
 const ChangePassword = (props) => {
-	const { basicInfo, updateBasicInfo } = props;
-	const currentPassword = basicInfo.password;
-	// const checked = bcrypt.compareSync("HLDQui110105ft", currentPassword);
-	// console.log(checked);
+	const { userId } = props;
+	// console.log(userId);
 	const [isEditing, setIsEditing] = useState(false);
 	const [oldPassword, setOldPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
@@ -17,22 +14,31 @@ const ChangePassword = (props) => {
 	const {
 		register,
 		handleSubmit,
+		reset,
+		formState,
 		formState: { errors },
+		formState: { isSubmitSuccessful },
 	} = useForm({
 		criteriaMode: "all",
 	});
 
 	const onSubmit = (event) => {
-		sendOldPassword(oldPassword);
+		sendOldPassword(oldPassword, newPassword, userId);
 	};
 
+	// useEffect(() => {
+	// 	if (formState.isSubmitSuccessful) {
+	// 		reset({ oldPassword: "", newPassword: "" });
+	// 	}
+	// }, [formState, reset]);
+
 	// SEND OLD PASS INPUT TO SERVER TO COMPARE
-	const sendOldPassword = async (oldPassword) => {
+	const sendOldPassword = async (oldPassword, newPassword, userId) => {
 		const configuration = {
 			method: "post",
 			url: `http://localhost:3001/api/user/change-password`,
 			data: {
-				userId: JSON.parse(localStorage.getItem("user")).id,
+				userId: userId,
 				oldPassword: oldPassword,
 				newPassword: newPassword,
 			},
@@ -82,7 +88,9 @@ const ChangePassword = (props) => {
 						</label>
 						<input
 							type="text"
-							{...register("oldPassword")}
+							{...register("oldPassword", {
+								required: "This input is required.",
+							})}
 							// {...register("oldPassword", {
 							// 	validate: (value) => {
 							// 		if (!comparePassword(value)) {
@@ -162,16 +170,6 @@ const ChangePassword = (props) => {
 							variant="primary-green"
 						>
 							Change Password
-						</Button>
-						<Button
-							type="button"
-							onClick={() => {
-								setIsEditing(false);
-							}}
-							className="col-4"
-							variant="outline-primary-yellow"
-						>
-							Cancel
 						</Button>
 					</div>
 				</form>

@@ -154,11 +154,7 @@ const Profile = () => {
 						<h2 className="fs-4 text-white border-bottom border-white fw-light">
 							Account Setting
 						</h2>
-						<ChangePassword
-							// currentPassword={basicInfo.password}
-							updateBasicInfo={handleUpdateBasicInfo}
-							basicInfo={basicInfo}
-						/>
+						<ChangePassword userId={userId} />
 					</div>
 
 					{/* Deactivate button */}
