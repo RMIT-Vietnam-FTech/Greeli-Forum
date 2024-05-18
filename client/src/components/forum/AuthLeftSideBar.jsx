@@ -5,6 +5,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
 import NewThreadPopUp from "../../pages/Forum/ThreadPage/components/NewThreadPopUp";
 import { Link } from "react-router-dom";
+import LoginPopup from "../Popup/LoginPopup";
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 const validatedFetcher = (url) => {
   return axios
@@ -19,7 +20,7 @@ const validatedFetcher = (url) => {
 };
 export default function AuthLeftSideBar() {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [error, setError] = useState("");
   return (
     <>
       {/*collapse section*/}
@@ -91,7 +92,10 @@ function CreatedThread() {
 
   const { data, error, isLoading } = useSwr(path, validatedFetcher);
   if (error) {
-    return <div>is error</div>;
+    return (
+      <div>{<LoginPopup isShow={true} />}</div>
+    )
+
   }
   if (isLoading) {
     return <div>is loading</div>;
@@ -123,7 +127,9 @@ function FollowingThread() {
 
   const { data, error, isLoading } = useSwr(path, validatedFetcher);
   if (error) {
-    return <div>is error</div>;
+    return (
+      <div>{<LoginPopup isShow={true} />}</div>
+    )
   }
   if (isLoading) {
     return <div>is loading</div>;
