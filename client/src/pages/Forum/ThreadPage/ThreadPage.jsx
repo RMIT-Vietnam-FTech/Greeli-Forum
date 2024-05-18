@@ -14,7 +14,7 @@ import ThreadBody from "./ThreadBody";
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function ThreadPage() {
   const { threadId } = useParams();
-  const path = `http://localhost:3001/api/v1/threads/${threadId}`;
+  const path = `/api/v1/threads/${threadId}`;
   const { data, error, isLoading } = useSwr(path, fetcher);
   if (error) {
     return <div>is error</div>;

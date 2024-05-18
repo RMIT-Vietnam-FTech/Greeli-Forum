@@ -23,7 +23,7 @@ export default function ThreadHeader({ ...prop }) {
   }, []);
 
   async function checkFollowingStatus() {
-    const path = `http://localhost:3001/api/user/${
+    const path = `/api/user/${
       JSON.parse(localStorage.getItem("user")).id
     }/follow_threads`;
     const followThreads = await axios
@@ -42,7 +42,7 @@ export default function ThreadHeader({ ...prop }) {
   }
   async function handleFollowThread() {
     try {
-      const path = `http://localhost:3001/api/user/${
+      const path = `/api/user/${
         JSON.parse(localStorage.getItem("user")).id
       }/follow_threads`;
       await axios.post(
@@ -65,7 +65,7 @@ export default function ThreadHeader({ ...prop }) {
   }
   async function handleUnFollowThread() {
     try {
-      const path = `http://localhost:3001/api/user/${
+      const path = `/api/user/${
         JSON.parse(localStorage.getItem("user")).id
       }/follow_threads`;
       await axios.delete(

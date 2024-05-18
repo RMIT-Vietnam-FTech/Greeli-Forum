@@ -38,8 +38,8 @@ export default function ThreadBody({ threadData }) {
   useEffect(() => {
     getMetadata(
       isThreadAdmin
-        ? `http://localhost:3001/api/v1/admin/posts?page=1&belongToThread=${threadData._id}`
-        : `http://localhost:3001/api/v1/posts?page=1&belongToThread=${threadData._id}`
+        ? `/api/v1/admin/posts?page=1&belongToThread=${threadData._id}`
+        : `/api/v1/posts?page=1&belongToThread=${threadData._id}`
     ).then((res) => {
       setMetadata(res);
     });
@@ -70,10 +70,10 @@ export default function ThreadBody({ threadData }) {
         prevData && !prevData.length
           ? null
           : isThreadAdmin
-          ? `http://localhost:3001/api/v1/admin/posts?page=${
+          ? `/api/v1/admin/posts?page=${
               index + 1
             }&belongToThread=${threadData._id}&sort=${sortOption}`
-          : `http://localhost:3001/api/v1/posts?page=${
+          : `/api/v1/posts?page=${
               index + 1
             }&belongToThread=${threadData._id}&sort=${sortOption}`,
 
