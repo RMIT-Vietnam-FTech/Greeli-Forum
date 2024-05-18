@@ -2,7 +2,7 @@
 .carousel-image {
     object-fit: cover;
     /* For navbar nhe :>*/
-    height: 88.5vh;
+    height: calc(100vh - 80px);
 }
 
 .custom-caption {

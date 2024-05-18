@@ -1,120 +1,210 @@
-import { createContext } from "react";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
-import EditContext from "../../contexts/AuthContext";
+import { AuthorizationContext } from "../../context/AuthorizationContext";
+import { EditContext } from "../../context/EditContext";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+export default function DropDown({
+  isVertical,
+  componentType,
+  threadId,
+  postId,
+}) {
+  // console.log(`check input: \n componentType:${componentType}\n threadId: ${threadId}\n postId: ${postId}`)
+  const editContext = useContext(EditContext);
+  const authorizationContext = useContext(AuthorizationContext);
+  const [isSaved, setIsSaved] = useState(false);
+  const navigate = useNavigate();
+  useEffect(() => {
+    checkSavingStatus().then((res) => {
+      setIsSaved(res);
+    });
+  }, []);
+  async function checkSavingStatus() {
+    const path = `http://localhost:3001/api/user/${
+      JSON.parse(localStorage.getItem("user")).id
+    }/archived_posts`;
+    const archivedPosts = await axios
+      .get(path, {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("user")).token
+          }`,
+        },
+      })
+      .then((res) => res.data);
+    return archivedPosts.some((object) => {
+      return object._id === postId;
+    });
+  }
 
-export default function DropDown({ isVertical }) {
-	//console.log("dis play Dropdown Data: \n\n");
-	//console.log("isVertical: " + isVertical);
+  function handleEdit() {
+    editContext.setIsEdit(true);
+  }
 
-	const editContext = useContext(EditContext);
-	function handleEdit() {
-		editContext.toggleIsEdit();
-	}
-	if (
-		editContext.isAuthor.current &&
-		(editContext.componentType == "threads" ||
-			editContext.componentType == "comments")
-	) {
-		return (
-			<div className="dropdown position-absolute">
-				<button
-					className={
-						"btn btn-secondary d-flex gap-1 bg-transparent border-0 " +
-						(isVertical ? "flex-column" : "flex-row")
-					}
-					data-bs-toggle="dropdown"
-				>
-					<div
-						className={
-							"dropdown-circle " +
-							(isVertical ? "bg-white" : "bg-primary-green-900")
-						}
-					/>
-					<div
-						className={
-							"dropdown-circle " +
-							(isVertical ? "bg-white" : "bg-primary-green-900")
-						}
-					/>
-					<div
-						className={
-							"dropdown-circle " +
-							(isVertical ? "bg-white" : "bg-primary-green-900")
-						}
-					/>
-				</button>
-				<ul className="dropdown-menu">
-					<li>
-						<a
-							onClick={handleEdit}
-							className={"dropdown-item"}
-							href="#"
-						>
-							Edit
-						</a>
-					</li>
-				</ul>
-			</div>
-		);
-	}
-	if (editContext.componentType == "posts") {
-		return (
-			<div className="dropdown position-absolute">
-				<button
-					className={
-						"btn btn-secondary d-flex gap-1 bg-transparent border-0 " +
-						(isVertical ? "flex-column" : "flex-row")
-					}
-					data-bs-toggle="dropdown"
-				>
-					<div
-						className={
-							"dropdown-circle " +
-							(isVertical ? "bg-white" : "bg-primary-green-900")
-						}
-					/>
-					<div
-						className={
-							"dropdown-circle " +
-							(isVertical ? "bg-white" : "bg-primary-green-900")
-						}
-					/>
-					<div
-						className={
-							"dropdown-circle " +
-							(isVertical ? "bg-white" : "bg-primary-green-900")
-						}
-					/>
-				</button>
-				<ul className="dropdown-menu">
-					{editContext.isAuthor.current ? (
-						<li>
-							<a
-								onClick={handleEdit}
-								className={"dropdown-item"}
-								href="#"
-							>
-								Edit
-							</a>
-						</li>
-					) : null}
+  async function handleSave() {
+    try {
+      const path = `http://localhost:3001/api/user/${
+        JSON.parse(localStorage.getItem("user")).id
+      }/archived_posts`;
+      await axios.post(
+        path,
+        {
+          postId: postId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).token
+            }`,
+          },
+        }
+      );
+      setIsSaved(true);
+    } catch (e) {
+      console.error(e.message.data);
+    }
+  }
 
-					<li>
-						<a className="dropdown-item" href="#">
-							Save
-						</a>
-					</li>
-					<li>
-						{editContext.isAuthor.current ? (
-							<a className="dropdown-item" href="#">
-								Delete
-							</a>
-						) : null}
-					</li>
-				</ul>
-			</div>
-		);
-	}
-	return null;
+  async function handleUnSave() {
+    try {
+      const path = `http://localhost:3001/api/user/${
+        JSON.parse(localStorage.getItem("user")).id
+      }/archived_posts`;
+      await axios.delete(
+        path,
+
+        {
+          data: {
+            postId: postId,
+          },
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).token
+            }`,
+          },
+        }
+      );
+      setIsSaved(false);
+    } catch (e) {
+      console.error(e.message.data);
+    }
+  }
+
+  async function handleDelete() {
+    try {
+      //delete and redirect
+      const path = `http://localhost:3001/api/v1/posts/${postId}`;
+      await axios.delete(
+        path,
+
+        {
+          data: {
+            threadId: threadId,
+          },
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).token
+            }`,
+          },
+        }
+      );
+      navigate("/forum");
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  if (componentType == "post") {
+    return (
+      <div className="dropdown position-absolute">
+        <button
+          className={
+            "btn btn-secondary d-flex gap-1 bg-transparent border-0 " +
+            (isVertical ? "flex-column" : "flex-row")
+          }
+          data-bs-toggle="dropdown"
+        >
+          <div
+            className={
+              "dropdown-circle " +
+              (isVertical ? "bg-white" : "bg-primary-green-900")
+            }
+          />
+          <div
+            className={
+              "dropdown-circle " +
+              (isVertical ? "bg-white" : "bg-primary-green-900")
+            }
+          />
+          <div
+            className={
+              "dropdown-circle " +
+              (isVertical ? "bg-white" : "bg-primary-green-900")
+            }
+          />
+        </button>
+        <ul className="dropdown-menu">
+          {authorizationContext.isAuthor.current ? (
+            <li>
+              <a onClick={handleEdit} className={"dropdown-item"} href="#">
+                Edit
+              </a>
+            </li>
+          ) : null}
+
+          <li>
+            <a className="dropdown-item" onClick={isSaved?handleUnSave:handleSave} href="#">
+              {isSaved?"unsaved":"save"}
+            </a>
+          </li>
+          <li>
+            {authorizationContext.isAuthor.current ? (
+              <Link onClick={handleDelete} className="dropdown-item" to="../">
+                Delete
+              </Link>
+            ) : null}
+          </li>
+        </ul>
+      </div>
+    );
+  }
+  if (componentType == "thread" && authorizationContext.isAuthor.current) {
+    return (
+      <div className="dropdown position-absolute">
+        <button
+          className={
+            "btn btn-secondary d-flex gap-1 bg-transparent border-0 " +
+            (isVertical ? "flex-column" : "flex-row")
+          }
+          data-bs-toggle="dropdown"
+        >
+          <div
+            className={
+              "dropdown-circle " +
+              (isVertical ? "bg-white" : "bg-primary-green-900")
+            }
+          />
+          <div
+            className={
+              "dropdown-circle " +
+              (isVertical ? "bg-white" : "bg-primary-green-900")
+            }
+          />
+          <div
+            className={
+              "dropdown-circle " +
+              (isVertical ? "bg-white" : "bg-primary-green-900")
+            }
+          />
+        </button>
+        <ul className="dropdown-menu">
+          <li>
+            <a onClick={handleEdit} className={"dropdown-item"} href="#">
+              Edit
+            </a>
+          </li>
+        </ul>
+      </div>
+    );
+  }
 }

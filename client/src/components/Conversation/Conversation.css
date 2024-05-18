@@ -1,0 +1,113 @@
+.conversation {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 8px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 10px;
+}
+
+.conversation-dark {
+    background-color: #0A2A28;
+    color: #e0f7fa;
+}
+
+.conversation-light {
+    background-color: #f9f9f9;
+    color: #0A2A28;
+}
+
+.conversation:hover,
+.conversation-dark.active {
+    background-color: #e0f7fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.conversation-light.active {
+    background-color: #9CCDAD;
+    color: #e0f7fa;
+}
+
+.conversation.active {
+    color: #0A2A28;
+}
+
+.conversation-dark:hover {
+    color: #e0f7fa
+}
+
+.conversation-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.conversation-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid #ccc;
+}
+
+.online {
+    border-color: #4CAF50;
+}
+
+.offline {
+    border-color: #ccc;
+}
+
+.conversation-info {
+    flex-grow: 1;
+}
+
+.conversation-name {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.status-light {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.status-dark {
+    font-size: 0.8rem;
+    color: #BD974C;
+}
+.online-dot {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    background-color: #4CAF50;
+    border-radius: 50%;
+}
+
+.no-user-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+}
+
+.no-user-message {
+    font-size: 1rem;
+    color: #999;
+    text-align: center;
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+    .conversation-status {
+        display: none;
+    }
+}
+

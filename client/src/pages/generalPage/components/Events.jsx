@@ -40,7 +40,7 @@ export default function Events() {
 				},
 			},
 			{
-				breakpoint: 600,
+				breakpoint: 700,
 				settings: {
 					slidesToShow: 1,
 					slidesToScroll: 1,
@@ -76,6 +76,9 @@ export default function Events() {
 	const handleWheel = (e) => {
 		if (e.deltaX > 0) {
 			sliderRef.current.slickNext();
+		}
+		if (e.deltaX < 0) {
+			sliderRef.current.slickPrev();
 		}
 	};
 

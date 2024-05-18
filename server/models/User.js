@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import Post from "./Post.js";
-import Thread from "./Thread.js";
 
 const userSchema = new mongoose.Schema(
 	{
@@ -25,6 +23,12 @@ const userSchema = new mongoose.Schema(
 			{
 				type: mongoose.Schema.Types.ObjectId,
 				ref: "Post",
+			},
+		],
+		createdThread: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Thread",
 			},
 		],
 		archivedPost: [
@@ -55,8 +59,24 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			default: null,
 		},
+		lastActive: {
+			type: Date,
+			default: Date.now,
+		},
+		tel: {
+			type: String,
+			default: null,
+		},
+		address: {
+			type: String,
+			default: null,
+		},
+		gender: {
+			type: String,
+			default: null,
+		},
 	},
-	{ timestamps: true },
+	{ timestamps: true }
 );
 
 const User = mongoose.model("User", userSchema);

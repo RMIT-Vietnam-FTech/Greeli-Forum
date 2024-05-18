@@ -1,147 +1,196 @@
-import crypto from "node:crypto";
+import * as crypto from "crypto";
 import Post from "../models/Post.js";
 import Thread from "../models/Thread.js";
 import User from "../models/User.js";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
-
+import { ObjectId } from "mongodb";
+import mongoose from "mongoose";
 const createRandomName = (bytes = 32) =>
-	crypto.randomBytes(bytes).toString("hex");
+  crypto.randomBytes(bytes).toString("hex");
 
 export const createPost = async (req, res) => {
-	//req.body -> title, content, createBy{}
-	try {
-		const title = req.body.title;
-		const content = req.body.content;
-		const uploadFile = req.file;
-		const parentThread = req.body.parentThread;
-		const user = req.user;
-		console.log(
-			`title: ${title}\n content: ${content}\n uploadFile: ${uploadFile}\n parentThread: ${parentThread}\n user: ${user}`,
-		);
-		if (req.user) {
-			const user = await User.findById(req.user.id);
-			// console.log(user);
-			const uploadObject = {};
-			uploadObject.title = title;
-			uploadObject.content = content;
-			uploadObject.createdBy = {
-				userId: user._id,
-				username: user.username,
-			};
+  //req.body -> title, content, createBy{}
+  try {
+    const title = req.body.title;
+    const content = req.body.content;
+    const uploadFile = req.file;
+    const belongToThread = req.body.belongToThread;
+    const user = req.user;
+    // console.log(
+    //   `title: ${title}\n content: ${content}\n uploadFile: ${uploadFile}\n parentThread: ${belongToThread}\n user: ${user}`
+    // );
+    if (req.user) {
+      const user = await User.findById(req.user.id);
+      // console.log(user);
+      const uploadObject = {};
+      uploadObject.title = title;
+      uploadObject.content = content;
+      uploadObject.createdBy = {
+        userId: user._id,
+        username: user.username,
+      };
 
-			if (user.profileImage) {
-				uploadObject.createdBy.profileImage = user.profileImage;
-			}
-			const thread = await Thread.find({ title: parentThread });
-			console.log(`check thread: ${thread}`);
-			if (thread) {
-				uploadObject.parentThread = parentThread;
-			} else {
-				res.status(404).json("thread name is not found or invalid");
-			}
+      if (user.profileImage) {
+        uploadObject.createdBy.profileImage = user.profileImage;
+      }
+      const thread = await Thread.findById(belongToThread);
 
-			if (uploadFile) {
-				const imageName = createRandomName();
-				await uploadFileData(
-					uploadFile.buffer,
-					imageName,
-					uploadFile.mimetype,
-				);
-				uploadObject.uploadFile = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
-			}
+      //   console.log(`check thread: ${thread}`);
+      if (thread) {
+        uploadObject.belongToThread = belongToThread;
+      } else {
+        res.status(404).send("thread id is not found or invalid");
+      }
 
-			const post = new Post(uploadObject);
-			await post.save();
-			// thread.posts.push(post._id);
-			// await thread.save();
-			res.location(`localhost:9000/api/v1/posts/${post._id}`);
-			res.status(204).json("Create success");
-		} else {
-			res.status(401).json("Unauthorized");
-		}
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+      if (uploadFile) {
+        const imageName = createRandomName();
+        await uploadFileData(uploadFile.buffer, imageName, uploadFile.mimetype);
+        uploadObject.uploadFile = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
+      }
+
+      const post = new Post(uploadObject);
+      await post.save();
+
+      user.createdPost.push(post._id);
+      await user.save();
+
+      thread.posts.push(post._id);
+      await thread.save();
+
+      res.status(201).json(post._id);
+    } else {
+      res.status(403).send("Unauthorized");
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
-
 export const getPosts = async (req, res) => {
-	//pagination
-	try {
-		//filter -> threadId
-		//sorting
-		const { sort, threadName, page, limit } = req.query;
-		let sortObject = { time: 1 };
-		if (sort === "hot") {
-			sortObject = { time: 1 };
-		}
-		if (sort === "new") {
-			sortObject = { createdAt: 1 };
-		}
-		if (sort === "top") {
-			sortObject = { upvoteLength: 1 };
-		}
-		const filter = {};
-		if (threadName) {
-			filter.parentThread = threadName;
-		}
-		//sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
-		const posts = await Post.aggregate().facet({
-			metadata: [{ $count: "total" }],
-			data: [
-				{ $match: filter },
-				{
-					$addFields: {
-						// upvoteLength: { $size: "$upvote" },
-						// commentLength: { $size: "$comments" },
-						time: {
-							$divide: [
-								{
-									$add: [
-										{ $size: "$upvote" },
-										{ $size: "$comments" },
-									],
-								},
-								{ $subtract: [Date.now(), "$createdAt"] },
-							],
-						},
-					},
-				},
-				{ $sort: sortObject },
-				{ $skip: (page - 1) * limit },
-				{ $limit: Number.parseInt(limit) },
-			],
-		});
-		res.json(posts);
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+  //pagination
+  try {
+    //filter -> threadId
+    //sorting
+    let { sort, filter, belongToThread, page, limit } = req.query;
+    if (!belongToThread) res.status(400).send("Bad Request");
+    const thread = await Thread.findById(belongToThread);
+    if (!thread) res.status(404).send("threadId not found or invalid");
+
+    const filterCommand = {
+      isApproved: true
+    };
+
+    if (!page) {
+      page = "1";
+    }
+    if (!limit) {
+      limit = "10";
+    }
+    let sortObject = { time: -1 };
+    if (sort === "Hot") {
+      sortObject = { time: -1 };
+    }
+    if (sort === "New") {
+      sortObject = { verifiedAt: -1 };
+    }
+    if (sort === "Top") {
+      sortObject = { upvoteLength: -1 };
+    }
+    if (filter == "unverified") {
+      filterCommand.isApproved = false;
+    }
+    if (belongToThread) {
+      filterCommand.belongToThread =
+        mongoose.Types.ObjectId.createFromHexString(belongToThread);
+    }
+    //sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
+    const result = await Post.aggregate([{ $match: filterCommand }]).facet({
+      metadata: [
+        { $count: "total" },
+        {
+          $addFields: {
+            page: parseInt(page),
+            limit: parseInt(limit),
+          },
+        },
+      ],
+      data: [
+        {
+          $addFields: {
+            upvoteLength: { $size: "$upvote" },
+            commentLength: { $size: "$comments" },
+            time: {
+              $divide: [
+                {
+                  $multiply: [
+                    {
+                      $add: [
+                        {
+                          $add: [{ $size: "$upvote" }, { $size: "$comments" }],
+                        },
+                        1,
+                      ],
+                    },
+                    144000000,
+                  ],
+                },
+                {
+                  $add: [
+                    {
+                      $dateDiff: {
+                        startDate: "$verifiedAt",
+                        endDate: new Date(),
+                        unit: "minute",
+                      },
+                    },
+                    60000,
+                  ],
+                },
+              ],
+            },
+          },
+        },
+        { $sort: sortObject },
+        { $skip: (page - 1) * limit },
+        { $limit: Number.parseInt(limit) },
+      ],
+    });
+    res.status(200).json({
+      metadata: result[0].metadata[0],
+      data: result[0].data,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const getPost = async (req, res) => {
-	try {
-		const { postId } = req.params;
-		const post = await Post.findById({ _id: postId });
-		res.status(200).json(post);
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+  try {
+    const { postId } = req.params;
+    const post = await Post.findById(postId);
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const modifyPost = async (req, res) => {
   try {
-    const { postId, content } = req.body;
+    const { content } = req.body;
+    const postId = req.params.postId;
+    // console.log(postId);
     const user = req.user;
-    const post = await Post.findById({ postId });
+    const post = await Post.findById(postId);
+    // console.log(post);
     if (post) {
-      if (post.createBy.userId == user._id) {
+      if (post.createdBy.userId === user.id) {
         post.content = content;
         post.save();
-        res.status(204);
+        res.status(204).json("success");
       } else {
-        res.status(403).json("Forbidden");
+        res.status(401).json("Unauthorized");
       }
     } else {
-      res.status(404).json("Not found");
+      res.status(404).send("Not found");
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -149,27 +198,241 @@ export const modifyPost = async (req, res) => {
 };
 
 export const deletePost = async (req, res) => {
-	try {
-		const { postId } = req.params;
-		const user = req.user;
-		const post = await Post.findById({ postId });
-		if (post) {
-			if (post.createdBy.userId === user._id) {
-				deleteFileData(post.uploadFile);
-				await Post.deleteOne({ _id: post._id });
-				res.status(204);
-			} else {
-				res.status(403).json("Forbidden");
-			}
-		} else {
-			res.status(404).json("Not found");
-		}
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+  try {
+    const postId = req.params.postId;
+    const { threadId } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).send("userId is not found or invalid");
+    if (!threadId) return res.status(400).send("Bad Request");
+    const post = await Post.findById(postId);
+    const thread = await Thread.findById(threadId);
+    if (!thread) return res.status(404).send("threadId not found or invalid");
+    if (!post) return res.status(404).send("postId not found or invalid");
+    if (post.createdBy.userId !== req.user.id)
+      return res.status(403).send("Forbidden");
+    console.log("check post data: " + JSON.stringify(post.comments));
+    // delete in s3 bucket
+    if (post.uploadFile) {
+      deleteFileData(post.uploadFile);
+    }
+
+    //delete related reference
+    user.createdPost.remove(post._id);
+
+    await user.save();
+
+    thread.posts.remove(post._id);
+    await thread.save();
+
+    if (post.comments.length > 0) {
+      await Comment.deleteMany({ _id: { $in: post.comments } });
+    }
+
+    //delete post
+    await Post.deleteOne({ _id: post._id });
+
+    res.status(204).json("success");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-export const archivedPost = async (req, res) => {
-	try {
-	} catch (error) {}
+export const deleteAllPost = async (req, res) => {
+  try {
+    await Post.deleteMany({});
+    res.status(200).json("success");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const threadAdminDeletePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const { threadId } = req.body;
+    const user = await User.findById(req.user.id);
+    if (!user) return res.status(404).send("userId is not found or invalid");
+    if (!threadId) return res.status(400).send("Bad Request");
+    const post = await Post.findById(postId);
+    const thread = await Thread.findById(threadId);
+    if (!thread) return res.status(404).send("threadId not found or invalid");
+    if (!post) return res.status(404).send("postId not found or invalid");
+    if (thread.createdBy.userId !== req.user.id)
+      return res.status(403).send("Forbidden");
+    // delete in s3 bucket
+    if (post.uploadFile) {
+      deleteFileData(post.uploadFile);
+    }
+
+    //delete related reference
+    user.createdPost.remove(post._id);
+
+    await user.save();
+
+    thread.posts.remove(post._id);
+    await thread.save();
+
+    if (post.comments.length > 0) {
+      await Comment.deleteMany({ _id: { $in: post.comments } });
+    }
+
+    //delete post
+    await Post.deleteOne({ _id: post._id });
+
+    res.status(204).json("success");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const threadAdminGetPosts = async (req, res) => {
+  //pagination
+  try {
+    //filter -> threadId
+    //sorting
+    let { sort, filter, belongToThread, page, limit } = req.query;
+    if (!belongToThread) res.status(400).send("Bad Request");
+    const thread = await Thread.findById(belongToThread);
+    if (!thread) res.status(404).send("threadId not found or invalid");
+    if (thread.createdBy.userId !== req.user.id)
+      res.status(403).send("Unauthorized");
+
+    const filterCommand = {};
+
+    if (!page) {
+      page = "1";
+    }
+    if (!limit) {
+      limit = "10";
+    }
+    let sortObject = { time: -1 };
+    if (sort === "Hot") {
+      sortObject = { time: -1 };
+    }
+    if (sort === "New") {
+      sortObject = { createdAt: -1 };
+    }
+    if (sort === "Top") {
+      sortObject = { upvoteLength: -1 };
+    }
+    if (filter == "unverified") {
+      filterCommand.isApproved = false;
+    }
+    if (belongToThread) {
+      filterCommand.belongToThread =
+        mongoose.Types.ObjectId.createFromHexString(belongToThread);
+    }
+    //sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
+    const result = await Post.aggregate([{ $match: filterCommand }]).facet({
+      metadata: [
+        { $count: "total" },
+        {
+          $addFields: {
+            page: parseInt(page),
+            limit: parseInt(limit),
+          },
+        },
+      ],
+      data: [
+        {
+          $addFields: {
+            upvoteLength: { $size: "$upvote" },
+            commentLength: { $size: "$comments" },
+            time: {
+              $divide: [
+                {
+                  $multiply: [
+                    {
+                      $add: [
+                        {
+                          $add: [{ $size: "$upvote" }, { $size: "$comments" }],
+                        },
+                        1,
+                      ],
+                    },
+                    144000000,
+                  ],
+                },
+                {
+                  $add: [
+                    {
+                      $dateDiff: {
+                        startDate: "$createdAt",
+                        endDate: new Date(),
+                        unit: "minute",
+                      },
+                    },
+                    60000,
+                  ],
+                },
+              ],
+            },
+          },
+        },
+        { $sort: sortObject },
+        { $skip: (page - 1) * limit },
+        { $limit: Number.parseInt(limit) },
+      ],
+    });
+    res.status(200).json({
+      metadata: result[0].metadata[0],
+      data: result[0].data,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const threadAdminVerifyPost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    const { threadId } = req.body;
+
+    if (!threadId) res.status(400).send("ThreadId not found or invalid");
+    const thread = await Thread.findById(threadId);
+    if (!thread) res.status(404).send("thread id not found or invalid");
+    if (thread.createdBy.userId != req.user.id)
+      res.status(403).send("Unauthorized");
+
+    const post = await Post.findById(postId);
+    if (!post) res.status(404).send("post not found or invalid");
+    post.isApproved = true;
+    post.verifiedAt = new Date();
+    await post.save();
+    res.status(204).json("verify success");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const postUpVote = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    if (!postId) return res.status(400).send("Bad Request");
+
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).send("post id not found or invalid");
+
+    post.upvote.push(req.user.id);
+    await post.save();
+    res.status(204).json("Success");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteUpvote = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    if (!postId) return res.status(400).send("Bad Request");
+
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).json("post id not found or invalid");
+
+    post.upvote.remove(req.user.id);
+    await post.save();
+    res.status(200).json("delete success");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
