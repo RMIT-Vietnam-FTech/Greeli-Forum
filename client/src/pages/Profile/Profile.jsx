@@ -52,6 +52,9 @@ const Profile = () => {
 						? user.gender
 						: `${prefixForNoInfo} gender`;
 					const profileImage = user.profileImage ? user.profileImage : "";
+					const description = user.description
+						? user.description
+						: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.";
 
 					fetchedBasicInfo = {
 						userId: userId,
@@ -63,6 +66,7 @@ const Profile = () => {
 						address: address,
 						gender: gender,
 						password: password,
+						description: description,
 					};
 				})
 				.catch((error) => {
@@ -130,6 +134,14 @@ const Profile = () => {
 						</h2>
 						<BasicInfo
 							id={0}
+							type="description"
+							basicInfo={basicInfo}
+							// updateBasicInfo={handleUpdateBasicInfo}
+							toaster={Toaster}
+							isMe={isMe}
+						/>
+						<BasicInfo
+							id={1}
 							type="email"
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
@@ -137,7 +149,7 @@ const Profile = () => {
 							isMe={isMe}
 						/>
 						<BasicInfo
-							id={1}
+							id={2}
 							type="tel"
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
@@ -145,7 +157,7 @@ const Profile = () => {
 							isMe={isMe}
 						/>
 						<BasicInfo
-							id={2}
+							id={3}
 							type="address"
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
@@ -153,7 +165,7 @@ const Profile = () => {
 							isMe={isMe}
 						/>
 						<BasicInfo
-							id={3}
+							id={4}
 							type="gender"
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
@@ -173,11 +185,13 @@ const Profile = () => {
 					)}
 
 					{/* Deactivate button */}
-					{isMe && (
-						<button className="bg-danger text-white rounded-pill mt-5 py-2">
-							Deactivate account
-						</button>
-					)}
+					<button
+						className={`${
+							isMe ? "bg-danger text-white" : "bg-primary-yellow text-black"
+						} rounded-pill mt-5 py-2`}
+					>
+						{isMe ? "Deactivate account" : "Chat with this user"}
+					</button>
 				</div>
 			</div>
 		</div>

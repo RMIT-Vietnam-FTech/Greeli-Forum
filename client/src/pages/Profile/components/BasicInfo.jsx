@@ -7,6 +7,7 @@ import {
 	MdOutlineTransgender,
 	MdPhone,
 } from "react-icons/md";
+import { RiDoubleQuotesL, RiDoubleQuotesR } from "react-icons/ri";
 
 const BasicInfo = (props) => {
 	const { id, type, basicInfo, updateBasicInfo, toaster, isMe } = props;
@@ -48,6 +49,7 @@ const BasicInfo = (props) => {
 	};
 
 	const iconArray = [
+		[<RiDoubleQuotesL size={"2vw"} />, <RiDoubleQuotesR size={"2vw"} />],
 		<MdEmail size={"2vw"} />,
 		<MdPhone size={"2vw"} />,
 		<MdLocationOn size={"2vw"} />,
@@ -87,8 +89,19 @@ const BasicInfo = (props) => {
 		return (
 			<div className="container w-100 text-white info-item">
 				<div className="row w-100">
-					<div className="col-1">{iconArray[id]}</div>
-					<p className={`col-9 `}>{displayInfo}</p>
+					<div className="col-1">
+						{id === 0 ? iconArray[id][0] : iconArray[id]}
+					</div>
+					<p
+						className={`${isMe ? "col-9" : "col-11"} ${
+							id === 0 ? "font-italic" : ""
+						}`}
+						onClick={() => {
+							console.log(id);
+						}}
+					>
+						{displayInfo} {id == 0 ? iconArray[id][1] : null}
+					</p>
 					{isMe && (
 						<p
 							className="col-2"
@@ -106,10 +119,3 @@ const BasicInfo = (props) => {
 };
 
 export default BasicInfo;
-
-// CODE FOR CONDITIONAL FORMATTING
-// ${
-// 	displayInfo.substring(0, 14) === "Please update"
-// 		? "font-italic font-weight-light"
-// 		: "font-weight-normal"
-// }
