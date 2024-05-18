@@ -85,7 +85,7 @@ export default function Comments({ postData, threadAdminId }) {
         </div>
 
         {/*show verify status */}
-        {threadAdminId === JSON.parse(localStorage.getItem("user")).id &&
+        {localStorage.getItem("user")!=="null" && threadAdminId === JSON.parse(localStorage.getItem("user")).id &&
         !isApproved ? (
           <div className="d-flex gap-2 me-2">
             <Button
@@ -103,7 +103,7 @@ export default function Comments({ postData, threadAdminId }) {
           </div>
         ) : (
           <>
-            {postData.createdBy.userId ===
+            { localStorage.getItem("user")!=="null" && postData.createdBy.userId ===
             JSON.parse(localStorage.getItem("user")).id ? (
               <div className="d-flex align-items-center">
                 <p

@@ -32,7 +32,7 @@ export default function InitialPost({ postData }) {
         </div>
         {/*post body*/}
         <div className=" mt-3 w-100">
-          <h3>{postData.title}</h3>
+          <h3 style={{wordBreak:"break-word"}}>{postData.title}</h3>
 
           {postData.uploadFile ? (
             <div

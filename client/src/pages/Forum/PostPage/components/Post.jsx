@@ -19,9 +19,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-export default function Post({ postData, threadName, isThreadAdmin }) {
+export default function Post({ postData, isThreadAdmin }) {
   const [isApproved, setIsApproved] = useState(postData.isApproved);
-  const { threadId } = useParams();
   const navigate = useNavigate();
 
   async function handleApproved() {
@@ -29,7 +28,7 @@ export default function Post({ postData, threadName, isThreadAdmin }) {
     const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
     await axios.put(
       path,
-      { threadId: threadId },
+      { threadId: postData.belongToThread},
       {
         headers: {
           Authorization: `Bearer ${
@@ -45,7 +44,7 @@ export default function Post({ postData, threadName, isThreadAdmin }) {
       const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
       await axios.delete(path, {
         data: {
-          threadId: threadId,
+          threadId: postData.belongToThread,
         },
         headers: {
           Authorization: `Bearer ${
@@ -79,8 +78,8 @@ export default function Post({ postData, threadName, isThreadAdmin }) {
             </div>
           ) : null}
           {/* main */}
-          <Link
-            to={`../posts/${postData._id}`}
+          <a
+            href={`forum/threads/${postData.belongToThread}/posts/${postData._id}`}
             className="w-100 position-relative d-flex justify-content-center text-white align-items-center"
           >
             <div className="w-75 d-flex flex-column justify-content-between">
@@ -98,7 +97,7 @@ export default function Post({ postData, threadName, isThreadAdmin }) {
               </div>
               {/*content*/}
 
-              <p className="m-0 mt-2 fw-bold" style={{ color: "#AAC6B9" }}>
+              <p className="m-0 mt-2 fw-bold text-primary-green-200" style={{ wordBreak:"break-word"}}>
                 {postData.title}
               </p>
 
@@ -151,7 +150,7 @@ export default function Post({ postData, threadName, isThreadAdmin }) {
                 <IoIosPaper className="w-75 h-75 text-primary-green-400" />
               </div>
             )}
-          </Link>
+          </a>
         </div>
       </div>
     );
@@ -162,7 +161,7 @@ export default function Post({ postData, threadName, isThreadAdmin }) {
          
           {/* main */}
           <Link
-            to={`../posts/${postData._id}`}
+            to={`/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
             className="w-100 position-relative d-flex justify-content-center text-white align-items-center"
           >
             <div className="w-75 d-flex flex-column justify-content-between">
@@ -171,7 +170,7 @@ export default function Post({ postData, threadName, isThreadAdmin }) {
               <div className="d-flex gap-2">
                 {/*avatar*/}
                 <Avatar src={postData.createdBy.profileImage} />
-                <div className="h-auto">
+                <div className="d-flex gap-2">
                   <p className="mb-0 text-white" style={{ fontSize: "14px" }}>
                     {postData.createdBy.username}
                   </p>
@@ -180,7 +179,7 @@ export default function Post({ postData, threadName, isThreadAdmin }) {
               </div>
               {/*content*/}
 
-              <p className="m-0 mt-2 fw-bold" style={{ color: "#AAC6B9" }}>
+              <p className="m-0 mt-2 fw-bold text-primary-green-200" style={{ wordBreak:"break-word" }}>
                 {postData.title}
               </p>
 

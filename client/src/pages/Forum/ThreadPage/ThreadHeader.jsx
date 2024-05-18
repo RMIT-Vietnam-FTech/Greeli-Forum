@@ -23,6 +23,7 @@ export default function ThreadHeader({ ...prop }) {
   }, []);
 
   async function checkFollowingStatus() {
+    if(JSON.parse(localStorage.getItem("user"))){
     const path = `http://localhost:3001/api/user/${
       JSON.parse(localStorage.getItem("user")).id
     }/follow_threads`;
@@ -38,7 +39,8 @@ export default function ThreadHeader({ ...prop }) {
     return followThreads.some((object) => {
       return object._id === objectId;
     });
-    
+  }
+  return false
   }
   async function handleFollowThread() {
     try {

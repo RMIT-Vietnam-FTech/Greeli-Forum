@@ -8,7 +8,7 @@ import NewPostPopUp from "./components/NewPostPopUp";
 import axios from "axios";
 import useSwr from "swr";
 import AuthLeftSideBar from "../../../components/forum/AuthLeftSideBar";
-import LeftSideBar from "../../../components/forum/EditTextEditor/LeftSideBar";
+import LeftSideBar from "../../../components/forum/LeftSideBar";
 import ThreadBody from "./ThreadBody";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
@@ -24,23 +24,13 @@ export default function ThreadPage() {
   }
   return (
     <>
-      <section className="container">
-        <section className="left-sidebar">
-          {localStorage.getItem("user") ? <AuthLeftSideBar /> : <LeftSideBar />}
-        </section>
-        <section className="main-container">
-          <section className="main">
-            <ThreadHeader
-              title={data.title}
-              uploadFile={data.uploadFile}
-              content={data.content}
-              objectId={data._id}
-            />
-            <ThreadBody threadData={data} />
-          </section>
-          <section className="right-sidebar"></section>
-        </section>
-      </section>
+      <ThreadHeader
+        title={data.title}
+        uploadFile={data.uploadFile}
+        content={data.content}
+        objectId={data._id}
+      />
+      <ThreadBody threadData={data} />
     </>
   );
 }

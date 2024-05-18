@@ -21,6 +21,9 @@ export default function DropDown({
     });
   }, []);
   async function checkSavingStatus() {
+    if(localStorage.getItem("user")!=="null"){
+
+    
     const path = `http://localhost:3001/api/user/${
       JSON.parse(localStorage.getItem("user")).id
     }/archived_posts`;
@@ -36,6 +39,8 @@ export default function DropDown({
     return archivedPosts.some((object) => {
       return object._id === postId;
     });
+  }
+  return false;
   }
 
   function handleEdit() {

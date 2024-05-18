@@ -71,7 +71,7 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
   }
   const user = JSON.parse(localStorage.getItem("user"));
   const [nOfUpvote, setNofUpvote] = useState(upvote.length);
-  const [isVoted, setIsVoted] = useState(upvote.includes(user.id));
+  const [isVoted, setIsVoted] = useState(user && upvote.includes(user.id));
   return (
     <Button
       onClick={handleUpvote}
