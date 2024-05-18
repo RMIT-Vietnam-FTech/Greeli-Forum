@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import "../../scss/custom.scss";
 import BasicInfo from "./components/BasicInfo";
@@ -15,8 +16,14 @@ const Profile = () => {
 	const [basicInfo, setBasicInfo] = useState({});
 
 	// GET ID FROM LOCAL STORAGE
-	const userId = JSON.parse(localStorage.getItem("user")).id;
-	// console.log(userId);
+	const currentUserId = JSON.parse(localStorage.getItem("user")).id;
+
+	// GET ID FROM URL PARAMS AND CHECK WHETHER IT'S THE CURRENT USER'S PROFILE
+	const requiredId = useParams().userId || currentUserId;
+	// console.log(currentUserId, requiredId);
+	const isMe = currentUserId === requiredId;
+	const userId = isMe ? currentUserId : requiredId;
+
 	// ----------------------------
 
 	// FETCH USER INFO FROM DB THROUGH ID: username, email, role, profileImage
@@ -34,14 +41,16 @@ const Profile = () => {
 					const { user } = result.data;
 					// console.log(user);
 
+					const prefixForNoInfo = isMe ? "Please update your " : "No";
+
 					const { username, email, role, password } = user;
-					const tel = user.tel ? user.tel : "Please update your phone number";
+					const tel = user.tel ? user.tel : `${prefixForNoInfo} phone number`;
 					const address = user.address
 						? user.address
-						: "Please update your address";
+						: `${prefixForNoInfo} address`;
 					const gender = user.gender
 						? user.gender
-						: "Please update your gender";
+						: `${prefixForNoInfo} gender`;
 					const profileImage = user.profileImage ? user.profileImage : "";
 
 					fetchedBasicInfo = {
@@ -64,7 +73,7 @@ const Profile = () => {
 		}
 
 		fetchUser();
-	}, [userId]);
+	}, [userId, isMe]);
 	// ----------------------------
 
 	// LET USER EDIT THEIR INFO
@@ -117,7 +126,7 @@ const Profile = () => {
 					{/* Basic Setting Section */}
 					<div>
 						<h2 className="fs-4 text-white border-bottom border-white fw-light">
-							Basic Setting
+							{isMe ? "Basic Setting" : "Basic Info"}
 						</h2>
 						<BasicInfo
 							id={0}
@@ -125,6 +134,7 @@ const Profile = () => {
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
+							isMe={isMe}
 						/>
 						<BasicInfo
 							id={1}
@@ -132,6 +142,7 @@ const Profile = () => {
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
+							isMe={isMe}
 						/>
 						<BasicInfo
 							id={2}
@@ -139,6 +150,7 @@ const Profile = () => {
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
+							isMe={isMe}
 						/>
 						<BasicInfo
 							id={3}
@@ -146,21 +158,26 @@ const Profile = () => {
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
+							isMe={isMe}
 						/>
 					</div>
 
 					{/* Account Setting Section */}
-					<div>
-						<h2 className="fs-4 text-white border-bottom border-white fw-light">
-							Account Setting
-						</h2>
-						<ChangePassword userId={userId} />
-					</div>
+					{isMe && (
+						<div>
+							<h2 className="fs-4 text-white border-bottom border-white fw-light">
+								Account Setting
+							</h2>
+							<ChangePassword userId={userId} />
+						</div>
+					)}
 
 					{/* Deactivate button */}
-					<button className="bg-danger text-white rounded-pill mt-5 py-2">
-						Deactivate account
-					</button>
+					{isMe && (
+						<button className="bg-danger text-white rounded-pill mt-5 py-2">
+							Deactivate account
+						</button>
+					)}
 				</div>
 			</div>
 		</div>

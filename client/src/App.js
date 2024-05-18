@@ -41,21 +41,16 @@ function App() {
 							<Route path="/register" element={<Register />} />
 							<Route path="/general" element={<GeneralPage />} />
 							<Route path="/contact" element={<ContactPage />} />
-							<Route path="/upload" element={<Upload />}/>
+							<Route path="/upload" element={<Upload />} />
+							<Route path="/user/:userId" element={<Profile />} />
 							<Route element={<RequireAuth />}>
 								<Route path="/profile" element={<Profile />} />
 								<Route path="/chat" element={<Chat />} />
 							</Route>
 							<Route path="/forum">
 								<Route index element={<DashBoardPage />} />
-								<Route
-									path="threads/:threadId"
-									element={<ThreadPage />}
-								/>
-								<Route
-									path="posts/:postId"
-									element={<PostPage />}
-								/>
+								<Route path="threads/:threadId" element={<ThreadPage />} />
+								<Route path="posts/:postId" element={<PostPage />} />
 							</Route>
 							<Route path="*" element={<ErrorPage />} />
 						</Routes>

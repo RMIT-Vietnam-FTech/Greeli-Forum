@@ -7,10 +7,9 @@ import {
 	MdOutlineTransgender,
 	MdPhone,
 } from "react-icons/md";
-import axios from "axios";
 
 const BasicInfo = (props) => {
-	const { id, type, basicInfo, updateBasicInfo, toaster } = props;
+	const { id, type, basicInfo, updateBasicInfo, toaster, isMe } = props;
 	const displayInfo = basicInfo[type];
 	const [isEditing, setIsEditing] = useState(false);
 	const [currentInput, setCurrentInput] = useState("");
@@ -90,14 +89,16 @@ const BasicInfo = (props) => {
 				<div className="row w-100">
 					<div className="col-1">{iconArray[id]}</div>
 					<p className={`col-9 `}>{displayInfo}</p>
-					<p
-						className="col-2"
-						onClick={() => {
-							setIsEditing(true);
-						}}
-					>
-						Edit
-					</p>
+					{isMe && (
+						<p
+							className="col-2"
+							onClick={() => {
+								setIsEditing(true);
+							}}
+						>
+							Edit
+						</p>
+					)}
 				</div>
 			</div>
 		);

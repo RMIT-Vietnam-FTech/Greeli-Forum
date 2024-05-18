@@ -24,7 +24,7 @@ const PostGallery = (props) => {
 		<div className="mt-5">
 			<div className="d-flex flex-row text-white gap-5 fs-4 fw-light border-bottom border-white">
 				<p className="post-tab-active" onClick={changeTabHandler}>
-					My posts
+					User's posts
 				</p>
 				<p className="" onClick={changeTabHandler}>
 					Saved posts
