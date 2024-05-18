@@ -28,6 +28,9 @@ const Chat = () => {
 	const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
 	const [showChatBox, setShowChatBox] = useState(false);
 	const { isDarkMode } = useContext(ThemeContext);
+	const [userInChatId, setUserInChatId] = useState([]);
+	const [userNotInChat, setUserNotInChat] = useState([]);
+	const [query, setQuery] = useState("");
 
 	useEffect(() => {
 		socket.current = io("http://localhost:3001");
@@ -65,7 +68,7 @@ const Chat = () => {
 					setChats(result.data);
 				})
 				.catch((error) => {
-					setError(error.response.data.error);
+					// setError(error.response.data.error);
 					console.log(error);
 				});
 		};
@@ -124,7 +127,21 @@ const Chat = () => {
 		getAllUsers();
 	}, []);
 
-	useEffect(() => {}, [error]);
+
+
+	useEffect(() => {
+		setUserInChatId(chats?.map((chat) => chat.members[1]));
+		setUserInChatId((prev) => [...prev, userId])
+		// userInChatId
+		setUserNotInChat(userList?.filter((user) => !userInChatId?.includes(user._id)));
+
+		console.log(userList.filter((user) => !userInChatId?.includes(user._id)));
+		console.log(userNotInChat)
+	}, [chats, userList]);
+
+	// useEffect(() => {
+	// 	set
+	// }, [query])
 
 	const checkOnlineStatus = (chat) => {
 		const chatMember = chat.members.find((member) => member !== userId);
@@ -235,7 +252,7 @@ const Chat = () => {
 								className="modal-title fs-5"
 								id="staticBackdropLabel"
 							>
-								Modal title
+								Click to create chat
 							</h1>
 							<button
 								type="button"
@@ -245,7 +262,8 @@ const Chat = () => {
 							/>
 						</div>
 						<div className="modal-body">
-							{userList?.map((user) => (
+						<input type="text" placeholder="Search..." className="search" onChange={(e) => setQuery(e.target.value)} />
+							{userNotInChat?.filter((user) => user.username.toLowerCase().includes(query)).map((user) => (
 								<div
 									className="follower conversation"
 									onClick={() => createChat(user)}

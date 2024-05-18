@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import LoginPopup from "./components/Popup/LoginPopup.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
+import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 import Chat from "./pages/Chat/Chat";
 import ContactPage from "./pages/ContactPage/Contact.jsx";
 import DashBoardPage from "./pages/Forum/DashBoardPage.jsx";
@@ -35,6 +36,7 @@ function App() {
 				<UserContextProvider>
 					<Navbar isForum={isForum} />
 					<div className="h-100" style={{ marginTop: "80px" }}>
+					<ScrollToTop />
 						<Routes>
 							<Route path="/" element={<Homepage />} />
 							<Route path="/login" element={<Login />} />
