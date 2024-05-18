@@ -31,7 +31,7 @@ export default function ReplyBottomBar({ parentId }) {
 
       const user = await axios
         .get(
-          `http://localhost:3001/api/user/${
+          `/api/user/${
             JSON.parse(localStorage.getItem("user")).id
           }`
         )
@@ -43,7 +43,7 @@ export default function ReplyBottomBar({ parentId }) {
         postId: postId,
         parentId: parentId,
       };
-      const newReplyData = await axios.post("http://localhost:3001/api/v1/comments", storeObject, {
+      const newReplyData = await axios.post("/api/v1/comments", storeObject, {
         headers: {
           Authorization: `Bearer ${
             JSON.parse(localStorage.getItem("user")).token

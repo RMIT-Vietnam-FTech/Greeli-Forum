@@ -33,7 +33,7 @@ export default function EditTextBar({ content, componentType }) {
         // store data (PUT) in database
 		const currentContent = JSON.stringify(editor.getJSON());
         await axios.put(
-          `http://localhost:3001/api/v1/${component}s/${objectId}`,
+          `/api/v1/${component}s/${objectId}`,
 		  {
 			content: currentContent
 		  },

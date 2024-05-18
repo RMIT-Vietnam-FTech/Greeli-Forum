@@ -50,7 +50,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
           formData.append("topics[]", addedTopics[i]);
         }
         const res = await axios.post(
-          "http://localhost:3001/api/v1/threads",
+          "/api/v1/threads",
           formData,
           {
             headers: {

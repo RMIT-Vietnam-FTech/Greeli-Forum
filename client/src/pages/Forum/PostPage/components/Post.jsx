@@ -26,7 +26,7 @@ export default function Post({ postData, threadName, isThreadAdmin }) {
 
   async function handleApproved() {
     setIsApproved(true);
-    const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
+    const path = `/api/v1/admin/posts/${postData._id}`;
     await axios.put(
       path,
       { threadId: threadId },

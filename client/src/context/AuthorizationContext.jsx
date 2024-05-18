@@ -16,7 +16,7 @@ export const AuthorizationContextProvider = ({
 		isAuthor.current = false;
 	}
 	const { data, error, isLoading } = useSwr(
-		`http://localhost:3001/api/v1/${componentType}s/${objectId}`,
+		`/api/v1/${componentType}s/${objectId}`,
 		fetcher,
 	);
 	if (error) return <div>Error </div>;

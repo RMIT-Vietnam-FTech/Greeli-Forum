@@ -85,7 +85,7 @@ function CreatedThread() {
     const result = word.substring(0, limitNumber + 1) + "...";
     return result;
   }
-  const path = `http://localhost:3001/api/user/${
+  const path = `/api/user/${
     JSON.parse(localStorage.getItem("user")).id
   }/created_threads`;
 
@@ -117,7 +117,7 @@ function FollowingThread() {
     const result = word.substring(0, limitNumber + 1) + "...";
     return result;
   }
-  const path = `http://localhost:3001/api/user/${
+  const path = `/api/user/${
     JSON.parse(localStorage.getItem("user")).id
   }/follow_threads`;
 

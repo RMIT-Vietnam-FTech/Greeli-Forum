@@ -26,7 +26,7 @@ export default function CreateCommentBottomBar({ content }) {
       editContext.setIsEdit(false);
       const user = await axios
         .get(
-          `http://localhost:3001/api/user/${
+          `/api/user/${
             JSON.parse(localStorage.getItem("user")).id
           }`
         )
@@ -40,7 +40,7 @@ export default function CreateCommentBottomBar({ content }) {
       };
 
       const newCommentData = await axios.post(
-        "http://localhost:3001/api/v1/comments",
+        "/api/v1/comments",
         storeObject,
         {
           headers: {
