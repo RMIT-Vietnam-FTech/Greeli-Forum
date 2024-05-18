@@ -23,14 +23,7 @@ const ChangePassword = (props) => {
 	});
 
 	const onSubmit = (event) => {
-		// event.preventDefault();
-		// setNewPassword("");
-		// setOldPassword("");
 		sendOldPassword(oldPassword);
-		// setIsEditing(false);
-		// toast.success("Password Updated");
-		// storeNewPassword(newPassword);
-		// comparePassword();
 	};
 
 	// SEND OLD PASS INPUT TO SERVER TO COMPARE
@@ -39,36 +32,45 @@ const ChangePassword = (props) => {
 			method: "post",
 			url: `http://localhost:3001/api/user/change-password`,
 			data: {
+				userId: JSON.parse(localStorage.getItem("user")).id,
 				oldPassword: oldPassword,
+				newPassword: newPassword,
 			},
 		};
+		// var isError = true;
 		await axios(configuration)
 			.then((result) => {
-				console.log(result);
+				// console.log(result.response.status);
+				toast.success(result.data.message);
+				setNewPassword("");
+				setOldPassword("");
+				// isError = false;
 			})
 			.catch((error) => {
 				console.log("Error", error);
+				toast.error(error.response.data.message);
 			});
+		// setIsEditing(isError);
 	};
 
-	//COMPARE INPUT WITH SAVED PASSWORD
-	const comparePassword = (oldPassword) => {
-		return bcrypt.compareSync(oldPassword, currentPassword);
-	};
-	//----------------------------
+	// //COMPARE INPUT WITH SAVED PASSWORD
+	// const comparePassword = (oldPassword) => {
+	// 	return bcrypt.compareSync(oldPassword, currentPassword);
+	// };
+	// //----------------------------
 
-	//STORE NEW PASSWORD IN DATABASE
-	const storeNewPassword = (newPassword) => {
-		const salt = bcrypt.genSaltSync(10);
-		const hashPassword = bcrypt.hashSync(newPassword, salt);
-		const newBasicInfo = {
-			...basicInfo,
-			password: hashPassword,
-		};
-		updateBasicInfo(newBasicInfo);
-	};
+	// //STORE NEW PASSWORD IN DATABASE
+	// const storeNewPassword = (newPassword) => {
+	// 	const salt = bcrypt.genSaltSync(10);
+	// 	const hashPassword = bcrypt.hashSync(newPassword, salt);
+	// 	const newBasicInfo = {
+	// 		...basicInfo,
+	// 		password: hashPassword,
+	// 	};
+	// 	updateBasicInfo(newBasicInfo);
+	// };
 
-	//---------------------------
+	// //---------------------------
 
 	if (isEditing) {
 		return (
@@ -80,15 +82,15 @@ const ChangePassword = (props) => {
 						</label>
 						<input
 							type="text"
-							// {...register("oldPassword")}
-							{...register("oldPassword", {
-								validate: (value) => {
-									if (!comparePassword(value)) {
-										return "Old password is incorrect";
-									}
-									return true;
-								},
-							})}
+							{...register("oldPassword")}
+							// {...register("oldPassword", {
+							// 	validate: (value) => {
+							// 		if (!comparePassword(value)) {
+							// 			return "Old password is incorrect";
+							// 		}
+							// 		return true;
+							// 	},
+							// })}
 							className="col-8 px-2"
 							id="oldPassword"
 							value={oldPassword}
@@ -154,8 +156,22 @@ const ChangePassword = (props) => {
 						)}
 					</div>
 					<div className="row d-flex flex-row justify-content-end g-1 mt-3">
-						<Button type="submit" className="col-4" variant="primary-green">
+						<Button
+							type="submit"
+							className="col-4 mx-3"
+							variant="primary-green"
+						>
 							Change Password
+						</Button>
+						<Button
+							type="button"
+							onClick={() => {
+								setIsEditing(false);
+							}}
+							className="col-4"
+							variant="outline-primary-yellow"
+						>
+							Cancel
 						</Button>
 					</div>
 				</form>

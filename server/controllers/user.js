@@ -84,6 +84,7 @@ export const unlock = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
+
 export const getUser = async (req, res) => {
 	const id = req.params.id;
 	try {
@@ -110,6 +111,72 @@ export const getAllUser = async (req, res) => {
 	}
 };
 
+export const getProfile = async (req, res) => {
+	try {
+		const userId = req.params.id;
+		const user = await User.findById(userId);
+		if (!user) {
+			console.log("User not found");
+			return res.status(404).json({ message: "User not found" });
+		}
+		console.log("User found:", user);
+		res.status(200).json({ user });
+	} catch (error) {
+		console.error("Error fetching user:", error.message);
+		res.status(500).json({ error: error.message });
+	}
+};
+
+export const updateUserProfile = async (req, res) => {
+	try {
+		const userId = req.params.id;
+		// console.log(req.body);
+		const { username, email, role, profileImage, tel, address, gender } =
+			req.body;
+		const user = await User.findByIdAndUpdate(userId, {
+			username: username,
+			email: email,
+			role: role,
+			profileImage: profileImage,
+			tel: tel,
+			address: address,
+			gender: gender,
+		});
+		if (!user) {
+			console.log("User not found");
+			return res.status(404).json({ message: "User not found" });
+		}
+		res.status(200).json({ message: "User profile updated" });
+	} catch (error) {
+		console.error("Error updating user profile:", error.message);
+		res.status(500).json({ error: error.message });
+	}
+};
+
+export const changePassword = async (req, res) => {
+	try {
+		const { userId, oldPassword, newPassword } = req.body;
+		console.log(userId);
+		const user = await User.findOne({ _id: userId });
+		if (!user) {
+			console.log("User not found");
+		} else {
+			const currentPassword = user.password;
+			const isMatch = await bcrypt.compare(oldPassword, currentPassword);
+			if (isMatch) {
+				const newHashPassword = await bcrypt.hash(newPassword, 10);
+				await User.findByIdAndUpdate(userId, { password: newHashPassword });
+				res.status(200).json({ message: "Password changed successfully!" });
+			} else {
+				res.status(400).json({ message: "Old password is not match!" });
+			}
+		}
+	} catch (error) {
+		console.error("Error changing password:", error.message);
+		res.status(500).json({ error: "User not found" });
+	}
+};
+
 export const getCreatedThread = async (req, res) => {
 	try {
 		const userId = req.params.userId;
@@ -129,6 +196,7 @@ export const getCreatedThread = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
+
 export const getFollowThread = async (req, res) => {
 	try {
 		const userId = req.params.userId;
@@ -147,6 +215,7 @@ export const getFollowThread = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
+
 export const postFollowThread = async (req, res) => {
 	try {
 		const { threadId } = req.body;
@@ -170,6 +239,7 @@ export const postFollowThread = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
+
 export const deleteFollowThread = async (req, res) => {
 	try {
 		const { threadId } = req.body;
@@ -210,6 +280,7 @@ export const getArchivedPost = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
+
 export const postArchivedPost = async (req, res) => {
 	try {
 		const { postId } = req.body;
