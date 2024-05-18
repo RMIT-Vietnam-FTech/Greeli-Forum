@@ -4,7 +4,7 @@ import { FaFacebook } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
 import "../../scss/custom.css";
 import "../Footer/footer.css";
-
+import { Link, NavLink, useNavigate } from "react-router-dom";
 export default function Footer() {
 	return (
 		<>
@@ -35,52 +35,52 @@ export default function Footer() {
 						<h3 className="fw-bold text-light">Link</h3>
 						<ul className="nav flex-column">
 							<li className="mb-2">
-								<a
-									href="/"
+								<Link
+									to="/"
 									className="nav-link d-inline p-0 text-light"
 								>
 									Home
-								</a>
+								</Link>
 							</li>
 							<li className="mb-2">
-								<a
-									href="/"
+								<Link
+									to="/general"
 									className="nav-link d-inline p-0 text-light"
 								>
 									General
-								</a>
+								</Link>
 							</li>
 							<li className="mb-2">
-								<a
-									href="/"
+								<Link
+									to="/forum"
 									className="nav-link d-inline p-0 text-light"
 								>
 									Forum
-								</a>
+								</Link>
 							</li>
 							<li className="mb-2">
-								<a
-									href="/"
+								<Link
+									to="/about"
 									className="nav-link d-inline p-0 text-light"
 								>
 									About
-								</a>
+								</Link>
 							</li>
 							<li className="mb-2">
-								<a
-									href="/"
+								<Link
+									to="/contact"
 									className="nav-link d-inline p-0 text-light"
 								>
 									Contact
-								</a>
+								</Link>
 							</li>
 							<li className="mb-2">
-								<a
-									href="/"
+								<Link
+									to="/profile"
 									className="nav-link d-inline p-0 text-light"
 								>
 									Profile
-								</a>
+								</Link>
 							</li>
 						</ul>
 					</section>
