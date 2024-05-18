@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import Button from "react-bootstrap/Button";
 import * as bcrypt from "bcryptjs";
+import axios from "axios";
 
 const ChangePassword = (props) => {
 	const { basicInfo, updateBasicInfo } = props;
@@ -23,12 +24,31 @@ const ChangePassword = (props) => {
 
 	const onSubmit = (event) => {
 		// event.preventDefault();
-		setNewPassword("");
-		setOldPassword("");
-		setIsEditing(false);
-		toast.success("Password Updated");
-		storeNewPassword(newPassword);
+		// setNewPassword("");
+		// setOldPassword("");
+		sendOldPassword(oldPassword);
+		// setIsEditing(false);
+		// toast.success("Password Updated");
+		// storeNewPassword(newPassword);
 		// comparePassword();
+	};
+
+	// SEND OLD PASS INPUT TO SERVER TO COMPARE
+	const sendOldPassword = async (oldPassword) => {
+		const configuration = {
+			method: "post",
+			url: `http://localhost:3001/api/user/change-password`,
+			data: {
+				oldPassword: oldPassword,
+			},
+		};
+		await axios(configuration)
+			.then((result) => {
+				console.log(result);
+			})
+			.catch((error) => {
+				console.log("Error", error);
+			});
 	};
 
 	//COMPARE INPUT WITH SAVED PASSWORD

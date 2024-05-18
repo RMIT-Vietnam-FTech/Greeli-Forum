@@ -262,6 +262,7 @@ export const getArchivedPost = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
+
 export const postArchivedPost = async (req, res) => {
 	try {
 		const { postId } = req.body;
