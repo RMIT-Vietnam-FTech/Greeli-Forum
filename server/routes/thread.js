@@ -10,8 +10,9 @@ const upload = multer({
       file.mimetype === "image/jpeg" ||
       file.mimetype === "image/png" ||
       file.mimetype === "image/gif" ||
-      file.mimetype == "video/mp4" ||
-      file.mimetype == "video/webm"
+      file.mimetype === "image/webp" ||
+      file.mimetype === "video/mp4" ||
+      file.mimetype === "video/webm"
     ) {
       callback(null, true);
     } else {
@@ -25,17 +26,23 @@ const upload = multer({
 const router = express.Router();
 
 router
-	.route("/")
-	.get()
-	.post(
-		verifyToken,
-		upload.single("uploadFile"),
-		threadController.createThread,
-	);
-router.get("/get/threadId/rule", verifyAdmin, threadController.getThreadRules);
-router.post("/create/threadId/rule", verifyAdmin, threadController.createThreadRule);
-router.post("/create",threadController.createThread);
-router.put("/modify/threadId/rule/ruleId", verifyAdmin, threadController.modifyThreadRule);
-router.put("/delete/threadId/rule", verifyAdmin, threadController.deleteThreadRule);
-router.put("/delete/threadId/rule/ruleId", verifyAdmin, threadController.deleteThreadRuleByRuleIndex);
+  .route("/")
+  .get(threadController.getThreads)
+  .post(verifyToken, upload.single("uploadFile"), threadController.createThread)
+  .delete(verifyToken, threadController.reset);
+
+router
+  .route("/:threadId")
+  .get(threadController.getThread)
+  .put(verifyToken, threadController.modifyThreadContent);
+
+router
+  .route("/:threadId/rule")
+  .post(verifyToken, threadController.createThreadRule)
+  .put(verifyToken, threadController.deleteThreadRules);
+
+router
+  .route("/:threadId/rule/:index")
+  .put(verifyToken, threadController.modifyThreadRule)
+  .delete(verifyToken, threadController.deleteThreadRule);
 export default router;

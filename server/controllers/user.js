@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
+import Thread from "../models/Thread.js";
+import Post from "../models/Post.js";
 
 export const register = async (req, res) => {
 	try {
@@ -43,7 +45,7 @@ export const login = async (req, res) => {
 		const token = jwt.sign(
 			{ id: user._id, email: user.email, role: user.role },
 			process.env.JWT_SECRET,
-			{ expiresIn: "5m" }
+			{ expiresIn: "10m" }
 		);
 		delete user.password;
 
@@ -104,60 +106,6 @@ export const getAllUser = async (req, res) => {
 			res.status(200).json(users);
 		}
 	} catch (error) {
-		res.status(500).json({ error: error.message });
-	}
-};
-
-export const getProfile = async (req, res) => {
-	try {
-		const userId = req.params.id;
-		const user = await User.findById(userId);
-
-		if (!user) {
-			console.log("User not found");
-			return res.status(404).json({ message: "User not found" });
-		}
-
-		console.log("User found:", user);
-		res.status(200).json({ user });
-	} catch (error) {
-		console.error("Error fetching user:", error.message);
-		res.status(500).json({ error: error.message });
-	}
-};
-
-export const updateUserProfile = async (req, res) => {
-	try {
-		const userId = req.params.id;
-		// console.log(req.body);
-		const { username, email, role, profileImage, tel, address, gender } =
-			req.body;
-		const user = await User.findByIdAndUpdate(userId, {
-			username: username,
-			email: email,
-			role: role,
-			profileImage: profileImage,
-			tel: tel,
-			address: address,
-			gender: gender,
-		});
-		if (!user) {
-			console.log("User not found");
-			return res.status(404).json({ message: "User not found" });
-		}
-		res.status(200).json({ message: "User profile updated" });
-	} catch (error) {
-		console.error("Error updating user profile:", error.message);
-		res.status(500).json({ error: error.message });
-	}
-};
-
-export const changePassword = async (req, res) => {
-	try {
-		const data = req.body;
-		console.log(data);
-	} catch (error) {
-		console.error("Error changing password:", error.message);
 		res.status(500).json({ error: error.message });
 	}
 };
@@ -262,7 +210,6 @@ export const getArchivedPost = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
-
 export const postArchivedPost = async (req, res) => {
 	try {
 		const { postId } = req.body;

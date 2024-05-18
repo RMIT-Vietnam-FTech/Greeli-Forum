@@ -17,10 +17,9 @@ export const createTopic = async (req, res) => {
 };
 
 // GET all Topics
-export const getTopic = async (req, res) => {
+export const getTopics = async (req, res) => {
   try {
     const topics = await Topic.find({});
-    if (!topics) return res.status(404).json({ message: "Not found" });
     res.status(200).json(topics);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -28,7 +27,7 @@ export const getTopic = async (req, res) => {
 };
 
 // GET Topic by ID
-export const getTopicById = async (req, res) => {
+export const getTopic= async (req, res) => {
   try {
     const topic = await Topic.findById(req.params.topicId);
     if (!topic) return res.status(404).json({ message: "Topic not found" });

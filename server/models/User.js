@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-import Post from "./Post.js";
-import Thread from "./Thread.js";
 
 const userSchema = new mongoose.Schema(
 	{
@@ -25,6 +23,12 @@ const userSchema = new mongoose.Schema(
 			{
 				type: mongoose.Schema.Types.ObjectId,
 				ref: "Post",
+			},
+		],
+		createdThread: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Thread",
 			},
 		],
 		archivedPost: [

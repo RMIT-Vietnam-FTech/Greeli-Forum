@@ -1,12 +1,16 @@
 import Topic from "../models/Topic.js";
 import express from 'express';
-import { createTopic, getTopic, getTopicById } from "../controllers/topic.js";
+import * as topicController from "../controllers/topic.js";
+import { verifyAdmin, verifyToken } from "../middleware/auth.js";
  
-const routes = express.Router();
+const router = express.Router();
 
-routes.get('/get', getTopic);
-routes.get('/get/:topicId', getTopicById);
-routes.post('/create', createTopic);
+router.route("/")
+.get(topicController.getTopics)
+.post(verifyToken, verifyAdmin, topicController.createTopic);
 
-export default routes;
+router.route("/:topicId")
+.get(topicController.getTopic);
+
+export default router;
 
