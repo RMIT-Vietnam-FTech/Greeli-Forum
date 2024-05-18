@@ -30,41 +30,35 @@ function App() {
 		}
 	}, [location.pathname]);
 	return (
-		<div className="App w-100">
-			<ThemeProvider>
-				<UserContextProvider>
-					<Navbar isForum={isForum} />
-					<div className="h-100" style={{ marginTop: "80px" }}>
-						<Routes>
-							<Route path="/" element={<Homepage />} />
-							<Route path="/login" element={<Login />} />
-							<Route path="/register" element={<Register />} />
-							<Route path="/general" element={<GeneralPage />} />
-							<Route path="/contact" element={<ContactPage />} />
-							<Route path="/upload" element={<Upload />}/>
-							<Route element={<RequireAuth />}>
-								<Route path="/profile" element={<Profile />} />
-								<Route path="/chat" element={<Chat />} />
-							</Route>
-							<Route path="/forum">
-								<Route index element={<DashBoardPage />} />
-								<Route
-									path="threads/:threadId"
-									element={<ThreadPage />}
-								/>
-								<Route
-									path="posts/:postId"
-									element={<PostPage />}
-								/>
-							</Route>
-							<Route path="*" element={<ErrorPage />} />
-						</Routes>
-					</div>
-					<Footer />
-				</UserContextProvider>
-			</ThemeProvider>
-		</div>
-	);
+    <div className="App w-100">
+      <ThemeProvider>
+        <UserContextProvider>
+          <Navbar isForum={isForum} />
+          <div className="h-100" style={{ marginTop: "80px" }}>
+            <Routes>
+              <Route path="/" element={<Homepage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/general" element={<GeneralPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/upload" element={<Upload />} />
+              <Route path="/forum" element={<DashBoardPage />} />
+              <Route element={<RequireAuth />}>
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/chat" element={<Chat />} />
+                {/* <Route path="/forum" element={<DashBoardPage />} /> */}
+                {/* <Route index element={<DashBoardPage />} /> */}
+                <Route path="threads/:threadId" element={<ThreadPage />} />
+                <Route path="posts/:postId" element={<PostPage />} />
+              </Route>
+              <Route path="*" element={<ErrorPage />} />
+            </Routes>
+          </div>
+          <Footer />
+        </UserContextProvider>
+      </ThemeProvider>
+    </div>
+  );
 }
 
 export default App;

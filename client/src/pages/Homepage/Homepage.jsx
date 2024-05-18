@@ -2,13 +2,15 @@ import React from "react";
 import Header from "./component/Header";
 import Jumbotron from "./component/Jumbotron";
 import Main from "./component/Main";
+import SearchBar from "../../components/Search/Search";
 
 function Homepage() {
 	return (
 		<div className="App">
-			<Header />
+			{/* <Header />
 			<Main />
-			<Jumbotron />
+			<Jumbotron /> */}
+			<SearchBar />
 		</div>
 	);
 }
