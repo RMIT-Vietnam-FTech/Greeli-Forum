@@ -24,12 +24,12 @@ import { get } from "mongoose";
 const router = express.Router();
 
 router.get("/find/:id", verifyToken, getUser);
+router.get("/getAll", verifyToken, getAllUser);
 router.get("/:id", getProfile);
 router.post("/:id/update", updateUserProfile);
 router.post("/login", login);
 router.post("/change-password", changePassword);
 router.post("/register", register);
-router.get("/getAll", verifyToken, getAllUser);
 router.put("/:adminId/:userId/lock", verifyToken, verifyAdmin, lock);
 router.put("/:adminId/:userId/unlock", verifyToken, verifyAdmin, unlock);
 

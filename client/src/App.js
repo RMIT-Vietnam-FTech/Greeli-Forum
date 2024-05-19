@@ -20,6 +20,7 @@ import GeneralPage from "./pages/generalPage/generalPage";
 import PostPage from "./pages/Forum/PostPage/PostPage.jsx";
 import ThreadPage from "./pages/Forum/ThreadPage/ThreadPage.jsx";
 import Upload from "./pages/UploadImage/Upload.jsx";
+import Sitemap from "./pages/Sitemap/Sitemap.jsx";
 function App() {
 	let location = useLocation();
 	const [isForum, setIsForum] = useState(false);
@@ -45,6 +46,7 @@ function App() {
 							<Route path="/contact" element={<ContactPage />} />
 							<Route path="/upload" element={<Upload />} />
 							<Route path="/user/:userId" element={<Profile />} />
+							<Route path="/sitemap" element={<Sitemap />}/>
 							<Route element={<RequireAuth />}>
 								<Route path="/profile" element={<Profile />} />
 								<Route path="/chat" element={<Chat />} />
