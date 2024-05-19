@@ -42,9 +42,9 @@ function App() {
 							<Route path="/general" element={<GeneralPage />} />
 							<Route path="/contact" element={<ContactPage />} />
 							<Route path="/upload" element={<Upload />} />
-							<Route path="/user/:userId" element={<Profile />} />
 							<Route element={<RequireAuth />}>
 								<Route path="/profile" element={<Profile />} />
+								<Route path="/user/:userId" element={<Profile />} />
 								<Route path="/chat" element={<Chat />} />
 							</Route>
 							<Route path="/forum">
@@ -56,6 +56,7 @@ function App() {
 						</Routes>
 					</div>
 					<Footer />
+					<div id="popup-root"></div>
 				</UserContextProvider>
 			</ThemeProvider>
 		</div>

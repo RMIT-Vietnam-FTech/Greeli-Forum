@@ -85,6 +85,17 @@ export const unlock = async (req, res) => {
 	}
 };
 
+export const deactivateAccount = async (req, res) => {
+	try {
+		const userId = req.params.id;
+		const user = await User.findByIdAndUpdate(userId, { isActivated: false });
+		if (!user) return res.status(404).json({ message: "User not found" });
+		res.status(200).json({ message: "Account deactivated" });
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+};
+
 export const getUser = async (req, res) => {
 	const id = req.params.id;
 	try {

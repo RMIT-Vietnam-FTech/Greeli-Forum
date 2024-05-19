@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import { MdEmail, MdFacebook, MdPhone } from "react-icons/md";
 import { ThemeContext } from "../../context/ThemeContext";
 import "./style.css";
-import DeactivatingPopup from "../../components/Popup/DeactivatingPopup";
+import PreventionPopup from "../../components/Popup/PreventionPopup";
 
 const ErrorPage = () => {
 	const { isDarkMode } = useContext(ThemeContext);
@@ -15,7 +15,7 @@ const ErrorPage = () => {
 			<div className="error-wrapper text-center text-primary-green">
 				<h1 className="text-error-emphasis">404</h1>
 				<p className="text-uppercase fw-medium text-error-emphasis">
-					We are sorry but the page you request was not found
+					We are sorry but the page you requested was not found
 				</p>
 				<div>
 					<Button className="error-button rounded-pill">GO HOME</Button>{" "}
@@ -32,8 +32,8 @@ const ErrorPage = () => {
 					<MdPhone size={"3vw"} />
 				</div>
 			</div>
-			<DeactivatingPopup />
-			<div id="popup-root" />
+			<PreventionPopup />
+			<div id="popup-root"></div>
 		</div>
 	);
 };

@@ -7,11 +7,15 @@ import BasicInfo from "./components/BasicInfo";
 import PostsGallery from "./components/PostsGallery";
 import ProfileShow from "./components/ProfileShow";
 import ChangePassword from "./components/ChangePassword";
+import PreventionPopup from "../../components/Popup/PreventionPopup";
 import demoUserInfo from "./data";
 import "./styles.css";
+import { UserContext, useUserContext } from "../../context/UserContext";
+import Cookies from "universal-cookie";
 
 const Profile = () => {
-	const user = demoUserInfo[0];
+	const userData = demoUserInfo[0];
+	const navigate = useNavigate();
 
 	const [basicInfo, setBasicInfo] = useState({});
 	const [profileIsEditing, setProfileIsEditing] = useState(false);
@@ -104,6 +108,29 @@ const Profile = () => {
 	};
 	// ----------------------------
 
+	// DEACTIVATE ACCOUNT FUNCTION
+	const { user, setUser, toggleUserInfo } = useUserContext();
+	const cookies = new Cookies();
+
+	const deactivateAccount = () => {
+		const configuration = {
+			method: "post",
+			url: `http://localhost:3001/api/user/${userId}/deactivate`,
+		};
+		axios(configuration)
+			.then((result) => {
+				console.log(result.data);
+				localStorage.removeItem("user");
+				cookies.remove("TOKEN", { path: "/" });
+				setUser(null);
+				navigate("/", { replace: true });
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		console.log("Account deactivated");
+	};
+
 	return (
 		<div className="container-fluid profile-container bg-primary-green-900">
 			<div>
@@ -114,21 +141,31 @@ const Profile = () => {
 					<ProfileShow
 						userName={basicInfo.username}
 						role={basicInfo.role}
-						threadsNum={user.threadsNum}
-						postsNum={user.postsNum}
-						joinedDate={user.joinedDate}
+						threadsNum={userData.threadsNum}
+						postsNum={userData.postsNum}
+						joinedDate={userData.joinedDate}
 					/>
 					<div className="btn-chat-container d-flex justify-content-center mt-3">
-						<button
-							className={`d-lg-none py-1 px-3 ${
-								isMe ? "bg-danger text-white" : "bg-primary-yellow text-black"
-							} text-white text-center rounded-pill`}
-							aria-label={
-								isMe ? "Deactivate my account" : "Chat with this user"
-							}
-						>
-							{isMe ? "Deactivate my account" : "Chat with this user"}
-						</button>
+						{/* Deactivate button */}
+						{isMe ? (
+							<PreventionPopup
+								modalTitle="Deactivate Account"
+								buttonStyle="bg-danger text-white rounded-pill mt-5 py-2 d-lg-none d-block"
+								ariaLabel="Deactivate account"
+								buttonValue="Deactivate account"
+								action="deactivate your account"
+								warningMessage="If you deactivate your account, you will be automatically logged
+							out."
+								actionFunction={deactivateAccount}
+							/>
+						) : (
+							<button
+								className="bg-primary-yellow text-black rounded-pill mt-5 py-2 d-lg-none d-block"
+								aria-label="Chat with this user"
+							>
+								Chat with this user
+							</button>
+						)}
 					</div>
 					<div className="d-flex d-lg-none flex-column justify-content-between pt-5 px-2 col-12 right-part">
 						{/* Basic Setting Section For Mobile Show */}
@@ -188,7 +225,7 @@ const Profile = () => {
 							</div>
 						)}
 					</div>
-					<PostsGallery profilePosts={user.profilePosts} />
+					<PostsGallery profilePosts={userData.profilePosts} />
 				</div>
 				<div className="d-lg-flex d-none flex-column justify-content-between py-5 px-5 col-5 right-part">
 					{/* Basic Setting Section For Laptop Show */}
@@ -249,14 +286,25 @@ const Profile = () => {
 					)}
 
 					{/* Deactivate button */}
-					<button
-						className={`${
-							isMe ? "bg-danger text-white" : "bg-primary-yellow text-black"
-						} rounded-pill mt-5 py-2`}
-						aria-label={isMe ? "Deactivate account" : "Chat with this user"}
-					>
-						{isMe ? "Deactivate account" : "Chat with this user"}
-					</button>
+					{isMe ? (
+						<PreventionPopup
+							modalTitle="Deactivate Account"
+							buttonStyle="bg-danger text-white rounded-pill mt-5 py-2"
+							ariaLabel="Deactivate account"
+							buttonValue="Deactivate account"
+							action="deactivate your account"
+							warningMessage="If you deactivate your account, you will be automatically logged
+							out."
+							actionFunction={deactivateAccount}
+						/>
+					) : (
+						<button
+							className="bg-primary-yellow text-black rounded-pill mt-5 py-2"
+							aria-label="Chat with this user"
+						>
+							Chat with this user
+						</button>
+					)}
 				</div>
 			</div>
 		</div>
