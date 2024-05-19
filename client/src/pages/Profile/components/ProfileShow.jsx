@@ -11,10 +11,14 @@ const ProfileShow = (props) => {
 						<div className="py-1 bg-primary-yellow text-white text-center rounded-pill role-container">
 							{props.role}
 						</div>
-						<IoMdNotificationsOutline size={32} color={"white"} />
+						<IoMdNotificationsOutline
+							size={32}
+							color={"white"}
+							className="noti-icon"
+						/>
 					</div>
 				</div>
-				<div className="d-flex flex-row text-white text-center justify-content-between w-80">
+				<div className="d-flex flex-row text-white text-center justify-content-between w-80 profile-figures">
 					<div class="d-flex flex-column w-auto">
 						<p className="fw-bold my-0">{props.threadsNum}</p>
 						<p className="fw-light my-0">Threads</p>

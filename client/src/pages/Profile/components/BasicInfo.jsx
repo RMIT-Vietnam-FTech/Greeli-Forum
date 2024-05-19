@@ -49,11 +49,11 @@ const BasicInfo = (props) => {
 	};
 
 	const iconArray = [
-		[<RiDoubleQuotesL size={"2vw"} />, <RiDoubleQuotesR size={"2vw"} />],
-		<MdEmail size={"2vw"} />,
-		<MdPhone size={"2vw"} />,
-		<MdLocationOn size={"2vw"} />,
-		<MdOutlineTransgender size={"2vw"} />,
+		[<RiDoubleQuotesL size={"28px"} />, <RiDoubleQuotesR size={"28px"} />],
+		<MdEmail size={"28px"} />,
+		<MdPhone size={"28px"} />,
+		<MdLocationOn size={"28px"} />,
+		<MdOutlineTransgender size={"28px"} />,
 	];
 	if (isEditing) {
 		return (

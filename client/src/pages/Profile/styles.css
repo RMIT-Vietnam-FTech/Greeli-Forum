@@ -1,8 +1,4 @@
 /* Profile Page Styling */
-.profile-container {
-	height: 90vh;
-}
-
 .full-height {
 	height: 100%;
 }
@@ -28,6 +24,7 @@
 /* Profile Show Styling */
 .profile-show {
 	gap: 5%;
+	/* flex-wrap: wrap; */
 }
 
 .profile-show img {
@@ -37,19 +34,32 @@
 	border: solid #dcb968 3px;
 }
 
-.profile-show div {
+.profile-show > div {
 	width: 70%;
 }
 
+.profile-show h2 {
+	font-size: 4vw;
+}
+
 .role-container {
-	min-width: 5rem;
-	max-width: 7rem;
+	min-width: 4rem;
 	margin-right: 1rem;
+	font-size: 1.25vw;
+	padding: 2vw;
+}
+
+.profile-figures {
+	font-size: 1.25vw;
+}
+
+.noti-icon {
+	width: 32px;
 }
 
 /* Need improvement */
 .posts-container {
-	height: 40vh;
+	height: 50vh;
 }
 
 /* Post Gallery */
@@ -107,17 +117,53 @@
 }
 
 /* Edit Profile Button */
-.btn-edit-container button {
+.btn-chat-container button {
 	font-size: 3vw;
 }
 
 /* Responsiveness */
-@media only screen and (max-width: 992px) {
-	.main-content {
-		font-size: 3vw;
+@media screen and (max-width: 1920px) {
+	.role-container,
+	.profile-figure-font {
+		font-size: 1.5vw;
 	}
 }
 
-.btn-edit-container {
-	width: 30%;
+@media screen and (max-width: 992px) {
+	.main-content {
+		font-size: 3vw;
+	}
+
+	.btn-chat-container {
+		width: max-content;
+	}
+
+	.role-container,
+	.profile-figures {
+		font-size: 2.5vw;
+	}
+
+	.posts-container {
+		height: max-content;
+	}
+}
+@media screen and (max-width: 768px) {
+	.profile-show > div {
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 576px) {
+	.role-container,
+	.profile-figures {
+		font-size: 3.5vw;
+	}
+
+	.profile-show h2 {
+		font-size: 6vw;
+	}
+
+	.profile-show img {
+		width: 50%;
+	}
 }
