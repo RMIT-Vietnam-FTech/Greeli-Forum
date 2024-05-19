@@ -38,10 +38,6 @@
 	width: 70%;
 }
 
-.profile-show h2 {
-	font-size: 4vw;
-}
-
 .role-container {
 	min-width: 4rem;
 	margin-right: 1rem;
@@ -75,7 +71,7 @@
 .post-img {
 	border-radius: 1rem;
 	right: 0;
-	width: 100%;
+	height: 100%;
 }
 
 .interaction-menu {
@@ -84,18 +80,7 @@
 
 .interaction-menu div {
 	border-radius: 1rem;
-}
-
-.upvote {
-	width: 100px;
-}
-
-.comment {
-	width: 80px;
-}
-
-.share {
-	width: 100px;
+	gap: 0.5rem;
 }
 
 .post-author {
@@ -110,9 +95,10 @@
 
 .post-author div {
 	height: auto;
+	gap: 0.5rem;
 }
 
-.main-content {
+.post-main-content {
 	font-size: 1vw;
 }
 
@@ -127,11 +113,25 @@
 	.profile-figure-font {
 		font-size: 1.5vw;
 	}
+
+	.profile-show h2 {
+		font-size: 3vw;
+	}
+}
+
+@media screen and (max-width: 1080px) {
+	.post-main-content {
+		font-size: 0.5rem;
+	}
 }
 
 @media screen and (max-width: 992px) {
 	.main-content {
-		font-size: 3vw;
+		font-size: 2vw;
+	}
+
+	.profile-show h2 {
+		font-size: 4vw;
 	}
 
 	.btn-chat-container {
@@ -146,7 +146,12 @@
 	.posts-container {
 		height: max-content;
 	}
+
+	.post-main-content {
+		font-size: 0.75rem;
+	}
 }
+
 @media screen and (max-width: 768px) {
 	.profile-show > div {
 		width: 100%;
@@ -165,5 +170,9 @@
 
 	.profile-show img {
 		width: 50%;
+	}
+
+	.post-main-content {
+		font-size: 1rem;
 	}
 }
