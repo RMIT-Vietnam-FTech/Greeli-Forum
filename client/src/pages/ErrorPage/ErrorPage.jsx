@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import { MdEmail, MdFacebook, MdPhone } from "react-icons/md";
 import { ThemeContext } from "../../context/ThemeContext";
 import "./style.css";
-import PopupExample from "../../components/Popup/DeactivatingPopup";
+import DeactivatingPopup from "../../components/Popup/DeactivatingPopup";
 
 const ErrorPage = () => {
 	const { isDarkMode } = useContext(ThemeContext);
@@ -32,7 +32,7 @@ const ErrorPage = () => {
 					<MdPhone size={"3vw"} />
 				</div>
 			</div>
-			<PopupExample />
+			<DeactivatingPopup />
 			<div id="popup-root" />
 		</div>
 	);

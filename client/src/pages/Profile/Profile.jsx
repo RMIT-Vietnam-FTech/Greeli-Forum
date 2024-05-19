@@ -123,6 +123,9 @@ const Profile = () => {
 							className={`d-lg-none py-1 px-3 ${
 								isMe ? "bg-danger text-white" : "bg-primary-yellow text-black"
 							} text-white text-center rounded-pill`}
+							aria-label={
+								isMe ? "Deactivate my account" : "Chat with this user"
+							}
 						>
 							{isMe ? "Deactivate my account" : "Chat with this user"}
 						</button>
@@ -250,6 +253,7 @@ const Profile = () => {
 						className={`${
 							isMe ? "bg-danger text-white" : "bg-primary-yellow text-black"
 						} rounded-pill mt-5 py-2`}
+						aria-label={isMe ? "Deactivate account" : "Chat with this user"}
 					>
 						{isMe ? "Deactivate account" : "Chat with this user"}
 					</button>

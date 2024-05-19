@@ -55,23 +55,30 @@ const BasicInfo = (props) => {
 		<MdLocationOn size={"28px"} />,
 		<MdOutlineTransgender size={"28px"} />,
 	];
+
 	if (isEditing) {
 		return (
 			<div className="container-fluid text-white info-item py-2">
-				<div className="row d-flex flex-row items-align-center g-1">
-					<div className="col-1">{iconArray[id]}</div>
+				<div className="row d-flex flex-row align-items-center g-1">
+					<div className="col-1" aria-hidden="true">
+						{iconArray[id]}
+					</div>
+					<label htmlFor={`info-input-${id}`} className="sr-only">
+						Edit {type}
+					</label>
 					<input
 						type="text"
+						id={`info-input-${id}`}
 						className="col-8 px-2"
 						value={currentInput}
 						onChange={handleInput}
 						style={{
 							border: "solid white 1px",
 							borderRadius: "4px",
-							backgroundColor:
-								"transparent" /* Make input background transparent */,
-							color: "white" /* Text color */,
+							backgroundColor: "transparent",
+							color: "white",
 						}}
+						aria-label={`Edit ${type}`}
 					/>
 					<MdCheckCircle
 						size={"2vw"}
@@ -81,6 +88,9 @@ const BasicInfo = (props) => {
 							setIsEditing(false);
 							toast.success("Info Updated");
 						}}
+						role="button"
+						aria-label="Save changes"
+						tabIndex={0}
 					/>
 				</div>
 			</div>
@@ -89,7 +99,7 @@ const BasicInfo = (props) => {
 		return (
 			<div className="container w-100 text-white info-item">
 				<div className="row w-100">
-					<div className="col-1">
+					<div className="col-1" aria-hidden="true">
 						{id === 0 ? iconArray[id][0] : iconArray[id]}
 					</div>
 					<p
@@ -99,18 +109,22 @@ const BasicInfo = (props) => {
 						onClick={() => {
 							console.log(id);
 						}}
+						tabIndex={0}
+						role="textbox"
+						aria-readonly="true"
 					>
 						{displayInfo} {id == 0 ? iconArray[id][1] : null}
 					</p>
 					{isMe && (
-						<p
-							className="col-2"
+						<button
+							className="col-2 btn btn-link p-0 text-decoration-none text-white"
 							onClick={() => {
 								setIsEditing(true);
 							}}
+							aria-label={`Edit ${type}`}
 						>
 							Edit
-						</p>
+						</button>
 					)}
 				</div>
 			</div>

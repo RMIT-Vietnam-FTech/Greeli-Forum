@@ -1,7 +1,7 @@
 import React from "react";
 import Popup from "reactjs-popup";
 
-const PopupExample = () => (
+const DeactivatingPopup = () => (
 	<Popup trigger={<button>Trigger</button>} position="top left">
 		{(close) => (
 			<div>
@@ -14,4 +14,4 @@ const PopupExample = () => (
 	</Popup>
 );
 
-export default PopupExample;
+export default DeactivatingPopup;

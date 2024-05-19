@@ -102,6 +102,10 @@
 	font-size: 1vw;
 }
 
+.post-main-container {
+	gap: 1rem;
+}
+
 /* Edit Profile Button */
 .btn-chat-container button {
 	font-size: 3vw;
@@ -120,9 +124,6 @@
 }
 
 @media screen and (max-width: 1080px) {
-	.post-main-content {
-		font-size: 0.5rem;
-	}
 }
 
 @media screen and (max-width: 992px) {
@@ -148,7 +149,7 @@
 	}
 
 	.post-main-content {
-		font-size: 0.75rem;
+		font-size: 1rem;
 	}
 }
 
@@ -173,6 +174,6 @@
 	}
 
 	.post-main-content {
-		font-size: 1rem;
+		font-size: 1.25rem;
 	}
 }
