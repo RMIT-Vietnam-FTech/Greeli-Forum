@@ -46,7 +46,6 @@ function App() {
 							<Route path="/general" element={<GeneralPage />} />
 							<Route path="/contact" element={<ContactPage />} />
 							<Route path="/upload" element={<Upload />} />
-							<Route path="/user/:userId" element={<Profile />} />
 							<Route path="/sitemap" element={<Sitemap />} />
 							<Route element={<RequireAuth />}>
 								<Route path="/profile" element={<Profile />} />
