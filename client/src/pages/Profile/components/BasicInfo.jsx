@@ -113,7 +113,7 @@ const BasicInfo = (props) => {
 						role="textbox"
 						aria-readonly="true"
 					>
-						{displayInfo} {id == 0 ? iconArray[id][1] : null}
+						{displayInfo} {id === 0 ? iconArray[id][1] : null}
 					</p>
 					{isMe && (
 						<button

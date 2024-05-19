@@ -57,6 +57,7 @@ export const login = async (req, res) => {
 			token: token,
 			id: user._id,
 			message: "successfully login",
+			role: user.role,
 		});
 	} catch (error) {
 		res.status(500).json({ error: error.message });
@@ -66,6 +67,7 @@ export const login = async (req, res) => {
 export const lock = async (req, res) => {
 	try {
 		const userId = req.params.userId;
+		console.log(userId);
 		const user = await User.findByIdAndUpdate(userId, { isLocked: true });
 		if (!user) return res.status(400).json({ error: "User doesn't exist" });
 		res.status(200).json({ message: "Locked successfully" });

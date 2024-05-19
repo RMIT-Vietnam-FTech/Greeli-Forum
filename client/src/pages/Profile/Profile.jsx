@@ -18,7 +18,6 @@ const Profile = () => {
 	const navigate = useNavigate();
 
 	const [basicInfo, setBasicInfo] = useState({});
-	const [profileIsEditing, setProfileIsEditing] = useState(false);
 
 	// GET ID FROM LOCAL STORAGE
 	const currentUserId = JSON.parse(localStorage.getItem("user")).id;
@@ -48,7 +47,7 @@ const Profile = () => {
 
 					const prefixForNoInfo = isMe ? "Please update your " : "No";
 
-					const { username, email, role, password } = user;
+					const { username, email, role, password, isLocked } = user;
 					const tel = user.tel ? user.tel : `${prefixForNoInfo} phone number`;
 					const address = user.address
 						? user.address
@@ -72,6 +71,7 @@ const Profile = () => {
 						gender: gender,
 						password: password,
 						description: description,
+						isLocked: isLocked,
 					};
 				})
 				.catch((error) => {
@@ -130,6 +130,32 @@ const Profile = () => {
 			});
 		console.log("Account deactivated");
 	};
+	// ----------------------------
+
+	// BLOCK/UNBLOCK USER FUNCTION
+	const isAdmin = JSON.parse(localStorage.getItem("user")).role === "admin";
+	const handleLockAccount = () => {
+		const userId = basicInfo.userId;
+		const adminId = JSON.parse(localStorage.getItem("user")).id;
+		const action = basicInfo.isLocked ? "unlock" : "lock";
+		// console.log("Lock/Unlock user");
+		const configuration = {
+			method: "put",
+			url: `http://localhost:3001/api/user/${adminId}/${userId}/${action}`,
+		};
+		axios(configuration)
+			.then((result) => {
+				console.log(result.data);
+				const newBasicInfo = {
+					...basicInfo,
+					isLocked: !basicInfo.isLocked,
+				};
+				setBasicInfo(newBasicInfo);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	return (
 		<div className="container-fluid profile-container bg-primary-green-900">
@@ -146,7 +172,7 @@ const Profile = () => {
 						joinedDate={userData.joinedDate}
 					/>
 					<div className="btn-chat-container d-flex justify-content-center mt-3">
-						{/* Deactivate button */}
+						{/* Deactivate/ Chat with user button */}
 						{isMe ? (
 							<PreventionPopup
 								modalTitle="Deactivate Account"
@@ -165,6 +191,34 @@ const Profile = () => {
 							>
 								Chat with this user
 							</button>
+						)}
+						{/* Lock/Unlock user button */}
+						{!isMe && isAdmin && (
+							// <button
+							// 	className="bg-danger text-white rounded-pill mt-5 py-2 d-lg-none d-block"
+							// 	aria-label={`${
+							// 		basicInfo.isLocked ? "Unlock" : "Lock"
+							// 	} with this user`}
+							// >
+							// 	{`${basicInfo.isLocked ? "Unlock" : "Lock"} this user`}
+							// </button>
+							<PreventionPopup
+								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
+								buttonStyle="bg-danger text-white rounded-pill mt-5 py-2 d-lg-none d-block"
+								ariaLabel={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} this user`}
+								buttonValue={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} this user`}
+								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
+								warningMessage={`If you ${
+									basicInfo.isLocked ? "unlock" : "lock"
+								} this account, the user will be ${
+									basicInfo.isLocked ? "unlocked" : "locked"
+								} from all of their activities.`}
+								actionFunction={handleLockAccount}
+							/>
 						)}
 					</div>
 					<div className="d-flex d-lg-none flex-column justify-content-between pt-5 px-2 col-12 right-part">
@@ -284,27 +338,56 @@ const Profile = () => {
 							<ChangePassword userId={userId} />
 						</div>
 					)}
-
-					{/* Deactivate button */}
-					{isMe ? (
-						<PreventionPopup
-							modalTitle="Deactivate Account"
-							buttonStyle="bg-danger text-white rounded-pill mt-5 py-2"
-							ariaLabel="Deactivate account"
-							buttonValue="Deactivate account"
-							action="deactivate your account"
-							warningMessage="If you deactivate your account, you will be automatically logged
+					<div className="d-flex flex-column">
+						{/* Deactivate/Chat with user button */}
+						{isMe ? (
+							<PreventionPopup
+								modalTitle="Deactivate Account"
+								buttonStyle="bg-danger text-white rounded-pill mt-5 py-2"
+								ariaLabel="Deactivate account"
+								buttonValue="Deactivate account"
+								action="deactivate your account"
+								warningMessage="If you deactivate your account, you will be automatically logged
 							out."
-							actionFunction={deactivateAccount}
-						/>
-					) : (
-						<button
-							className="bg-primary-yellow text-black rounded-pill mt-5 py-2"
-							aria-label="Chat with this user"
-						>
-							Chat with this user
-						</button>
-					)}
+								actionFunction={deactivateAccount}
+							/>
+						) : (
+							<button
+								className="bg-primary-yellow text-black rounded-pill mt-5 py-2 w-100"
+								aria-label="Chat with this user"
+							>
+								Chat with this user
+							</button>
+						)}
+						{/* Lock/Unlock user button */}
+						{!isMe && isAdmin && (
+							// <button
+							// 	className="bg-danger text-white rounded-pill mt-2 py-2 d-block w-100"
+							// 	aria-label={`${
+							// 		basicInfo.isLocked ? "Unlock" : "Lock"
+							// 	} this user`}
+							// >
+							// 	{`${basicInfo.isLocked ? "Unlock" : "Lock"} this user`}
+							// </button>
+							<PreventionPopup
+								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
+								buttonStyle="bg-danger text-white rounded-pill mt-2 py-2 d-block w-100"
+								ariaLabel={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} this user`}
+								buttonValue={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} this user`}
+								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
+								warningMessage={`If you ${
+									basicInfo.isLocked ? "unlock" : "lock"
+								} this account, the user will be ${
+									basicInfo.isLocked ? "unlocked" : "locked"
+								} from all of their activities.`}
+								actionFunction={handleLockAccount}
+							/>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>

@@ -39,7 +39,7 @@ const PreventionPopup = (props) => {
 					>
 						{modalTitle}
 					</div>
-					<p id="modal-description" className="confirm-message">
+					<p className="confirm-message">
 						Are you sure you want to{" "}
 						<span className="text-danger">{action}</span>?
 					</p>
@@ -48,7 +48,9 @@ const PreventionPopup = (props) => {
 							<IoWarning className="text-danger" size={32} aria-hidden="true" />
 							<span>Warning</span>
 						</div>
-						<p className="text-warning m-0">{warningMessage}</p>
+						<p id="modal-description" className="text-warning m-0">
+							{warningMessage}
+						</p>
 					</div>
 					<div className="popup-actions w-100 d-flex justify-content-between">
 						<button
