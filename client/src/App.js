@@ -4,9 +4,11 @@ import "./App.css";
 import RequireAuth from "./components/Auth/RequireAuth.jsx";
 import Footer from "./components/Footer/footer";
 import Navbar from "./components/Navbar/Navbar";
+import ChatBubble from "./components/ChatBubble/ChatBubble.jsx";
 import LoginPopup from "./components/Popup/LoginPopup.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
+import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 import Chat from "./pages/Chat/Chat";
 import ContactPage from "./pages/ContactPage/Contact.jsx";
 import DashBoardPage from "./pages/Forum/DashBoardPage.jsx";
@@ -19,6 +21,7 @@ import GeneralPage from "./pages/generalPage/generalPage";
 import PostPage from "./pages/Forum/PostPage/PostPage.jsx";
 import ThreadPage from "./pages/Forum/ThreadPage/ThreadPage.jsx";
 import Upload from "./pages/UploadImage/Upload.jsx";
+import Sitemap from "./pages/Sitemap/Sitemap.jsx";
 function App() {
 	let location = useLocation();
 	const [isForum, setIsForum] = useState(false);
@@ -35,6 +38,7 @@ function App() {
 				<UserContextProvider>
 					<Navbar isForum={isForum} />
 					<div className="h-100" style={{ marginTop: "80px" }}>
+						<ScrollToTop />
 						<Routes>
 							<Route path="/" element={<Homepage />} />
 							<Route path="/login" element={<Login />} />
@@ -42,6 +46,8 @@ function App() {
 							<Route path="/general" element={<GeneralPage />} />
 							<Route path="/contact" element={<ContactPage />} />
 							<Route path="/upload" element={<Upload />} />
+							<Route path="/user/:userId" element={<Profile />} />
+							<Route path="/sitemap" element={<Sitemap />} />
 							<Route element={<RequireAuth />}>
 								<Route path="/profile" element={<Profile />} />
 								<Route path="/user/:userId" element={<Profile />} />
@@ -56,6 +62,7 @@ function App() {
 						</Routes>
 					</div>
 					<Footer />
+					<ChatBubble />
 					<div id="popup-root"></div>
 				</UserContextProvider>
 			</ThemeProvider>

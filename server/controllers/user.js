@@ -45,7 +45,7 @@ export const login = async (req, res) => {
 		const token = jwt.sign(
 			{ id: user._id, email: user.email, role: user.role },
 			process.env.JWT_SECRET,
-			{ expiresIn: "10m" }
+			{ expiresIn: "3d" }
 		);
 		delete user.password;
 
@@ -120,7 +120,7 @@ export const getAllUser = async (req, res) => {
 			res.status(200).json(users);
 		}
 	} catch (error) {
-		res.status(500).json({ error: error.message });
+		res.status(500).json({error: error.message})
 	}
 };
 

@@ -10,7 +10,7 @@
 .Left-side-chat {
   display: flex;
   flex-direction: column;
-  
+  z-index: 1; 
 }
 
 .Left-side-chat-dark {
@@ -46,6 +46,12 @@
   display: none;
 }
 
+.conversation-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .title-dark {
   color: #DCB968;
   text-align: center;
@@ -64,6 +70,8 @@
 }
 
 /* RIGHT SIDE */
+
+
 .Right-side-chat {
   display: flex;
   flex-direction: column;
@@ -120,5 +128,60 @@
   }
 }
 
+.create-chat-button {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+  background-color: transparent;
+  border: none;
+  transition: 0.3s ease-in-out;
+}
+
+.create-chat-button:hover {
+  color: #DCB968;
+}
 
 
+/* modal Styles */
+.modal-content {
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.modal-title {
+  font-weight: bold;
+}
+
+.modal-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.search {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.follower {
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+.follower:hover {
+  background-color: #f0f0f0;
+}
+
+.followerImage {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.name {
+  margin-left: 10px;
+  font-size: 0.9rem;
+}
