@@ -19,28 +19,34 @@ const PreventionPopup = (props) => {
 		<Popup
 			trigger={
 				<button aria-label={ariaLabel} className={buttonStyle}>
-					{" "}
-					{buttonValue}{" "}
+					{buttonValue}
 				</button>
 			}
 			modal
+			aria-labelledby="modal-title"
+			aria-describedby="modal-description"
 		>
 			{(close) => (
-				<div className="popup-modal">
-					{/* <div>
-						<Image src="logo.svg" alt="Greeli Logo" />
-					</div> */}
-					<div className="text-danger text-center fw-bold popup-header">
-						{" "}
-						{modalTitle}{" "}
+				<div
+					className="popup-modal"
+					role="dialog"
+					aria-modal="true"
+					aria-labelledby="modal-title"
+				>
+					<div
+						id="modal-title"
+						className="text-danger text-center fw-bold popup-header"
+					>
+						{modalTitle}
 					</div>
-					<p className="confirm-message">
+					<p id="modal-description" className="confirm-message">
 						Are you sure you want to{" "}
-						<span className="text-danger">{action}</span>?{" "}
+						<span className="text-danger">{action}</span>?
 					</p>
-					<div className="popup-content border-left-">
-						<div className="warning-title text-danger fw-bold">
-							<IoWarning className="text-danger" size={32} /> Warning
+					<div className="popup-content">
+						<div className="warning-title text-danger fw-bold d-flex align-items-center">
+							<IoWarning className="text-danger" size={32} aria-hidden="true" />
+							<span>Warning</span>
 						</div>
 						<p className="text-warning m-0">{warningMessage}</p>
 					</div>
@@ -48,7 +54,6 @@ const PreventionPopup = (props) => {
 						<button
 							className="popup-button bg-primary-green text-white"
 							onClick={() => {
-								// console.log("Modal closed");
 								close();
 							}}
 						>
@@ -57,7 +62,6 @@ const PreventionPopup = (props) => {
 						<button
 							className="popup-button bg-danger text-white"
 							onClick={() => {
-								// console.log("Action confirmed");
 								close();
 								actionFunction();
 							}}
