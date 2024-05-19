@@ -4,6 +4,7 @@ import "./App.css";
 import RequireAuth from "./components/Auth/RequireAuth.jsx";
 import Footer from "./components/Footer/footer";
 import Navbar from "./components/Navbar/Navbar";
+import ChatBubble from "./components/ChatBubble/ChatBubble.jsx";
 import LoginPopup from "./components/Popup/LoginPopup.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
@@ -60,6 +61,7 @@ function App() {
 						</Routes>
 					</div>
 					<Footer />
+					<ChatBubble />
 				</UserContextProvider>
 			</ThemeProvider>
 		</div>
