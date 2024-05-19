@@ -28,13 +28,14 @@ const Navbar = ({ isForum }) => {
 	};
 	return (
 		<nav
-			className="navbar navbar-expand-md fixed-top bg-navbar-subtle"
+			className="navbar navbar-expand-xl fixed-top bg-navbar-subtle"
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<div className="container-fluid">
+				<div className="d-flex gap-4">
 				{isForum && (
 					<button
-						className="navbar-toggler"
+						className="navbar-toggler forum-toggle"
 						type="button"
 						data-bs-toggle="offcanvas"
 						data-bs-target="#offcanvasForum"
@@ -57,13 +58,14 @@ const Navbar = ({ isForum }) => {
 						Greeli
 					</p>
 				</Link>
+				</div>
 				<div
 					className="offcanvas offcanvas-end"
 					tabIndex="-1"
 					id="offcanvasNavbar"
 					aria-labelledby="offcanvasNavbarLabel"
 				>
-					<div className="offcanvas-header border-bottom border-danger">
+					<div className="offcanvas-header" style={{boxShadow: "0 2px 4px rgba(0, 0, 0, 0.25)"}}>
 						<h5
 							className="offcanvas-title text-greeli-emphasis"
 							id="offcanvasNavbarLabel"
@@ -137,7 +139,7 @@ const Navbar = ({ isForum }) => {
 						id="offcanvasForum"
 						aria-labelledby="offcanvasForumLabel"
 					>
-						<div className="offcanvas-header border-bottom border-danger">
+						<div className="offcanvas-header" style={{boxShadow: "0 2px 4px rgba(0, 0, 0, 0.25)"}}>
 							<h5
 								className="offcanvas-title text-greeli-emphasis"
 								id="offcanvasNavbarLabel"
