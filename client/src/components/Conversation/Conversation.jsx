@@ -4,12 +4,14 @@ import Cookies from "universal-cookie";
 import moment from 'moment';
 import './Conversation.css';
 import { ThemeContext } from '../../context/ThemeContext'
+import { useUserContext } from "../../context/UserContext";
 
 const Conversation = ({ data, currentUserId, online, isActive }) => {
 	const [userData, setUserData] = useState(null);
 	const cookies = new Cookies();
 	const token = cookies.get("TOKEN");
 	const { isDarkMode } = useContext(ThemeContext);
+	const { user, error, setError } = useUserContext();
 
 	useEffect(() => {
 		const getUserData = async () => {

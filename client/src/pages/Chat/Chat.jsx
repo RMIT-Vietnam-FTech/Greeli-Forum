@@ -14,13 +14,12 @@ import { ThemeContext } from '../../context/ThemeContext'
 const Chat = () => {
 	const socket = useRef();
 	const cookies = new Cookies();
-	const { user } = useUserContext();
+	const { user, error, setError } = useUserContext();
 	const [chats, setChats] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
 	const [onlineUsers, setOnlineUsers] = useState([]);
 	const [sendMessage, setSendMessage] = useState(null);
 	const [receiveMessage, setReceiveMessage] = useState(null);
-	const [error, setError] = useState("");
 	const [userList, setUserList] = useState([]);
 	const [updateChat, setUpdateChat] = useState(0);
 	const userId = JSON.parse(user).id;
