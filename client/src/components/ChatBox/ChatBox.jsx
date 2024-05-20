@@ -7,7 +7,7 @@ import Cookies from 'universal-cookie';
 import moment from 'moment';
 import { ThemeContext } from '../../context/ThemeContext'
 
-const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
+const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage, handleBackClick }) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -52,21 +52,32 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
       senderId: currentUserId,
       text: newMessage,
     };
-    const config = {
+    const configuration = {
       method: 'post',
       url: 'http://localhost:3001/api/message/create',
       data: message,
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
     };
-    try {
-      const response = await axios(config);
-      setMessages([...messages, response.data]);
-      setNewMessage('');
-      setSendMessage({ ...message, receiverId: chat.members.find((id) => id !== currentUserId) });
-    } catch (error) {
-      console.log(error);
-    }
+
+    const receiverId = chat.members.find((id) => id !== currentUserId);
+    setSendMessage({ ...message, receiverId });
+    axios(configuration)
+      .then((result) => {
+        console.log(result);
+        setMessages([...messages, result.data]);
+        setNewMessage("");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+  useEffect(() => {
+    console.log("Message Arrived: ", receiveMessage);
+    if (receiveMessage !== null && receiveMessage?.chatId === chat._id) {
+      console.log("Data receive");
+      setMessages([...messages, receiveMessage]);
+    }
+  }, [receiveMessage]);
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -108,6 +119,11 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage }) => {
               <>
                 <img src={userData.profilePicture || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'} alt={userData.username} className={`followerImage ${userData.isOnline ? 'online' : 'offline'}`} />
                 <span className="fw-bold">{userData.username}</span>
+                <button type="button" className={`${isDarkMode ? "return-button-dark" : "return-button-light"} return-button`} onClick={handleBackClick}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
+                  </svg>
+                </button>
               </>
             )}
           </div>

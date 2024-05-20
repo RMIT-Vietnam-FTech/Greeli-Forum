@@ -1,119 +1,179 @@
 /* Profile Page Styling */
-.profile-container {
-  height: 90vh;
-}
-
 .full-height {
-  height: 100%;
+	height: 100%;
 }
 
 /* Basic Info Styling */
 .info-item {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
-.info-item svg{
-  margin: 0;
-  padding: 0;
+.info-item svg {
+	margin: 0;
+	padding: 0;
 }
 
-.info-item svg path{
-  width: 50px;
+.info-item svg path {
+	width: 50px;
+}
+
+.font-italic {
+	font-style: italic;
 }
 
 /* Profile Show Styling */
 .profile-show {
-  gap: 5%;
+	gap: 5%;
+	/* flex-wrap: wrap; */
 }
 
 .profile-show img {
-  width: 30%;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  border: solid #DCB968 3px;
+	width: 30%;
+	aspect-ratio: 1/1;
+	border-radius: 50%;
+	border: solid #dcb968 3px;
 }
 
-.profile-show div {
-  width: 70%;
+.profile-show > div {
+	width: 70%;
 }
 
 .role-container {
-  min-width: 5rem;
-  max-width: 7rem;
-  margin-right: 1rem;
+	min-width: 4rem;
+	margin-right: 1rem;
+	font-size: 1.25vw;
+	padding: 2vw;
+}
+
+.profile-figures {
+	font-size: 1.25vw;
+}
+
+.noti-icon {
+	width: 32px;
 }
 
 /* Need improvement */
 .posts-container {
-  height: 40vh;
+	height: 50vh;
 }
 
 /* Post Gallery */
 .post-tab-active {
-  color: #DCB968;
-  border-bottom: solid 1px #DCB968;
+	color: #dcb968;
+	border-bottom: solid 1px #dcb968;
 }
 /* Post Item Styling */
 .post-item {
-  border-radius: 2rem;
+	border-radius: 2rem;
 }
 
 .post-img {
-  border-radius: 1rem;
-  right: 0;
-  width: 100%;
+	border-radius: 1rem;
+	right: 0;
+	height: 100%;
 }
 
 .interaction-menu {
-  gap: 1rem;
+	gap: 1rem;
 }
 
 .interaction-menu div {
-  border-radius: 1rem;
-}
-
-.upvote {
-  width: 100px;
-}
-
-.comment {
-  width: 80px;
-}
-
-.share {
-  width: 100px;
+	border-radius: 1rem;
+	gap: 0.5rem;
 }
 
 .post-author {
-  gap: 1rem;
+	gap: 1rem;
 }
 
 .post-author img {
-  width: 30%;
-  height: 30%;
-  max-width: 80px;
+	width: 30%;
+	height: 30%;
+	max-width: 80px;
 }
 
 .post-author div {
-  height: auto;
+	height: auto;
+	gap: 0.5rem;
 }
 
-.main-content {
-  font-size: 1vw;
+.post-main-content {
+	font-size: 1vw;
+}
+
+.post-main-container {
+	gap: 1rem;
 }
 
 /* Edit Profile Button */
-.btn-edit-container button {
-  font-size: 3vw;
+.btn-chat-container button {
+	font-size: 3vw;
 }
 
 /* Responsiveness */
-@media only screen and (max-width: 992px) {
-  .main-content {
-    font-size: 3vw;
-  }
+@media screen and (max-width: 1920px) {
+	.role-container,
+	.profile-figure-font {
+		font-size: 1.5vw;
+	}
+
+	.profile-show h2 {
+		font-size: 3vw;
+	}
 }
 
-.btn-edit-container {
-  width: 30%;
+@media screen and (max-width: 1080px) {
+}
+
+@media screen and (max-width: 992px) {
+	.main-content {
+		font-size: 2vw;
+	}
+
+	.profile-show h2 {
+		font-size: 4vw;
+	}
+
+	.btn-chat-container {
+		width: max-content;
+	}
+
+	.role-container,
+	.profile-figures {
+		font-size: 2.5vw;
+	}
+
+	.posts-container {
+		height: max-content;
+	}
+
+	.post-main-content {
+		font-size: 1rem;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.profile-show > div {
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 576px) {
+	.role-container,
+	.profile-figures {
+		font-size: 3.5vw;
+	}
+
+	.profile-show h2 {
+		font-size: 6vw;
+	}
+
+	.profile-show img {
+		width: 50%;
+	}
+
+	.post-main-content {
+		font-size: 1.25rem;
+	}
 }

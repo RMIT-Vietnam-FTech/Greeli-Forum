@@ -58,9 +58,9 @@ const LoginPopup = ({ isShow }) => {
 				localStorage.setItem("user", JSON.stringify(result.data));
 				// set user context
 				setUser(JSON.stringify(result.data));
-				navigate(<Outlet />, { replace: true });
+				// navigate(<Outlet />, { replace: true });
 				setShowModal(false);
-				window.location.reload();
+				// window.location.reload();
 			})
 			.catch((error) => {
 				console.log(error.response.data.error);
