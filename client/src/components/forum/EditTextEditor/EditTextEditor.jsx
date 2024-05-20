@@ -54,7 +54,7 @@ export default function EditTextEditor({ content, componentType }) {
 	return (
 		<div
 			className={
-				editContext.isEdit ? "text-editor show-border" : "text-editor"
+				editContext.isEdit ? "text-editor text-greeli-emphasis show-border" : "text-editor text-greeli-emphasis"
 			}
 		>
 			<EditorProvider

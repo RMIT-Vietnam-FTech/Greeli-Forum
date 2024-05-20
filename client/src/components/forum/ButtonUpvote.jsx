@@ -71,14 +71,14 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
   }
   const user = JSON.parse(localStorage.getItem("user"));
   const [nOfUpvote, setNofUpvote] = useState(upvote.length);
-  const [isVoted, setIsVoted] = useState(upvote.includes(user.id));
+  const [isVoted, setIsVoted] = useState(user && upvote.includes(user.id));
   return (
-    <Button
+    <button
       onClick={handleUpvote}
-      className=" px-3 rounded-5 text-primary-green border-primary-green bg-transparent"
+      className="text-decoration-none text-error-emphasis border border-primary-green px-2 rounded-5 bg-transparent"
     >
       {nOfUpvote}
       <BsArrowUpSquareFill className="ms-2" />
-    </Button>
+    </button>
   );
 }
