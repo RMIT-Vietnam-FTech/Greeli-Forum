@@ -10,7 +10,7 @@ export default function Jumbotron() {
 				</h1>
 				<div className="d-block">
 					<button
-						className="fw-bold bg-primary-green text-light text-center btn btn-lg rounded-pill"
+						className="join-us"
 						type="button"
 					>
 						Join Us Here

@@ -53,11 +53,13 @@
 }
 
 .online {
-    border-color: #4CAF50;
+    border: 3px solid #4CAF50;
+    box-sizing: border-box;
 }
 
 .offline {
-    border-color: #ccc;
+    border: 3px solid #ccc;
+    box-sizing: border-box;
 }
 
 .conversation-info {
@@ -79,13 +81,12 @@
     color: #BD974C;
 }
 .online-dot {
-    position: absolute;
-    right: 10px;
-    top: 50%;
+    position: relative;
+    top: 80%;
     transform: translateY(-50%);
     width: 10px;
     height: 10px;
-    background-color: #4CAF50;
+    background-color: #DCB968;
     border-radius: 50%;
 }
 

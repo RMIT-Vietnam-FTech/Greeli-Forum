@@ -7,7 +7,7 @@ import Cookies from 'universal-cookie';
 import moment from 'moment';
 import { ThemeContext } from '../../context/ThemeContext'
 
-const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage, handleBackClick }) => {
+const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage, handleBackClick, online}) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -117,7 +117,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage, handleBa
           <div className={`${isDarkMode ? "chat-header-dark" : "chat-header-light"} chat-header`}>
             {userData && (
               <>
-                <img src={userData.profilePicture || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'} alt={userData.username} className={`followerImage ${userData.isOnline ? 'online' : 'offline'}`} />
+                <img src={userData.profilePicture || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'} alt={userData.username} className={`followerImage ${online ? 'online' : 'offline'}`} />
                 <span className="fw-bold">{userData.username}</span>
                 <button type="button" className={`${isDarkMode ? "return-button-dark" : "return-button-light"} return-button`} onClick={handleBackClick}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">

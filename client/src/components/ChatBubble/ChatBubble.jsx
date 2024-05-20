@@ -10,7 +10,7 @@ const ChatBubble = () => {
         navigate('/chat');
     };
 
-    //Not display the bubble on the chat page
+    // Not display the bubble on the chat page
     if (location.pathname === '/chat' || location.pathname === '/login') {
         return null;
     }

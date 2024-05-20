@@ -125,7 +125,7 @@ const Contact = () => {
             </div>
           </div>
           <div className="col-11 col-lg-5 text-center my-lg-5 p-5 mb-5 bg-light rounded-4">
-            <h3 className="mb-4">
+            <h3 className="mb-4 fs-4">
               If you have any feedback, please contact us
             </h3>
             <form
