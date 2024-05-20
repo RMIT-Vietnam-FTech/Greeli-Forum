@@ -15,6 +15,9 @@ import {
 	getArchivedPost,
 	postArchivedPost,
 	deleteArchivedPost,
+	getCreatedPost,
+	postCreatedPost,
+	deleteCreatedPost,
 	changePassword,
 	deactivateAccount,
 } from "../controllers/user.js";
@@ -48,5 +51,11 @@ router
 	.get(verifyToken, getArchivedPost)
 	.post(verifyToken, postArchivedPost)
 	.delete(verifyToken, deleteArchivedPost);
+
+router
+	.route("/:userId/created_posts")
+	.get(verifyToken, getCreatedPost)
+	.post(verifyToken, postCreatedPost)
+	.delete(verifyToken, deleteCreatedPost);
 
 export default router;

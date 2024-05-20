@@ -1,10 +1,84 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PostItem from "./PostItem";
+import axios from "axios";
 
 const PostGallery = (props) => {
-	const { myPosts, savedPosts } = props.profilePosts;
 	const isMe = props.isMe;
-	const [renderPostList, setRenderPostList] = useState(myPosts);
+	const [profilePosts, setProfilePosts] = useState([props.profilePosts]);
+	const [renderPostList, setRenderPostList] = useState(null);
+	const token = JSON.parse(localStorage.getItem("user")).token;
+	const userId = props.userId;
+	// const userId = JSON.parse(localStorage.getItem("user")).id;
+
+	console.log(profilePosts);
+
+	const processPosts = (postObject) => {
+		console.log(postObject);
+		const postId = postObject._id;
+		const title = postObject.title;
+		const { username, userId, uploadFile } = postObject.createdBy;
+		const profileImage = postObject.createdBy.profileImage || "";
+		const createdDate = postObject.createdAt;
+
+		const content = JSON.parse(postObject["content"])["content"][0][
+			"content"
+		][0]["text"];
+
+		const upvote = postObject.upvote.length;
+		const comment = postObject.comments.length;
+
+		const threadId = postObject.belongToThread;
+
+		const showPostObject = {
+			postId: postId,
+			author: {
+				username: username,
+				userId: userId,
+				profileImage: profileImage,
+			},
+			createdDate: createdDate,
+			threadId: threadId,
+			title: title,
+			content: content,
+			upvote: upvote,
+			comment: comment,
+			uploadFile: uploadFile,
+		};
+		return showPostObject;
+	};
+
+	useEffect(() => {
+		const fetchPath = ["created_posts", "archived_posts"];
+		var newRenderPostList = [];
+		const fetchPosts = async (fetchPath) => {
+			const configuration = {
+				method: "get",
+				url: `http://localhost:3001/api/user/${userId}/${fetchPath}`,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			await axios(configuration)
+				.then(async (response) => {
+					const data = response.data;
+					console.log(data);
+					const processedData = await data.map((post) => processPosts(post));
+					console.log(processedData);
+					newRenderPostList.push(processedData);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+			setProfilePosts(newRenderPostList);
+		};
+		const fetchPostsList = async () => {
+			await fetchPosts("created_posts");
+			await fetchPosts("archived_posts");
+			console.log(profilePosts);
+		};
+		fetchPostsList();
+	}, [userId, token]);
 
 	const changeTabHandler = (event) => {
 		const activeTab = document.querySelector(".post-tab-active");
@@ -14,11 +88,14 @@ const PostGallery = (props) => {
 		event.target.classList.remove("post-tab");
 
 		const clickedTabName = event.target.textContent;
-		if (clickedTabName === "My posts") {
-			setRenderPostList(myPosts);
+		if (clickedTabName === "User's posts") {
+			setRenderPostList(profilePosts[0]);
+			console.log(profilePosts[0]);
 		} else {
-			setRenderPostList(savedPosts);
+			setRenderPostList(profilePosts[1]);
+			console.log(profilePosts[1]);
 		}
+		// console.log(profilePosts);
 	};
 
 	return (
@@ -35,16 +112,15 @@ const PostGallery = (props) => {
 						Saved posts
 					</p>
 				)}
-				{isMe && (
-					<p className="post-tab text-center col" onClick={changeTabHandler}>
-						Saved Threads
-					</p>
-				)}
 			</div>
 			<div className="posts-container overflow-auto pt-3">
-				{renderPostList.map((post, index) => {
-					return <PostItem key={index} post={post} />;
-				})}
+				{renderPostList?.length === 0 ? (
+					<div className="text-white text-center">No posts to show</div>
+				) : (
+					renderPostList?.map((post, index) => {
+						return <PostItem key={index} post={post} />;
+					})
+				)}
 			</div>
 		</div>
 	);

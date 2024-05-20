@@ -175,9 +175,6 @@ const Profile = () => {
 			});
 	};
 	//---------------------------
-
-	console.log(basicInfo.archievedPost, basicInfo.createdPost);
-
 	return (
 		<div className="container-fluid profile-container bg-primary-green-900">
 			<div>
@@ -301,12 +298,13 @@ const Profile = () => {
 						)}
 					</div>
 					<PostsGallery
-						// profilePosts={{
-						// 	myPosts: basicInfo.createdPost,
-						// 	savedPosts: basicInfo.archievedPost,
-						// }}
-						profilePosts={userData.profilePosts}
+						profilePosts={[
+							basicInfo.createdPost || [],
+							basicInfo.archievedPost || [],
+						]}
+						// profilePosts={userData.profilePosts}
 						isMe={isMe}
+						userId={userId}
 					/>
 				</div>
 				<div className="d-lg-flex d-none flex-column justify-content-between py-5 px-5 col-5 right-part">

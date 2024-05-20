@@ -120,7 +120,7 @@ export const getAllUser = async (req, res) => {
 			res.status(200).json(users);
 		}
 	} catch (error) {
-		res.status(500).json({error: error.message})
+		res.status(500).json({ error: error.message });
 	}
 };
 
@@ -327,6 +327,64 @@ export const deleteArchivedPost = async (req, res) => {
 			res.status(403).json("Unauthorized!");
 		}
 		user.archivedPost.remove(postId);
+		await user.save();
+
+		res.status(204).json("success");
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+export const getCreatedPost = async (req, res) => {
+	try {
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+
+		if (!user) return res.status(404).json("userId not found");
+		if (req.user.id !== userId) {
+			res.status(403).json("Unauthorized!");
+		}
+
+		const createdPosts = await Post.find({ _id: { $in: user.createdPost } });
+		res.status(200).json(createdPosts);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+export const postCreatedPost = async (req, res) => {
+	try {
+		const { postId } = req.body;
+		if (!postId) return res.status(400).json("Bad Request");
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+		if (!user) return res.status(404).json("userId not found or invalid");
+		if (req.user.id !== userId) {
+			res.status(403).json("Unauthorized!");
+		}
+
+		user.createdPost.push(postId);
+		await user.save();
+
+		res.status(204).json("success");
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+export const deleteCreatedPost = async (req, res) => {
+	try {
+		const { postId } = req.body;
+		if (!postId) return res.status(400).json("Bad Request");
+		const userId = req.params.userId;
+		const user = await User.findOne({ _id: userId });
+		if (!user) return res.status(404).json("userId not found or invalid");
+		console.log("user1: " + user._id);
+		console.log("user2: " + req.user.id);
+		if (req.user.id !== userId) {
+			res.status(403).json("Unauthorized!");
+		}
+		user.createdPost.remove(postId);
 		await user.save();
 
 		res.status(204).json("success");

@@ -1,21 +1,53 @@
 import { IoMdMore } from "react-icons/io";
 import { MdInsertComment, MdShare } from "react-icons/md";
-import { TbArrowBigDown } from "react-icons/tb";
+import { TbArrowBigUp } from "react-icons/tb";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const PostItem = (props) => {
+	const [threadTitle, setThreadTitle] = useState("");
+	const navigate = useNavigate();
 	const {
-		thread,
-		title,
+		postId,
+		author,
+		comment,
 		content,
 		createdDate,
-		author,
-		postImgURL,
+		threadId,
+		title,
 		upvote,
-		comment,
+		uploadFile,
 	} = props.post;
 
+	useEffect(() => {
+		const getPostThreadAsync = async (threadId) => {
+			const configuration = {
+				method: "get",
+				url: `http://localhost:3001/api/v1/threads/${threadId}`,
+			};
+			await axios(configuration)
+				.then((response) => {
+					setThreadTitle(response.data.title);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		};
+		getPostThreadAsync(threadId);
+	}, [threadId]);
+
+	//REDIRECT TO POST PAGE
+	const handlePostClick = () => {
+		navigate(`/forum/threads/${threadId}/posts/${postId}`, { replace: true });
+	};
+
 	return (
-		<div className="bg-primary-green post-item px-3 py-3 mb-3" role="article">
+		<div
+			className="bg-primary-green post-item px-3 py-3 mb-3"
+			onClick={handlePostClick}
+			role="article"
+		>
 			<div className="w-100 d-flex justify-content-end">
 				<button
 					aria-label="More options"
@@ -29,17 +61,17 @@ const PostItem = (props) => {
 					<div className="d-flex flex-row post-author">
 						<img
 							className="rounded-circle"
-							src="https://via.placeholder.com/50"
-							alt={`Author ${author}`}
+							src={author.profileImage}
+							alt={`Author: ${author.username}`}
 						/>
 						<div className="d-flex flex-column justify-content-center">
 							<div className="w-100 d-flex flex-row flex-sm-nowrap flex-wrap justify-content-start justify-content-sm-around">
 								<p className="text-primary-yellow fw-bold m-0">
-									{thread}/{title}
+									{threadTitle}/{title}
 								</p>
 								<p className="text-white m-0">{createdDate}</p>
 							</div>
-							<p className="text-white p-0 m-0">{author}</p>
+							<p className="text-white p-0 m-0">{author.username}</p>
 						</div>
 					</div>
 					<p className="w-100 text-white mt-3">{content}</p>
@@ -49,7 +81,7 @@ const PostItem = (props) => {
 							className="bg-primary-green-900 text-white d-flex flex-row justify-content-start align-items-center py-2 px-2 upvote btn btn-link p-0 text-decoration-none"
 						>
 							<p className="p-0 m-0">{upvote}</p>
-							<TbArrowBigDown size={"2vw"} color={"white"} />
+							<TbArrowBigUp size={"2vw"} color={"white"} />
 						</button>
 						<button
 							aria-label={`Comments, current count: ${comment}`}
@@ -67,11 +99,11 @@ const PostItem = (props) => {
 						</button>
 					</div>
 				</div>
-				{postImgURL && (
+				{uploadFile && (
 					<div className="d-none d-sm-block">
 						<img
 							className="post-img"
-							src={postImgURL}
+							src={uploadFile}
 							alt={`Post titled ${title}`}
 						/>
 					</div>
