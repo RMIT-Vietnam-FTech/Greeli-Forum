@@ -283,7 +283,7 @@ const Profile = () => {
 							</div>
 						)}
 					</div>
-					<PostsGallery profilePosts={userData.profilePosts} />
+					<PostsGallery profilePosts={userData.profilePosts} isMe={isMe} />
 				</div>
 				<div className="d-lg-flex d-none flex-column justify-content-between py-5 px-5 col-5 right-part">
 					{/* Basic Setting Section For Laptop Show */}

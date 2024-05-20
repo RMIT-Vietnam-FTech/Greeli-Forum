@@ -3,12 +3,13 @@ import PostItem from "./PostItem";
 
 const PostGallery = (props) => {
 	const { myPosts, savedPosts } = props.profilePosts;
+	const isMe = props.isMe;
 	const [renderPostList, setRenderPostList] = useState(myPosts);
 
 	const changeTabHandler = (event) => {
-		document
-			.querySelector(".post-tab-active")
-			.classList.remove("post-tab-active");
+		const activeTab = document.querySelector(".post-tab-active");
+		activeTab.classList.remove("post-tab-active");
+		activeTab.classList.add("post-tab");
 		event.target.classList.add("post-tab-active");
 		event.target.classList.remove("post-tab");
 
@@ -21,17 +22,24 @@ const PostGallery = (props) => {
 	};
 
 	return (
-		<div className="mt-5">
-			<div className="d-flex flex-row text-white gap-5 fs-4 fw-light border-bottom border-white">
+		<div className="container">
+			<div className="row text-white gap-5 fs-4 fw-light border-bottom border-white">
 				<p
-					className="post-tab-active w-50 text-center"
-					onClick={changeTabHandler}
+					className={`${isMe && "post-tab-active"} text-center col`}
+					onClick={isMe ? changeTabHandler : null}
 				>
 					User's posts
 				</p>
-				<p className="w-50 text-center" onClick={changeTabHandler}>
-					Saved posts
-				</p>
+				{isMe && (
+					<p className="post-tab text-center col" onClick={changeTabHandler}>
+						Saved posts
+					</p>
+				)}
+				{isMe && (
+					<p className="post-tab text-center col" onClick={changeTabHandler}>
+						Saved Threads
+					</p>
+				)}
 			</div>
 			<div className="posts-container overflow-auto pt-3">
 				{renderPostList.map((post, index) => {

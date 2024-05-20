@@ -63,9 +63,9 @@ const BasicInfo = (props) => {
 					<div className="col-1" aria-hidden="true">
 						{iconArray[id]}
 					</div>
-					<label htmlFor={`info-input-${id}`} className="sr-only">
+					{/* <label htmlFor={`info-input-${id}`} className="sr-only">
 						Edit {type}
-					</label>
+					</label> */}
 					<input
 						type="text"
 						id={`info-input-${id}`}
