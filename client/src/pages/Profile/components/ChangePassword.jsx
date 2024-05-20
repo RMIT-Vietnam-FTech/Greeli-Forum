@@ -15,9 +15,7 @@ const ChangePassword = (props) => {
 		register,
 		handleSubmit,
 		reset,
-		formState,
-		formState: { errors },
-		formState: { isSubmitSuccessful },
+		formState: { errors, isSubmitSuccessful },
 	} = useForm({
 		criteriaMode: "all",
 	});
@@ -26,11 +24,11 @@ const ChangePassword = (props) => {
 		sendOldPassword(oldPassword, newPassword, userId);
 	};
 
-	// useEffect(() => {
-	// 	if (formState.isSubmitSuccessful) {
-	// 		reset({ oldPassword: "", newPassword: "" });
-	// 	}
-	// }, [formState, reset]);
+	useEffect(() => {
+		if (isSubmitSuccessful) {
+			reset({ oldPassword: "", newPassword: "" });
+		}
+	}, [isSubmitSuccessful, reset]);
 
 	// SEND OLD PASS INPUT TO SERVER TO COMPARE
 	const sendOldPassword = async (oldPassword, newPassword, userId) => {
@@ -43,62 +41,34 @@ const ChangePassword = (props) => {
 				newPassword: newPassword,
 			},
 		};
-		// var isError = true;
 		await axios(configuration)
 			.then((result) => {
-				// console.log(result.response.status);
 				toast.success(result.data.message);
 				setNewPassword("");
 				setOldPassword("");
-				// isError = false;
 			})
 			.catch((error) => {
 				console.log("Error", error);
 				toast.error(error.response.data.message);
 			});
-		// setIsEditing(isError);
 	};
-
-	// //COMPARE INPUT WITH SAVED PASSWORD
-	// const comparePassword = (oldPassword) => {
-	// 	return bcrypt.compareSync(oldPassword, currentPassword);
-	// };
-	// //----------------------------
-
-	// //STORE NEW PASSWORD IN DATABASE
-	// const storeNewPassword = (newPassword) => {
-	// 	const salt = bcrypt.genSaltSync(10);
-	// 	const hashPassword = bcrypt.hashSync(newPassword, salt);
-	// 	const newBasicInfo = {
-	// 		...basicInfo,
-	// 		password: hashPassword,
-	// 	};
-	// 	updateBasicInfo(newBasicInfo);
-	// };
-
-	// //---------------------------
 
 	if (isEditing) {
 		return (
 			<div className="container-fluid text-white info-item py-2">
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<div className="row d-flex flex-row items-align-center g-1">
-						<label for="oldPassword" className="col-4 px-2">
+				<form
+					onSubmit={handleSubmit(onSubmit)}
+					aria-label="Change Password Form"
+				>
+					<div className="row d-flex flex-row align-items-center g-1">
+						<label htmlFor="oldPassword" className="col-4 px-2">
 							Enter your old password
 						</label>
 						<input
-							type="text"
+							type="password"
 							{...register("oldPassword", {
 								required: "This input is required.",
 							})}
-							// {...register("oldPassword", {
-							// 	validate: (value) => {
-							// 		if (!comparePassword(value)) {
-							// 			return "Old password is incorrect";
-							// 		}
-							// 		return true;
-							// 	},
-							// })}
 							className="col-8 px-2"
 							id="oldPassword"
 							value={oldPassword}
@@ -108,23 +78,23 @@ const ChangePassword = (props) => {
 							style={{
 								border: "solid white 1px",
 								borderRadius: "4px",
-								backgroundColor:
-									"transparent" /* Make input background transparent */,
-								color: "white" /* Text color */,
+								backgroundColor: "transparent",
+								color: "white",
 							}}
+							aria-invalid={errors.oldPassword ? "true" : "false"}
 						/>
 						{errors.oldPassword && (
-							<p className="error" tabIndex={0}>
+							<p className="error" role="alert">
 								{errors.oldPassword.message}
 							</p>
 						)}
 					</div>
-					<div className="row d-flex flex-row items-align-center g-1 mt-3">
-						<label for="newPassword" className="col-4 px-2">
+					<div className="row d-flex flex-row align-items-center g-1 mt-3">
+						<label htmlFor="newPassword" className="col-4 px-2">
 							Enter your new password
 						</label>
 						<input
-							type="text"
+							type="password"
 							{...register("newPassword", {
 								required: "This input is required.",
 								pattern: {
@@ -152,13 +122,13 @@ const ChangePassword = (props) => {
 							style={{
 								border: "solid white 1px",
 								borderRadius: "4px",
-								backgroundColor:
-									"transparent" /* Make input background transparent */,
-								color: "white" /* Text color */,
+								backgroundColor: "transparent",
+								color: "white",
 							}}
+							aria-invalid={errors.newPassword ? "true" : "false"}
 						/>
 						{errors.newPassword && (
-							<p className="error" tabIndex={0}>
+							<p className="error" role="alert">
 								{errors.newPassword.message}
 							</p>
 						)}
@@ -184,6 +154,7 @@ const ChangePassword = (props) => {
 					onClick={() => {
 						setIsEditing(true);
 					}}
+					aria-label="Change Password"
 				>
 					Change Password
 				</button>

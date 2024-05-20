@@ -38,7 +38,7 @@ function App() {
 				<UserContextProvider>
 					<Navbar isForum={isForum} />
 					<div className="h-100" style={{ marginTop: "80px" }}>
-					<ScrollToTop />
+						<ScrollToTop />
 						<Routes>
 							<Route path="/" element={<Homepage />} />
 							<Route path="/login" element={<Login />} />
@@ -46,10 +46,10 @@ function App() {
 							<Route path="/general" element={<GeneralPage />} />
 							<Route path="/contact" element={<ContactPage />} />
 							<Route path="/upload" element={<Upload />} />
-							<Route path="/user/:userId" element={<Profile />} />
-							<Route path="/sitemap" element={<Sitemap />}/>
+							<Route path="/sitemap" element={<Sitemap />} />
 							<Route element={<RequireAuth />}>
 								<Route path="/profile" element={<Profile />} />
+								<Route path="/user/:userId" element={<Profile />} />
 								<Route path="/chat" element={<Chat />} />
 							</Route>
 							<Route path="/forum">
@@ -62,6 +62,7 @@ function App() {
 					</div>
 					<Footer />
 					<ChatBubble />
+					<div id="popup-root"></div>
 				</UserContextProvider>
 			</ThemeProvider>
 		</div>

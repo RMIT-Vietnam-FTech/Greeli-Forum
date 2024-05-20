@@ -23,14 +23,17 @@ const PostGallery = (props) => {
 	return (
 		<div className="mt-5">
 			<div className="d-flex flex-row text-white gap-5 fs-4 fw-light border-bottom border-white">
-				<p className="post-tab-active" onClick={changeTabHandler}>
+				<p
+					className="post-tab-active w-50 text-center"
+					onClick={changeTabHandler}
+				>
 					User's posts
 				</p>
-				<p className="" onClick={changeTabHandler}>
+				<p className="w-50 text-center" onClick={changeTabHandler}>
 					Saved posts
 				</p>
 			</div>
-			<div className="posts-container overflow-auto">
+			<div className="posts-container overflow-auto pt-3">
 				{renderPostList.map((post, index) => {
 					return <PostItem key={index} post={post} />;
 				})}

@@ -1,0 +1,75 @@
+.popup-content {
+	border-radius: 1rem;
+	max-width: 640px;
+	width: 80vw;
+}
+
+.popup-modal {
+	font-size: 1rem;
+	padding: 1.5rem;
+}
+
+.popup-modal > .popup-header {
+	width: 100%;
+	font-size: 2rem;
+	text-align: center;
+}
+
+.confirm-message {
+	font-size: 1.5rem;
+	text-align: center;
+}
+
+.popup-modal > .popup-content {
+	width: 100%;
+	padding: 1rem;
+	font-size: 1.5rem;
+	background-color: #ffe9d9;
+	border-radius: 0 1rem 1rem 0;
+	border-left: 8px solid #ff7f50;
+}
+
+.popup-modal > .popup-actions {
+	width: 100%;
+	padding: 10px 5px;
+	padding-bottom: 0;
+	margin: auto;
+	text-align: center;
+}
+
+.popup-actions button {
+	font-size: 1.25rem;
+	padding: 1rem 1.25rem;
+	border-radius: 1rem;
+}
+
+@media screen and (max-width: 768px) {
+	.popup-content,
+	.popup-modal {
+		font-size: 0.75rem;
+	}
+
+	.popup-modal > .popup-header {
+		font-size: 1rem;
+	}
+
+	.confirm-message,
+	.popup-modal > .popup-content {
+		font-size: 0.75rem;
+	}
+
+	.popup-actions button {
+		font-size: 0.75rem;
+		padding: 0.75rem 1rem;
+		border-radius: 0.75rem;
+	}
+
+	.popup-modal > .popup-content {
+		padding: 0.5rem;
+		border-radius: 0 0.75rem 0.75rem 0;
+	}
+
+	.popup-modal {
+		padding: 0.75rem;
+	}
+}
