@@ -118,9 +118,10 @@
   --bs-danger-text-emphasis: #4d0a1c;
   --bs-light-text-emphasis: #495057;
   --bs-dark-text-emphasis: #495057;
-  --bs-greeli-text-emphasis: #000000;
+  --bs-forum-text-emphasis: #365949;
+  --bs-greeli-text-emphasis: #03100f;
   --bs-login-text-emphasis: #365949;
-  --bs-general-text-emphasis: #000000;
+  --bs-general-text-emphasis: #03100f;
   --bs-error-text-emphasis: #365949;
   --bs-primary-bg-subtle: #cfe2ff;
   --bs-secondary-bg-subtle: #e2e3e5;
@@ -130,6 +131,7 @@
   --bs-danger-bg-subtle: #f3d1da;
   --bs-light-bg-subtle: #f2f2f3;
   --bs-dark-bg-subtle: #ced4da;
+  --bs-forum-bg-subtle: #365949;
   --bs-greeli-bg-subtle: #f9fafb;
   --bs-login-bg-subtle: #365949;
   --bs-nav-bg-subtle: #ffffff;
@@ -221,6 +223,7 @@
   --bs-danger-text-emphasis: #da7590;
   --bs-light-text-emphasis: #f8f9fa;
   --bs-dark-text-emphasis: #dee2e6;
+  --bs-forum-text-emphasis: #ead08d;
   --bs-greeli-text-emphasis: #ffffff;
   --bs-login-text-emphasis: #dcb968;
   --bs-general-text-emphasis: #dcb968;
@@ -233,7 +236,8 @@
   --bs-danger-bg-subtle: #27050e;
   --bs-light-bg-subtle: #343a40;
   --bs-dark-bg-subtle: #1a1d20;
-  --bs-nav-bg-subtle: #000000;
+  --bs-forum-bg-subtle: #03100f;
+  --bs-nav-bg-subtle: #03100f;
   --bs-greeli-bg-subtle: #0a2a28;
   --bs-login-bg-subtle: #dcb968;
   --bs-primary-border-subtle: #084298;
@@ -13848,6 +13852,10 @@ a:hover {
   text-decoration: none;
 }
 
+.text-forum-emphasis {
+  color: var(--bs-forum-text-emphasis) !important;
+}
+
 .text-login-emphasis {
   color: var(--bs-login-text-emphasis) !important;
 }
@@ -13864,8 +13872,20 @@ a:hover {
   color: var(--bs-error-text-emphasis) !important;
 }
 
+.border-forum {
+  border: 1px solid var(--bs-forum-text-emphasis) !important;
+}
+
+.border-greeli {
+  border: 1px solid var(--bs-error-text-emphasis) !important;
+}
+
 .border-error {
   border: 1px solid var(--bs-login-text-emphasis) !important;
+}
+
+.bg-forum-subtle {
+  background-color: var(--bs-forum-bg-subtle) !important;
 }
 
 .bg-greeli-subtle {
