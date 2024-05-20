@@ -2,6 +2,7 @@ import React from "react";
 import Events from "./components/Events";
 import News from "./components/New";
 import Update from "./components/Update";
+import Weather from "./components/Weather";
 
 import EventsData from "./data/eventsData";
 import NewsData from "./data/newsData";
@@ -13,6 +14,7 @@ function GeneralPage() {
 			<Update data={UpdateData} />
 			<News data={NewsData} />
 			<Events data={EventsData} />
+			<Weather />
 		</>
 	);
 }

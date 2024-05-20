@@ -9,7 +9,7 @@ import Cookies from "universal-cookie";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
-
+import toast, { Toaster } from "react-hot-toast";
 const LoginPopup = ({ isShow }) => {
 	const { isDarkMode } = useContext(ThemeContext);
 	const [showModal, setShowModal] = useState(isShow);
@@ -50,6 +50,13 @@ const LoginPopup = ({ isShow }) => {
 		axios(configuration)
 			.then((result) => {
 				console.log(result.data);
+				if (result.data) {
+					toast.success("Successfully Login!", {
+						duration: 3000,
+						position: "top-center",
+					});
+					// setIsLogin(true);
+				}
 				cookies.set("TOKEN", result.data.token, {
 					path: "/",
 					maxAge: 60 * 60 * 24 * 3,
@@ -63,6 +70,10 @@ const LoginPopup = ({ isShow }) => {
 				// window.location.reload();
 			})
 			.catch((error) => {
+				toast.error(error.response.data.error, {
+					duration: 3000,
+					position: "top-center",
+				});
 				console.log(error.response.data.error);
 			});
 	};
@@ -82,6 +93,7 @@ const LoginPopup = ({ isShow }) => {
 	};
 	return (
 		<div data-bs-theme={isDarkMode ? "dark" : "light"}>
+			<Toaster position="top-center" />
 			<div
 				className={`modal ${showModal ? "show" : ""}`}
 				tabIndex="-1"
@@ -129,8 +141,8 @@ const LoginPopup = ({ isShow }) => {
 											name="email"
 											type="text"
 											{...register("email")}
-											className="form-control"
-											id="floatingInput"
+											className="form-control text-body-color"
+											id="floatingEmail"
 											placeholder="name@example.com"
 											value={email}
 											onChange={(e) =>

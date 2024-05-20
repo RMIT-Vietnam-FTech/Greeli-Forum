@@ -44,98 +44,110 @@ export default function Comments({ postData, threadAdminId }) {
       await axios.delete(
         path,
 
-        {
-          data: {
-            threadId: postData.belongToThread,
-          },
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
-          },
-        }
-      );
+				{
+					data: {
+						threadId: postData.belongToThread,
+					},
+					headers: {
+						Authorization: `Bearer ${
+							JSON.parse(localStorage.getItem("user")).token
+						}`,
+					},
+				},
+			);
 
-      navigate("/forum");
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-  const { data, error, isLoading } = useSwr(
-    `/api/v1/comments?postId=${postData._id}&parentId=null`,
-    fetcher
-  );
-  if (error) {
-    return "error";
-  }
-  if (isLoading) {
-    return "is loading";
-  }
-  return (
-    <>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <div className="d-flex gap-2">
-          <ButtonUpvote upvote={postData.upvote} postId={postData._id} />
-          <a
-            href="#comment-section"
-            className="text-decoration-none px-2 rounded-5 border border-primary-green-900 text-primary-green d-flex align-items-center gap-2"
-          >
-            {postData.comments.length} <FaCommentAlt className="me-2" />
-          </a>
-        </div>
+			navigate(`/forum/${postData.belongToThread}`);
+		} catch (error) {
+			console.error(error.message);
+		}
+	}
+	const { data, error, isLoading } = useSwr(
+		`/api/v1/comments?postId=${postData._id}&parentId=null`,
+		fetcher,
+	);
+	if (error) {
+		return "error";
+	}
+	if (isLoading) {
+		return "is loading";
+	}
+	return (
+		<>
+			<div className="d-flex justify-content-between align-items-center mb-3">
+				<div className="d-flex gap-2">
+					<ButtonUpvote
+						upvote={postData.upvote}
+						postId={postData._id}
+					/>
+					<button
+						href="#comment-section"
+						className=" px-1 rounded-5 border border-primary-green bg-transparent text-error-emphasis d-flex align-items-center gap-2"
+						style={{ fontSize: "14px" }}
+					>
+						{postData.comments.length}{" "}
+						<FaCommentAlt className="me-2" />
+					</button>
+				</div>
 
-        {/*show verify status */}
-        {threadAdminId === JSON.parse(localStorage.getItem("user")).id &&
-        !isApproved ? (
-          <div className="d-flex gap-2 me-2">
-            <Button
-              onClick={handleApproved}
-              className="border border-primary-green-900 rounded-circle bg-transparent text-primary-green"
-            >
-              <IoMdCheckmark />
-            </Button>
-            <Button
-              onClick={handleUnApproved}
-              className="border border-primary-green-900 rounded-circle bg-transparent text-primary-green"
-            >
-              <IoMdClose />
-            </Button>
-          </div>
-        ) : (
-          <>
-            {postData.createdBy.userId ===
-            JSON.parse(localStorage.getItem("user")).id ? (
-              <div className="d-flex align-items-center">
-                <p
-                  className={`text-dark p-0 m-0 ${
-                    isApproved ? null : "opacity-25"
-                  }`}
-                >
-                  {isApproved ? "Approved" : "Unapproved"}
-                </p>
-                <div className="ms-3 fs-4">
-                  {isApproved ? (
-                    <BsShieldFillCheck className="text-success" />
-                  ) : (
-                    <BsShieldFillX className="text-danger" />
-                  )}
-                </div>
-              </div>
-            ) : null}
-          </>
-        )}
-      </div>
-      <CommentContext.Provider value={{ newComment, setNewComment }}>
-        <EditContextProvider>
-          <CreateCommentEditor />
-        </EditContextProvider>
-        <section id="comment-section" className="mt-3 w-100">
-          {newComment}
-          {data.map((commentData) => {
-            return <Comment key={commentData._id} commentData={commentData} />;
-          })}
-        </section>
-      </CommentContext.Provider>
-    </>
-  );
+				{/*show verify status */}
+				{localStorage.getItem("user") !== "null" &&
+				threadAdminId === JSON.parse(localStorage.getItem("user")).id &&
+				!isApproved ? (
+					<div className="d-flex gap-2 me-2">
+						<Button
+							onClick={handleApproved}
+							className="border-greeli rounded-circle bg-transparent text-error-emphasis"
+						>
+							<IoMdCheckmark />
+						</Button>
+						<Button
+							onClick={handleUnApproved}
+							className="border-greeli rounded-circle bg-transparent text-error-emphasis"
+						>
+							<IoMdClose />
+						</Button>
+					</div>
+				) : (
+					<>
+						{localStorage.getItem("user") !== "null" &&
+						postData.createdBy.userId ===
+							JSON.parse(localStorage.getItem("user")).id ? (
+							<div className="d-flex align-items-center">
+								<p
+									className={`text-error-emphasis p-0 m-0 ${
+										isApproved ? null : "opacity-25"
+									}`}
+								>
+									{isApproved ? "Approved" : "Unapproved"}
+								</p>
+								<div className="ms-3 fs-4">
+									{isApproved ? (
+										<BsShieldFillCheck className="text-success" />
+									) : (
+										<BsShieldFillX className="text-danger" />
+									)}
+								</div>
+							</div>
+						) : null}
+					</>
+				)}
+			</div>
+			<CommentContext.Provider value={{ newComment, setNewComment }}>
+				<EditContextProvider>
+					<CreateCommentEditor />
+				</EditContextProvider>
+				<section id="comment-section" className="mt-3 w-100">
+					{newComment}
+					{data.map((commentData) => {
+						return (
+							<Comment
+								key={commentData._id}
+								commentData={commentData}
+							/>
+						);
+					})}
+				</section>
+			</CommentContext.Provider>
+		</>
+	);
 }

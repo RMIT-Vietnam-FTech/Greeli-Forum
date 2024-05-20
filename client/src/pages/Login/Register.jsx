@@ -124,16 +124,16 @@ const Register = () => {
 
 	return (
 		<main
-			className="container-fluid h-100"
+			className="container-fluid"
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<div className="row">
 				<Toaster position="top-center" />
 				<div
-					className="col-md-6 bg-image"
+					className="col-sm-12 col-lg-6 bg-image"
 					style={{ backgroundImage, backgroundSize: "cover" }}
 				/>
-				<div className="col-12 col-md-6 text-center py-5 bg-greeli-subtle">
+				<div className="col-12 col-lg-6 text-center login py-5 bg-greeli-subtle h-100">
 					<h1 className="text-login-emphasis">GREELI</h1>
 					<h1 className="text-greeli-emphasis">
 						The guide to sustainable life
@@ -284,7 +284,9 @@ const Register = () => {
 									autoComplete="on"
 									placeholder="Confirm Password"
 									value={confirmPassword}
-									onChange={(e) => setConfirmPasword(e.target.value)}
+									onChange={(e) =>
+										setConfirmPasword(e.target.value)
+									}
 								/>
 								<label
 									for="confirmPassword"

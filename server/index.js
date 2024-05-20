@@ -16,9 +16,10 @@ import threadRoutes from "./routes/thread.js";
 import userRoutes from "./routes/user.js";
 import topicRoutes from "./routes/topic.js";
 import feedbackRoutes from "./routes/feedback.js"
-
+import forumRoutes from "./routes/forum.js";
 import commentRoutes from "./routes/comment.js";
 import { app, io, server } from "./socket/socket.js";
+import User from "./models/User.js";
 
 /* CONFIGURATION */
 const __dirname = path.resolve();
@@ -62,7 +63,7 @@ const fileFilter = (req, file, cb) => {
 		cb(null, true);
 	} else {
 		cb(null, false);
-		cb(new Error("Only .jpeg or .png files are allowed!"));
+		cb(new Error("Only .jpeg or .png files are allowed!"), false);
 	}
 }
 
@@ -79,15 +80,17 @@ app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/admin/posts", adminPostRoutes);
 app.use("/api/v1/threads", threadRoutes);
 app.use("/api/v1/comments", commentRoutes);
-
+app.use("/api/v1/forums", forumRoutes);
 app.use("/api/v1/topics", topicRoutes);
 app.use("/api/v1/news", newsRoutes);
 app.use("/api/feedback", feedbackRoutes)
-app.post("/api/upload", upload.single("image"), (req, res) => {
+app.post("/api/upload/:userId", upload.single("image"), async (req, res) => {
 	try {
-		console.log(req.file)
-		res.status(201).json('File uploaded succesfully!')
+		const userId = req.params.userId;
+		const user = await User.findByIdAndUpdate(userId, { profileImage: `/image/avatar/${req.file.filename}`});
+		res.status(201).json('File uploaded succesfully!');
 	} catch (error) {
+		res.status(500).json(error)
 		console.log(error)
 	}
 })

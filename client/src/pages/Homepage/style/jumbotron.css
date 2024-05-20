@@ -1,3 +1,31 @@
 .jumbotron {
-    background: url("../../../../public/jumbotron.svg") no-repeat center ;
+    background: url("../../../../public/jumbotron.svg") no-repeat center;
+    background-size: cover;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.join-us {
+    background-color: #DCB968;
+    border: 2px solid #DCB968;
+    border-radius: 40px;
+    color: #fff;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.join-us:hover {
+    background-color: #fff;
+    color: #DCB968;
+    border: 2px solid #DCB968;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
 }

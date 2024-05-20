@@ -2,11 +2,14 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.css";
 import RequireAuth from "./components/Auth/RequireAuth.jsx";
+import RequireActivate from "./components/Auth/RequireActivate.jsx";
 import Footer from "./components/Footer/footer";
 import Navbar from "./components/Navbar/Navbar";
+import ChatBubble from "./components/ChatBubble/ChatBubble.jsx";
 import LoginPopup from "./components/Popup/LoginPopup.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
+import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 import Chat from "./pages/Chat/Chat";
 import ContactPage from "./pages/ContactPage/Contact.jsx";
 import DashBoardPage from "./pages/Forum/DashBoardPage.jsx";
@@ -19,48 +22,63 @@ import GeneralPage from "./pages/generalPage/generalPage";
 import PostPage from "./pages/Forum/PostPage/PostPage.jsx";
 import ThreadPage from "./pages/Forum/ThreadPage/ThreadPage.jsx";
 import Upload from "./pages/UploadImage/Upload.jsx";
+import Sitemap from "./pages/Sitemap/Sitemap.jsx";
+import { ForumRouter } from "./pages/Forum/ForumRouter.jsx";
+// import { useUserContext } from "./context/UserContext.jsx";
 function App() {
 	let location = useLocation();
 	const [isForum, setIsForum] = useState(false);
+	// const { user } = useUserContext();
+	// const isActivated = JSON.parse(user)?.isActivated;
 	useEffect(() => {
-		if (location.pathname === "/forum") {
+		console.log(
+			`check location pathname: ${location.pathname}\n check isForum: ${isForum}`,
+		);
+		if (location.pathname.split("/")[1] == "forum") {
 			setIsForum(true);
 		} else {
 			setIsForum(false);
 		}
 	}, [location.pathname]);
+
 	return (
 		<div className="App w-100">
 			<ThemeProvider>
 				<UserContextProvider>
 					<Navbar isForum={isForum} />
 					<div className="h-100" style={{ marginTop: "80px" }}>
+						<ScrollToTop />
 						<Routes>
 							<Route path="/" element={<Homepage />} />
 							<Route path="/login" element={<Login />} />
 							<Route path="/register" element={<Register />} />
 							<Route path="/general" element={<GeneralPage />} />
 							<Route path="/contact" element={<ContactPage />} />
-							<Route path="/upload" element={<Upload />}/>
+							<Route path="/upload" element={<Upload />} />
+							<Route path="/sitemap" element={<Sitemap />} />
 							<Route element={<RequireAuth />}>
-								<Route path="/profile" element={<Profile />} />
-								<Route path="/chat" element={<Chat />} />
+								<Route element={<RequireActivate />}>
+									<Route
+										path="/profile"
+										element={<Profile />}
+									/>
+									<Route
+										path="/user/:userId"
+										element={<Profile />}
+									/>
+									<Route path="/chat" element={<Chat />} />
+								</Route>
 							</Route>
-							<Route path="/forum">
-								<Route index element={<DashBoardPage />} />
-								<Route
-									path="threads/:threadId"
-									element={<ThreadPage />}
-								/>
-								<Route
-									path="posts/:postId"
-									element={<PostPage />}
-								/>
-							</Route>
+							<Route
+								path="/forum/*"
+								element={<ForumRouter />}
+							></Route>
 							<Route path="*" element={<ErrorPage />} />
 						</Routes>
 					</div>
 					<Footer />
+					<ChatBubble />
+					<div id="popup-root"></div>
 				</UserContextProvider>
 			</ThemeProvider>
 		</div>

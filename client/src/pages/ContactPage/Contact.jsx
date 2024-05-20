@@ -12,24 +12,24 @@ import axios from "axios";
 import "./Contact.css";
 
 const Contact = () => {
-  const { isDarkMode } = useContext(ThemeContext);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
-  const feedBackSchema = Yup.object().shape({
-    name: Yup.string().required("Your name is required"),
-    email: Yup.string()
-      .required("Your email is required")
-      .email("Email is invalid"),
-    message: Yup.string().required("Your message is required"),
-  });
+	const { isDarkMode } = useContext(ThemeContext);
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [message, setMessage] = useState("");
+	const feedBackSchema = Yup.object().shape({
+		name: Yup.string().required("Your name is required"),
+		email: Yup.string()
+			.required("Your email is required")
+			.email("Email is invalid"),
+		message: Yup.string().required("Your message is required"),
+	});
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(feedBackSchema) });
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+	} = useForm({ resolver: yupResolver(feedBackSchema) });
 
   const feedback = () => {
     const configuration = {
@@ -125,7 +125,7 @@ const Contact = () => {
             </div>
           </div>
           <div className="col-11 col-lg-5 text-center my-lg-5 p-5 mb-5 bg-light rounded-4">
-            <h3 className="mb-4">
+            <h3 className="mb-4 fs-4">
               If you have any feedback, please contact us
             </h3>
             <form
@@ -156,7 +156,7 @@ const Contact = () => {
                   type="email"
                   className="form-control border border-primary-green"
                   {...register("email")}
-                  id="floatingInput"
+                  id="floatingEmail"
                   placeholder="Your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -174,14 +174,14 @@ const Contact = () => {
                 <textarea
                   className="form-control border border-primary-green h-auto"
                   placeholder="Your message here..."
-                  id="floatingTextarea"
+                  id="floatingTextPlace"
                   {...register("message")}
                   rows={5}
                   defaultValue={""}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 />
-                <label id="floatingInput" htmlFor="floatingTextarea">
+                <label id="floatingText" htmlFor="floatingTextarea">
                   Your message here...
                 </label>
               </div>

@@ -39,10 +39,12 @@ router
 router
   .route("/:threadId/rule")
   .post(verifyToken, threadController.createThreadRule)
-  .put(verifyToken, threadController.deleteThreadRules);
+  .put(verifyToken, threadController.deleteThreadRule);
+
+router.get("/:threadId/statistic", threadController.getThreadStatistic);
 
 router
-  .route("/:threadId/rule/:index")
+  .route("/:threadId/rule/:ruleIndex")
   .put(verifyToken, threadController.modifyThreadRule)
   .delete(verifyToken, threadController.deleteThreadRule);
 export default router;

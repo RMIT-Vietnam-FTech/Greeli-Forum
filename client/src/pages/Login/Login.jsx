@@ -142,8 +142,8 @@ const Login = () => {
 									name="email"
 									type="text"
 									{...register("email")}
-									className="form-control"
-									id="emailInput"
+									className="form-control text-body-color"
+									id="floatingEmail"
 									placeholder="name@example.com"
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
