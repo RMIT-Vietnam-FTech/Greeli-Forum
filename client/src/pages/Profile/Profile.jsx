@@ -46,7 +46,17 @@ const Profile = () => {
 
 					const prefixForNoInfo = isMe ? "Please update your " : "No";
 
-					const { username, email, role, password, isLocked } = user;
+					const {
+						username,
+						email,
+						role,
+						password,
+						isLocked,
+						createdPost,
+						createdThread,
+						archievedPost,
+						followThread,
+					} = user;
 					const tel = user.tel ? user.tel : `${prefixForNoInfo} phone number`;
 					const address = user.address
 						? user.address
@@ -71,6 +81,10 @@ const Profile = () => {
 						password: password,
 						description: description,
 						isLocked: isLocked,
+						createdPost: createdPost,
+						createdThread: createdThread,
+						archievedPost: archievedPost,
+						followThread: followThread,
 					};
 				})
 				.catch((error) => {
@@ -160,6 +174,9 @@ const Profile = () => {
 				console.log(error);
 			});
 	};
+	//---------------------------
+
+	console.log(basicInfo.archievedPost, basicInfo.createdPost);
 
 	return (
 		<div className="container-fluid profile-container bg-primary-green-900">
@@ -283,7 +300,14 @@ const Profile = () => {
 							</div>
 						)}
 					</div>
-					<PostsGallery profilePosts={userData.profilePosts} isMe={isMe} />
+					<PostsGallery
+						// profilePosts={{
+						// 	myPosts: basicInfo.createdPost,
+						// 	savedPosts: basicInfo.archievedPost,
+						// }}
+						profilePosts={userData.profilePosts}
+						isMe={isMe}
+					/>
 				</div>
 				<div className="d-lg-flex d-none flex-column justify-content-between py-5 px-5 col-5 right-part">
 					{/* Basic Setting Section For Laptop Show */}
