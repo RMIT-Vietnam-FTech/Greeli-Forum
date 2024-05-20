@@ -7,9 +7,7 @@ import Conversation from "../../components/Conversation/Conversation";
 import LoginPopup from "../../components/Popup/LoginPopup";
 import { useUserContext } from "../../context/UserContext";
 import "./chat.css";
-import { ThemeContext } from "../../context/ThemeContext";
-
-import Draggable, { DraggableCore } from "react-draggable";
+import { ThemeContext } from '../../context/ThemeContext';
 
 const Chat = () => {
 	const socket = useRef();
@@ -254,6 +252,7 @@ const Chat = () => {
 					setSendMessage={setSendMessage}
 					receiveMessage={receiveMessage}
 					handleBackClick={handleBackClick}
+					online={checkOnlineStatus(currentChat)}
 				/>
 			</div>
 			{/* pop up list friend */}

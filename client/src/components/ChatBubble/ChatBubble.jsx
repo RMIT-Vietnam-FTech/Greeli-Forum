@@ -10,10 +10,10 @@ const ChatBubble = () => {
 		navigate("/chat");
 	};
 
-	//Not display the bubble on the chat page
-	if (location.pathname === "/chat" || location.pathname === "/login") {
-		return null;
-	}
+    // Not display the bubble on the chat page
+    if (location.pathname === '/chat' || location.pathname === '/login') {
+        return null;
+    }
 
 	return (
 		<div className="chat-bubble" onClick={handleClick}>
