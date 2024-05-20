@@ -56,7 +56,7 @@ export default function Comments({ postData, threadAdminId }) {
         }
       );
 
-      navigate("/forum");
+      navigate(`/forum/${postData.belongToThread}`);
     } catch (error) {
       console.error(error.message);
     }
@@ -76,12 +76,13 @@ export default function Comments({ postData, threadAdminId }) {
       <div className="d-flex justify-content-between align-items-center mb-3">
         <div className="d-flex gap-2">
           <ButtonUpvote upvote={postData.upvote} postId={postData._id} />
-          <a
+          <button
             href="#comment-section"
-            className="text-decoration-none px-2 rounded-5 border border-primary-green-900 text-primary-green d-flex align-items-center gap-2"
+            className=" px-1 rounded-5 border border-primary-green bg-transparent text-error-emphasis d-flex align-items-center gap-2"
+            style={{fontSize:"14px"}}
           >
             {postData.comments.length} <FaCommentAlt className="me-2" />
-          </a>
+          </button>
         </div>
 
         {/*show verify status */}
@@ -90,13 +91,13 @@ export default function Comments({ postData, threadAdminId }) {
           <div className="d-flex gap-2 me-2">
             <Button
               onClick={handleApproved}
-              className="border border-primary-green-900 rounded-circle bg-transparent text-primary-green"
+              className="border-greeli rounded-circle bg-transparent text-error-emphasis"
             >
               <IoMdCheckmark />
             </Button>
             <Button
               onClick={handleUnApproved}
-              className="border border-primary-green-900 rounded-circle bg-transparent text-primary-green"
+              className="border-greeli rounded-circle bg-transparent text-error-emphasis"
             >
               <IoMdClose />
             </Button>
@@ -107,7 +108,7 @@ export default function Comments({ postData, threadAdminId }) {
             JSON.parse(localStorage.getItem("user")).id ? (
               <div className="d-flex align-items-center">
                 <p
-                  className={`text-dark p-0 m-0 ${
+                  className={`text-error-emphasis p-0 m-0 ${
                     isApproved ? null : "opacity-25"
                   }`}
                 >

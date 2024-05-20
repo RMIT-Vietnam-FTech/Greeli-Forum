@@ -10,7 +10,6 @@ export default function DropDown({
   threadId,
   postId,
 }) {
-  // console.log(`check input: \n componentType:${componentType}\n threadId: ${threadId}\n postId: ${postId}`)
   const editContext = useContext(EditContext);
   const authorizationContext = useContext(AuthorizationContext);
   const [isSaved, setIsSaved] = useState(false);
@@ -21,26 +20,24 @@ export default function DropDown({
     });
   }, []);
   async function checkSavingStatus() {
-    if(localStorage.getItem("user")!=="null"){
-
-    
-    const path = `http://localhost:3001/api/user/${
-      JSON.parse(localStorage.getItem("user")).id
-    }/archived_posts`;
-    const archivedPosts = await axios
-      .get(path, {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("user")).token
-          }`,
-        },
-      })
-      .then((res) => res.data);
-    return archivedPosts.some((object) => {
-      return object._id === postId;
-    });
-  }
-  return false;
+    if (localStorage.getItem("user") !== "null") {
+      const path = `http://localhost:3001/api/user/${
+        JSON.parse(localStorage.getItem("user")).id
+      }/archived_posts`;
+      const archivedPosts = await axios
+        .get(path, {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).token
+            }`,
+          },
+        })
+        .then((res) => res.data);
+      return archivedPosts.some((object) => {
+        return object._id === postId;
+      });
+    }
+    return false;
   }
 
   function handleEdit() {
@@ -119,97 +116,48 @@ export default function DropDown({
       console.error(error.message);
     }
   }
-  if (componentType == "post") {
-    return (
-      <div className="dropdown position-absolute">
-        <button
-          className={
-            "btn btn-secondary d-flex gap-1 bg-transparent border-0 " +
-            (isVertical ? "flex-column" : "flex-row")
-          }
-          data-bs-toggle="dropdown"
-        >
-          <div
-            className={
-              "dropdown-circle " +
-              (isVertical ? "bg-white" : "bg-primary-green-900")
-            }
-          />
-          <div
-            className={
-              "dropdown-circle " +
-              (isVertical ? "bg-white" : "bg-primary-green-900")
-            }
-          />
-          <div
-            className={
-              "dropdown-circle " +
-              (isVertical ? "bg-white" : "bg-primary-green-900")
-            }
-          />
-        </button>
-        <ul className="dropdown-menu">
-          {authorizationContext.isAuthor.current ? (
-            <li>
-              <a onClick={handleEdit} className={"dropdown-item"} href="#">
-                Edit
-              </a>
-            </li>
-          ) : null}
+  if(( JSON.parse(localStorage.getItem("user")) && (componentType=="post" || (componentType=="thread" && authorizationContext.isAuthor.current) ))){
+  return (
+    <div className="dropdown position-absolute">
+      <button
+        className={"btn btn-secondary d-flex gap-1 bg-transparent border-0 "}
+        data-bs-toggle="dropdown"
+      >
+        <div className={"dropdown-circle bg-login-subtle"} />
+        <div className={"dropdown-circle bg-login-subtle"} />
+        <div className={"dropdown-circle bg-login-subtle"} />
+      </button>
 
-          <li>
-            <a className="dropdown-item" onClick={isSaved?handleUnSave:handleSave} href="#">
-              {isSaved?"unsaved":"save"}
-            </a>
-          </li>
-          <li>
-            {authorizationContext.isAuthor.current ? (
-              <Link onClick={handleDelete} className="dropdown-item" to="../">
-                Delete
-              </Link>
-            ) : null}
-          </li>
-        </ul>
-      </div>
-    );
-  }
-  if (componentType == "thread" && authorizationContext.isAuthor.current) {
-    return (
-      <div className="dropdown position-absolute">
-        <button
-          className={
-            "btn btn-secondary d-flex gap-1 bg-transparent border-0 " +
-            (isVertical ? "flex-column" : "flex-row")
-          }
-          data-bs-toggle="dropdown"
-        >
-          <div
-            className={
-              "dropdown-circle " +
-              (isVertical ? "bg-white" : "bg-primary-green-900")
-            }
-          />
-          <div
-            className={
-              "dropdown-circle " +
-              (isVertical ? "bg-white" : "bg-primary-green-900")
-            }
-          />
-          <div
-            className={
-              "dropdown-circle " +
-              (isVertical ? "bg-white" : "bg-primary-green-900")
-            }
-          />
-        </button>
-        <ul className="dropdown-menu">
+      <ul className="dropdown-menu bg-navbar-subtle">
+        {authorizationContext.isAuthor.current ? (
           <li>
             <a onClick={handleEdit} className={"dropdown-item"} href="#">
               Edit
             </a>
           </li>
-        </ul>
-      </div>
-    );
-  }
+        ) : null}
+        {componentType === "post" && authorizationContext.isAuthor.current && (
+          <li>
+            <a
+              className="dropdown-item"
+              onClick={isSaved ? handleUnSave : handleSave}
+              href="#"
+            >
+              {isSaved ? "unsaved" : "save"}
+            </a>
+          </li>
+        )}
+        <li>
+          {componentType === "post" &&
+            authorizationContext.isAuthor.current && (
+              <Link onClick={handleDelete} className="dropdown-item" to="../">
+                Delete
+              </Link>
+            )}
+        </li>
+      </ul>
+    </div>
+  );
+}
+return <></>
 }

@@ -68,7 +68,7 @@ export default function DashBoardPage() {
         <div className="dropdown ms-3">
           <button
             className={
-              "btn  d-flex gap-1 bg-primary-green-300  d-flex rounded-5 px-4 "
+              "btn  d-flex gap-1 bg-forum-subtle text-white d-flex rounded-5 px-4 "
             }
             data-bs-toggle="dropdown"
           >
@@ -77,10 +77,10 @@ export default function DashBoardPage() {
               <IoMdArrowDropdown />
             </div>
           </button>
-          <ul className="dropdown-menu">
+          <ul className="dropdown-menu bg-greeli-subtle ">
             <li>
               <a
-                className={"dropdown-item"}
+                className={"dropdown-item "}
                 onClick={() => {
                   setSortOption("Hot");
                 }}
@@ -90,7 +90,7 @@ export default function DashBoardPage() {
             </li>
             <li>
               <a
-                className={"dropdown-item"}
+                className={"dropdown-item "}
                 onClick={() => {
                   setSortOption("New");
                 }}
@@ -100,7 +100,7 @@ export default function DashBoardPage() {
             </li>
             <li>
               <a
-                className={"dropdown-item"}
+                className={"dropdown-item "}
                 onClick={() => {
                   setSortOption("Top");
                 }}

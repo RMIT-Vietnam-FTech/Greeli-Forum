@@ -97,7 +97,8 @@ export default function ThreadBody({ threadData }) {
         <div className="dropdown ms-3">
           <button
             className={
-              "btn  d-flex gap-1 bg-primary-green-300  d-flex rounded-5 px-4 "
+              "btn  d-flex gap-1 bg-forum-subtle text-white d-flex rounded-5 px-4 "
+
             }
             data-bs-toggle="dropdown"
           >
@@ -106,7 +107,7 @@ export default function ThreadBody({ threadData }) {
               <IoMdArrowDropdown />
             </div>
           </button>
-          <ul className="dropdown-menu">
+          <ul className="dropdown-menu bg-greeli-subtle">
             <li>
               <a
                 className={"dropdown-item"}

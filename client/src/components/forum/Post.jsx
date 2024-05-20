@@ -17,7 +17,7 @@ export default function Post({ postId }) {
 		return 0;
 	}
 	return (
-		<div className="w-100 position-relative d-flex justify-content-center bg-primary-green-600 my-4 px-5 py-3 rounded-3">
+		<div className="w-100 position-relative d-flex justify-content-center bg-primary-green-600 my-4 px-5 py-1 rounded-3">
 			<Link
 				to={"../posts/" + postId}
 				className="w-100 d-flex gap-2 justify-content-between align-items-center bg-primary-900 text-white text-decoration-none  "
@@ -36,7 +36,7 @@ export default function Post({ postId }) {
 				</div>
 				<div
 					className=" w-25 d-flex justify-content-center bg-primary-green-900 rounded-3 overflow-hidden "
-					style={{ height: "100px" }}
+					style={{ height: "80px" }}
 				>
 					<ImageOrVideo src={data.uploadFile} isPost={true} />
 				</div>

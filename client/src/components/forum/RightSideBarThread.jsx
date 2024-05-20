@@ -1,17 +1,19 @@
+import {  useState, useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
+import Post from "../../pages/Forum/PostPage/components/Post";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 const fetchPost = (url) => axios.get(url).then((res) => res.data.data);
 export default function RightSideBarThread() {
   return (
-    <section className="d-flex flex-column justify-content-between h-100">
-      <ThreadStatistic />
+    <>
       <PostYouMayLike />
-    </section>
+      <ThreadStatistic />
+    </>
   );
 }
 
@@ -23,12 +25,9 @@ function ThreadStatistic() {
     return 0;
   }
   return (
-    <div
-      className="w-100 bg-primary-green px-3 py-3 d-flex flex-column align-items-start"
-      style={{ borderRadius: "20px" }}
-    >
+    <div className="thread-statistic bg-forum-subtle">
       <div className="text-primary-yellow fs-5 mb-3">Thread statistic</div>
-      <div className="w-100">
+      <div className="w-75">
         <p className="text-white w-100 d-flex justify-content-between">
           <b className="w-50">Posts</b>{" "}
           <span className="ms-3 w-50">{data.post}</span>
@@ -49,11 +48,13 @@ function ThreadStatistic() {
 }
 
 export function PostYouMayLike() {
+  const matchWindowWidth = useMediaQuery("(min-width: 800px)");
+  console.log( `check window width: ${matchWindowWidth}`);
   const { ref, inView, entry } = useInView({
     threshold: 0,
     onChange: (inView, entry) => {
       // console.log(`check size: ${size}\n check limit: ${limit}\n check total: ${total}`)
-      if (inView && size * 10 <= 20) {
+      if (inView && size * 10 <= 11) {
         setSize(size + 1);
       }
     },
@@ -77,19 +78,17 @@ export function PostYouMayLike() {
   const issues = data ? [].concat(...data) : [];
 
   return (
-    <>
-      <section
-        ref={ref}
-        className="recommend-post-section"
-        style={{ borderRadius: "20px", wordBreak: "break-word" }}
-      >
-        <p className="text-primary-yellow" style={{fontSize:"18px"}}>Recommended Post</p>
+    <section className={"recommend-post-wrapper " + (matchWindowWidth ?  "bg-forum-subtle mt-0":null) }>
+      <h3 className="text-primary-yellow right-side-bar-heading">
+        Recommended Post
+      </h3>
+      <div ref={ref} className="recommend-post-section">
         {/*Recommend post items*/}
         {issues.map((postData) => {
-          return <RecommendPost key={postData._id} postData={postData} />;
+          return (matchWindowWidth?<RecommendPost key={postData._id} postData={postData} />: <Post key={postData._id} postData={postData} />);
         })}
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -98,7 +97,7 @@ const RecommendPost = ({ postData }) => {
   return (
     <Link
       to={`http://localhost:3000/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
-      className="w-100 d-flex flex-column gap-2 align-items-start py-4 justify-content-between border-bottom"
+      className="recommend-post"
     >
       {/*user info*/}
       <div className="d-flex gap-2">
@@ -116,23 +115,39 @@ const RecommendPost = ({ postData }) => {
         </div>
 
         {/*user username*/}
-        <div className="text-white" style={{ fontSize: "14px" }}>
+        <div className="right-side-bar-username" style={{ fontSize: "14px" }}>
           {postData.createdBy.username}
         </div>
       </div>
 
-      <p
-        className="fw-bold text-primary-green-200 m-0"
-        style={{ fontSize: "14px", wordBreak: "break-word" }}
-      >
+      <p className="right-side-bar-title" style={{ wordBreak: "break-word" }}>
         {postData.title}
       </p>
 
       {/*number of like and comment*/}
-      <div className="d-flex gap-2 text-white">
-        <p className="m-0" style={{fontSize:"12px"}}>{postData.upvoteLength} upvotes</p>
-        <p className="m-0" style={{fontSize:"12px"}}>{postData.commentLength} comments</p>
+      <div className="d-flex gap-2 ">
+        <p className="m-0 p-0 right-side-bar-contact">
+          {postData.upvoteLength} upvotes
+        </p>
+        <p className="m-0 p-0 right-side-bar-contact">
+          {postData.commentLength} comments
+        </p>
       </div>
     </Link>
   );
 };
+
+export function useMediaQuery(mediaQueryString) {
+  const queryString = removeReservedMediaKeyWord(mediaQueryString)
+  const query = useMemo(() => window.matchMedia(queryString), [queryString])
+  const [matches, setMatches] = useState(query.matches) // one-time, instantaneous check
+  useEffect(() => {
+    const listener = (e) => setMatches(e.matches)
+    query.addEventListener('change', listener)
+    return () => query.removeEventListener('change', listener)
+  }, [query])
+  return matches
+}
+function removeReservedMediaKeyWord(mediaQueryString) {
+  return mediaQueryString.replace('@media', '').trim()
+}

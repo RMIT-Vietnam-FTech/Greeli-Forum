@@ -12,11 +12,8 @@ export default function InitialPost({ postData }) {
           {/*post header*/}
           <div className="d-flex gap-2">
             <Avatar src={postData.createdBy.profileImage} />
-            <div className="h-auto">
-              <p className="mb-0 text-primary-green-900 fw-bold">
-                thread/{postData.threadName}
-              </p>
-              <p className="mb-0">{postData.createdBy.username}</p>
+            <div className="h-auto ">
+              <p className="mb-0 text-general-emphasis">{postData.createdBy.username}</p>
             </div>
           </div>
           <AuthorizationContextProvider
@@ -32,11 +29,11 @@ export default function InitialPost({ postData }) {
         </div>
         {/*post body*/}
         <div className=" mt-3 w-100">
-          <h3 style={{wordBreak:"break-word"}}>{postData.title}</h3>
+          <div className="fs-4 fw-bold text-forum-emphasis" style={{wordBreak:"break-word"}}>{postData.title}</div>
 
           {postData.uploadFile ? (
             <div
-              className="w-100 my-4 bg-primary-green-600 rounded-3 d-flex justify-content-center overflow-hidden"
+              className="w-100 my-4 bg-forum-subtle rounded-3 d-flex justify-content-center overflow-hidden"
               style={{ height: "400px" }}
             >
               <ImageOrVideo src={postData.uploadFile} isPost={false} />

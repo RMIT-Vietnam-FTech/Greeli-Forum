@@ -10,12 +10,13 @@ export default function ReplyButton({ nOfReply }) {
     replyContext.setIsReply((isReply) => !isReply);
   }
   return (
-    <Button
-      className="ms-2 px-3 rounded-5 text-primary-green border-primary-green bg-transparent"
+    <button
+      className="ms-2 px-2 rounded-5 text-error-emphasis  border border-primary-green bg-transparent"
+
       onClick={handleReply}
     >
       <FaCommentAlt className="me-2" />
       Reply
-    </Button>
+    </button>
   );
 }

@@ -91,10 +91,10 @@ export default function ThreadHeader({ ...prop }) {
   }
   return (
     <>
-      <section className="w-100 position-relative">
+      <section className="w-100 position-relative text-general-emphasis">
         <EditContextProvider>
           <div className="d-flex align-items-start" style={{ width: "85%" }}>
-            <h1 className="title fs-4 text-primary-green-900">{title}</h1>
+            <h1 className="title fs-4">{title}</h1>
 
             <Button
               onClick={isFollowed ? handleUnFollowThread : handleFollowThread}
@@ -133,7 +133,7 @@ export default function ThreadHeader({ ...prop }) {
           onClick={() => {
             setIsOpen(true);
           }}
-          className="w-100 bg-transparent border-primary-green-900 text-primary-green-900 rounded-5 text-start"
+          className="w-100 bg-transparent border border-primary-green text-greeli-emphasis rounded-5 text-start"
         >
           Create Post +
         </Button>
