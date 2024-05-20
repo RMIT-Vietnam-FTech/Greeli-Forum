@@ -118,7 +118,7 @@ export default function AuthLeftSideBar() {
 }
 
 function CreatedThread() {
-	const path = `http://localhost:3001/api/user/${
+	const path = `/api/user/${
 		JSON.parse(localStorage.getItem("user")).id
 	}/created_threads`;
 
@@ -135,7 +135,7 @@ function CreatedThread() {
 				return (
 					<a
 						key={thread._id}
-						href={`http://localhost:3000/forum/threads/${thread._id}`}
+						href={`/forum/threads/${thread._id}`}
 						className="d-block text-white mb-4"
 					>
 						{thread.title}
@@ -146,7 +146,7 @@ function CreatedThread() {
 	);
 }
 function FollowingThread() {
-	const path = `http://localhost:3001/api/user/${
+	const path = `/api/user/${
 		JSON.parse(localStorage.getItem("user")).id
 	}/follow_threads`;
 
@@ -164,7 +164,7 @@ function FollowingThread() {
 				return (
 					<a
 						key={thread._id}
-						href={`http://localhost:3000/forum/threads/${thread._id}`}
+						href={`/forum/threads/${thread._id}`}
 						className="d-block text-white mb-4"
 					>
 						{thread.title}
@@ -176,7 +176,7 @@ function FollowingThread() {
 }
 
 function Topic() {
-	const path = "http://localhost:3001/api/v1/topics";
+	const path = "/api/v1/topics";
 	const { data, error, isLoading } = useSwr(path, fetcher);
 	if (isLoading) {
 		return 0;

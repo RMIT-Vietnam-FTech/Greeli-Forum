@@ -19,7 +19,7 @@ export default function RightSideBarThread() {
 
 function ThreadStatistic() {
 	const { threadId } = useParams();
-	const path = `http://localhost:3001/api/v1/threads/${threadId}/statistic`;
+	const path = `/api/v1/threads/${threadId}/statistic`;
 	const { data, error, isLoading } = useSWR(path, fetcher);
 	if (isLoading) {
 		return 0;
@@ -67,7 +67,7 @@ export function PostYouMayLike() {
 			(index, prevData) =>
 				prevData && !prevData.length
 					? null
-					: `http://localhost:3001/api/v1/posts?page=${
+					: `/api/v1/posts?page=${
 							index + 1
 						}&sort=${"Hot"}`,
 			fetchPost,
@@ -107,7 +107,7 @@ const RecommendPost = ({ postData }) => {
 	// console.log(`check data: ${postData._id}`)
 	return (
 		<Link
-			to={`http://localhost:3000/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
+			to={`/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
 			className="recommend-post"
 		>
 			{/*user info*/}
