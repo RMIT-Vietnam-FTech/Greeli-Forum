@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState, useContext} from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { io } from "socket.io-client";
 import Cookies from "universal-cookie";
 import ChatBox from "../../components/ChatBox/ChatBox";
@@ -9,18 +9,19 @@ import { useUserContext } from "../../context/UserContext";
 import "./chat.css";
 import { ThemeContext } from '../../context/ThemeContext'
 
+import Draggable, { DraggableCore } from 'react-draggable';
+
 
 
 const Chat = () => {
 	const socket = useRef();
 	const cookies = new Cookies();
-	const { user } = useUserContext();
+	const { user, error, setError } = useUserContext();
 	const [chats, setChats] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
 	const [onlineUsers, setOnlineUsers] = useState([]);
 	const [sendMessage, setSendMessage] = useState(null);
 	const [receiveMessage, setReceiveMessage] = useState(null);
-	const [error, setError] = useState("");
 	const [userList, setUserList] = useState([]);
 	const [updateChat, setUpdateChat] = useState(0);
 	const userId = JSON.parse(user).id;
@@ -28,6 +29,9 @@ const Chat = () => {
 	const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
 	const [showChatBox, setShowChatBox] = useState(false);
 	const { isDarkMode } = useContext(ThemeContext);
+	const [userInChatId, setUserInChatId] = useState([]);
+	const [userNotInChat, setUserNotInChat] = useState([]);
+	const [query, setQuery] = useState("");
 
 	useEffect(() => {
 		socket.current = io("http://localhost:3001");
@@ -44,10 +48,6 @@ const Chat = () => {
 			setOnlineUsers(activeUsers);
 			// console.log(onlineUsers);
 		});
-
-		return () => {
-			socket.current.off("get-users");
-		};
 	}, [socket.current]);
 
 	useEffect(() => {
@@ -65,12 +65,12 @@ const Chat = () => {
 					setChats(result.data);
 				})
 				.catch((error) => {
-					setError(error.response.data.error);
+					// setError(error.response.data.error);
 					console.log(error);
 				});
 		};
 		getChats();
-	}, [userId, updateChat]);
+	}, [userId, updateChat, error]);
 
 	useEffect(() => {
 		if (socket.current === null) return;
@@ -122,9 +122,23 @@ const Chat = () => {
 				});
 		};
 		getAllUsers();
-	}, []);
+	}, [error]);
 
-	useEffect(() => {}, [error]);
+
+
+	useEffect(() => {
+		setUserInChatId(chats?.map((chat) => chat.members[1]));
+		setUserInChatId((prev) => [...prev, userId])
+		// userInChatId
+		setUserNotInChat(userList?.filter((user) => !userInChatId?.includes(user._id)));
+
+		console.log(userList.filter((user) => !userInChatId?.includes(user._id)));
+		console.log(userNotInChat)
+	}, [chats, userList]);
+
+	// useEffect(() => {
+	// 	set
+	// }, [query])
 
 	const checkOnlineStatus = (chat) => {
 		const chatMember = chat.members.find((member) => member !== userId);
@@ -176,7 +190,21 @@ const Chat = () => {
 			{error === "invalid token" && <LoginPopup isShow={true} />}
 			<div className={`Left-side-chat ${isMobileView && showChatBox ? 'd-none' : 'd-full'} ${isDarkMode ? "Left-side-chat-dark" : "Left-side-chat-light"}`}>
 				<div className="Chat-container">
-					<h2 className={`${isDarkMode ? "title-dark" : "title-light"}`}>GREELI CHAT</h2>
+					<div className="conversation-title">
+						<h2 className={`${isDarkMode ? "title-dark" : "title-light"}`}>GREELI CHAT</h2>
+						<button
+							type="button"
+							className="create-chat-button"
+							data-bs-toggle="modal"
+							data-bs-target="#staticBackdrop"
+						>
+							<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-person-add" viewBox="0 0 16 16">
+								<path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"></path>
+								<path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"></path>
+							</svg>
+						</button>
+					</div>
+
 					<div className="Chat-list">
 						{chats?.map((chat, index) => (
 							<div
@@ -198,27 +226,16 @@ const Chat = () => {
 
 			{/* Right Side */}
 			<div className={`Right-side-chat ${isMobileView && !showChatBox ? 'd-none' : 'd-full'}`}>
-				{isMobileView && showChatBox && (
-					<button className="back-button" onClick={handleBackClick}>
-						<i className="fas fa-arrow-left"></i>
-					</button>
-				)}
+				
 				<ChatBox
 					chat={currentChat}
 					currentUserId={userId}
 					setSendMessage={setSendMessage}
 					receiveMessage={receiveMessage}
+					handleBackClick={handleBackClick}
 				/>
 			</div>
 			{/* pop up list friend */}
-			<button
-					type="button"
-					class="btn btn-primary"
-					data-bs-toggle="modal"
-					data-bs-target="#staticBackdrop"
-				>
-					Create Chat
-				</button>
 			<div
 				className="modal fade"
 				id="staticBackdrop"
@@ -235,7 +252,7 @@ const Chat = () => {
 								className="modal-title fs-5"
 								id="staticBackdropLabel"
 							>
-								Modal title
+								Click to create chat
 							</h1>
 							<button
 								type="button"
@@ -245,7 +262,8 @@ const Chat = () => {
 							/>
 						</div>
 						<div className="modal-body">
-							{userList?.map((user) => (
+							<input type="text" placeholder="Search..." className="search" onChange={(e) => setQuery(e.target.value)} />
+							{userNotInChat?.filter((user) => user.username.toLowerCase().includes(query)).map((user) => (
 								<div
 									className="follower conversation"
 									onClick={() => createChat(user)}

@@ -7,11 +7,12 @@ import { IoMdClose } from "react-icons/io";
 import { RiCloseLargeLine } from "react-icons/ri";
 import DropZoneFile from "./DropZoneFile";
 import PopupEditor from "./PopupEditor/PopupEditor";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState("");
   const navigate = useNavigate();
+  const {threadId} = useParams();
   async function handleData() {
     try {
       //clear text, clear file, clear input
@@ -46,7 +47,7 @@ export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
         );
         // console.log("check data response "+JSON.stringify(res.data));
         // Router.browserHistory.push(`/forum`);
-        navigate(`/forum/posts/${res.data}`);
+        navigate(`/forum/threads/${threadId}/posts/${res.data}`);
       }
     } catch (e) {
       console.error(e.response);

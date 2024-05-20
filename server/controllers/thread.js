@@ -105,6 +105,29 @@ export const modifyThreadContent = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const getThreadStatistic = async (req, res) => {
+  try {
+    const threadId = req.params.threadId;
+    const thread = await Thread.findById(threadId, {
+      createdBy: 1,
+      followedBy: 1,
+      posts: 1,
+    });
+    if (!thread)
+      return res.status(404).send("threadId is not found or invalid");
+
+    res.status(200).json({
+      member: thread.followedBy.length,
+      post: thread.posts.length,
+      admin: {
+        username: thread.createdBy.username,
+        profileImage: thread.createdBy.profileImage,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const reset = async (req, res) => {
   await Thread.deleteMany({});
@@ -142,54 +165,45 @@ import dotenv from "dotenv";
 // CREATE rule
 export const createThreadRule = async (req, res) => {
   //for thread admin only
-  const threadId = req.params.threadId;
-  const { title, description } = req.body;
-  const newRule = {
-    title: title,
-    description: description,
-  };
   try {
+    const threadId = req.params.threadId;
+    if (threadId.createdBy.userId !== req.user.id)
+      res.status(403).send("Unauthorized");
+    const { title, description } = req.body;
+    if (!(title && description)) res.status(400).send("Bad Request");
+    const newRule = {
+      title: title,
+      description: description,
+    };
     const thread = await Thread.findById(threadId);
     if (!thread)
       return res.status(404).send({ message: "threadId not found or invalid" });
     thread.rule.push(newRule);
     await thread.save();
+
     res.status(201).json("create is succeed");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
-// GET all rules --> don't need anymore -> reluctant query
-
-// export const getThreadRules = async (req, res) => {
-//   //for thread admin only
-//   const threadId = req.params.threadId;
-//   try {
-//     const thread = await Thread.findById(threadId);
-//     if (!thread) return res.status(404).json({ message: "Thread not found" });
-//     res.status(200).json(thread.rule);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
 
 // EDIT rule
 export const modifyThreadRule = async (req, res) => {
   //for thread admin only
-  const threadId = req.params.threadId;
-  const index = req.query.index;
-  const { title, description } = req.body;
   try {
+    const threadId = req.params.threadId;
+    const ruleIndex = req.params.ruleIndex;
+    const { title, description } = req.body;
+
     const thread = await Thread.findById(threadId);
     if (!thread)
-      return res.status(404).send({ message: "threadId not found or invalid" });
+      return res.status(404).json({ message: "threadId not found or invalid" });
     if (thread.createdBy.userId !== req.user.id)
       return res.status(403).send("Unauthorized");
 
     //update rule
-    thread.rule[index].title = title;
-    thread.rule[index].description = description;
-
+    thread.rule[ruleIndex - 1].title = title;
+    thread.rule[ruleIndex - 1].description = description;
     await thread.save();
 
     res.status(204).json("success");
@@ -201,7 +215,7 @@ export const modifyThreadRule = async (req, res) => {
 export const deleteThreadRule = async (req, res) => {
   //for thread admin only
   const threadId = req.params.threadId;
-  const index = req.query.index;
+  const ruleIndex = req.query.ruleIndex;
   try {
     const thread = await Thread.findById(threadId);
     if (!thread) return res.status(404).send({ message: "Thread not found" });
@@ -209,7 +223,7 @@ export const deleteThreadRule = async (req, res) => {
       return res.status(403).send("Unauthorized");
 
     //delete rule
-    thread.rule.splice(index, 1);
+    thread.rule.splice(ruleIndex - 1, 1);
     await thread.save();
 
     res.status(204).json({ message: "Delete rule success" });
@@ -217,23 +231,6 @@ export const deleteThreadRule = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-// DELETE all rule
-export const deleteThreadRules = async (req, res) => {
-  //for thread admin only
-  const threadId = req.params.threadId;
-  try {
-    const thread = await Thread.findById(threadId);
-    if (!thread) return res.status(404).send({ message: "Thread not found" });
-    if (thread.createdBy.userId !== req.user.id)
-      return res.status(403).send("Unauthorized");
 
-    //delete all rule
-    thread.rule.length = 0;
-    await thread.save();
 
-    res.status(204).json({ message: "Delete all rule success" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
 dotenv.config();

@@ -156,7 +156,7 @@ const Contact = () => {
                   type="email"
                   className="form-control border border-primary-green"
                   {...register("email")}
-                  id="floatingInput"
+                  id="floatingEmail"
                   placeholder="Your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -174,14 +174,14 @@ const Contact = () => {
                 <textarea
                   className="form-control border border-primary-green h-auto"
                   placeholder="Your message here..."
-                  id="floatingTextarea"
+                  id="floatingTextPlace"
                   {...register("message")}
                   rows={5}
                   defaultValue={""}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 />
-                <label id="floatingInput" htmlFor="floatingTextarea">
+                <label id="floatingText" htmlFor="floatingTextarea">
                   Your message here...
                 </label>
               </div>

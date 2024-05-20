@@ -3,7 +3,6 @@ import Post from "../models/Post.js";
 import Thread from "../models/Thread.js";
 import User from "../models/User.js";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
-import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 const createRandomName = (bytes = 32) =>
   crypto.randomBytes(bytes).toString("hex");
@@ -71,12 +70,13 @@ export const getPosts = async (req, res) => {
     //filter -> threadId
     //sorting
     let { sort, filter, belongToThread, page, limit } = req.query;
-    if (!belongToThread) res.status(400).send("Bad Request");
-    const thread = await Thread.findById(belongToThread);
-    if (!thread) res.status(404).send("threadId not found or invalid");
+    if (belongToThread) {
+      const thread = await Thread.findById(belongToThread);
+      if (!thread) res.status(404).send("threadId not found or invalid");
+    }
 
     const filterCommand = {
-      isApproved: true
+      isApproved: true,
     };
 
     if (!page) {
@@ -150,7 +150,7 @@ export const getPosts = async (req, res) => {
           },
         },
         { $sort: sortObject },
-        { $skip: (page - 1) * limit },
+        { $skip: (Number.parseInt(page)-1) * limit },
         { $limit: Number.parseInt(limit) },
       ],
     });
