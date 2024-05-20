@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { useUserContext } from "../../../context/UserContext";
+
 
 const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 
@@ -39,10 +41,14 @@ const getMetadata = async (isThreadAdmin, threadData) => {
 };
 
 export default function ThreadBody({ threadData }) {
+  const { searchTerm } = useUserContext();
+  const [searchResult, setSearchResult] = useState([]);
+
   const user = JSON.parse(localStorage.getItem("user"));
   const isThreadAdmin = user && threadData.createdBy.userId == user.id;
   const [metadata, setMetadata] = useState();
   const [sortOption, setSortOption] = useState("Hot");
+  //Search data
   useEffect(() => {
     getMetadata(isThreadAdmin, threadData).then((res) => {
       setMetadata(res);
@@ -84,11 +90,18 @@ export default function ThreadBody({ threadData }) {
       isThreadAdmin ? verifyAdminFetcher : fetcher
     );
 
+  const issues = data ? [].concat(...data) : [];
+  useEffect(() => {
+    console.log(searchTerm);
+    setSearchResult(issues.filter(( issue ) => issue.title.toLowerCase().includes(searchTerm)));
+  }, [searchTerm]);
+
   if (isLoading) {
     return 0;
   }
 
-  const issues = data ? [].concat(...data) : [];
+  // const issues = data ? [].concat(...data) : [];
+  // setSearchResult(issues.filter(( issue ) => issue.title.toLowerCase().includes(searchTerm)));
 
   return (
     <>
@@ -143,7 +156,7 @@ export default function ThreadBody({ threadData }) {
 
         {/*Post items*/}
         <div>
-          {issues.map((postData) => {
+          {searchResult.map((postData) => {
             return (
               <Post
                 key={postData._id}

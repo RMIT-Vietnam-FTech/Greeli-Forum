@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import LeftSideBar from "../../components/forum/LeftSideBar";
 import RightSideBarThread from "../../components/forum/RightSideBarThread";
 import RightSideBarForum from "../../components/forum/RightSideBarForum";
+import SearchBar from "../../components/Search/Search";
 import ThreadPage from "./ThreadPage/ThreadPage";
 import DashBoardPage from "./DashBoardPage";
 import PostPage from "./PostPage/PostPage";
@@ -16,6 +17,9 @@ export function ForumRouter() {
       className=" bg-greeli-subtle"
       data-bs-theme={isDarkMode ? "dark" : "light"}
     >
+      <section className="search-container d-block">
+        <SearchBar />
+      </section>
       <section className="container-wrapper">
         <section className="left-sidebar bg-forum-subtle">
           <LeftSideBar />

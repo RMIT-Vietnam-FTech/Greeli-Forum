@@ -31,7 +31,7 @@ export default function Footer() {
 					</section>
 
 					{/* Important Link Section*/}
-					<section className="container flex-column align-items-center footer-section">
+					<section className="container d-flex flex-column align-items-center footer-section">
 						<h3 className="fw-bold text-light">Link</h3>
 						<ul className="nav flex-column">
 							<li className="mb-2">
@@ -87,7 +87,7 @@ export default function Footer() {
 
 					{/* Contact Info Section*/}
 					<section
-						className="container flex-column align-items-center footer-section"
+						className="container d-flex flex-column align-items-center footer-section"
 						id="contact-info"
 					>
 						<h3 className="fw-bold text-light">Contact Info</h3>

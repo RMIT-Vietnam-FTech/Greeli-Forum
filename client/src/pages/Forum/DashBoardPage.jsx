@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { useUserContext } from "../../context/UserContext";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 
@@ -15,6 +16,9 @@ const getMetadata = async (url) => {
 };
 
 export default function DashBoardPage() {
+
+  const { searchTerm } = useUserContext();
+  const [searchResult, setSearchResult] = useState([]);
  
   const [metadata, setMetadata] = useState();
   const [sortOption, setSortOption] = useState("Hot");
@@ -43,6 +47,7 @@ export default function DashBoardPage() {
     },
   });
 
+
   const { data, mutate, size, setSize, isValidating, isLoading } =
     useSWRInfinite(
       (index, prevData) =>
@@ -54,17 +59,25 @@ export default function DashBoardPage() {
 
       fetcher
     );
-
+  const issues = data ? [].concat(...data) : [];
+  useEffect(() => {
+    console.log(searchTerm);
+    setSearchResult(issues.filter(( issue ) => issue.title.toLowerCase().includes(searchTerm)));
+  }, [searchTerm]);
+  
   if (isLoading) {
     return 0;
   }
 
-  const issues = data ? [].concat(...data) : [];
+
+  // setSearchResult(issues.filter(( issue ) => issue.title.toLowerCase().includes(searchTerm)));
+  
 
   return (
     <>
       {/*sorting*/}
       <div className="position-relative">
+  
         <div className="dropdown ms-3">
           <button
             className={
@@ -113,7 +126,7 @@ export default function DashBoardPage() {
 
         {/*Post items*/}
         <div>
-          {issues.map((postData) => {
+          {searchResult.map((postData) => {
             return (
               <Post
                 key={postData._id}

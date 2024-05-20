@@ -1,4 +1,4 @@
- /* .search-input {
+ .search-input {
     width: 50vw;
     max-width: 100%;
     margin: 0 auto;
@@ -38,5 +38,4 @@
 
 .search-results li:hover {
     background-color: #f1f1f1;
-}  */
-
+} 
