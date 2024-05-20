@@ -16,7 +16,6 @@ import Cookies from "universal-cookie";
 const Profile = () => {
 	const userData = demoUserInfo[0];
 	const navigate = useNavigate();
-
 	const [basicInfo, setBasicInfo] = useState({});
 
 	// GET ID FROM LOCAL STORAGE
@@ -134,6 +133,7 @@ const Profile = () => {
 
 	// BLOCK/UNBLOCK USER FUNCTION
 	const isAdmin = JSON.parse(localStorage.getItem("user")).role === "admin";
+	const token = cookies.get("TOKEN");
 	const handleLockAccount = () => {
 		const userId = basicInfo.userId;
 		const adminId = JSON.parse(localStorage.getItem("user")).id;
@@ -142,6 +142,10 @@ const Profile = () => {
 		const configuration = {
 			method: "put",
 			url: `http://localhost:3001/api/user/${adminId}/${userId}/${action}`,
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
 		};
 		axios(configuration)
 			.then((result) => {
