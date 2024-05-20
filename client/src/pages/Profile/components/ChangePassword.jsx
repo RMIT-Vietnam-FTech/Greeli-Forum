@@ -34,7 +34,7 @@ const ChangePassword = (props) => {
 	const sendOldPassword = async (oldPassword, newPassword, userId) => {
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/user/change-password`,
+			url: `/api/user/change-password`,
 			data: {
 				userId: userId,
 				oldPassword: oldPassword,
