@@ -15,7 +15,10 @@ const PostItem = (props) => {
 	} = props.post;
 
 	return (
-		<div className="bg-primary-green post-item px-3 py-3 mb-3" role="article">
+		<div
+			className="bg-primary-green post-item px-3 py-3 mb-3"
+			role="article"
+		>
 			<div className="w-100 d-flex justify-content-end">
 				<button
 					aria-label="More options"

@@ -48,14 +48,18 @@ const Profile = () => {
 					const prefixForNoInfo = isMe ? "Please update your " : "No";
 
 					const { username, email, role, password, isLocked } = user;
-					const tel = user.tel ? user.tel : `${prefixForNoInfo} phone number`;
+					const tel = user.tel
+						? user.tel
+						: `${prefixForNoInfo} phone number`;
 					const address = user.address
 						? user.address
 						: `${prefixForNoInfo} address`;
 					const gender = user.gender
 						? user.gender
 						: `${prefixForNoInfo} gender`;
-					const profileImage = user.profileImage ? user.profileImage : "";
+					const profileImage = user.profileImage
+						? user.profileImage
+						: "";
 					const description = user.description
 						? user.description
 						: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...";
@@ -166,6 +170,7 @@ const Profile = () => {
 				<div className="d-flex flex-column justify-content-between p-sm-5 pb-sm-0 p-4 pb-0 col-12 col-lg-7 full-height overflow-hidden">
 					<ProfileShow
 						userName={basicInfo.username}
+						profileImage={basicInfo.profileImage}
 						role={basicInfo.role}
 						threadsNum={userData.threadsNum}
 						postsNum={userData.postsNum}
@@ -203,7 +208,9 @@ const Profile = () => {
 							// 	{`${basicInfo.isLocked ? "Unlock" : "Lock"} this user`}
 							// </button>
 							<PreventionPopup
-								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
+								modalTitle={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} Account`}
 								buttonStyle="bg-danger text-white rounded-pill mt-5 py-2 d-lg-none d-block"
 								ariaLabel={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
@@ -211,7 +218,9 @@ const Profile = () => {
 								buttonValue={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
 								} this user`}
-								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
+								action={`${
+									basicInfo.isLocked ? "unlock" : "lock"
+								} this user`}
 								warningMessage={`If you ${
 									basicInfo.isLocked ? "unlock" : "lock"
 								} this account, the user will be ${
@@ -370,7 +379,9 @@ const Profile = () => {
 							// 	{`${basicInfo.isLocked ? "Unlock" : "Lock"} this user`}
 							// </button>
 							<PreventionPopup
-								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
+								modalTitle={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} Account`}
 								buttonStyle="bg-danger text-white rounded-pill mt-2 py-2 d-block w-100"
 								ariaLabel={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
@@ -378,7 +389,9 @@ const Profile = () => {
 								buttonValue={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
 								} this user`}
-								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
+								action={`${
+									basicInfo.isLocked ? "unlock" : "lock"
+								} this user`}
 								warningMessage={`If you ${
 									basicInfo.isLocked ? "unlock" : "lock"
 								} this account, the user will be ${

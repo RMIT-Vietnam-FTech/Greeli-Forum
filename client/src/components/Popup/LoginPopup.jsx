@@ -9,7 +9,7 @@ import Cookies from "universal-cookie";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
-import toast, { Toaster } from "react-hot-toast"
+import toast, { Toaster } from "react-hot-toast";
 const LoginPopup = ({ isShow }) => {
 	const { isDarkMode } = useContext(ThemeContext);
 	const [showModal, setShowModal] = useState(isShow);
