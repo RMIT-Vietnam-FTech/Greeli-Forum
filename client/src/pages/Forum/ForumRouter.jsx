@@ -17,7 +17,7 @@ export function ForumRouter() {
       className=" bg-greeli-subtle"
       data-bs-theme={isDarkMode ? "dark" : "light"}
     >
-      <section className="search-container d-block">
+      <section className="search-container d-flex justify-content-center w-100 pt-5">
         <SearchBar />
       </section>
       <section className="container-wrapper">
