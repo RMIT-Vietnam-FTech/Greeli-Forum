@@ -53,7 +53,7 @@ export default function CreateCommentEditor() {
 		}
 	}
 	return (
-		<div onClick={handleDisplay} className={"text-editor show-border"}>
+		<div onClick={handleDisplay} className={"text-editor text-greeli-emphasis show-border"}>
 			<EditorProvider
 				editorProps={{
 					attributes: {

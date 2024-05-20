@@ -16,7 +16,7 @@ import threadRoutes from "./routes/thread.js";
 import userRoutes from "./routes/user.js";
 import topicRoutes from "./routes/topic.js";
 import feedbackRoutes from "./routes/feedback.js"
-
+import forumRoutes from "./routes/forum.js";
 import commentRoutes from "./routes/comment.js";
 import { app, io, server } from "./socket/socket.js";
 
@@ -65,7 +65,7 @@ app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/admin/posts", adminPostRoutes);
 app.use("/api/v1/threads", threadRoutes);
 app.use("/api/v1/comments", commentRoutes);
-
+app.use("/api/v1/forums", forumRoutes);
 app.use("/api/v1/topics", topicRoutes);
 app.use("/api/v1/news", newsRoutes);
 app.use("/api/feedback", feedbackRoutes)

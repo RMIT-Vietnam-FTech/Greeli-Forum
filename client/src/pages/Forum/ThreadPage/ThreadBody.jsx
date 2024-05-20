@@ -18,29 +18,33 @@ const verifyAdminFetcher = async (url) => {
     })
     .then((res) => res.data.data);
 };
-const getMetadata = async (url) => {
+const getMetadata = async (isThreadAdmin, threadData) => {
+  const path = isThreadAdmin
+    ? `http://localhost:3001/api/v1/admin/posts?page=1&belongToThread=${threadData._id}`
+    : `http://localhost:3001/api/v1/posts?page=1&belongToThread=${threadData._id}`;
   return await axios
-    .get(url, {
-      headers: {
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("user")).token
-        }`,
-      },
-    })
+    .get(
+      path,
+      isThreadAdmin
+        ? {
+            headers: {
+              Authorization: `Bearer ${
+                JSON.parse(localStorage.getItem("user")).token
+              }`,
+            },
+          }
+        : null
+    )
     .then((res) => res.data.metadata);
 };
 
 export default function ThreadBody({ threadData }) {
-  const isThreadAdmin =
-    threadData.createdBy.userId == JSON.parse(localStorage.getItem("user")).id;
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isThreadAdmin = user && threadData.createdBy.userId == user.id;
   const [metadata, setMetadata] = useState();
   const [sortOption, setSortOption] = useState("Hot");
   useEffect(() => {
-    getMetadata(
-      isThreadAdmin
-        ? `http://localhost:3001/api/v1/admin/posts?page=1&belongToThread=${threadData._id}`
-        : `http://localhost:3001/api/v1/posts?page=1&belongToThread=${threadData._id}`
-    ).then((res) => {
+    getMetadata(isThreadAdmin, threadData).then((res) => {
       setMetadata(res);
     });
   }, []);
@@ -93,7 +97,8 @@ export default function ThreadBody({ threadData }) {
         <div className="dropdown ms-3">
           <button
             className={
-              "btn  d-flex gap-1 bg-primary-green-300  d-flex rounded-5 px-4 "
+              "btn  d-flex gap-1 bg-forum-subtle text-white d-flex rounded-5 px-4 "
+
             }
             data-bs-toggle="dropdown"
           >
@@ -102,20 +107,35 @@ export default function ThreadBody({ threadData }) {
               <IoMdArrowDropdown />
             </div>
           </button>
-          <ul className="dropdown-menu">
+          <ul className="dropdown-menu bg-greeli-subtle">
             <li>
-              <a className={"dropdown-item"} onClick={()=>{setSortOption("Hot")}}>
+              <a
+                className={"dropdown-item"}
+                onClick={() => {
+                  setSortOption("Hot");
+                }}
+              >
                 Hot
               </a>
             </li>
             <li>
-              <a className={"dropdown-item"}  onClick={()=>{setSortOption("New")}}>
-               New 
+              <a
+                className={"dropdown-item"}
+                onClick={() => {
+                  setSortOption("New");
+                }}
+              >
+                New
               </a>
             </li>
             <li>
-              <a className={"dropdown-item"} onClick={()=>{setSortOption("Top")}}>
-               Top 
+              <a
+                className={"dropdown-item"}
+                onClick={() => {
+                  setSortOption("Top");
+                }}
+              >
+                Top
               </a>
             </li>
           </ul>
@@ -128,7 +148,7 @@ export default function ThreadBody({ threadData }) {
               <Post
                 key={postData._id}
                 postData={postData}
-                threadName={threadData.title}
+                threadId={threadData._id}
                 isThreadAdmin={isThreadAdmin}
               />
             );

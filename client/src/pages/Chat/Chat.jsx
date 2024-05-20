@@ -16,13 +16,12 @@ import Draggable, { DraggableCore } from 'react-draggable';
 const Chat = () => {
 	const socket = useRef();
 	const cookies = new Cookies();
-	const { user } = useUserContext();
+	const { user, error, setError } = useUserContext();
 	const [chats, setChats] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
 	const [onlineUsers, setOnlineUsers] = useState([]);
 	const [sendMessage, setSendMessage] = useState(null);
 	const [receiveMessage, setReceiveMessage] = useState(null);
-	const [error, setError] = useState("");
 	const [userList, setUserList] = useState([]);
 	const [updateChat, setUpdateChat] = useState(0);
 	const userId = JSON.parse(user).id;
@@ -49,10 +48,6 @@ const Chat = () => {
 			setOnlineUsers(activeUsers);
 			// console.log(onlineUsers);
 		});
-
-		return () => {
-			socket.current.off("get-users");
-		};
 	}, [socket.current]);
 
 	useEffect(() => {
@@ -75,7 +70,7 @@ const Chat = () => {
 				});
 		};
 		getChats();
-	}, [userId, updateChat]);
+	}, [userId, updateChat, error]);
 
 	useEffect(() => {
 		if (socket.current === null) return;
@@ -127,7 +122,7 @@ const Chat = () => {
 				});
 		};
 		getAllUsers();
-	}, []);
+	}, [error]);
 
 
 
@@ -306,7 +301,7 @@ const Chat = () => {
 					</div>
 				</div>
 			</div>
-			{/* {error && <LoginPopup isShow={true} />} */}
+			{error && <LoginPopup isShow={true} />}
 		</div>
 	);
 };

@@ -22,16 +22,19 @@ import PostPage from "./pages/Forum/PostPage/PostPage.jsx";
 import ThreadPage from "./pages/Forum/ThreadPage/ThreadPage.jsx";
 import Upload from "./pages/UploadImage/Upload.jsx";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
+import { ForumRouter } from "./pages/Forum/ForumRouter.jsx";
 function App() {
 	let location = useLocation();
 	const [isForum, setIsForum] = useState(false);
 	useEffect(() => {
-		if (location.pathname === "/forum") {
+	console.log(`check location pathname: ${location.pathname}\n check isForum: ${isForum}`);
+		if (location.pathname.split("/")[1] == "forum") {
 			setIsForum(true);
 		} else {
 			setIsForum(false);
 		}
 	}, [location.pathname]);
+	
 	return (
 		<div className="App w-100">
 			<ThemeProvider>
@@ -52,10 +55,8 @@ function App() {
 								<Route path="/user/:userId" element={<Profile />} />
 								<Route path="/chat" element={<Chat />} />
 							</Route>
-							<Route path="/forum">
-								<Route index element={<DashBoardPage />} />
-								<Route path="threads/:threadId" element={<ThreadPage />} />
-								<Route path="posts/:postId" element={<PostPage />} />
+							<Route path="/forum/*" element={<ForumRouter/>}>
+							
 							</Route>
 							<Route path="*" element={<ErrorPage />} />
 						</Routes>
