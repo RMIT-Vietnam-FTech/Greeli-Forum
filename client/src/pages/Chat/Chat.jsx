@@ -139,7 +139,7 @@ const Chat = () => {
 	// }, [query])
 
 	const checkOnlineStatus = (chat) => {
-		const chatMember = chat.members.find((member) => member !== userId);
+		const chatMember = chat?.members.find((member) => member !== userId);
 		const online = onlineUsers.find((user) => user.userId === chatMember);
 		return !!online;
 	};

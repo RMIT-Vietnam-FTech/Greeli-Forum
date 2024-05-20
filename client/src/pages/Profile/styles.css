@@ -117,6 +117,9 @@
 	border-radius: 50%;
 	cursor: pointer;
 }
+.place {
+	background-color: none;
+}
 
 .avatar-image {
 	cursor: pointer;

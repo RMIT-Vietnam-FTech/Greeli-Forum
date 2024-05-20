@@ -167,7 +167,7 @@ const Profile = () => {
 				<Toaster />
 			</div>
 			<div className="row overflow-auto">
-				<div className="d-flex flex-column justify-content-between p-sm-5 pb-sm-0 p-4 pb-0 col-12 col-lg-7 full-height overflow-hidden">
+				<div className="d-flex flex-column justify-content-between p-sm-5 pb-sm-0 p-4 pb-0 col-12 col-lg-7 full-height overflow-hidden place">
 					<ProfileShow
 						userName={basicInfo.username}
 						profileImage={basicInfo.profileImage}
