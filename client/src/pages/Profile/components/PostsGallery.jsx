@@ -50,7 +50,7 @@ const PostGallery = (props) => {
 		const fetchCreatedPosts = async () => {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/user/${userId}/created_posts`,
+				url: `/api/user/${userId}/created_posts`,
 			};
 			await axios(configuration)
 				.then(async (response) => {
@@ -68,7 +68,7 @@ const PostGallery = (props) => {
 		const fetchArchivedPosts = async () => {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/user/${userId}/archived_posts`,
+				url: `/api/user/${userId}/archived_posts`,
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
