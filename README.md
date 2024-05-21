@@ -5,10 +5,17 @@
 # (2). Url of our Github repo: https://github.com/RMIT-Vietnam-Teaching/group-project-cosc3060-2024a-ftech
 # (3). Account for testing:
     - Normal User: 
+        - email: tomhuynh1@gmail.com
+        - password: TomHuynh1@gmail.com
     - Admin:
-# (4)     - admin database:
-        username: admin
-        password: admin
+        - email: tomhuynh2@gmail.com
+        - password: TomHuynh2@gmail.com
+    - Thread Admin: 
+        - email: tomhuynh3@gmail.com
+        - password: TomHuynh3@gmail.com
+# (4).  MongoDB Atlas database connection url: https://cloud.mongodb.com/v2/662388da5e13544ad4b3aced#
+        username: inventiongroupt1@gmail.com
+        password: nhi144a11112005
 # (5). MongoDB Compass database connection string: mongodb+srv://admin:admin@atlascluster.ob8wgnr.mongodb.net/forum?retryWrites=true&w=majority&appName=AtlasCluster
 # (6). How to run our website on localhost:
     - Download the project: https://github.com/RMIT-Vietnam-Teaching/group-project-cosc3060-2024a-ftech
