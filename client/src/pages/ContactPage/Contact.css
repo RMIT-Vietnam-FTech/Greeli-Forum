@@ -1,0 +1,46 @@
+@media screen and (max-width: 992px){
+    .contact-info {
+            width: 100% !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+    }
+}
+#floatingInput {
+    color: black !important;
+}
+
+.contact-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    transition: transform 0.3s;
+}
+
+.contact-info:hover {
+    transform: scale(1.05);
+}
+
+.icon-container {
+    flex-shrink: 0;
+}
+
+.icon-container svg {
+    transition: background-color 0.5s, color 0.5s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.content-container {
+    margin-left: 15px;
+}
+
+.content-container h4 {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+
+ 

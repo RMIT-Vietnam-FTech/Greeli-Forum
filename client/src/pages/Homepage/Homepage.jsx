@@ -9,6 +9,7 @@ function Homepage() {
 			<Header />
 			<Main />
 			<Jumbotron />
+			{/* <SearchBar /> */}
 		</div>
 	);
 }
