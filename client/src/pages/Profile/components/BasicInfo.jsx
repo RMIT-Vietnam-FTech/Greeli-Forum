@@ -1,5 +1,6 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import {
 	MdCheckCircle,
 	MdEmail,
@@ -38,6 +39,11 @@ const BasicInfo = (props) => {
 				...basicInfo,
 				gender: newInput,
 			};
+		} else if (type === "description") {
+			newBasicInfo = {
+				...basicInfo,
+				description: newInput,
+			};
 		}
 		// console.log(newBasicInfo);
 		updateBasicInfo(newBasicInfo);
@@ -59,6 +65,7 @@ const BasicInfo = (props) => {
 	if (isEditing) {
 		return (
 			<div className="container-fluid text-white info-item py-2">
+				<Toaster />
 				<div className="row d-flex flex-row align-items-center g-1">
 					<div className="col-1 text-greeli-emphasis" aria-hidden="true">
 						{iconArray[id]}
@@ -69,7 +76,7 @@ const BasicInfo = (props) => {
 					<input
 						type="text"
 						id={`info-input-${id}`}
-						className="col-8 px-2  text-greeli-emphasis border-input-change-pass"
+						className="col-9 px-2  text-greeli-emphasis border-input-change-pass"
 						value={currentInput}
 						onChange={handleInput}
 						style={{
@@ -81,7 +88,7 @@ const BasicInfo = (props) => {
 					<MdCheckCircle
 						// role="button"
 						type="submit"
-						size={"2vw"}
+						size={"28px"}
 						tabIndex={0}
 						className="col-2 text-greeli-emphasis"
 						onClick={(e) => {
@@ -117,7 +124,7 @@ const BasicInfo = (props) => {
 					</p>
 					{isMe && (
 						<button
-							className="col-2 btn btn-link p-0 text-decoration-none text-greeli-emphasis"
+							className="text-center col-2 btn btn-link p-0 text-decoration-none text-greeli-emphasis"
 							onClick={() => {
 								setIsEditing(true);
 							}}
