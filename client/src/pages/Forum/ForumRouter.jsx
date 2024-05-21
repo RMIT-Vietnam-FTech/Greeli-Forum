@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import LeftSideBar from "../../components/forum/LeftSideBar";
 import RightSideBarThread from "../../components/forum/RightSideBarThread";
 import RightSideBarForum from "../../components/forum/RightSideBarForum";
+import SearchBar from "../../components/Search/Search";
 import ThreadPage from "./ThreadPage/ThreadPage";
 import DashBoardPage from "./DashBoardPage";
 import PostPage from "./PostPage/PostPage";
@@ -19,7 +20,10 @@ export function ForumRouter() {
       data-bs-theme={isDarkMode ? "dark" : "light"}
     >
       <PopupContextProvider>
-        <section className="container-wrapper">
+        <section className="search-container d-flex justify-content-center w-100 pt-5">
+        <SearchBar />
+      </section>
+      <section className="container-wrapper">
           <section className="left-sidebar bg-forum-subtle">
             <LeftSideBar />
           </section>

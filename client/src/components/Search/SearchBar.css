@@ -1,0 +1,13 @@
+input:focus {
+    outline: none;
+}
+
+[data-bs-theme="dark"] .search-wrapper {
+    border: 3px solid #ffffff !important;
+    /* Dark mode border color */
+}
+
+[data-bs-theme="light"] .search-wrapper {
+    border: 3px solid #365949 !important;
+    /* Dark mode border color */
+}
