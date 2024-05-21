@@ -8,7 +8,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import Avatar from "react-avatar-edit";
 const ProfileShow = (props) => {
 	const [file, setFile] = useState();
-	const { user, error, setError } = useUserContext();
+	const { user, error, setError, setProfileImage } = useUserContext();
 	const [src, setSrc] = useState(null);
 	const [preview, setPreview] = useState("");
 	const { isDarkMode } = useContext(ThemeContext);
@@ -28,16 +28,20 @@ const ProfileShow = (props) => {
 		axios(configuration)
 			.then((result) => {
 				toast.success("Successfully Uploaded!", {
+					duration: 2000,
+					position: "top-center",
+				});
+				setProfileImage("true")
+				console.log(result.data);
+				// setTimeout(() => {
+				// 	window.location.reload();
+				// }, 2000)
+			})
+			.catch((error) => {
+				toast.error("Upload failed, choose another file!", {
 					duration: 3000,
 					position: "top-center",
 				});
-				console.log(result.data);
-			})
-			.catch((error) => {
-				// toast.error(error.response.data.error, {
-				// 	duration: 3000,
-				// 	position: "top-center",
-				// });
 				console.log(error);
 			});
 	};
@@ -157,6 +161,7 @@ const ProfileShow = (props) => {
 							<form>
 								<input
 									type="file"
+									accept="image/*"
 									name="image"
 									onChange={(e) => {
 										setFile(e.target.files[0]);

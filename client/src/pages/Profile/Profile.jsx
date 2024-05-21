@@ -16,7 +16,7 @@ import Cookies from "universal-cookie";
 const Profile = () => {
 	const userData = demoUserInfo[0];
 	const navigate = useNavigate();
-
+	const { profileImage } = useUserContext();
 	const [basicInfo, setBasicInfo] = useState({});
 
 	// GET ID FROM LOCAL STORAGE
@@ -86,7 +86,7 @@ const Profile = () => {
 		}
 
 		fetchUser();
-	}, [userId, isMe]);
+	}, [userId, isMe, profileImage]);
 	// ----------------------------
 
 	// LET USER EDIT THEIR INFO
