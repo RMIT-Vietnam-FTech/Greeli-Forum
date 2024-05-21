@@ -135,13 +135,12 @@ const ChangePassword = (props) => {
 						)}
 					</div>
 					<div className="row d-flex flex-row justify-content-end g-1 mt-3">
-						<Button
+						<button
 							type="submit"
-							className="col-4 mx-3"
-							variant="primary-green"
+							className="col-4 mx-3 p-2 bg-primary-green-400 text-white rounded-pill border-none theme-button"
 						>
 							Change Password
-						</Button>
+						</button>
 					</div>
 				</form>
 			</div>
@@ -151,7 +150,7 @@ const ChangePassword = (props) => {
 			<div className="d-flex justify-content-between">
 				<p className="text-greeli-emphasis">Password</p>
 				<button
-					className="bg-primary-green-400 text-white rounded-pill border-none theme-button"
+					className="bg-primary-green-400 p-2 text-white rounded-pill border-none theme-button"
 					onClick={() => {
 						setIsEditing(true);
 					}}
