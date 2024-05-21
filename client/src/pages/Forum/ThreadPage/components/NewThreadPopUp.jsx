@@ -107,12 +107,14 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
 
   if (!isOpen) return null;
   return ReactDom.createPortal(
-    <section className="modal-wrapper">
+    <section
+    tabIndex="0"
+    className="modal-wrapper">
       <section
         id="post-modal"
         className="bg-primary-green-900 w-75 p-2 d-flex flex-column align-items-end position-relative"
       >
-        <Slider className="w-100" {...settings}>
+        <Slider tabIndex="0" className="w-100" {...settings}>
           <div tabIndex="0">
             {/* First slide */}
             <div className="w-100 d-flex justify-content-between">

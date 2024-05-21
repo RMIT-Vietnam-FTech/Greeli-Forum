@@ -79,7 +79,7 @@ export default function DropZoneFile({ file, setFile, isReset }) {
 
 	return (
 		<>
-			<div className="w-100" {...getRootProps({ style })}>
+			<div tabIndex="0" className="w-100" {...getRootProps({ style })}>
 				<input {...getInputProps()} name="uploadFile" />
 				{!file ? (
 					<h4>Drop or Drag or click to Upload</h4>
