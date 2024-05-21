@@ -6,23 +6,34 @@ import { IoIosArrowDown } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
 
 import NewThreadPopUp from "../../pages/Forum/ThreadPage/components/NewThreadPopUp";
+import { NavLink } from "react-router-dom";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 const validatedFetcher = (url) => {
-	return axios
-		.get(url, {
-			headers: {
-				Authorization: `Bearer ${
-					JSON.parse(localStorage.getItem("user")).token
-				}`,
-			},
-		})
-		.then((res) => res.data);
+  return axios
+    .get(url, {
+      headers: {
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("user")).token
+        }`,
+      },
+    })
+    .then((res) => res.data);
 };
 export default function LeftSideBar() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <section className="w-100 d-flex flex-column px-2 pb-3 overflow-scroll-y">
       <PersonalThreadList>
+        <button
+          className="w-100 bg-primary-yellow text-dark rounded-2 border-0"
+          style={{ borderWidth: "0.5px" }}
+          onClick={() => {
+            setIsOpen(true);
+          }}
+        >
+          Create Thread <IoAdd />
+        </button>
         <CreatedThread />
         <FollowingThread />
       </PersonalThreadList>
@@ -30,6 +41,7 @@ export default function LeftSideBar() {
       <TopicList>
         <ThreadList />
       </TopicList>
+      <NewThreadPopUp isOpen={isOpen} setIsOpen={setIsOpen} />
     </section>
   );
 }
@@ -40,14 +52,14 @@ function PersonalThreadList({ children }) {
         <section className=" w-100 pb-4 border-bottom  border-secondary">
           {/*collapse header*/}
           <a
-            className="w-100 d-flex justify-content-between align-items-center text-primary-yellow"
+            className="w-100 d-flex justify-content-between text-primary-yellow"
             data-bs-toggle="collapse"
             href="#collapse-tracking"
             role="button"
             aria-expanded="false"
             aria-controls="collapseExample"
           >
-            <a>Peronsonal Tracking</a>
+            <a style={{ fontSize: "18px" }}>Tracking</a>
             <p className="m-0 p-0">
               <IoIosArrowDown />
             </p>
@@ -55,7 +67,7 @@ function PersonalThreadList({ children }) {
 
           {/*collapse body*/}
           <div className="collapse show" id="collapse-tracking">
-          {children}
+            {children}
           </div>
         </section>
       </>
@@ -64,7 +76,6 @@ function PersonalThreadList({ children }) {
 }
 
 function CreatedThread() {
-  const [isOpen, setIsOpen] = useState(false);
   const path = `http://localhost:3001/api/user/${
     JSON.parse(localStorage.getItem("user")).id
   }/created_threads`;
@@ -95,52 +106,48 @@ function CreatedThread() {
       </a>
 
       {/*collapse body*/}
-      <div className="ms-3 collapse border-left-gray" id="collapse-created-thread">
+      <div
+        className="ms-3 collapse border-left-gray"
+        id="collapse-created-thread"
+      >
         <div
-          onClick={() => {
-            setIsOpen(true);
-          }}
           className="w-100 d-flex flex-column justify-content-between text-white cursor-pointer"
+          style={{ gap: "20px", marginBottom: "20px" }}
         >
-          <p className="m-0 p-0 mb-4">
-            Create Thread <IoAdd />
-          </p>
           {data.map((thread) => {
             return (
-              <a
+              <NavLink
                 key={thread._id}
-                href={`http://localhost:3000/forum/threads/${thread._id}`}
-                className="d-block text-white mb-4"
+                to={`/forum/threads/${thread._id}`}
+                className="d-block text-white"
               >
                 {thread.title}
-              </a>
+              </NavLink>
             );
           })}
         </div>
       </div>
-
-      <NewThreadPopUp isOpen={isOpen} setIsOpen={setIsOpen} />
     </>
   );
 }
 function FollowingThread() {
-	const path = `http://localhost:3001/api/user/${
-		JSON.parse(localStorage.getItem("user")).id
-	}/follow_threads`;
+  const path = `http://localhost:3001/api/user/${
+    JSON.parse(localStorage.getItem("user")).id
+  }/follow_threads`;
 
-	const { data, error, isLoading } = useSwr(path, validatedFetcher);
-	if (error) {
-		return <div>is error</div>;
-	}
-	if (isLoading) {
-		return <div>is loading</div>;
-	}
+  const { data, error, isLoading } = useSwr(path, validatedFetcher);
+  if (error) {
+    return <div>is error</div>;
+  }
+  if (isLoading) {
+    return <div>is loading</div>;
+  }
 
   return (
     <>
       {/*collapse header*/}
       <a
-        className="w-100 d-flex justify-content-between align-items-center text-white "
+        className="w-100 d-flex justify-content-between  align-items-center text-white "
         data-bs-toggle="collapse"
         href="#collapse-following-thread"
         role="button"
@@ -154,17 +161,23 @@ function FollowingThread() {
       </a>
 
       {/*collapse body*/}
-      <div className="ms-3 collapse  border-left-gray" id="collapse-following-thread">
-        <div>
+      <div
+        className="ms-3 collapse  border-left-gray"
+        id="collapse-following-thread"
+      >
+        <div
+          className="w-100 d-flex flex-column justify-content-between "
+          style={{ gap: "20px"}}
+        >
           {data.map((thread) => {
             return (
-              <a
+              <NavLink
                 key={thread._id}
-                href={`http://localhost:3000/forum/threads/${thread._id}`}
-                className="d-block text-white mb-4"
+                to={`http://localhost:3000/forum/threads/${thread._id}`}
+                className="d-block text-white"
               >
                 {thread.title}
-              </a>
+              </NavLink>
             );
           })}
         </div>
@@ -185,7 +198,7 @@ function TopicList({ children }) {
         aria-expanded="false"
         aria-controls="collapseExample"
       >
-        <a>Topics</a>
+        <a style={{ fontSize: "18px" }}>Topic</a>
         <p className="m-0 p-0">
           <IoIosArrowDown />
         </p>
@@ -224,26 +237,23 @@ function ThreadList() {
               </p>
             </a>
 
-						{/*collapse body*/}
-						<div
-							className="collapse border-left-gray ms-3"
-							id={topic._id}
-						>
-							{topic.threads.map((thread) => {
-								return (
-									<a
-										key={thread._id}
-										href={`/forum/threads/${thread._id}`}
-										className="d-block text-white mb-4"
-									>
-										{thread.title}
-									</a>
-								);
-							})}
-						</div>
-					</div>
-				);
-			})}
-		</div>
-	);
+            {/*collapse body*/}
+            <div className="collapse border-left-gray ms-3" id={topic._id}>
+              {topic.threads.map((thread) => {
+                return (
+                  <NavLink
+                    key={thread._id}
+                    to={`/forum/threads/${thread._id}`}
+                    className="d-block text-white mb-4"
+                  >
+                    {thread.title}
+                  </NavLink>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }

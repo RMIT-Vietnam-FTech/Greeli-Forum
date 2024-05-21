@@ -94,14 +94,14 @@ export default function Comments({ postData, threadAdminId }) {
           <div className="d-flex gap-2 me-2">
             <Button
               onClick={handleApproved}
-              className="border-greeli rounded-circle bg-transparent text-error-emphasis"
+              className="border-greeli rounded-circle bg-transparent text-forum-emphasis"
             >
               <IoMdCheckmark />
             </Button>
 
             <Button
               onClick={handleUnApproved}
-              className="border-greeli rounded-circle bg-transparent text-error-emphasis"
+              className="border-greeli rounded-circle bg-transparent text-forum-emphasis"
             >
               <IoMdClose />
             </Button>
@@ -113,7 +113,7 @@ export default function Comments({ postData, threadAdminId }) {
               JSON.parse(localStorage.getItem("user")).id ? (
               <div className="d-flex align-items-center">
                 <p
-                  className={`text-error-emphasis p-0 m-0 ${
+                  className={`text-forum-emphasis p-0 m-0 ${
                     isApproved ? null : "opacity-25"
                   }`}
                 >
@@ -155,7 +155,7 @@ function ButtonComment({ commentLength }) {
     <button
       onClick={handlePopup}
       href="#comment-section"
-      className=" px-1 rounded-5 border border-primary-green bg-transparent text-error-emphasis d-flex align-items-center gap-2"
+      className=" px-1 rounded-5 border border-primary-green bg-transparent text-forum-emphasis d-flex align-items-center gap-2"
       style={{ fontSize: "14px" }}
     >
       {commentLength} <FaCommentAlt className="me-2" />

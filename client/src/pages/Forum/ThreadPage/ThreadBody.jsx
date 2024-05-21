@@ -124,7 +124,7 @@ export default function ThreadBody({ threadData }) {
 							<IoMdArrowDropdown />
 						</div>
 					</button>
-					<ul className="dropdown-menu bg-greeli-subtle">
+					<ul className="dropdown-menu bg-forum-subtle">
 						<li>
 							<a
 								className={"dropdown-item"}
@@ -160,7 +160,16 @@ export default function ThreadBody({ threadData }) {
 
         {/*Post items*/}
         <div>
-          {issues.map((postData) => {
+          {searchResult.length> 0 ? searchResult.map((postData) => {
+            return (
+              <Post
+                key={postData._id}
+                postData={postData}
+                threadId={threadData._id}
+                isThreadAdmin={isThreadAdmin}
+              />
+            );
+          }): issues.map((postData) => {
             return (
               <Post
                 key={postData._id}

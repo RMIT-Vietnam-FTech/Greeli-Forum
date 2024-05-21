@@ -9,7 +9,7 @@ export const useUserContext = () => {
 export const UserContextProvider = ({ children }) => {
 	const [user, setUser] = useState(localStorage.getItem("user") || null);
 	const [error, setError] = useState("");
-	const [searchTerm, setSearchTerm] = useState("");
+	const [searchTerm, setSearchTerm] = useState();
 	useEffect(() => {
 		localStorage.setItem("user", user);
 	}, [user]);
