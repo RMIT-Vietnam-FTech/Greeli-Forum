@@ -46,7 +46,7 @@ export default function ReplyEditor({ parentId }) {
 	];
 	const editContext = useContext(EditContext);
 	return (
-		<div className={"text-editor show-border mt-2"}>
+		<div className={"text-editor text-greeli-emphasis show-border mt-2"}>
 			<EditorProvider
 				editorProps={{
 					attributes: {

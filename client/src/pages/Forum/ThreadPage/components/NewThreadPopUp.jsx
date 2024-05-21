@@ -109,7 +109,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
     <section className="modal-wrapper">
       <section
         id="post-modal"
-        className="bg-primary-green-900 p-3 d-flex flex-column align-items-end "
+        className="bg-primary-green-900 w-75 p-2 d-flex flex-column align-items-end position-relative"
       >
         <Slider className="w-100" {...settings}>
           <div>
@@ -247,76 +247,76 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
               </div>
             </div>
 
-						<div className="w-100 mt-3 d-flex gap-1 flex-wrap">
-							{/*Default topics*/}
-							{defaultTopics.map((defaultTopic) => {
-								return (
-									<AddedButton
-										topicName={defaultTopic}
-										addedTopics={addedTopics}
-										setAddedTopics={setAddedTopics}
-									/>
-								);
-							})}
-						</div>
-					</div>
-				</Slider>
-			</section>
-		</section>,
-		document.querySelector("body"),
-	);
+            <div className="w-100 mt-3 d-flex gap-1 flex-wrap">
+              {/*Default topics*/}
+              {defaultTopics.map((defaultTopic) => {
+                return (
+                  <AddedButton
+                    topicName={defaultTopic}
+                    addedTopics={addedTopics}
+                    setAddedTopics={setAddedTopics}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </Slider>
+      </section>
+    </section>,
+    document.querySelector("body")
+  );
 }
 
 function AddedButton({ topicName, addedTopics, setAddedTopics }) {
-	function handleAddBtn(topic) {
-		setAddedTopics([...addedTopics, topic]);
-	}
-	function handleRemoveBtn(topic) {
-		const copyTopics = [...addedTopics];
-		copyTopics.splice([...copyTopics].indexOf(topic), 1);
-		setAddedTopics([...copyTopics]);
-	}
-	return (
-		<button
-			className="m-1 py-1 px-2 btn border border-none text-white d-flex align-items-center  gap-2"
-			style={{ borderRadius: "30px" }}
-			onClick={
-				addedTopics.includes(topicName)
-					? () => {
-							handleRemoveBtn(topicName);
-						}
-					: () => {
-							handleAddBtn(topicName);
-						}
-			}
-			value={topicName}
-		>
-			<p className="m-0">{topicName}</p>
-			{addedTopics.includes(topicName) ? <p className="m-0">-</p> : null}
-		</button>
-	);
+  function handleAddBtn(topic) {
+    setAddedTopics([...addedTopics, topic]);
+  }
+  function handleRemoveBtn(topic) {
+    const copyTopics = [...addedTopics];
+    copyTopics.splice([...copyTopics].indexOf(topic), 1);
+    setAddedTopics([...copyTopics]);
+  }
+  return (
+    <button
+      className="m-1 py-1 px-2 btn border border-none text-white d-flex align-items-center  gap-2"
+      style={{ borderRadius: "30px" }}
+      onClick={
+        addedTopics.includes(topicName)
+          ? () => {
+              handleRemoveBtn(topicName);
+            }
+          : () => {
+              handleAddBtn(topicName);
+            }
+      }
+      value={topicName}
+    >
+      <p className="m-0">{topicName}</p>
+      {addedTopics.includes(topicName) ? <p className="m-0">-</p> : null}
+    </button>
+  );
 }
 
 function RemovedButton({ topicName, addedTopics, setAddedTopics }) {
-	function handleRemoveBtn(topic) {
-		const copyTopics = [...addedTopics];
-		console.log("copy topic in remove button:" + copyTopics);
-		copyTopics.splice([...copyTopics].indexOf(topic), 1);
-		setAddedTopics([...copyTopics]);
-	}
-	return (
-		<button
-			className="m-1 py-1 px-2 btn btn-primary-green-300 text-dark border border-none d-flex align-items-center  gap-2"
-			style={{ borderRadius: "30px" }}
-			onClick={() => {
-				handleRemoveBtn(topicName);
-			}}
-			value={topicName}
-		>
-			<p className="m-0">{topicName}</p>
-			<p className="m-0">-</p>
-		</button>
-	);
+  function handleRemoveBtn(topic) {
+    const copyTopics = [...addedTopics];
+    console.log("copy topic in remove button:" + copyTopics);
+    copyTopics.splice([...copyTopics].indexOf(topic), 1);
+    setAddedTopics([...copyTopics]);
+  }
+  return (
+    <button
+      className="m-1 py-1 px-2 btn btn-primary-green-300 text-dark border border-none d-flex align-items-center  gap-2"
+      style={{ borderRadius: "30px" }}
+      onClick={() => {
+        handleRemoveBtn(topicName);
+      }}
+      value={topicName}
+    >
+      <p className="m-0">{topicName}</p>
+      <p className="m-0">-</p>
+    </button>
+  );
 }
 function NextArrow(props) {
   const { onClick, isNext, setIsNext, handleData, isDisable } = props;
@@ -325,7 +325,7 @@ function NextArrow(props) {
       <button
         disabled={isDisable}
         className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 border-none position-absolute"
-        style={{ bottom: "-100px", left: "100px" }}
+        style={{ bottom: "-50px", left: "100px" }}
         onClick={
           isNext
             ? handleData
@@ -347,7 +347,7 @@ function PrevArrow(props) {
       <button
         disabled={!isNext}
         className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 text-dark  border-none position-absolute"
-        style={{ bottom: "-100px", left: "0" }}
+        style={{ bottom: "-50px", left: "0" }}
         onClick={() => {
           setIsNext(false);
         }}

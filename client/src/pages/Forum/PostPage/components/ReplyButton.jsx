@@ -20,7 +20,7 @@ export default function ReplyButton({ nOfReply }) {
   }
   return (
     <button
-      className="ms-2 px-2 rounded-5 text-error-emphasis  border border-primary-green bg-transparent"
+      className="ms-2 px-2 rounded-5 text-forum-emphasis  border border-primary-green bg-transparent"
       onClick={handleReply}
     >
       <FaCommentAlt className="me-2" />

@@ -97,6 +97,13 @@ const Login = () => {
 		}
 	};
 
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			onSubmit(handleSubmit(onSubmit));
+		}
+	}
+
 	return (
 		<main
 			className="container-fluid login"
@@ -125,6 +132,7 @@ const Login = () => {
 					<form
 						className="mt-4 mx-3 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
+						onKeyDown={handleKeyDown}
 						aria-label="login form"
 					>
 						<div

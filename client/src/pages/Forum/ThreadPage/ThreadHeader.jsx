@@ -13,7 +13,7 @@ import NewPostPopUp from "./components/NewPostPopUp";
 import { useLogin } from "../../../components/Popup/LoginPopup";
 import { PopupContext } from "../../../context/PopupContext";
 export default function ThreadHeader({ ...prop }) {
-  const { title, uploadFile, content, objectId } = prop;
+  const { title, uploadFile, content, objectId, createdBy} = prop;
 
   const popupContext = useContext(PopupContext);
 
@@ -131,7 +131,7 @@ export default function ThreadHeader({ ...prop }) {
 							className="w-100 mt-4 bg-primary-green-600 rounded-3 d-flex justify-content-center overflow-hidden"
 							style={{ height: "400px" }}
 						>
-							<ImageOrVideo src={uploadFile} isPost={false} />
+							<ImageOrVideo src={createdBy.username} isPost={false} />
 						</div>
 					) : null}
 

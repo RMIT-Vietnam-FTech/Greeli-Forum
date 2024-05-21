@@ -26,6 +26,7 @@ export default function ThreadPage() {
 				uploadFile={data.uploadFile}
 				content={data.content}
 				objectId={data._id}
+        createdBy={data.createdBy}
 			/>
 			<ThreadBody threadData={data} />
 		</>

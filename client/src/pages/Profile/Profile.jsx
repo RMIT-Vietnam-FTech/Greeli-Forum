@@ -57,6 +57,7 @@ const Profile = () => {
 						isLocked,
 						createdPost,
 						createdThread,
+						createdAt,
 						archievedPost,
 						followThread,
 					} = user;
@@ -88,6 +89,7 @@ const Profile = () => {
 						createdThread: createdThread,
 						archievedPost: archievedPost,
 						followThread: followThread,
+						joinedDate: createdAt.substring(0, 10),
 					};
 				})
 				.catch((error) => {
@@ -216,9 +218,11 @@ const Profile = () => {
 						userName={basicInfo.username}
 						profileImage={basicInfo.profileImage}
 						role={basicInfo.role}
-						threadsNum={userData.threadsNum}
-						postsNum={userData.postsNum}
-						joinedDate={userData.joinedDate}
+						threadsNum={
+							basicInfo.createdThread ? basicInfo.createdThread.length : 0
+						}
+						postsNum={basicInfo.createdPost ? basicInfo.createdPost.length : 0}
+						joinedDate={basicInfo.joinedDate}
 					/>
 					<div className="btn-chat-container d-flex justify-content-center mt-3">
 						{/* Deactivate/ Chat with user button */}
@@ -237,6 +241,9 @@ const Profile = () => {
 							<button
 								className="bg-primary-yellow text-black rounded-pill mt-5 py-2 d-lg-none d-block"
 								aria-label="Chat with this user"
+								onClick={() => {
+									navigate(`/chat`, { root: true });
+								}}
 							>
 								Chat with this user
 							</button>
@@ -280,7 +287,7 @@ const Profile = () => {
 								id={0}
 								type="description"
 								basicInfo={basicInfo}
-								// updateBasicInfo={handleUpdateBasicInfo}
+								updateBasicInfo={handleUpdateBasicInfo}
 								toaster={Toaster}
 								isMe={isMe}
 							/>
@@ -348,7 +355,7 @@ const Profile = () => {
 							id={0}
 							type="description"
 							basicInfo={basicInfo}
-							// updateBasicInfo={handleUpdateBasicInfo}
+							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
 							isMe={isMe}
 						/>

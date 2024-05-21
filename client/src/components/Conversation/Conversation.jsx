@@ -54,7 +54,9 @@ const Conversation = ({ data, currentUserId, online, isActive }) => {
 							}`}
 						/>
 						<div className="conversation-info">
-							<div className="conversation-name">
+							<div className={`${
+									isDarkMode ? "conversation-name-dark" : "conversation-name-light"
+								} conversation-name ${isActive ? "active" : ""}`}>
 								{userData.username || "Unknown"}
 							</div>
 							<div
