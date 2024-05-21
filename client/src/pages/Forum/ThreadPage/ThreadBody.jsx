@@ -94,6 +94,7 @@ export default function ThreadBody({ threadData }) {
 			isThreadAdmin ? verifyAdminFetcher : fetcher,
 		);
 
+//   setSearchResult(issues);
   const issues = data ? [].concat(...data) : [];
   useEffect(() => {
     console.log(searchTerm);

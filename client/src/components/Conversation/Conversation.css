@@ -23,7 +23,16 @@
 .conversation-dark.active {
     background-color: #e0f7fa;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #0A2A28;
 }
+.conversation-name-dark {
+    color: #e0f7fa;
+}
+
+.conversation-name-dark.active {
+    color: #0A2A28;
+}
+
 
 .conversation-light.active {
     background-color: #9CCDAD;

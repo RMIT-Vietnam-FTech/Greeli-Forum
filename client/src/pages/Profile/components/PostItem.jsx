@@ -1,4 +1,4 @@
-import { IoMdMore } from "react-icons/io";
+import { IoIosMore } from "react-icons/io";
 import { MdInsertComment, MdShare } from "react-icons/md";
 import { TbArrowBigUp } from "react-icons/tb";
 import { useEffect, useState } from "react";
@@ -53,7 +53,7 @@ const PostItem = (props) => {
 					aria-label="More options"
 					className="btn btn-link p-0 text-decoration-none"
 				>
-					<IoMdMore size={"28px"} color={"white"} />
+					<IoIosMore size={"28px"} color={"white"} />
 				</button>
 			</div>
 			<div className="d-flex w-100 container post-main-container">
