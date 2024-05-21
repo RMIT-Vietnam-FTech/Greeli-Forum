@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 
@@ -56,6 +56,7 @@ const ChangePassword = (props) => {
 	if (isEditing) {
 		return (
 			<div className="container-fluid text-greeli-emphasis info-item py-2">
+				<Toaster />
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					aria-label="Change Password Form"
@@ -104,8 +105,7 @@ const ChangePassword = (props) => {
 								},
 								minLength: {
 									value: 8,
-									message:
-										"This input must exceed 8 characters",
+									message: "This input must exceed 8 characters",
 								},
 								validate: (value) => {
 									if (value === oldPassword) {
