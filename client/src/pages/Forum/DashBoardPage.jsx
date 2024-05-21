@@ -8,11 +8,8 @@ import { useUserContext } from "../../context/UserContext";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 
-
 const getMetadata = async (url) => {
-  return await axios
-    .get(url)
-    .then((res) => res.data.metadata);
+	return await axios.get(url).then((res) => res.data.metadata);
 };
 
 export default function DashBoardPage() {
@@ -48,14 +45,14 @@ export default function DashBoardPage() {
   });
 
 
-  const { data, mutate, size, setSize, isValidating, isLoading } =
-    useSWRInfinite(
-      (index, prevData) =>
-        prevData && !prevData.length
-          ? null
-          : `http://localhost:3001/api/v1/posts?page=${
-              index + 1
-            }&sort=${sortOption}`,
+	const { data, mutate, size, setSize, isValidating, isLoading } =
+		useSWRInfinite(
+			(index, prevData) =>
+				prevData && !prevData.length
+					? null
+					: `http://localhost:3001/api/v1/posts?page=${
+							index + 1
+						}&sort=${sortOption}`,
 
       fetcher
     );

@@ -18,7 +18,9 @@ const ErrorPage = () => {
 					We are sorry but the page you requested was not found
 				</p>
 				<div>
-					<Button className="error-button rounded-pill">GO HOME</Button>{" "}
+					<Button className="error-button rounded-pill">
+						GO HOME
+					</Button>{" "}
 					<Button
 						className="error-button rounded-pill border-error text-login-emphasis"
 						variant="outline-primary-green"

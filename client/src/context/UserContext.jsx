@@ -19,7 +19,9 @@ export const UserContextProvider = ({ children }) => {
 	};
 
 	return (
-		<UserContext.Provider value={{ user, setUser, error, setError, toggleUserInfo, searchTerm, setSearchTerm }}>
+		<UserContext.Provider
+			value={{ user, setUser, error, setError, toggleUserInfo, searchTerm, setSearchTerm }}
+		>
 			{children}
 		</UserContext.Provider>
 	);

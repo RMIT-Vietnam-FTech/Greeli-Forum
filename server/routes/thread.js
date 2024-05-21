@@ -31,6 +31,8 @@ router
   .post(verifyToken, upload.single("uploadFile"), threadController.createThread)
   .delete(verifyToken, threadController.reset);
 
+router.post("/validation",verifyToken,threadController.validateThread);
+
 router
   .route("/:threadId")
   .get(threadController.getThread)

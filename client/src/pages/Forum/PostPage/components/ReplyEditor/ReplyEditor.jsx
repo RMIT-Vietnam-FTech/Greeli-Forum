@@ -20,7 +20,7 @@ lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);
 lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
-export default function ReplyEditor({parentId}) {
+export default function ReplyEditor({ parentId }) {
 	const placeholder = "Reply ...";
 	const commentParentId = parentId;
 

@@ -36,60 +36,66 @@ export default function Comment({ commentData }) {
   }
   return (
     <>
-      <ReplyContext.Provider
-        value={{ newReply, setNewReply, isReply, setIsReply }}
-      >
-        <div className="my-4 position-relative">
-          <div className="d-flex align-items-center gap-1">
-            {/* avatar */}
-            <div
-              className="rounded-circle overflow-hidden bg-secondary"
-              style={{ width: "30px", height: "30px" }}
-            >
-              {commentData.createdBy.profileImage ? (
-                <img
-                  className="w-100 h-100"
-                  src={commentData.createdBy.profileImage}
-                />
-              ) : null}
+        <ReplyContext.Provider
+          value={{ newReply, setNewReply, isReply, setIsReply }}
+        >
+          <div className="my-4 position-relative">
+            <div className="d-flex align-items-center gap-1">
+              {/* avatar */}
+              <div
+                className="rounded-circle overflow-hidden bg-secondary"
+                style={{ width: "30px", height: "30px" }}
+              >
+                {commentData.createdBy.profileImage ? (
+                  <img
+                    className="w-100 h-100"
+                    src={commentData.createdBy.profileImage}
+                  />
+                ) : null}
+              </div>
+
+              {/* username */}
+              <p
+                className="fw-bold m-0 text-forum-emphasis"
+                style={{ fontSize: "14px" }}
+              >
+                {commentData.createdBy.username}
+              </p>
             </div>
 
-            {/* username */}
-            <p className="fw-bold m-0 text-forum-emphasis" style={{ fontSize: "14px" }}>
-              {commentData.createdBy.username}
-            </p>
-          </div>
+            {/*content*/}
+            <div className="ms-4">
+              <EditContextProvider>
+                <TextEditor content={JSON.parse(commentData.content)} />
+              </EditContextProvider>
 
-          {/*content*/}
-          <div className="ms-4">
-            <EditContextProvider>
-              <TextEditor content={JSON.parse(commentData.content)} />
-            </EditContextProvider>
+              {/*upvote*/}
+              <ButtonUpvote
+                upvote={commentData.upvote}
+                commentId={commentData._id}
+              />
 
-            {/*upvote*/}
-            <ButtonUpvote
-              upvote={commentData.upvote}
-              commentId={commentData._id}
-            />
-
-            {/*reply*/}
-            <EditContextProvider>
-              <ReplyButton nOfReply={commentData.replies.length} />
-              {isReply ? <ReplyEditor parentId={commentData._id} /> : null}
-            </EditContextProvider>
+              {/*reply*/}
+              <EditContextProvider>
+                <ReplyButton nOfReply={commentData.replies.length} />
+                {isReply ? <ReplyEditor parentId={commentData._id} /> : null}
+              </EditContextProvider>
+            </div>
+            <div className="ms-5">
+              {newReply}
+              {data
+                ? data.map((commentData) => {
+                    return (
+                      <Comment
+                        key={commentData._id}
+                        commentData={commentData}
+                      />
+                    );
+                  })
+                : null}
+            </div>
           </div>
-          <div className="ms-5">
-            {newReply}
-            {data
-              ? data.map((commentData) => {
-                  return (
-                    <Comment key={commentData._id} commentData={commentData} />
-                  );
-                })
-              : null}
-          </div>
-        </div>
-      </ReplyContext.Provider>
+        </ReplyContext.Provider>
     </>
   );
 }
