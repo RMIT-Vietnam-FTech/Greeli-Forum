@@ -48,6 +48,7 @@ export default function InitialPost({ postData }) {
         {/*post body*/}
         <div className=" mt-3 w-100">
           <div
+          tabIndex="0"
             className="fs-4 fw-bold text-login-emphasis"
             style={{ wordBreak: "break-word" }}
           >
