@@ -77,10 +77,10 @@ const ProfileShow = (props) => {
 
 			<div className="d-flex flex-column justify-content-around">
 				<div>
-					<h2 className="text-white">{props.userName}</h2>
+					<h2 className="text-greeli-emphasis">{props.userName}</h2>
 					<div className="d-flex flex-row align-items-center">
 						<div
-							className="py-1 bg-primary-yellow text-white text-center rounded-pill role-container"
+							className="py-1 bg-primary-yellow text-greeli-emphasis  text-center rounded-pill role-container"
 							role="status"
 							aria-label={`Role: ${props.role}`}
 						>
@@ -96,7 +96,7 @@ const ProfileShow = (props) => {
 						/>
 					</div>
 				</div>
-				<div className="d-flex flex-row text-white text-center justify-content-between w-80 profile-figures">
+				<div className="d-flex flex-row text-greeli-emphasis  text-center justify-content-between w-80 profile-figures">
 					<div
 						className="d-flex flex-column w-auto"
 						role="status"
