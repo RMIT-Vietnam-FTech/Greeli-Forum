@@ -34,7 +34,7 @@ export default function DashBoardPage() {
         total = metadata.total;
       } else {
         limit = 10;
-        total = 21;
+        total = 11;
       }
       // console.log(`check size: ${size}\n check limit: ${limit}\n check total: ${total}`)
       if (inView && size * limit <= total) {

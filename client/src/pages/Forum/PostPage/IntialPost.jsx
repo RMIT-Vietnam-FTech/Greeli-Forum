@@ -4,6 +4,12 @@ import EditTextEditor from "../../../components/forum/EditTextEditor/EditTextEdi
 import ImageOrVideo from "../../../components/forum/ImageOrVideo";
 import { AuthorizationContextProvider } from "../../../context/AuthorizationContext";
 import { EditContextProvider } from "../../../context/EditContext";
+
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
+
 export default function InitialPost({ postData }) {
   return (
     <section className="w-100 position-relative">
@@ -12,9 +18,14 @@ export default function InitialPost({ postData }) {
           {/*post header*/}
           <div className="d-flex gap-2">
             <Avatar src={postData.createdBy.profileImage} />
-            <div className="h-auto ">
-              <p className="mb-0 text-general-emphasis">{postData.createdBy.username}</p>
-            </div>
+            <p className="mb-0 text-general-emphasis">
+              {postData.createdBy.username}
+            </p>
+            <li className="text-greeli-emphasis">
+              {postData.isApproved
+                ? dayjs().to(dayjs(postData.verifiedAt))
+                : dayjs().to(dayjs(postData.createdAt))}
+            </li>
           </div>
           <AuthorizationContextProvider
             componentType="post"
@@ -29,7 +40,12 @@ export default function InitialPost({ postData }) {
         </div>
         {/*post body*/}
         <div className=" mt-3 w-100">
-          <div className="fs-4 fw-bold text-forum-emphasis" style={{wordBreak:"break-word"}}>{postData.title}</div>
+          <div
+            className="fs-4 fw-bold text-forum-emphasis"
+            style={{ wordBreak: "break-word" }}
+          >
+            {postData.title}
+          </div>
 
           {postData.uploadFile ? (
             <div

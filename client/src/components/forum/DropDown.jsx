@@ -4,12 +4,7 @@ import { AuthorizationContext } from "../../context/AuthorizationContext";
 import { EditContext } from "../../context/EditContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-export default function DropDown({
-  isVertical,
-  componentType,
-  threadId,
-  postId,
-}) {
+export default function DropDown({ componentType, threadId, postId }) {
   const editContext = useContext(EditContext);
   const authorizationContext = useContext(AuthorizationContext);
   const [isSaved, setIsSaved] = useState(false);
@@ -116,27 +111,30 @@ export default function DropDown({
       console.error(error.message);
     }
   }
-  if(( JSON.parse(localStorage.getItem("user")) && (componentType=="post" || (componentType=="thread" && authorizationContext.isAuthor.current) ))){
-  return (
-    <div className="dropdown position-absolute">
-      <button
-        className={"btn btn-secondary d-flex gap-1 bg-transparent border-0 "}
-        data-bs-toggle="dropdown"
-      >
-        <div className={"dropdown-circle bg-login-subtle"} />
-        <div className={"dropdown-circle bg-login-subtle"} />
-        <div className={"dropdown-circle bg-login-subtle"} />
-      </button>
+  if (
+    JSON.parse(localStorage.getItem("user")) &&
+    (componentType == "post" ||
+      (componentType == "thread" && authorizationContext.isAuthor.current))
+  ) {
+    return (
+      <div className="dropdown position-absolute">
+        <button
+          className={"btn btn-secondary d-flex gap-1 bg-transparent border-0 "}
+          data-bs-toggle="dropdown"
+        >
+          <div className={"dropdown-circle bg-login-subtle"} />
+          <div className={"dropdown-circle bg-login-subtle"} />
+          <div className={"dropdown-circle bg-login-subtle"} />
+        </button>
 
-      <ul className="dropdown-menu bg-navbar-subtle">
-        {authorizationContext.isAuthor.current ? (
-          <li>
-            <a onClick={handleEdit} className={"dropdown-item"} href="#">
-              Edit
-            </a>
-          </li>
-        ) : null}
-        {componentType === "post" && authorizationContext.isAuthor.current && (
+        <ul className="dropdown-menu bg-navbar-subtle">
+          {authorizationContext.isAuthor.current ? (
+            <li>
+              <a onClick={handleEdit} className={"dropdown-item"} href="#">
+                Edit
+              </a>
+            </li>
+          ) : null}
           <li>
             <a
               className="dropdown-item"
@@ -146,18 +144,17 @@ export default function DropDown({
               {isSaved ? "unsaved" : "save"}
             </a>
           </li>
-        )}
-        <li>
-          {componentType === "post" &&
-            authorizationContext.isAuthor.current && (
-              <Link onClick={handleDelete} className="dropdown-item" to="../">
-                Delete
-              </Link>
-            )}
-        </li>
-      </ul>
-    </div>
-  );
-}
-return <></>
+          <li>
+            {componentType === "post" &&
+              authorizationContext.isAuthor.current && (
+                <Link onClick={handleDelete} className="dropdown-item" to="../">
+                  Delete
+                </Link>
+              )}
+          </li>
+        </ul>
+      </div>
+    );
+  }
+  return <></>;
 }
