@@ -34,7 +34,8 @@ const storage = multer.diskStorage({
 		cb(null, path.join(__dirname, "/server/public/image/avatar"));
 	},
 	filename: (req, file, cb) => {
-		cb(null, `${Date.now()}_${file.originalname}`);
+		const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+		cb(null, `${uniqueSuffix}_${file.originalname}`);
 	},
 });
 

@@ -97,6 +97,7 @@ export default function ThreadBody({ threadData }) {
 //   setSearchResult(issues);
   const issues = data ? [].concat(...data) : [];
   useEffect(() => {
+	console.log(issues)
     console.log(searchTerm);
     setSearchResult(issues.filter(( issue ) => issue.title.toLowerCase().includes(searchTerm)));
   }, [searchTerm]);
