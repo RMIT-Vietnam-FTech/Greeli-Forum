@@ -88,6 +88,7 @@ export default function Post({ postData, isThreadAdmin }) {
           )}
           {/* main */}
           <Link
+          aria-label="post"
             to={`/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
             className="w-100 position-relative d-flex justify-content-center text-white align-items-center"
           >
@@ -109,6 +110,8 @@ export default function Post({ postData, isThreadAdmin }) {
               {/*content*/}
 
               <p
+              tabIndex="0"
+              aria-label="post title"
                 className="m-0 mt-2 fw-bold"
                 style={{ wordBreak: "break-word" }}
               >
@@ -119,13 +122,13 @@ export default function Post({ postData, isThreadAdmin }) {
               <div className="d-flex mt-3 justify-content-between">
                 <div className="d-flex gap-2">
                   {/*button upvote*/}
-                  <button className=" px-3 d-flex align-items-center rounded-5 text-white border border-primary-green-900 bg-primary-green-900 ">
-                    <p className="m-0 p-0">{postData.upvote.length}</p>
+                  <button aria-label="upvote" className=" px-3 d-flex align-items-center rounded-5 text-white border border-primary-green-900 bg-primary-green-900 ">
+                    <p tabIndex="0" className="m-0 p-0">{postData.upvote.length}</p>
                     <ImArrowUp className="ms-2" />
                   </button>
                   {/**button comment*/}
-                  <button className=" px-3 d-flex align-items-center rounded-5 text-white border border-primary-green-900 bg-primary-green-900 ">
-                    <p className="m-0 p-0">{postData.comments.length}</p>
+                  <button aria-label="comment" className=" px-3 d-flex align-items-center rounded-5 text-white border border-primary-green-900 bg-primary-green-900 ">
+                    <p tabIndex="0" className="m-0 p-0">{postData.comments.length}</p>
                     <FaCommentAlt className="ms-2" />
                   </button>
                 </div>

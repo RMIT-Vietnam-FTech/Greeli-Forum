@@ -90,6 +90,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
     infinite: false,
     speed: 200,
     touchMove: false,
+    accessibility: false,
     slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: (
@@ -112,7 +113,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
         className="bg-primary-green-900 w-75 p-2 d-flex flex-column align-items-end position-relative"
       >
         <Slider className="w-100" {...settings}>
-          <div>
+          <div tabIndex="0">
             {/* First slide */}
             <div className="w-100 d-flex justify-content-between">
               <h2 className="text-white">Create Thread</h2>
@@ -129,7 +130,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
             </div>
 
             <DropZoneFile setFile={setFile} file={file} isReset={!isOpen} />
-            <div className="w-100 d-flex mt-3 position-relative">
+            <div  className="w-100 d-flex mt-3 position-relative">
               <label className="text-white d-flex align-items-center me-1 ">
                 <h4>
                   Title<span className="text-danger">*</span>
@@ -141,6 +142,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
                 name="title"
                 minLength={5}
                 maxLength={20}
+                aria-label="input thread title"
                 onFocus={() => {
                   const inputThreadTitle =
                     document.querySelector("#inputThreadTitle");
@@ -207,7 +209,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
             />
           </div>
           {/* Second slide */}
-          <div>
+          <div >
             <div className="w-100 d-flex justify-content-between">
               <h2 className="text-white">Add topic</h2>
               <button
