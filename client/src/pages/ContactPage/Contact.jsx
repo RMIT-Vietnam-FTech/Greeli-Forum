@@ -10,27 +10,24 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import "./Contact.css";
-
 const Contact = () => {
-	const { isDarkMode } = useContext(ThemeContext);
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [message, setMessage] = useState("");
-	const feedBackSchema = Yup.object().shape({
-		name: Yup.string().required("Your name is required"),
-		email: Yup.string()
-			.required("Your email is required")
-			.email("Email is invalid"),
-		message: Yup.string().required("Your message is required"),
-	});
-
-	const {
-		register,
-		handleSubmit,
-		reset,
-		formState: { errors },
-	} = useForm({ resolver: yupResolver(feedBackSchema) });
-
+  const { isDarkMode } = useContext(ThemeContext);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const feedBackSchema = Yup.object().shape({
+    name: Yup.string().required("Your name is required"),
+    email: Yup.string()
+      .required("Your email is required")
+      .email("Email is invalid"),
+    message: Yup.string().required("Your message is required"),
+  });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(feedBackSchema) });
   const feedback = () => {
     const configuration = {
       method: "post",
@@ -59,7 +56,6 @@ const Contact = () => {
         console.log(error.response.data.error);
       });
   };
-
   const submitFeedBack = () => {
     feedback();
     setName("");
@@ -71,7 +67,7 @@ const Contact = () => {
       <Toaster />
       <main
         className="container-fluid bg-primary-green"
-        data-bs-theme={isDarkMode ? "dark" : "light"}
+        // data-bs-theme={isDarkMode ? "dark" : "light"}
       >
         <div className="row justify-content-evenly">
           <div className="col-11 col-lg-5 flex-column my-lg-5 p-lg-5 rounded-4">

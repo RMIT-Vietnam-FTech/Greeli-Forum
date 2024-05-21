@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { useUserContext } from "../../../context/UserContext";
+
 
 const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 
@@ -39,10 +41,14 @@ const getMetadata = async (isThreadAdmin, threadData) => {
 };
 
 export default function ThreadBody({ threadData }) {
+  const { searchTerm } = useUserContext();
+  const [searchResult, setSearchResult] = useState([]);
+
 	const user = JSON.parse(localStorage.getItem("user"));
 	const isThreadAdmin = user && threadData.createdBy.userId == user.id;
 	const [metadata, setMetadata] = useState();
 	const [sortOption, setSortOption] = useState("Hot");
+  //Search data
 	useEffect(() => {
 		getMetadata(isThreadAdmin, threadData).then((res) => {
 			setMetadata(res);
@@ -88,11 +94,19 @@ export default function ThreadBody({ threadData }) {
 			isThreadAdmin ? verifyAdminFetcher : fetcher,
 		);
 
-	if (isLoading) {
-		return 0;
-	}
+//   setSearchResult(issues);
+  const issues = data ? [].concat(...data) : [];
+  useEffect(() => {
+    console.log(searchTerm);
+    setSearchResult(issues.filter(( issue ) => issue.title.toLowerCase().includes(searchTerm)));
+  }, [searchTerm]);
 
-	const issues = data ? [].concat(...data) : [];
+  if (isLoading) {
+    return 0;
+  }
+
+  // const issues = data ? [].concat(...data) : [];
+  // setSearchResult(issues.filter(( issue ) => issue.title.toLowerCase().includes(searchTerm)));
 
 	return (
 		<>
@@ -144,21 +158,21 @@ export default function ThreadBody({ threadData }) {
 					</ul>
 				</div>
 
-				{/*Post items*/}
-				<div>
-					{issues.map((postData) => {
-						return (
-							<Post
-								key={postData._id}
-								postData={postData}
-								threadId={threadData._id}
-								isThreadAdmin={isThreadAdmin}
-							/>
-						);
-					})}
-				</div>
-				<div className="mt-2" ref={ref}></div>
-			</div>
-		</>
-	);
+        {/*Post items*/}
+        <div>
+          {issues.map((postData) => {
+            return (
+              <Post
+                key={postData._id}
+                postData={postData}
+                threadId={threadData._id}
+                isThreadAdmin={isThreadAdmin}
+              />
+            );
+          })}
+        </div>
+        <div className="mt-2" ref={ref}></div>
+      </div>
+    </>
+  );
 }

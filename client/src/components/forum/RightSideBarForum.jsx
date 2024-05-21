@@ -42,35 +42,35 @@ function ForumStatistic() {
 }
 
 function ForumLeaderBoard() {
-	const path = `/api/v1/forums/leaderboard`;
-	const { data, error, isLoading } = useSWR(path, fetcher);
-	if (isLoading) {
-		return 0;
-	}
-	return (
-		<div
-			className="mt-4 w-100 bg-forum-subtle d-flex flex-column gap-2 align-items-start overflow-scroll-y h-75"
-			style={{ borderRadius: "20px" }}
-		>
-			{data.map((leadeboard, index) => {
-				return (
-					<div
-						key={leadeboard._id}
-						className="w-100 d-flex align-items-center py-2 justify-content-between text-white"
-					>
-						<div
-							className="ms-2 d-flex gap-2 align-items-center justify-content-between"
-							style={{ width: "30%" }}
-						>
-							<Avatar src={leadeboard.profileImage} />
-							<div>{index + 1}</div>
-						</div>
-						<div style={{ fontSize: "12px", width: "60%" }}>
-							{leadeboard.username}
-						</div>
-					</div>
-				);
-			})}
-		</div>
-	);
+  const path = `/api/v1/forums/leaderboard`;
+  const { data, error, isLoading } = useSWR(path, fetcher);
+  if (isLoading) {
+    return 0;
+  }
+  return (
+    <div
+      className="mt-4 w-100 bg-forum-subtle d-flex flex-column gap-2 align-items-start overflow-scroll-y"
+      style={{ borderRadius: "20px", height:"100%" }}
+    >
+      {data.map((leadeboard, index) => {
+        return (
+          <div
+            key={leadeboard._id}
+            className="w-100 d-flex align-items-center py-2 justify-content-between text-white"
+          >
+            <div
+              className="ms-2 d-flex gap-2 align-items-center justify-content-between"
+              style={{ width: "30%" }}
+            >
+              <Avatar src={leadeboard.profileImage} />
+              <div>{index + 1}</div>
+            </div>
+            <div style={{ fontSize: "12px", width: "60%" }}>
+              {leadeboard.username}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 }

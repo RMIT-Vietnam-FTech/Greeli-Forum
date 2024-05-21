@@ -55,7 +55,7 @@ const ChangePassword = (props) => {
 
 	if (isEditing) {
 		return (
-			<div className="container-fluid text-white info-item py-2">
+			<div className="container-fluid text-greeli-emphasis info-item py-2">
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					aria-label="Change Password Form"
@@ -69,7 +69,7 @@ const ChangePassword = (props) => {
 							{...register("oldPassword", {
 								required: "This input is required.",
 							})}
-							className="col-8 px-2"
+							className="col-8 px-2 text-greeli-emphasis border-input-change-pass"
 							id="oldPassword"
 							value={oldPassword}
 							onChange={(e) => {
@@ -114,7 +114,7 @@ const ChangePassword = (props) => {
 									return true;
 								},
 							})}
-							className="col-8 px-2"
+							className="col-8 px-2 text-greeli-emphasis border-input-change-pass"
 							id="newPassword"
 							value={newPassword}
 							onChange={(e) => {
@@ -149,9 +149,9 @@ const ChangePassword = (props) => {
 	} else {
 		return (
 			<div className="d-flex justify-content-between">
-				<p className="text-white">Password</p>
+				<p className="text-greeli-emphasis">Password</p>
 				<button
-					className="bg-primary-green-400 text-white rounded-pill border-none"
+					className="bg-primary-green-400 text-white rounded-pill border-none theme-button"
 					onClick={() => {
 						setIsEditing(true);
 					}}

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ThemeContext } from "../../context/ThemeContext";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
@@ -14,6 +15,7 @@ import { UserContext, useUserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
 
 const Profile = () => {
+	const { isDarkMode } = useContext(ThemeContext);
 	const userData = demoUserInfo[0];
 	const navigate = useNavigate();
 	const { profileImage } = useUserContext();
@@ -47,19 +49,25 @@ const Profile = () => {
 
 					const prefixForNoInfo = isMe ? "Please update your " : "No";
 
-					const { username, email, role, password, isLocked } = user;
-					const tel = user.tel
-						? user.tel
-						: `${prefixForNoInfo} phone number`;
+					const {
+						username,
+						email,
+						role,
+						password,
+						isLocked,
+						createdPost,
+						createdThread,
+						archievedPost,
+						followThread,
+					} = user;
+					const tel = user.tel ? user.tel : `${prefixForNoInfo} phone number`;
 					const address = user.address
 						? user.address
 						: `${prefixForNoInfo} address`;
 					const gender = user.gender
 						? user.gender
 						: `${prefixForNoInfo} gender`;
-					const profileImage = user.profileImage
-						? user.profileImage
-						: "";
+					const profileImage = user.profileImage ? user.profileImage : "";
 					const description = user.description
 						? user.description
 						: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...";
@@ -76,6 +84,10 @@ const Profile = () => {
 						password: password,
 						description: description,
 						isLocked: isLocked,
+						createdPost: createdPost,
+						createdThread: createdThread,
+						archievedPost: archievedPost,
+						followThread: followThread,
 					};
 				})
 				.catch((error) => {
@@ -138,6 +150,7 @@ const Profile = () => {
 
 	// BLOCK/UNBLOCK USER FUNCTION
 	const isAdmin = JSON.parse(localStorage.getItem("user")).role === "admin";
+	const token = cookies.get("TOKEN");
 	const handleLockAccount = () => {
 		const userId = basicInfo.userId;
 		const adminId = JSON.parse(localStorage.getItem("user")).id;
@@ -146,6 +159,10 @@ const Profile = () => {
 		const configuration = {
 			method: "put",
 			url: `/api/user/${adminId}/${userId}/${action}`,
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
 		};
 		axios(configuration)
 			.then((result) => {
@@ -186,7 +203,10 @@ const Profile = () => {
 	};
 
 	return (
-		<div className="container-fluid profile-container bg-primary-green-900">
+		<div
+			className="container-fluid profile-container bg-greeli-subtle"
+			data-bs-theme={isDarkMode ? "dark" : "light"}
+		>
 			<div>
 				<Toaster />
 			</div>
@@ -232,9 +252,7 @@ const Profile = () => {
 							// 	{`${basicInfo.isLocked ? "Unlock" : "Lock"} this user`}
 							// </button>
 							<PreventionPopup
-								modalTitle={`${
-									basicInfo.isLocked ? "Unlock" : "Lock"
-								} Account`}
+								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
 								buttonStyle="bg-danger text-white rounded-pill mt-5 py-2 d-lg-none d-block"
 								ariaLabel={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
@@ -242,9 +260,7 @@ const Profile = () => {
 								buttonValue={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
 								} this user`}
-								action={`${
-									basicInfo.isLocked ? "unlock" : "lock"
-								} this user`}
+								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
 								warningMessage={`If you ${
 									basicInfo.isLocked ? "unlock" : "lock"
 								} this account, the user will be ${
@@ -257,7 +273,7 @@ const Profile = () => {
 					<div className="d-flex d-lg-none flex-column justify-content-between pt-5 px-2 col-12 right-part">
 						{/* Basic Setting Section For Mobile Show */}
 						<div>
-							<h2 className="fs-4 text-white border-bottom border-white fw-light">
+							<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 								{isMe ? "Basic Setting" : "Basic Info"}
 							</h2>
 							<BasicInfo
@@ -305,19 +321,27 @@ const Profile = () => {
 						{/* Account Setting Section */}
 						{isMe && (
 							<div>
-								<h2 className="fs-4 text-white border-bottom border-white fw-light">
+								<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 									Account Setting
 								</h2>
 								<ChangePassword userId={userId} />
 							</div>
 						)}
 					</div>
-					<PostsGallery profilePosts={userData.profilePosts} />
+					<PostsGallery
+						profilePosts={[
+							basicInfo.createdPost || [],
+							basicInfo.archievedPost || [],
+						]}
+						// profilePosts={userData.profilePosts}
+						isMe={isMe}
+						userId={userId}
+					/>
 				</div>
 				<div className="d-lg-flex d-none flex-column justify-content-between py-5 px-5 col-5 right-part">
 					{/* Basic Setting Section For Laptop Show */}
 					<div>
-						<h2 className="fs-4 text-white border-bottom border-white fw-light">
+						<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 							{isMe ? "Basic Setting" : "Basic Info"}
 						</h2>
 						<BasicInfo
@@ -365,7 +389,7 @@ const Profile = () => {
 					{/* Account Setting Section */}
 					{isMe && (
 						<div>
-							<h2 className="fs-4 text-white border-bottom border-white fw-light">
+							<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 								Account Setting
 							</h2>
 							<ChangePassword userId={userId} />
@@ -404,9 +428,7 @@ const Profile = () => {
 							// 	{`${basicInfo.isLocked ? "Unlock" : "Lock"} this user`}
 							// </button>
 							<PreventionPopup
-								modalTitle={`${
-									basicInfo.isLocked ? "Unlock" : "Lock"
-								} Account`}
+								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
 								buttonStyle="bg-danger text-white rounded-pill mt-2 py-2 d-block w-100"
 								ariaLabel={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
@@ -414,9 +436,7 @@ const Profile = () => {
 								buttonValue={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
 								} this user`}
-								action={`${
-									basicInfo.isLocked ? "unlock" : "lock"
-								} this user`}
+								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
 								warningMessage={`If you ${
 									basicInfo.isLocked ? "unlock" : "lock"
 								} this account, the user will be ${
