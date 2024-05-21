@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import {  useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ImageOrVideo from "../../../components/forum/ImageOrVideo";
 
 import Button from "react-bootstrap/Button";
@@ -10,12 +10,19 @@ import EditTextEditor from "../../../components/forum/EditTextEditor/EditTextEdi
 import { AuthorizationContextProvider } from "../../../context/AuthorizationContext";
 import { EditContextProvider } from "../../../context/EditContext";
 import NewPostPopUp from "./components/NewPostPopUp";
+import { useLogin } from "../../../components/Popup/LoginPopup";
+import { PopupContext } from "../../../context/PopupContext";
 export default function ThreadHeader({ ...prop }) {
   const { title, uploadFile, content, objectId } = prop;
+
+  const popupContext = useContext(PopupContext);
+
   const [isOpen, setIsOpen] = useState(false);
   const [isFollowed, setIsFollowed] = useState(false);
-  const location = useLocation();
+  const isLogin = useLogin();
+
   const navigate = useNavigate();
+
   useEffect(() => {
     checkFollowingStatus().then((res) => {
       setIsFollowed(res);
@@ -23,24 +30,24 @@ export default function ThreadHeader({ ...prop }) {
   }, []);
 
   async function checkFollowingStatus() {
-    if(JSON.parse(localStorage.getItem("user"))){
-    const path = `http://localhost:3001/api/user/${
-      JSON.parse(localStorage.getItem("user")).id
-    }/follow_threads`;
-    const followThreads = await axios
-      .get(path, {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("user")).token
-          }`,
-        },
-      })
-      .then((res) => res.data);
-    return followThreads.some((object) => {
-      return object._id === objectId;
-    });
-  }
-  return false
+    if (JSON.parse(localStorage.getItem("user"))) {
+      const path = `http://localhost:3001/api/user/${
+        JSON.parse(localStorage.getItem("user")).id
+      }/follow_threads`;
+      const followThreads = await axios
+        .get(path, {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).token
+            }`,
+          },
+        })
+        .then((res) => res.data);
+      return followThreads.some((object) => {
+        return object._id === objectId;
+      });
+    }
+    return false;
   }
   async function handleFollowThread() {
     try {
@@ -131,7 +138,11 @@ export default function ThreadHeader({ ...prop }) {
 
         <Button
           onClick={() => {
-            setIsOpen(true);
+            if (isLogin) {
+              setIsOpen(true);
+            }else{
+              popupContext.setIsPopup(true);
+            }
           }}
           className="w-100 bg-transparent border border-primary-green text-greeli-emphasis rounded-5 text-start"
         >

@@ -49,11 +49,9 @@ function ThreadStatistic() {
 
 export function PostYouMayLike() {
   const matchWindowWidth = useMediaQuery("(min-width: 800px)");
-  console.log( `check window width: ${matchWindowWidth}`);
   const { ref, inView, entry } = useInView({
     threshold: 0,
     onChange: (inView, entry) => {
-      // console.log(`check size: ${size}\n check limit: ${limit}\n check total: ${total}`)
       if (inView && size * 10 <= 11) {
         setSize(size + 1);
       }
