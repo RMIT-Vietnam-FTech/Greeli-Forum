@@ -63,8 +63,8 @@ export default function Events() {
 	const [category, setCategory] = useState("Social activities");
 	const filteredData =
 		category === "Social activities"
-			? EventsData
-			: EventsData.filter((item) => item.event === category);
+			? EventsData.filter((item) => item.event === "Social activities")
+			: EventsData.filter((item) => item.event === "Social events");
 
 	const isActive = (clickedCategory) => {
 		return category === clickedCategory ? "active" : "";
