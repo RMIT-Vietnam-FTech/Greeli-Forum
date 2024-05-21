@@ -38,6 +38,10 @@ main {
   /* Light mode border color */
 }
 
+.card-item{
+  height: 20em;
+}
+
 @media screen and (max-width: 576px) {
   .section {
     top: -2em;

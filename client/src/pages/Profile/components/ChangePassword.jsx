@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 
@@ -56,6 +56,7 @@ const ChangePassword = (props) => {
 	if (isEditing) {
 		return (
 			<div className="container-fluid text-greeli-emphasis info-item py-2">
+				<Toaster />
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					aria-label="Change Password Form"
@@ -104,8 +105,7 @@ const ChangePassword = (props) => {
 								},
 								minLength: {
 									value: 8,
-									message:
-										"This input must exceed 8 characters",
+									message: "This input must exceed 8 characters",
 								},
 								validate: (value) => {
 									if (value === oldPassword) {
@@ -135,13 +135,12 @@ const ChangePassword = (props) => {
 						)}
 					</div>
 					<div className="row d-flex flex-row justify-content-end g-1 mt-3">
-						<Button
+						<button
 							type="submit"
-							className="col-4 mx-3"
-							variant="primary-green"
+							className="col-4 mx-3 p-2 bg-primary-green-400 text-white rounded-pill border-none theme-button"
 						>
 							Change Password
-						</Button>
+						</button>
 					</div>
 				</form>
 			</div>
@@ -151,7 +150,7 @@ const ChangePassword = (props) => {
 			<div className="d-flex justify-content-between">
 				<p className="text-greeli-emphasis">Password</p>
 				<button
-					className="bg-primary-green-400 text-white rounded-pill border-none theme-button"
+					className="bg-primary-green-400 p-2 text-white rounded-pill border-none theme-button"
 					onClick={() => {
 						setIsEditing(true);
 					}}

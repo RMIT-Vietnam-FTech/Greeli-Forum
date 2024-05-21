@@ -56,45 +56,37 @@ const ProfileShow = (props) => {
 			<div className="w-70 text-center profile-image-container position-relative">
 				<img
 					// src={props.imgURL}
-					src={
-						props.profileImage
-					}
+					src={props.profileImage}
 					alt={`${props.userName} Avatar`}
 					className="rounded-circle w-70 avatar-image"
 					style={{ width: "50%" }}
 					data-bs-toggle="modal"
 					data-bs-target="#exampleModal"
 				/>
-				<div class="overlay position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
+				<div class=".overlay-profile position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
 					<div class="text-greeli-emphasis avatar-icon">
-						<FaCamera
-							data-bs-toggle="modal"
-							data-bs-target="#exampleModal"
-						/>
+						<FaCamera data-bs-toggle="modal" data-bs-target="#exampleModal" />
 					</div>
 				</div>
 			</div>
 
-			<div className="d-flex flex-column justify-content-around">
-				<div>
-					<h2 className="text-greeli-emphasis">{props.userName}</h2>
-					<div className="d-flex flex-row align-items-center">
-						<div
-							className="py-1 bg-primary-yellow text-greeli-emphasis  text-center rounded-pill role-container"
-							role="status"
-							aria-label={`Role: ${props.role}`}
-						>
-							{props.role}
-						</div>
-						<IoMdNotificationsOutline
-							size={32}
-							color={"white"}
-							className="noti-icon"
-							aria-label="Notifications"
-							role="button"
-							tabIndex={0}
-						/>
+			<div className="d-flex flex-column gap-3">
+				<h2 className="text-greeli-emphasis">{props.userName}</h2>
+				<div className="d-flex flex-row align-items-center">
+					<div
+						className="py-1 bg-primary-yellow text-greeli-emphasis text-center rounded-pill role-container"
+						role="status"
+						aria-label={`Role: ${props.role}`}
+					>
+						{props.role}
 					</div>
+					<IoMdNotificationsOutline
+						size={32}
+						className="noti-icon text-greeli-emphasis"
+						aria-label="Notifications"
+						role="button"
+						tabIndex={0}
+					/>
 				</div>
 				<div className="d-flex flex-row text-greeli-emphasis  text-center justify-content-between w-80 profile-figures">
 					<div
@@ -123,6 +115,7 @@ const ProfileShow = (props) => {
 					</div>
 				</div>
 			</div>
+
 			<div
 				className="modal fade position-absolute top-50 start-50 translate-middle"
 				id="exampleModal"
@@ -149,10 +142,7 @@ const ProfileShow = (props) => {
 						</div>
 						<div className="modal-body text-center">
 							{preview && (
-								<img
-									src={URL.createObjectURL(preview)}
-									alt="avatar image"
-								/>
+								<img src={URL.createObjectURL(preview)} alt="avatar image" />
 							)}
 							<form>
 								<input

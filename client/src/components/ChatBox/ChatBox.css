@@ -187,8 +187,10 @@
 
 .chat-sender .form-control {
     flex-grow: 1;
-    overflow-y: auto;
-    max-height: 50px;
+    overflow-y: hidden;
+    height: 50px;
+    max-height: 300px; 
+    min-height: 50px; 
     max-width: 70vw;
     word-wrap: break-word;
     white-space: pre-wrap;
@@ -200,7 +202,7 @@
     box-sizing: border-box;
     background: #f9f9f9;
     outline: none;
-    line-height: 1.5;
+    line-height: 1.7;
 }
 
 .chat-sender .form-control-light:focus {
