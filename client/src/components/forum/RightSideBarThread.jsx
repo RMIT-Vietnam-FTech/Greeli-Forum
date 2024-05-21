@@ -26,6 +26,7 @@ function ThreadStatistic() {
   }
   return (
     <div
+    tabIndex="0"
       className="thread-statistic bg-forum-subtle"
       style={{ marginBottom: "23px" }}
     >
@@ -82,6 +83,7 @@ export function PostYouMayLike() {
 
   return (
     <section
+    tabIndex="0"
       className={
         "recommend-post-wrapper " +
         (matchWindowWidth ? "bg-forum-subtle mt-0" : null)

@@ -104,7 +104,7 @@ export default function ThreadHeader({ ...prop }) {
 						className="d-flex align-items-start"
 						style={{ width: "85%" }}
 					>
-						<h1 className="title fs-4">{title}</h1>
+						<h1 tabIndex="0" className="title fs-4">{title}</h1>
 
 						<Button
 							onClick={
@@ -131,7 +131,7 @@ export default function ThreadHeader({ ...prop }) {
 							className="w-100 mt-4 bg-primary-green-600 rounded-3 d-flex justify-content-center overflow-hidden"
 							style={{ height: "400px" }}
 						>
-							<ImageOrVideo src={createdBy.username} isPost={false} />
+							<ImageOrVideo alt={title} src={uploadFile} isPost={false} />
 						</div>
 					) : null}
 

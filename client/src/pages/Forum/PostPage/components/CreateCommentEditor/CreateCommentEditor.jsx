@@ -61,6 +61,9 @@ export default function CreateCommentEditor() {
   }
   return (
     <div
+    tabIndex="0"
+    aria-label="create comment"
+      onKeyDown={handleDisplay}
       onClick={handleDisplay}
       className={"text-editor text-greeli-emphasis show-border"}
     >

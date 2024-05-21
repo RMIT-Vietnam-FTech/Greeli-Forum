@@ -15,7 +15,7 @@ export default function ImageOrVideo({ src, isPost, alt }) {
 		return 0;
 	}
 	if (data.startsWith("image")) {
-		return <img alt={alt} src={src} className="h-100" />;
+		return <img tabIndex="0"  alt={"image: "+alt} src={src} className="h-100" />;
 	}
 	if (data.startsWith("video")) {
 		return (
