@@ -4,7 +4,12 @@ import { AuthorizationContext } from "../../context/AuthorizationContext";
 import { EditContext } from "../../context/EditContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-export default function DropDown({ componentType, threadId, postId }) {
+export default function DropDown({
+  isVertical,
+  componentType,
+  threadId,
+  postId,
+}) {
   const editContext = useContext(EditContext);
   const authorizationContext = useContext(AuthorizationContext);
   const [isSaved, setIsSaved] = useState(false);
@@ -135,13 +140,14 @@ export default function DropDown({ componentType, threadId, postId }) {
               </a>
             </li>
           ) : null}
+
           <li>
             <a
               className="dropdown-item"
               onClick={isSaved ? handleUnSave : handleSave}
               href="#"
             >
-              {isSaved ? "unsaved" : "save"}
+              {isSaved ? "Unsaved" : "Save"}
             </a>
           </li>
           <li>

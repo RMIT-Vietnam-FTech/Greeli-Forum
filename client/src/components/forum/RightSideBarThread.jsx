@@ -1,4 +1,4 @@
-import {  useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import useSWR from "swr";
@@ -25,8 +25,13 @@ function ThreadStatistic() {
     return 0;
   }
   return (
-    <div className="thread-statistic bg-forum-subtle">
-      <div className="text-primary-yellow fs-5 mb-3">Thread statistic</div>
+    <div
+      className="thread-statistic bg-forum-subtle"
+      style={{ marginBottom: "23px" }}
+    >
+      <p className="text-primary-yellow fs-5" style={{ fontSize: "18px" }}>
+        Thread statistic
+      </p>
       <div className="w-75">
         <p className="text-white w-100 d-flex justify-content-between">
           <b className="w-50">Posts</b>{" "}
@@ -76,14 +81,26 @@ export function PostYouMayLike() {
   const issues = data ? [].concat(...data) : [];
 
   return (
-    <section className={"recommend-post-wrapper " + (matchWindowWidth ?  "bg-forum-subtle mt-0":null) }>
-      <h3 className="text-primary-yellow right-side-bar-heading">
+    <section
+      className={
+        "recommend-post-wrapper " +
+        (matchWindowWidth ? "bg-forum-subtle mt-0" : null)
+      }
+    >
+      <p
+        className="text-primary-yellow right-side-bar-heading"
+        style={{ fontSize: "18px" }}
+      >
         Recommended Post
-      </h3>
+      </p>
       <div ref={ref} className="recommend-post-section">
         {/*Recommend post items*/}
         {issues.map((postData) => {
-          return (matchWindowWidth?<RecommendPost key={postData._id} postData={postData} />: <Post key={postData._id} postData={postData} />);
+          return matchWindowWidth ? (
+            <RecommendPost key={postData._id} postData={postData} />
+          ) : (
+            <Post key={postData._id} postData={postData} />
+          );
         })}
       </div>
     </section>
@@ -136,16 +153,16 @@ const RecommendPost = ({ postData }) => {
 };
 
 export function useMediaQuery(mediaQueryString) {
-  const queryString = removeReservedMediaKeyWord(mediaQueryString)
-  const query = useMemo(() => window.matchMedia(queryString), [queryString])
-  const [matches, setMatches] = useState(query.matches) // one-time, instantaneous check
+  const queryString = removeReservedMediaKeyWord(mediaQueryString);
+  const query = useMemo(() => window.matchMedia(queryString), [queryString]);
+  const [matches, setMatches] = useState(query.matches); // one-time, instantaneous check
   useEffect(() => {
-    const listener = (e) => setMatches(e.matches)
-    query.addEventListener('change', listener)
-    return () => query.removeEventListener('change', listener)
-  }, [query])
-  return matches
+    const listener = (e) => setMatches(e.matches);
+    query.addEventListener("change", listener);
+    return () => query.removeEventListener("change", listener);
+  }, [query]);
+  return matches;
 }
 function removeReservedMediaKeyWord(mediaQueryString) {
-  return mediaQueryString.replace('@media', '').trim()
+  return mediaQueryString.replace("@media", "").trim();
 }

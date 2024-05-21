@@ -63,8 +63,9 @@ export default function Post({ postData, isThreadAdmin }) {
     return (
       <div
         className={
-          "w-100 position-relative d-flex justify-content-center bg-forum-subtle my-4 p-3 rounded-3"
+          "w-100 position-relative d-flex justify-content-center bg-forum-subtle my-4 p-3"
         }
+        style={{ borderRadius: "0.75rem" }}
         data-bs-theme={isDarkMode ? "dark" : "light"}
       >
         <div className="w-100 d-flex gap-2 justify-content-between align-items-center bg-primary-900 text-white text-decoration-none  ">
@@ -155,7 +156,7 @@ export default function Post({ postData, isThreadAdmin }) {
                 className=" w-25 d-flex justify-content-center bg-primary-green-900 rounded-3 overflow-hidden "
                 style={{ height: "100px" }}
               >
-                <ImageOrVideo src={postData.uploadFile} isPost={true} />
+                <ImageOrVideo alt={postData.createdBy.username} src={postData.uploadFile} isPost={true} />
               </div>
             ) : (
               <div

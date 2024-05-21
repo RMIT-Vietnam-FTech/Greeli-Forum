@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Slider from "react-slick";
-
 import axios from "axios";
 
 function Posts() {
@@ -25,7 +24,7 @@ function Posts() {
 	const settings = {
 		dots: false,
 		infinite: false,
-		speed: 100,
+		speed: 500,
 		slidesToShow: 4,
 		slidesToScroll: 4,
 		initialSlide: 0,
@@ -34,8 +33,8 @@ function Posts() {
 			{
 				breakpoint: 993,
 				settings: {
-					slidesToShow: 3, // Change to 3 cards for tablets
-					slidesToScroll: 3,
+					slidesToShow: 2, // Change to 2 cards for tablets
+					slidesToScroll: 2,
 					infinite: true,
 				},
 			},
@@ -65,17 +64,29 @@ function Posts() {
 			});
 	}, []);
 
+	const sliderRef = useRef();
+	const handleWheel = (e) => {
+		if (e.deltaX > 0) {
+			sliderRef.current.slickNext();
+		}
+		if (e.deltaX < 0) {
+			sliderRef.current.slickPrev();
+		}
+	};
+
 	return (
-		<Slider {...settings} className="slider-container">
-			{data.map((item) => (
-				<Post
-					key={item.id}
-					img={item.image}
-					date={item.date}
-					title={item.title}
-				/>
-			))}
-		</Slider>
+		<div onWheel={handleWheel}>
+			<Slider {...settings} className="slider-container" ref={sliderRef}>
+				{data.map((item) => (
+					<Post
+						key={item.id}
+						img={item.image}
+						date={item.date}
+						title={item.title}
+					/>
+				))}
+			</Slider>
+		</div>
 	);
 }
 export default Posts;

@@ -5,6 +5,7 @@ import Post from "../models/Post.js";
 import Comment from "../models/Comment.js";
 import * as crypto from "crypto";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
+import sharp from "sharp";
 import dotenv from "dotenv";
 import { error } from "console";
 dotenv.config();
@@ -39,7 +40,11 @@ export const createThread = async (req, res) => {
 
       if (uploadFile) {
         const imageName = createRandomName();
-        uploadFileData(uploadFile.buffer, imageName, uploadFile.mimetype);
+        const fileBuffer = await sharp(uploadFile.buffer)
+        .jpeg({ quality:100 })
+          .resize({ width: 730, height: 400, fit: "contain" })
+          .toBuffer();
+        uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
         uploadObject.uploadFile = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
       }
 

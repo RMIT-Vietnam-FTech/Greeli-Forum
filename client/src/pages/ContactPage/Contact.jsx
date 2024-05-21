@@ -10,7 +10,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import "./Contact.css";
-
 const Contact = () => {
   const { isDarkMode } = useContext(ThemeContext);
   const [name, setName] = useState("");
@@ -23,14 +22,12 @@ const Contact = () => {
       .email("Email is invalid"),
     message: Yup.string().required("Your message is required"),
   });
-
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(feedBackSchema) });
-
   const feedback = () => {
     const configuration = {
       method: "post",
@@ -59,7 +56,6 @@ const Contact = () => {
         console.log(error.response.data.error);
       });
   };
-
   const submitFeedBack = () => {
     feedback();
     setName("");
@@ -71,7 +67,7 @@ const Contact = () => {
       <Toaster />
       <main
         className="container-fluid bg-primary-green"
-        data-bs-theme={isDarkMode ? "dark" : "light"}
+        // data-bs-theme={isDarkMode ? "dark" : "light"}
       >
         <div className="row justify-content-evenly">
           <div className="col-11 col-lg-5 flex-column my-lg-5 p-lg-5 rounded-4">
@@ -125,7 +121,7 @@ const Contact = () => {
             </div>
           </div>
           <div className="col-11 col-lg-5 text-center my-lg-5 p-5 mb-5 bg-light rounded-4">
-            <h3 className="mb-4">
+            <h3 className="mb-4 fs-4">
               If you have any feedback, please contact us
             </h3>
             <form
@@ -156,7 +152,7 @@ const Contact = () => {
                   type="email"
                   className="form-control border border-primary-green"
                   {...register("email")}
-                  id="floatingInput"
+                  id="floatingEmail"
                   placeholder="Your email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -174,14 +170,14 @@ const Contact = () => {
                 <textarea
                   className="form-control border border-primary-green h-auto"
                   placeholder="Your message here..."
-                  id="floatingTextarea"
+                  id="floatingTextPlace"
                   {...register("message")}
                   rows={5}
                   defaultValue={""}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                 />
-                <label id="floatingInput" htmlFor="floatingTextarea">
+                <label id="floatingText" htmlFor="floatingTextarea">
                   Your message here...
                 </label>
               </div>

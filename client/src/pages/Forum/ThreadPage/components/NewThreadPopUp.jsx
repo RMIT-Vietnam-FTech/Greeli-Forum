@@ -109,7 +109,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
     <section className="modal-wrapper">
       <section
         id="post-modal"
-        className="bg-primary-green-900 p-3 d-flex flex-column align-items-end "
+        className="bg-primary-green-900 w-75 p-2 d-flex flex-column align-items-end position-relative"
       >
         <Slider className="w-100" {...settings}>
           <div>
@@ -325,7 +325,7 @@ function NextArrow(props) {
       <button
         disabled={isDisable}
         className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 border-none position-absolute"
-        style={{ bottom: "-100px", left: "100px" }}
+        style={{ bottom: "-50px", left: "100px" }}
         onClick={
           isNext
             ? handleData
@@ -347,7 +347,7 @@ function PrevArrow(props) {
       <button
         disabled={!isNext}
         className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 text-dark  border-none position-absolute"
-        style={{ bottom: "-100px", left: "0" }}
+        style={{ bottom: "-50px", left: "0" }}
         onClick={() => {
           setIsNext(false);
         }}

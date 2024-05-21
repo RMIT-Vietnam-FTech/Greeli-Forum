@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ThemeContext } from "../../context/ThemeContext";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
@@ -14,9 +15,9 @@ import { UserContext, useUserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
 
 const Profile = () => {
+	const { isDarkMode } = useContext(ThemeContext);
 	const userData = demoUserInfo[0];
 	const navigate = useNavigate();
-
 	const [basicInfo, setBasicInfo] = useState({});
 
 	// GET ID FROM LOCAL STORAGE
@@ -47,7 +48,17 @@ const Profile = () => {
 
 					const prefixForNoInfo = isMe ? "Please update your " : "No";
 
-					const { username, email, role, password, isLocked } = user;
+					const {
+						username,
+						email,
+						role,
+						password,
+						isLocked,
+						createdPost,
+						createdThread,
+						archievedPost,
+						followThread,
+					} = user;
 					const tel = user.tel ? user.tel : `${prefixForNoInfo} phone number`;
 					const address = user.address
 						? user.address
@@ -72,6 +83,10 @@ const Profile = () => {
 						password: password,
 						description: description,
 						isLocked: isLocked,
+						createdPost: createdPost,
+						createdThread: createdThread,
+						archievedPost: archievedPost,
+						followThread: followThread,
 					};
 				})
 				.catch((error) => {
@@ -134,6 +149,7 @@ const Profile = () => {
 
 	// BLOCK/UNBLOCK USER FUNCTION
 	const isAdmin = JSON.parse(localStorage.getItem("user")).role === "admin";
+	const token = cookies.get("TOKEN");
 	const handleLockAccount = () => {
 		const userId = basicInfo.userId;
 		const adminId = JSON.parse(localStorage.getItem("user")).id;
@@ -142,6 +158,10 @@ const Profile = () => {
 		const configuration = {
 			method: "put",
 			url: `http://localhost:3001/api/user/${adminId}/${userId}/${action}`,
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
 		};
 		axios(configuration)
 			.then((result) => {
@@ -156,16 +176,20 @@ const Profile = () => {
 				console.log(error);
 			});
 	};
-
+	//---------------------------
 	return (
-		<div className="container-fluid profile-container bg-primary-green-900">
+		<div
+			className="container-fluid profile-container bg-greeli-subtle"
+			data-bs-theme={isDarkMode ? "dark" : "light"}
+		>
 			<div>
 				<Toaster />
 			</div>
 			<div className="row overflow-auto">
-				<div className="d-flex flex-column justify-content-between p-sm-5 pb-sm-0 p-4 pb-0 col-12 col-lg-7 full-height overflow-hidden">
+				<div className="d-flex flex-column justify-content-between p-sm-5 pb-sm-0 p-4 pb-0 col-12 col-lg-7 full-height overflow-hidden place">
 					<ProfileShow
 						userName={basicInfo.username}
+						profileImage={basicInfo.profileImage}
 						role={basicInfo.role}
 						threadsNum={userData.threadsNum}
 						postsNum={userData.postsNum}
@@ -224,7 +248,7 @@ const Profile = () => {
 					<div className="d-flex d-lg-none flex-column justify-content-between pt-5 px-2 col-12 right-part">
 						{/* Basic Setting Section For Mobile Show */}
 						<div>
-							<h2 className="fs-4 text-white border-bottom border-white fw-light">
+							<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 								{isMe ? "Basic Setting" : "Basic Info"}
 							</h2>
 							<BasicInfo
@@ -272,19 +296,27 @@ const Profile = () => {
 						{/* Account Setting Section */}
 						{isMe && (
 							<div>
-								<h2 className="fs-4 text-white border-bottom border-white fw-light">
+								<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 									Account Setting
 								</h2>
 								<ChangePassword userId={userId} />
 							</div>
 						)}
 					</div>
-					<PostsGallery profilePosts={userData.profilePosts} />
+					<PostsGallery
+						profilePosts={[
+							basicInfo.createdPost || [],
+							basicInfo.archievedPost || [],
+						]}
+						// profilePosts={userData.profilePosts}
+						isMe={isMe}
+						userId={userId}
+					/>
 				</div>
 				<div className="d-lg-flex d-none flex-column justify-content-between py-5 px-5 col-5 right-part">
 					{/* Basic Setting Section For Laptop Show */}
 					<div>
-						<h2 className="fs-4 text-white border-bottom border-white fw-light">
+						<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 							{isMe ? "Basic Setting" : "Basic Info"}
 						</h2>
 						<BasicInfo
@@ -332,7 +364,7 @@ const Profile = () => {
 					{/* Account Setting Section */}
 					{isMe && (
 						<div>
-							<h2 className="fs-4 text-white border-bottom border-white fw-light">
+							<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 								Account Setting
 							</h2>
 							<ChangePassword userId={userId} />

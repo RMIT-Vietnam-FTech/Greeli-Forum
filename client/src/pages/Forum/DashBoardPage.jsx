@@ -4,25 +4,29 @@ import { useEffect, useRef, useState } from "react";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { useUserContext } from "../../context/UserContext";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 
-
 const getMetadata = async (url) => {
-  return await axios
-    .get(url)
-    .then((res) => res.data.metadata);
+  return await axios.get(url).then((res) => res.data.metadata);
 };
-
+const getSearchResult = async (url) => {
+  return await axios.get(url).then((res) => res.data.data);
+};
 export default function DashBoardPage() {
- 
+  const { searchTerm, setSearchTerm } = useUserContext();
+  const [searchResult, setSearchResult] = useState([]);
+
   const [metadata, setMetadata] = useState();
   const [sortOption, setSortOption] = useState("Hot");
+
   useEffect(() => {
     getMetadata(`http://localhost:3001/api/v1/posts`).then((res) => {
       setMetadata(res);
     });
   }, []);
+
   // console.log(`check metadata: ${JSON.stringify(metadata)}`);
   const { ref, inView, entry } = useInView({
     threshold: 0,
@@ -54,12 +58,24 @@ export default function DashBoardPage() {
 
       fetcher
     );
+  const issues = data ? [].concat(...data) : [];
+  // const issueIsLoaded = useRef(false);
+  // useEffect(()=>{
+  //   if(!issueIsLoaded.current && issues.length > 0){
+  //     setSearchResult(issues);
+  //     issueIsLoaded.current = true
+  //    setSearchTerm("") ;
+  //   }
+  // },[issues])
+  useEffect(() => {
+    setSearchResult(
+      issues.filter((issue) => issue.title.toLowerCase().includes(searchTerm))
+    );
+  }, [searchTerm]);
 
   if (isLoading) {
     return 0;
   }
-
-  const issues = data ? [].concat(...data) : [];
 
   return (
     <>
@@ -77,7 +93,7 @@ export default function DashBoardPage() {
               <IoMdArrowDropdown />
             </div>
           </button>
-          <ul className="dropdown-menu bg-greeli-subtle ">
+          <ul className="dropdown-menu bg-forum-subtle ">
             <li>
               <a
                 className={"dropdown-item "}
@@ -113,7 +129,15 @@ export default function DashBoardPage() {
 
         {/*Post items*/}
         <div>
-          {issues.map((postData) => {
+          {searchResult.length>0? searchResult.map((postData) => {
+            return (
+              <Post
+                key={postData._id}
+                postData={postData}
+                isThreadAdmin={false}
+              />
+            );
+          }): issues.map((postData) => {
             return (
               <Post
                 key={postData._id}

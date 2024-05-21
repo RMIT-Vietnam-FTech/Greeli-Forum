@@ -1,13 +1,137 @@
-@media screen and (max-width: 992px){
+@media screen and (max-width: 992px) {
     .contact-info {
-            width: 100% !important;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
     }
 }
+
 #floatingInput {
     color: black !important;
+}
+
+
+/* Contact Info */
+.contact-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    transition: transform 0.3s;
+}
+
+.contact-info:hover {
+    transform: scale(1.05);
+}
+
+.icon-container {
+    flex-shrink: 0;
+}
+
+.icon-container svg {
+    transition: background-color 0.5s, color 0.5s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.content-container {
+    margin-left: 15px;
+}
+
+.content-container h4 {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Form styles */
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-floating {
+    margin-bottom: 20px;
+}
+
+.form-floating input,
+.form-floating textarea {
+    border: 2px solid var(--primary-green);
+    border-radius: 10px;
+    padding: 15px;
+    transition: border-color 0.3s;
+}
+
+.form-floating input:focus,
+.form-floating textarea:focus {
+    border-color: var(--dark-green);
+}
+
+.error {
+    color: var(--dark-red);
+    font-size: 14px;
+}
+
+/* Button styles */
+.btn {
+    background-color: var(--primary-yellow);
+    color: var(--dark-green);
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+    background-color: var(--dark-yellow);
+    transform: scale(1.05);
+}
+
+.btn-outline-primary-green {
+    border: 2px solid var(--primary-green);
+    color: var(--primary-green);
+}
+
+.btn-outline-primary-green:hover {
+    background-color: var(--primary-green);
+    color: #fff;
+}
+
+/* Color variables */
+:root {
+    --primary-green: #E3F6E6;
+    --light-green: #C8EED2;
+    --dark-green: #365949;
+    --primary-yellow: #FDF8E2;
+    --light-yellow: #FBF0C6;
+    --dark-yellow: #BD974C;
+    --dark-red: #7F5A21;
+}
+
+[data-bs-theme="dark"] {
+    background-color: var(--dark-green);
+    color: #000;
+}
+
+[data-bs-theme="light"] {
+    background-color: var(--primary-green);
+    color: #000;
+}
+
+.text-light {
+    color: #000;
+}
+
+.text-dark {
+    color: #000;
+}
+
+/* Smooth transitions */
+input,
+textarea,
+button {
+    transition: all 0.3s ease-in-out;
 }

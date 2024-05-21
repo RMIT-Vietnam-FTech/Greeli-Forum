@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import axios from 'axios';
-import Picker from '@emoji-mart/react';
-import data from '@emoji-mart/data';
-import './ChatBox.css';
-import Cookies from 'universal-cookie';
-import moment from 'moment';
-import { ThemeContext } from '../../context/ThemeContext'
+import React, { useState, useEffect, useContext, useRef } from "react";
+import axios from "axios";
+import Picker from "@emoji-mart/react";
+import data from "@emoji-mart/data";
+import "./ChatBox.css";
+import Cookies from "universal-cookie";
+import moment from "moment";
+import { ThemeContext } from "../../context/ThemeContext";
 
-const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage, handleBackClick }) => {
+const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage, handleBackClick, online}) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -18,97 +18,109 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage, handleBa
   const token = cookies.get('TOKEN');
   const { isDarkMode } = useContext(ThemeContext);
 
-  useEffect(() => {
-    const fetchMessagesAndUser = async () => {
-      const receiverId = chat.members.find((id) => id !== currentUserId);
-      const userConfig = {
-        method: 'get',
-        url: `http://localhost:3001/api/user/find/${receiverId}`,
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      };
-      const messagesConfig = {
-        method: 'get',
-        url: `http://localhost:3001/api/message/find/${chat._id}`,
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-      };
-      try {
-        const userResponse = await axios(userConfig);
-        const messagesResponse = await axios(messagesConfig);
-        setUserData(userResponse.data);
-        setMessages(messagesResponse.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    if (chat) fetchMessagesAndUser();
-  }, [chat, currentUserId, token]);
+	useEffect(() => {
+		const fetchMessagesAndUser = async () => {
+			const receiverId = chat.members.find((id) => id !== currentUserId);
+			const userConfig = {
+				method: "get",
+				url: `http://localhost:3001/api/user/find/${receiverId}`,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			const messagesConfig = {
+				method: "get",
+				url: `http://localhost:3001/api/message/find/${chat._id}`,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			try {
+				const userResponse = await axios(userConfig);
+				const messagesResponse = await axios(messagesConfig);
+				setUserData(userResponse.data);
+				setMessages(messagesResponse.data);
+			} catch (error) {
+				console.log(error);
+			}
+		};
+		if (chat) fetchMessagesAndUser();
+	}, [chat, currentUserId, token]);
 
-  const handleChange = (e) => setNewMessage(e.target.value);
+	const handleChange = (e) => setNewMessage(e.target.value);
 
-  const handleSend = async (e) => {
-    e.preventDefault();
-    const message = {
-      chatId: chat._id,
-      senderId: currentUserId,
-      text: newMessage,
-    };
-    const configuration = {
-      method: 'post',
-      url: 'http://localhost:3001/api/message/create',
-      data: message,
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-    };
+	const handleSend = async (e) => {
+		e.preventDefault();
+		const message = {
+			chatId: chat._id,
+			senderId: currentUserId,
+			text: newMessage,
+		};
+		const configuration = {
+			method: "post",
+			url: "http://localhost:3001/api/message/create",
+			data: message,
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		};
 
-    const receiverId = chat.members.find((id) => id !== currentUserId);
-    setSendMessage({ ...message, receiverId });
-    axios(configuration)
-      .then((result) => {
-        console.log(result);
-        setMessages([...messages, result.data]);
-        setNewMessage("");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  useEffect(() => {
-    console.log("Message Arrived: ", receiveMessage);
-    if (receiveMessage !== null && receiveMessage?.chatId === chat._id) {
-      console.log("Data receive");
-      setMessages([...messages, receiveMessage]);
-    }
-  }, [receiveMessage]);
+		const receiverId = chat.members.find((id) => id !== currentUserId);
+		setSendMessage({ ...message, receiverId });
+		axios(configuration)
+			.then((result) => {
+				console.log(result);
+				setMessages([...messages, result.data]);
+				setNewMessage("");
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+	useEffect(() => {
+		console.log("Message Arrived: ", receiveMessage);
+		if (receiveMessage !== null && receiveMessage?.chatId === chat._id) {
+			console.log("Data receive");
+			setMessages([...messages, receiveMessage]);
+		}
+	}, [receiveMessage]);
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
-      event.preventDefault();
-      handleSend(event);
-    }
-  };
+	const handleKeyDown = (event) => {
+		if (event.key === "Enter" && !event.shiftKey) {
+			event.preventDefault();
+			handleSend(event);
+		}
+	};
 
-  const addEmoji = (emoji) => {
-    setNewMessage((prevMessage) => prevMessage + emoji.native);
-  };
+	const addEmoji = (emoji) => {
+		setNewMessage((prevMessage) => prevMessage + emoji.native);
+	};
 
-  useEffect(() => {
-    if (chatBodyRef.current) {
-      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
-    }
-  }, [messages]);
+	useEffect(() => {
+		if (chatBodyRef.current) {
+			chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+		}
+	}, [messages]);
 
-  // Handle click outside emoji picker
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
-        setShowEmojiPicker(false);
-      }
-    };
+	// Handle click outside emoji picker
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (
+				emojiPickerRef.current &&
+				!emojiPickerRef.current.contains(event.target)
+			) {
+				setShowEmojiPicker(false);
+			}
+		};
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [emojiPickerRef]);
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [emojiPickerRef]);
 
   return (
     <div className="ChatBox-container" data-bs-theme={isDarkMode ? "dark" : "light"}>
@@ -117,7 +129,7 @@ const ChatBox = ({ chat, currentUserId, setSendMessage, receiveMessage, handleBa
           <div className={`${isDarkMode ? "chat-header-dark" : "chat-header-light"} chat-header`}>
             {userData && (
               <>
-                <img src={userData.profilePicture || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'} alt={userData.username} className={`followerImage ${userData.isOnline ? 'online' : 'offline'}`} />
+                <img src={userData.profilePicture || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'} alt={userData.username} className={`followerImage ${online ? 'online' : 'offline'}`} />
                 <span className="fw-bold">{userData.username}</span>
                 <button type="button" className={`${isDarkMode ? "return-button-dark" : "return-button-light"} return-button`} onClick={handleBackClick}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">

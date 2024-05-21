@@ -2,7 +2,7 @@ import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import { MdEmail, MdFacebook, MdPhone } from "react-icons/md";
 import { ThemeContext } from "../../context/ThemeContext";
-import "./style.css";
+// import "./style.css";
 import PreventionPopup from "../../components/Popup/PreventionPopup";
 
 const ErrorPage = () => {
@@ -18,7 +18,9 @@ const ErrorPage = () => {
 					We are sorry but the page you requested was not found
 				</p>
 				<div>
-					<Button className="error-button rounded-pill">GO HOME</Button>{" "}
+					<Button className="error-button rounded-pill">
+						GO HOME
+					</Button>{" "}
 					<Button
 						className="error-button rounded-pill border-error text-login-emphasis"
 						variant="outline-primary-green"

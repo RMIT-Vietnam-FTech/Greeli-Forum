@@ -84,7 +84,7 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
   return (
     <button
       onClick={handleUpvote}
-      className="text-decoration-none text-error-emphasis border border-primary-green px-2 rounded-5 bg-transparent"
+      className="text-decoration-none text-forum-emphasis border border-primary-green px-2 rounded-5 bg-transparent"
     >
       {nOfUpvote}
       <BsArrowUpSquareFill className="ms-2" />

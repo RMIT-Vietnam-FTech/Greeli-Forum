@@ -4,24 +4,38 @@
   box-sizing: border-box;
 }
 
-.left-sidebar {
-  width: 16.7%;
-  height: 70vh;
-  position: sticky;
-  top: 80px;
-  overflow: hidden;
-  background-color: #365949;
-  border-radius: 20px;
+::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 30px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+  background-color: white;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: white;
+}
+
+.overflow-scroll-y {
   overflow-y: scroll;
 }
-
-.right-sidebar {
-  width: 21.47%;
-  height: 100px;
+.overflow-scroll-y::-webkit-scrollbar-thumb {
+  border-radius: 30px;
+  background-color: transparent;
 }
 
-.main {
-  width: 64.27%;
+.border-left-gray {
+  border-left: 1px solid gray;
+  padding-left: 10px;
 }
 
 .avatar {
@@ -58,6 +72,9 @@
   outline: none !important;
 }
 
+.tiptap p {
+  font-size: 14px;
+}
 .tiptap > * + * {
   margin-top: 0.75em;
 }
@@ -292,7 +309,7 @@
 
 .popup-editor {
   height: 30vh;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .btn-disable {
@@ -303,4 +320,190 @@
 
 video {
   position: static !important;
+}
+
+.forum-page {
+  width: 100vw;
+}
+
+.right-side-bar-heading {
+  font-size: 20px;
+  font-weight: 200px;
+}
+.right-side-bar-username {
+  color: #0a2a28;
+}
+.right-side-bar-title {
+  font-size: 18px;
+  margin: 10px 0px;
+  padding: 0px;
+  color: #0a2a28;
+}
+.right-side-bar-contact {
+  color: #0a2a28;
+}
+
+.thread-statistic {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  border-radius: 20px;
+  margin-top: 30px;
+}
+
+.recommend-post-wrapper {
+  margin-top: 50px;
+  padding: 10px 0;
+  border-radius: 30px;
+}
+
+.recommend-post {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin: 0px;
+  padding: 0px;
+  justify-content: space-between;
+  border-bottom: 1px solid gray;
+}
+
+.recommend-post-section {
+  word-break: break-all;
+  padding: 10px 0;
+  margin-top: 30px;
+  width: 100%;
+  background-color: none;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.post-title {
+  margin: 5px 0px;
+  font-size: 18px;
+  font-weight: 600px;
+  color: #9ccdad;
+}
+
+.container-wrapper {
+  width: 95vw;
+  margin: 0 auto;
+}
+
+.main-container {
+  padding-top: 80px;
+}
+
+.left-sidebar {
+  margin: 80px 0px;
+  display: none;
+}
+
+.right-sidebar {
+  padding-bottom: 80px;
+  flex-basis: 21.794%;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: sticky;
+  top: 100px;
+}
+
+@media only screen and (min-width: 800px) {
+  .right-sidebar {
+    padding-bottom: 0px;
+    min-width: 230px;
+    flex-direction: column-reverse;
+    height: 85vh;
+  }
+  .thread-statistic {
+    margin-top: 0px;
+  }
+  .recommend-post-wrapper {
+    margin-top: 0px;
+    padding: 20px;
+    height: 65%;
+  }
+  .main {
+    width: 65%;
+  }
+  .main-container {
+    padding: 0;
+    margin: 80px 0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .container-wrapper {
+    width: 95vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0px auto;
+  }
+  .recommend-post {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    padding: 10px 5px;
+    justify-content: space-between;
+    border-bottom: 1px solid gray;
+  }
+  .recommend-post-section {
+    display: none;
+    word-break: break-all;
+    padding: 10px 0;
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    overflow-y: scroll;
+    height: 75%;
+  }
+  .right-side-bar-username {
+    color: #ead08d;
+  }
+  .right-side-bar-title {
+    color: white;
+    font-size: 16px;
+  }
+  .right-side-bar-contact {
+    color: white;
+    font-size: 16px;
+  }
+}
+@media only screen and (min-width: 1190px) {
+  .right-sidebar {
+    min-width: 230px;
+  }
+  .left-sidebar {
+    display: flex;
+    min-width: 230px;
+    padding: 10px 10px;
+    flex-basis: 17%;
+    height: 85vh;
+    position: sticky;
+    top: 100px;
+    border-radius: 20px;
+  }
+  .main {
+    width: 73%;
+    margin: 0px 10px;
+  }
+  .main-container {
+    width: 80.5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .container-wrapper {
+    max-width: 1600px;
+  }
 }/*# sourceMappingURL=forum.css.map */

@@ -59,7 +59,7 @@ export default function Comment({ commentData }) {
 
             {/* username */}
             <p
-              className="fw-bold m-0 text-forum-emphasis"
+              className="fw-bold m-0 text-login-emphasis"
               style={{ fontSize: "14px" }}
             >
               {commentData.createdBy.username}

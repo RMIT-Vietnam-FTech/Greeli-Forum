@@ -66,7 +66,10 @@ const Navbar = ({ isForum }) => {
 					id="offcanvasNavbar"
 					aria-labelledby="offcanvasNavbarLabel"
 				>
-					<div className="offcanvas-header" style={{boxShadow: "0 2px 4px rgba(0, 0, 0, 0.25)"}}>
+					<div
+						className="offcanvas-header"
+						style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.25)" }}
+					>
 						<h5
 							className="offcanvas-title text-greeli-emphasis"
 							id="offcanvasNavbarLabel"

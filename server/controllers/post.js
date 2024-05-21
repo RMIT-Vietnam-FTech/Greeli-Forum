@@ -4,6 +4,7 @@ import Thread from "../models/Thread.js";
 import User from "../models/User.js";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
 import mongoose from "mongoose";
+import sharp from "sharp";
 const createRandomName = (bytes = 32) =>
   crypto.randomBytes(bytes).toString("hex");
 
@@ -38,12 +39,17 @@ export const createPost = async (req, res) => {
       if (thread) {
         uploadObject.belongToThread = belongToThread;
       } else {
-        res.status(404).json({message:"thread id is not found or invalid"});
+        res.status(404).json({ message: "thread id is not found or invalid" });
       }
 
       if (uploadFile) {
         const imageName = createRandomName();
-        await uploadFileData(uploadFile.buffer, imageName, uploadFile.mimetype);
+        const fileBuffer = await sharp(uploadFile.buffer)
+          .jpeg({ quality:100})
+          .resize({ width: 730, height: 400 })
+          .toBuffer();
+        console.log(fileBuffer);
+        await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
         uploadObject.uploadFile = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
       }
 
@@ -58,7 +64,7 @@ export const createPost = async (req, res) => {
 
       res.status(201).json(post._id);
     } else {
-      res.status(403).json({message:"Unauthorized"});
+      res.status(403).json({ message: "Unauthorized" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -72,7 +78,8 @@ export const getPosts = async (req, res) => {
     let { sort, filter, belongToThread, page, limit } = req.query;
     if (belongToThread) {
       const thread = await Thread.findById(belongToThread);
-      if (!thread) res.status(404).json({message:"threadId not found or invalid"});
+      if (!thread)
+        res.status(404).json({ message: "threadId not found or invalid" });
     }
 
     const filterCommand = {
@@ -150,7 +157,7 @@ export const getPosts = async (req, res) => {
           },
         },
         { $sort: sortObject },
-        { $skip: (Number.parseInt(page)-1) * limit },
+        { $skip: (Number.parseInt(page) - 1) * limit },
         { $limit: Number.parseInt(limit) },
       ],
     });
@@ -187,10 +194,10 @@ export const modifyPost = async (req, res) => {
         post.save();
         res.status(204).json("success");
       } else {
-        res.status(401).json({message:"Unauthorized"});
+        res.status(401).json({ message: "Unauthorized" });
       }
     } else {
-      res.status(404).json({message:"Not found"});
+      res.status(404).json({ message: "Not found" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -202,14 +209,19 @@ export const deletePost = async (req, res) => {
     const postId = req.params.postId;
     const { threadId } = req.body;
     const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({message:"userId is not found or invalid}"});
-    if (!threadId) return res.status(400).json({message:"Bad Request"});
+    if (!user)
+      return res
+        .status(404)
+        .json({ message: "userId is not found or invalid}" });
+    if (!threadId) return res.status(400).json({ message: "Bad Request" });
     const post = await Post.findById(postId);
     const thread = await Thread.findById(threadId);
-    if (!thread) return res.status(404).json({message:"threadId not found or invalid"});
-    if (!post) return res.status(404).json({message:"postId not found or invalid"});
+    if (!thread)
+      return res.status(404).json({ message: "threadId not found or invalid" });
+    if (!post)
+      return res.status(404).json({ message: "postId not found or invalid" });
     if (post.createdBy.userId !== req.user.id)
-      return res.status(403).json({message:"Forbidden"});
+      return res.status(403).json({ message: "Forbidden" });
     // console.log("check post data: " + JSON.stringify(post.comments));
     // delete in s3 bucket
     if (post.uploadFile) {
@@ -251,14 +263,19 @@ export const threadAdminDeletePost = async (req, res) => {
     const postId = req.params.postId;
     const { threadId } = req.body;
     const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({message:"userId is not found or invalid"});
-    if (!threadId) return res.status(400).json({message:"Bad Request"});
+    if (!user)
+      return res
+        .status(404)
+        .json({ message: "userId is not found or invalid" });
+    if (!threadId) return res.status(400).json({ message: "Bad Request" });
     const post = await Post.findById(postId);
     const thread = await Thread.findById(threadId);
-    if (!thread) return res.status(404).json({message:"threadId not found or invalid"});
-    if (!post) return res.status(404).json({message:"postId not found or invalid"});
+    if (!thread)
+      return res.status(404).json({ message: "threadId not found or invalid" });
+    if (!post)
+      return res.status(404).json({ message: "postId not found or invalid" });
     if (thread.createdBy.userId !== req.user.id)
-      return res.status(403).json({message:"Forbidden"});
+      return res.status(403).json({ message: "Forbidden" });
     // delete in s3 bucket
     if (post.uploadFile) {
       deleteFileData(post.uploadFile);
@@ -291,11 +308,12 @@ export const threadAdminGetPosts = async (req, res) => {
     //filter -> threadId
     //sorting
     let { sort, filter, belongToThread, page, limit } = req.query;
-    if (!belongToThread) res.status(400).json({message:"Bad Request"});
+    if (!belongToThread) res.status(400).json({ message: "Bad Request" });
     const thread = await Thread.findById(belongToThread);
-    if (!thread) res.status(404).json({message:"threadId not found or invalid"});
+    if (!thread)
+      res.status(404).json({ message: "threadId not found or invalid" });
     if (thread.createdBy.userId !== req.user.id)
-      res.status(403).json({message:"Unauthorized"});
+      res.status(403).json({ message: "Unauthorized" });
 
     const filterCommand = {};
 
@@ -388,14 +406,16 @@ export const threadAdminVerifyPost = async (req, res) => {
     const postId = req.params.postId;
     const { threadId } = req.body;
 
-    if (!threadId) res.status(400).json({message:"ThreadId not found or invalid"});
+    if (!threadId)
+      res.status(400).json({ message: "ThreadId not found or invalid" });
     const thread = await Thread.findById(threadId);
-    if (!thread) res.status(404).json({message:"thread id not found or invalid"});
+    if (!thread)
+      res.status(404).json({ message: "thread id not found or invalid" });
     if (thread.createdBy.userId != req.user.id)
-      res.status(403).json({message:"Unauthorized"});
+      res.status(403).json({ message: "Unauthorized" });
 
     const post = await Post.findById(postId);
-    if (!post) res.status(404).json({message:"post not found or invalid"});
+    if (!post) res.status(404).json({ message: "post not found or invalid" });
     post.isApproved = true;
     post.verifiedAt = new Date();
     await post.save();
@@ -408,10 +428,11 @@ export const threadAdminVerifyPost = async (req, res) => {
 export const postUpVote = async (req, res) => {
   try {
     const postId = req.params.postId;
-    if (!postId) return res.status(400).json({message:"Bad Request"});
+    if (!postId) return res.status(400).json({ message: "Bad Request" });
 
     const post = await Post.findById(postId);
-    if (!post) return res.status(404).json({message:"post id not found or invalid"});
+    if (!post)
+      return res.status(404).json({ message: "post id not found or invalid" });
 
     post.upvote.push(req.user.id);
     await post.save();
@@ -424,7 +445,7 @@ export const postUpVote = async (req, res) => {
 export const deleteUpvote = async (req, res) => {
   try {
     const postId = req.params.postId;
-    if (!postId) return res.status(400).json({message:"Bad Request"});
+    if (!postId) return res.status(400).json({ message: "Bad Request" });
 
     const post = await Post.findById(postId);
     if (!post) return res.status(404).json("post id not found or invalid");
