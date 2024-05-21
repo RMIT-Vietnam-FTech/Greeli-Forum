@@ -7,10 +7,10 @@ import SearchBar from "../../components/Search/Search";
 function Homepage() {
 	return (
 		<div className="App">
-			{/* <Header />
+			<Header />
 			<Main />
-			<Jumbotron /> */}
-			<SearchBar />
+			<Jumbotron />
+			{/* <SearchBar /> */}
 		</div>
 	);
 }
