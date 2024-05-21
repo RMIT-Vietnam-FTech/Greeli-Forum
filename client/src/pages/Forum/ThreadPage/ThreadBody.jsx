@@ -94,6 +94,7 @@ export default function ThreadBody({ threadData }) {
 			isThreadAdmin ? verifyAdminFetcher : fetcher,
 		);
 
+//   setSearchResult(issues);
   const issues = data ? [].concat(...data) : [];
   useEffect(() => {
     console.log(searchTerm);
@@ -159,7 +160,7 @@ export default function ThreadBody({ threadData }) {
 
         {/*Post items*/}
         <div>
-          {searchResult.map((postData) => {
+          {issues.map((postData) => {
             return (
               <Post
                 key={postData._id}
