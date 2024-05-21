@@ -100,7 +100,7 @@ const PostGallery = (props) => {
 
 	return (
 		<div className="container">
-			<div className="row text-white gap-5 fs-4 fw-light border-bottom border-white">
+			<div className="row text-greeli-emphasis gap-5 fs-4 fw-light profile-tab-container">
 				<p
 					className={`${isMe && "post-tab-active"} text-center col`}
 					onClick={isMe ? changeTabHandler : null}
@@ -115,7 +115,9 @@ const PostGallery = (props) => {
 			</div>
 			<div className="posts-container overflow-auto pt-3">
 				{renderPostList?.length === 0 ? (
-					<div className="text-white text-center">No posts to show</div>
+					<div className="text-greeli-emphasis text-center">
+						No posts to show
+					</div>
 				) : (
 					renderPostList?.map((post, index) => {
 						return <PostItem key={index} post={post} />;
