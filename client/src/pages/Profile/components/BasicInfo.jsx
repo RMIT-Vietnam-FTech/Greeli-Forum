@@ -60,29 +60,30 @@ const BasicInfo = (props) => {
 		return (
 			<div className="container-fluid text-white info-item py-2">
 				<div className="row d-flex flex-row align-items-center g-1">
-					<div className="col-1" aria-hidden="true">
+					<div className="col-1 text-greeli-emphasis" aria-hidden="true">
 						{iconArray[id]}
 					</div>
-					<label htmlFor={`info-input-${id}`} className="sr-only">
+					{/* <label htmlFor={`info-input-${id}`} className="sr-only">
 						Edit {type}
-					</label>
+					</label> */}
 					<input
 						type="text"
 						id={`info-input-${id}`}
-						className="col-8 px-2"
+						className="col-8 px-2  text-greeli-emphasis border-input-change-pass"
 						value={currentInput}
 						onChange={handleInput}
 						style={{
-							border: "solid white 1px",
 							borderRadius: "4px",
 							backgroundColor: "transparent",
-							color: "white",
 						}}
 						aria-label={`Edit ${type}`}
 					/>
 					<MdCheckCircle
+						// role="button"
+						type="submit"
 						size={"2vw"}
-						className="col-2"
+						tabIndex={0}
+						className="col-2 text-greeli-emphasis"
 						onClick={(e) => {
 							editInfoHandler(e);
 							setIsEditing(false);
@@ -90,14 +91,13 @@ const BasicInfo = (props) => {
 						}}
 						role="button"
 						aria-label="Save changes"
-						tabIndex={0}
 					/>
 				</div>
 			</div>
 		);
 	} else {
 		return (
-			<div className="container w-100 text-white info-item">
+			<div className="container w-100 text-greeli-emphasis info-item">
 				<div className="row w-100">
 					<div className="col-1" aria-hidden="true">
 						{id === 0 ? iconArray[id][0] : iconArray[id]}
@@ -117,7 +117,7 @@ const BasicInfo = (props) => {
 					</p>
 					{isMe && (
 						<button
-							className="col-2 btn btn-link p-0 text-decoration-none text-white"
+							className="col-2 btn btn-link p-0 text-decoration-none text-greeli-emphasis"
 							onClick={() => {
 								setIsEditing(true);
 							}}
