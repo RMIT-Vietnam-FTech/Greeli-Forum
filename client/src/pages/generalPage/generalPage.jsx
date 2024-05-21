@@ -14,7 +14,7 @@ function GeneralPage() {
 			<Update data={UpdateData} />
 			<News data={NewsData} />
 			<Events data={EventsData} />
-			<Weather/>
+			<Weather />
 		</>
 	);
 }

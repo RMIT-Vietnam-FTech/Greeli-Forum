@@ -121,6 +121,20 @@
 	font-size: 3vw;
 }
 
+.overlay {
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.place {
+	background-color: none;
+}
+
+.avatar-image {
+	cursor: pointer;
+}
+
 /* Responsiveness */
 @media screen and (max-width: 1920px) {
 	.role-container,

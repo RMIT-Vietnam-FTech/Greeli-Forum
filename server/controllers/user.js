@@ -41,6 +41,7 @@ export const login = async (req, res) => {
 		if (!user) return res.status(400).json({ error: "User doesn't exist" });
 		const isMatch = await bcrypt.compare(password, user.password);
 		if (!isMatch) return res.status(400).json({ error: "Password incorrect" });
+		if (user.isLocked) return res.status(400).json({error: "Your account is locked, cannot log in!"})
 
 		const token = jwt.sign(
 			{ id: user._id, email: user.email, role: user.role },
@@ -58,6 +59,7 @@ export const login = async (req, res) => {
 			id: user._id,
 			message: "successfully login",
 			role: user.role,
+			isActivated: user.isActivated,
 		});
 	} catch (error) {
 		res.status(500).json({ error: error.message });
@@ -93,6 +95,17 @@ export const deactivateAccount = async (req, res) => {
 		const user = await User.findByIdAndUpdate(userId, { isActivated: false });
 		if (!user) return res.status(404).json({ message: "User not found" });
 		res.status(200).json({ message: "Account deactivated" });
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+};
+
+export const activateAccount = async (req, res) => {
+	try {
+		const userId = req.params.id;
+		const user = await User.findByIdAndUpdate(userId, { isActivated: true });
+		if (!user) return res.status(404).json({ message: "User not found" });
+		res.status(200).json({ message: "Account activated" });
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}

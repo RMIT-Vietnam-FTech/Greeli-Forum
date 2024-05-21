@@ -61,13 +61,13 @@
 }
 
 .online {
-    border-color: #4CAF50;
-    /* Green border for online nhe */
+    border: 3px solid #4CAF50;
+    box-sizing: border-box;
 }
 
 .offline {
-    border-color: #ccc;
-    /* Grey border for offline nhe */
+    border: 3px solid #ccc;
+    box-sizing: border-box;
 }
 
 /* Chat Body */
@@ -139,15 +139,18 @@
 
 .own-dark {
     background-color: #DCB968;
+    color: #0A2A28
 }
 
 .own-light {
     background-color: #9CCDAD;
+    color: #0A2A28;
 }
 
 .other {
     border: 1px solid #ccc;
     background-color: #EBEBEB;
+    color: #0A2A28;
 }
 
 .message-text {

@@ -54,7 +54,9 @@ export default function EditTextEditor({ content, componentType }) {
 	return (
 		<div
 			className={
-				editContext.isEdit ? "text-editor text-greeli-emphasis show-border" : "text-editor text-greeli-emphasis"
+				editContext.isEdit
+					? "text-editor text-greeli-emphasis show-border"
+					: "text-editor text-greeli-emphasis"
 			}
 		>
 			<EditorProvider
@@ -68,7 +70,10 @@ export default function EditTextEditor({ content, componentType }) {
 				}
 				slotAfter={
 					editContext.isEdit ? (
-						<EditTextBar content={content} componentType={componentType} />
+						<EditTextBar
+							content={content}
+							componentType={componentType}
+						/>
 					) : null
 				}
 				extensions={extensions}

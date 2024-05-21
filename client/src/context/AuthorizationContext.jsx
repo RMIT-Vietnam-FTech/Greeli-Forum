@@ -22,10 +22,9 @@ export const AuthorizationContextProvider = ({
 	if (error) return <div>Error </div>;
 	if (isLoading) return <div>is loading</div>;
 	if (data) {
-		if(localStorage.getItem("user")=="null"){
+		if (localStorage.getItem("user") == "null") {
 			isAuthor.current = false;
-		}
-		else if ( data.createdBy.userId === user.id) {
+		} else if (data.createdBy.userId === user.id) {
 			isAuthor.current = true;
 		}
 	}
