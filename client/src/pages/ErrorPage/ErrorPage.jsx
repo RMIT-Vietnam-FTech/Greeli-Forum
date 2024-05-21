@@ -2,7 +2,7 @@ import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import { MdEmail, MdFacebook, MdPhone } from "react-icons/md";
 import { ThemeContext } from "../../context/ThemeContext";
-import "./style.css";
+// import "./style.css";
 import PreventionPopup from "../../components/Popup/PreventionPopup";
 
 const ErrorPage = () => {
