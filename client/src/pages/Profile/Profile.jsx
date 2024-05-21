@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ThemeContext } from "../../context/ThemeContext";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
@@ -14,6 +15,7 @@ import { UserContext, useUserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
 
 const Profile = () => {
+	const { isDarkMode } = useContext(ThemeContext);
 	const userData = demoUserInfo[0];
 	const navigate = useNavigate();
 	const [basicInfo, setBasicInfo] = useState({});
@@ -176,7 +178,10 @@ const Profile = () => {
 	};
 	//---------------------------
 	return (
-		<div className="container-fluid profile-container bg-primary-green-900">
+		<div
+			className="container-fluid profile-container bg-greeli-subtle"
+			data-bs-theme={isDarkMode ? "dark" : "light"}
+		>
 			<div>
 				<Toaster />
 			</div>
@@ -242,7 +247,7 @@ const Profile = () => {
 					<div className="d-flex d-lg-none flex-column justify-content-between pt-5 px-2 col-12 right-part">
 						{/* Basic Setting Section For Mobile Show */}
 						<div>
-							<h2 className="fs-4 text-white border-bottom border-white fw-light">
+							<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 								{isMe ? "Basic Setting" : "Basic Info"}
 							</h2>
 							<BasicInfo
@@ -290,7 +295,7 @@ const Profile = () => {
 						{/* Account Setting Section */}
 						{isMe && (
 							<div>
-								<h2 className="fs-4 text-white border-bottom border-white fw-light">
+								<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 									Account Setting
 								</h2>
 								<ChangePassword userId={userId} />
@@ -310,7 +315,7 @@ const Profile = () => {
 				<div className="d-lg-flex d-none flex-column justify-content-between py-5 px-5 col-5 right-part">
 					{/* Basic Setting Section For Laptop Show */}
 					<div>
-						<h2 className="fs-4 text-white border-bottom border-white fw-light">
+						<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 							{isMe ? "Basic Setting" : "Basic Info"}
 						</h2>
 						<BasicInfo
@@ -358,7 +363,7 @@ const Profile = () => {
 					{/* Account Setting Section */}
 					{isMe && (
 						<div>
-							<h2 className="fs-4 text-white border-bottom border-white fw-light">
+							<h2 className="fs-4 text-greeli-emphasis border-profile fw-bold">
 								Account Setting
 							</h2>
 							<ChangePassword userId={userId} />
