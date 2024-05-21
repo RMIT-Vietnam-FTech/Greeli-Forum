@@ -18,7 +18,7 @@
         password: nhi144a11112005
 # (5). MongoDB Compass database connection string: mongodb+srv://admin:admin@atlascluster.ob8wgnr.mongodb.net/forum?retryWrites=true&w=majority&appName=AtlasCluster
 # (6). How to run our website on localhost:
-    - Download the project: https://github.com/RMIT-Vietnam-Teaching/group-project-cosc3060-2024a-ftech
+    - Download the project: git clone https://github.com/RMIT-Vietnam-Teaching/group-project-cosc3060-2024a-ftech
     - To install all packages run: npm run build
     - To start the client and server-side run: npm run start:dev
     Cautions: before running the client and server-side, make sure that the PORT 3000 and PORT 3001 are not in used. When all things finish, you can start using our product.
