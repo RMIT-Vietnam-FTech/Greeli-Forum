@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import { MdEmail, MdFacebook, MdPhone } from "react-icons/md";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -6,6 +7,17 @@ import "./style.css";
 
 const ErrorPage = () => {
 	const { isDarkMode } = useContext(ThemeContext);
+	const navigate = useNavigate();
+	const location = useLocation();
+
+	const handleHomeClick = () => {
+		navigate("/");
+	}
+
+	const handleContactClick = () => {
+		navigate("/contact");
+	};
+
 	return (
 		<div
 			className="errorpage-container bg-greeli-subtle text-error-emphasis d-flex flex-column justify-content-center align-items-center"
@@ -17,10 +29,11 @@ const ErrorPage = () => {
 					We are sorry but the page you requested was not found
 				</p>
 				<div className="d-flex flex-row gap-3 justify-content-center">
-					<Button className="error-button rounded-pill">GO HOME</Button>{" "}
+					<Button className="error-button rounded-pill" onClick={handleHomeClick}>GO HOME</Button>{" "}
 					<Button
 						className="text-error-emphasis error-button rounded-pill border-error"
 						variant="outline-primary-green"
+						onClick={handleContactClick}
 					>
 						CONTACT US
 					</Button>

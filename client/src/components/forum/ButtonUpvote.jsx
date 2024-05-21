@@ -83,6 +83,7 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
   const [isVoted, setIsVoted] = useState(user && upvote.includes(user.id));
   return (
     <button
+    tabIndex="0"
       onClick={handleUpvote}
       className="text-decoration-none text-forum-emphasis border border-primary-green px-2 rounded-5 bg-transparent"
     >
