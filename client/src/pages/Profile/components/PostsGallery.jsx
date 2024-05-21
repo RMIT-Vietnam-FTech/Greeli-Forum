@@ -62,6 +62,7 @@ const PostGallery = (props) => {
 					console.log(error);
 				});
 			setCreatedPosts(newRenderPostList);
+			setRenderPostList(newRenderPostList);
 			newRenderPostList = [];
 		};
 
@@ -89,7 +90,6 @@ const PostGallery = (props) => {
 		const fetchRenderPosts = async () => {
 			await fetchCreatedPosts();
 			await (isMe && fetchArchivedPosts());
-			setRenderPostList(createdPosts);
 		};
 
 		fetchRenderPosts();
