@@ -49,8 +49,8 @@ function ForumLeaderBoard() {
   }
   return (
     <div
-      className="mt-4 w-100 bg-forum-subtle d-flex flex-column gap-2 align-items-start overflow-scroll-y h-75"
-      style={{ borderRadius: "20px" }}
+      className="mt-4 w-100 bg-forum-subtle d-flex flex-column gap-2 align-items-start overflow-scroll-y"
+      style={{ borderRadius: "20px", height:"100%" }}
     >
       {data.map((leadeboard, index) => {
         return (

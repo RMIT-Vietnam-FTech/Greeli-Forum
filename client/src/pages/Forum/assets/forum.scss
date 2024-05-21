@@ -413,7 +413,7 @@ video {
   gap: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-end;
   position: sticky;
   top: 100px;
 }
@@ -423,6 +423,8 @@ video {
     min-width: 230px;
     flex-direction: column-reverse;
     height: 85vh;
+	overflow: hidden;
+	border-radius: 30px;
   }
   .thread-statistic {
     margin-top: 0px;
@@ -430,7 +432,7 @@ video {
   .recommend-post-wrapper {
     margin-top: 0px;
     padding: 20px;
-    height: 65%;
+    height: 100%;
   }
   .main {
     width: 75%;

@@ -16,9 +16,9 @@ export const createThread = async (req, res) => {
   try {
     const { title, content, topics } = req.body;
     const uploadFile = req.file;
-    // console.log(
-    //   `check input: \n file: ${req.file} \n body: ${JSON.stringify(req.body)}`
-    // );
+    console.log(
+      `check input: \n file: ${req.file} \n body: ${JSON.stringify(req.body)}`
+    );
     if (req.user) {
       const user = await User.findById(req.user.id);
       const uploadObject = {};
@@ -34,7 +34,7 @@ export const createThread = async (req, res) => {
       };
 
       if (user.profileImage) {
-        uploadFile.createdBy.profileImage = user.profileImage;
+        uploadObject.createdBy.profileImage = user.profileImage;
       }
 
       if (uploadFile) {
@@ -142,10 +142,11 @@ export const getThreadStatistic = async (req, res) => {
 };
 export const validateThread = async (req, res) => {
   try {
-    const {title} = req.body;
+    const { title } = req.body;
     console.log(`title: ${title}`);
     const threadExistence = await Thread.exists({ title: title });
-    if (threadExistence) return res.status(403).json({ message: `${title} is already exist` });
+    if (threadExistence)
+      return res.status(403).json({ message: `${title} is already exist` });
     return res.status(200).json("success");
   } catch (e) {
     res.status(500).json({ message: error.message });
