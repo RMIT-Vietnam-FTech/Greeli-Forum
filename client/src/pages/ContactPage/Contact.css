@@ -111,6 +111,7 @@ form {
 }
 
 /* [data-bs-theme="dark"] {
+[data-bs-theme="dark"] {
     background-color: var(--dark-green);
     color: #000;
 }

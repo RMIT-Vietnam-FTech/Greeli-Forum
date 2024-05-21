@@ -5,7 +5,7 @@ import axios from "axios";
 function Posts() {
 	const Post = (props) => {
 		return (
-			<div className="news-card rounded-3">
+			<div className="news-card card-item rounded-3">
 				<img
 					src={props.img}
 					alt="News"
