@@ -20,6 +20,7 @@ import {
 	deleteCreatedPost,
 	changePassword,
 	deactivateAccount,
+	activateAccount,
 } from "../controllers/user.js";
 // import { getProfile } from "../controllers/userProfile.js";
 import { verifyToken, verifyAdmin } from "../middleware/auth.js";
@@ -32,6 +33,7 @@ router.get("/getAll", verifyToken, getAllUser);
 router.get("/:id", getProfile);
 router.post("/:id/update", updateUserProfile);
 router.post("/:id/deactivate", deactivateAccount);
+router.post("/:id/activate", activateAccount);
 router.post("/login", login);
 router.post("/change-password", changePassword);
 router.post("/register", register);
@@ -54,7 +56,7 @@ router
 
 router
 	.route("/:userId/created_posts")
-	.get(verifyToken, getCreatedPost)
+	.get(getCreatedPost)
 	.post(verifyToken, postCreatedPost)
 	.delete(verifyToken, deleteCreatedPost);
 

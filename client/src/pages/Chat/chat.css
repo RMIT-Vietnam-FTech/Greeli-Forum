@@ -93,8 +93,6 @@
 }
 
 .online-dot {
-  background-color: greenyellow;
-  border-radius: 50%;
   position: absolute;
   left: 2rem;
   width: 1rem;

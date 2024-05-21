@@ -104,7 +104,8 @@ const ChangePassword = (props) => {
 								},
 								minLength: {
 									value: 8,
-									message: "This input must exceed 8 characters",
+									message:
+										"This input must exceed 8 characters",
 								},
 								validate: (value) => {
 									if (value === oldPassword) {

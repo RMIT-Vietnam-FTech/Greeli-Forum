@@ -33,31 +33,31 @@ const Navbar = ({ isForum }) => {
 		>
 			<div className="container-fluid">
 				<div className="d-flex gap-4">
-				{isForum && (
-					<button
-						className="navbar-toggler forum-toggle"
-						type="button"
-						data-bs-toggle="offcanvas"
-						data-bs-target="#offcanvasForum"
-						aria-controls="offcanvasForum"
-						aria-label="Toggle navigation"
-					>
-						<span className="text-greeli-emphasis">
-							<FiMoreVertical />
-						</span>
-					</button>
-				)}
-				<Link className="brand d-flex" to="/">
-					<Image
-						className="me-0 me-md-3"
-						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
-						width={40}
-						alt="Greeli Logo"
-					/>
-					<p className="forum-name my-auto text-greeli-emphasis ml-3">
-						Greeli
-					</p>
-				</Link>
+					{isForum && (
+						<button
+							className="navbar-toggler forum-toggle"
+							type="button"
+							data-bs-toggle="offcanvas"
+							data-bs-target="#offcanvasForum"
+							aria-controls="offcanvasForum"
+							aria-label="Toggle navigation"
+						>
+							<span className="text-greeli-emphasis">
+								<FiMoreVertical />
+							</span>
+						</button>
+					)}
+					<Link className="brand d-flex" to="/">
+						<Image
+							className="me-0 me-md-3"
+							src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+							width={40}
+							alt="Greeli Logo"
+						/>
+						<p className="forum-name my-auto text-greeli-emphasis ml-3">
+							Greeli
+						</p>
+					</Link>
 				</div>
 				<div
 					className="offcanvas offcanvas-end"
@@ -65,7 +65,10 @@ const Navbar = ({ isForum }) => {
 					id="offcanvasNavbar"
 					aria-labelledby="offcanvasNavbarLabel"
 				>
-					<div className="offcanvas-header" style={{boxShadow: "0 2px 4px rgba(0, 0, 0, 0.25)"}}>
+					<div
+						className="offcanvas-header"
+						style={{ boxShadow: "0 2px 4px rgba(0, 0, 0, 0.25)" }}
+					>
 						<h5
 							className="offcanvas-title text-greeli-emphasis"
 							id="offcanvasNavbarLabel"
@@ -139,7 +142,12 @@ const Navbar = ({ isForum }) => {
 						id="offcanvasForum"
 						aria-labelledby="offcanvasForumLabel"
 					>
-						<div className="offcanvas-header" style={{boxShadow: "0 2px 4px rgba(0, 0, 0, 0.25)"}}>
+						<div
+							className="offcanvas-header"
+							style={{
+								boxShadow: "0 2px 4px rgba(0, 0, 0, 0.25)",
+							}}
+						>
 							<h5
 								className="offcanvas-title text-greeli-emphasis"
 								id="offcanvasNavbarLabel"
