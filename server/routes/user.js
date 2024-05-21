@@ -15,6 +15,9 @@ import {
 	getArchivedPost,
 	postArchivedPost,
 	deleteArchivedPost,
+	getCreatedPost,
+	postCreatedPost,
+	deleteCreatedPost,
 	changePassword,
 	deactivateAccount,
 	activateAccount,
@@ -50,5 +53,11 @@ router
 	.get(verifyToken, getArchivedPost)
 	.post(verifyToken, postArchivedPost)
 	.delete(verifyToken, deleteArchivedPost);
+
+router
+	.route("/:userId/created_posts")
+	.get(getCreatedPost)
+	.post(verifyToken, postCreatedPost)
+	.delete(verifyToken, deleteCreatedPost);
 
 export default router;

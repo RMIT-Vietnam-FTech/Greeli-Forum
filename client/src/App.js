@@ -9,6 +9,7 @@ import ChatBubble from "./components/ChatBubble/ChatBubble.jsx";
 import LoginPopup from "./components/Popup/LoginPopup.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
+import { PopupContextProvider } from "./context/PopupContext.jsx";
 import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 import Chat from "./pages/Chat/Chat";
 import ContactPage from "./pages/ContactPage/Contact.jsx";

@@ -1,42 +1,142 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PostItem from "./PostItem";
+import axios from "axios";
 
 const PostGallery = (props) => {
-	const { myPosts, savedPosts } = props.profilePosts;
-	const [renderPostList, setRenderPostList] = useState(myPosts);
+	const isMe = props.isMe;
+	const userId = props.userId;
+	const token = JSON.parse(localStorage.getItem("user")).token;
+	const [createdPosts, setCreatedPosts] = useState(null);
+	const [archivedPosts, setArchivedPosts] = useState(null);
+	const [renderPostList, setRenderPostList] = useState(null);
+
+	const processPosts = (postObject) => {
+		// console.log(postObject);
+		const postId = postObject._id;
+		const title = postObject.title;
+		const { username, userId, uploadFile } = postObject.createdBy;
+		const profileImage = postObject.createdBy.profileImage || "";
+		const createdDate = postObject.createdAt;
+
+		const content = JSON.parse(postObject["content"])["content"][0][
+			"content"
+		][0]["text"];
+
+		const upvote = postObject.upvote.length;
+		const comment = postObject.comments.length;
+
+		const threadId = postObject.belongToThread;
+
+		const showPostObject = {
+			postId: postId,
+			author: {
+				username: username,
+				userId: userId,
+				profileImage: profileImage,
+			},
+			createdDate: createdDate,
+			threadId: threadId,
+			title: title,
+			content: content,
+			upvote: upvote,
+			comment: comment,
+			uploadFile: uploadFile,
+		};
+		return showPostObject;
+	};
+
+	useEffect(() => {
+		var newRenderPostList = [];
+		const fetchCreatedPosts = async () => {
+			const configuration = {
+				method: "get",
+				url: `http://localhost:3001/api/user/${userId}/created_posts`,
+			};
+			await axios(configuration)
+				.then(async (response) => {
+					const data = response.data;
+					const processedData = await data.map((post) => processPosts(post));
+					newRenderPostList = [...newRenderPostList, ...processedData];
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+			setCreatedPosts(newRenderPostList);
+			newRenderPostList = [];
+		};
+
+		const fetchArchivedPosts = async () => {
+			const configuration = {
+				method: "get",
+				url: `http://localhost:3001/api/user/${userId}/archived_posts`,
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			};
+			await axios(configuration)
+				.then(async (response) => {
+					const data = response.data;
+					const processedData = await data.map((post) => processPosts(post));
+					newRenderPostList = [...newRenderPostList, ...processedData];
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+			setArchivedPosts(newRenderPostList);
+		};
+
+		const fetchRenderPosts = async () => {
+			await fetchCreatedPosts();
+			await (isMe && fetchArchivedPosts());
+			setRenderPostList(createdPosts);
+		};
+
+		fetchRenderPosts();
+	}, [userId]);
 
 	const changeTabHandler = (event) => {
-		document
-			.querySelector(".post-tab-active")
-			.classList.remove("post-tab-active");
+		const activeTab = document.querySelector(".post-tab-active");
+		activeTab.classList.remove("post-tab-active");
+		activeTab.classList.add("post-tab");
 		event.target.classList.add("post-tab-active");
 		event.target.classList.remove("post-tab");
 
 		const clickedTabName = event.target.textContent;
-		if (clickedTabName === "My posts") {
-			setRenderPostList(myPosts);
+		if (clickedTabName === "User's posts") {
+			setRenderPostList(createdPosts);
+			// console.log(renderPostList);
 		} else {
-			setRenderPostList(savedPosts);
+			setRenderPostList(archivedPosts);
+			// console.log(renderPostList);
 		}
 	};
 
 	return (
-		<div className="mt-5">
-			<div className="d-flex flex-row text-white gap-5 fs-4 fw-light border-bottom border-white">
+		<div className="container">
+			<div className="row text-greeli-emphasis gap-5 fs-4 fw-light profile-tab-container">
 				<p
-					className="post-tab-active w-50 text-center"
-					onClick={changeTabHandler}
+					className={`${isMe && "post-tab-active"} text-center col`}
+					onClick={isMe ? changeTabHandler : null}
 				>
 					User's posts
 				</p>
-				<p className="w-50 text-center" onClick={changeTabHandler}>
-					Saved posts
-				</p>
+				{isMe && (
+					<p className="post-tab text-center col" onClick={changeTabHandler}>
+						Saved posts
+					</p>
+				)}
 			</div>
 			<div className="posts-container overflow-auto pt-3">
-				{renderPostList.map((post, index) => {
-					return <PostItem key={index} post={post} />;
-				})}
+				{renderPostList?.length === 0 ? (
+					<div className="text-greeli-emphasis text-center">
+						No posts to show
+					</div>
+				) : (
+					renderPostList?.map((post, index) => {
+						return <PostItem key={index} post={post} />;
+					})
+				)}
 			</div>
 		</div>
 	);

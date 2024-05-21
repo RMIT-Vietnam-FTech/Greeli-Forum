@@ -67,7 +67,7 @@ const Contact = () => {
       <Toaster />
       <main
         className="container-fluid bg-primary-green"
-        data-bs-theme={isDarkMode ? "dark" : "light"}
+        // data-bs-theme={isDarkMode ? "dark" : "light"}
       >
         <div className="row justify-content-evenly">
           <div className="col-11 col-lg-5 flex-column my-lg-5 p-lg-5 rounded-4">

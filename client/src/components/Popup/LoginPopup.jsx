@@ -13,7 +13,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
 import { PopupContext} from "../../context/PopupContext";
 
-export default function LoginPopup({ isShow }) {
+export default function LoginPopup() {
   const { isDarkMode } = useContext(ThemeContext);
   const popupContext = useContext(PopupContext);
   const { user, setUser } = useUserContext();
@@ -67,7 +67,7 @@ export default function LoginPopup({ isShow }) {
         console.log(error.response.data.error);
       });
   };
-
+  
   const onSubmit = (e) => {
     login();
     setEmail("");

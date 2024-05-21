@@ -4,15 +4,15 @@ import { io } from "socket.io-client";
 import Cookies from "universal-cookie";
 import ChatBox from "../../components/ChatBox/ChatBox";
 import Conversation from "../../components/Conversation/Conversation";
-import LoginPopup from "../../components/Popup/LoginPopup";
 import { useUserContext } from "../../context/UserContext";
 import "./chat.css";
 import { ThemeContext } from '../../context/ThemeContext';
+import SignIn from "../../components/Popup/SignIn";
 
 const Chat = () => {
 	const socket = useRef();
 	const cookies = new Cookies();
-	const { user, error, setError } = useUserContext();
+	const { user, error, setError} = useUserContext();
 	const [chats, setChats] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
 	const [onlineUsers, setOnlineUsers] = useState([]);
@@ -58,10 +58,11 @@ const Chat = () => {
 			};
 			axios(configuration)
 				.then((result) => {
+					// popupContext.setIsPopup(false);
 					setChats(result.data);
 				})
 				.catch((error) => {
-					// setError(error.response.data.error);
+					setError(error.response.data.error);
 					console.log(error);
 				});
 		};
@@ -184,7 +185,7 @@ const Chat = () => {
 	return (
 		<div className="Chat" data-bs-theme={isDarkMode ? "dark" : "light"}>
 			{/* Left Side */}
-			{error === "invalid token" && <LoginPopup isShow={true} />}
+			{/* {error === "invalid token" && <SignIn isShow={true} />} */}
 			<div
 				className={`Left-side-chat ${
 					isMobileView && showChatBox ? "d-none" : "d-full"
@@ -330,7 +331,7 @@ const Chat = () => {
 					</div>
 				</div>
 			</div>
-			{error && <LoginPopup isShow={true} />}
+			{error && <SignIn isShow={true} />}
 		</div>
 	);
 };

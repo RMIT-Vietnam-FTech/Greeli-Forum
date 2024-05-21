@@ -1,7 +1,7 @@
 import React from "react";
-import Header from "./component/header.jsx";
-import Jumbotron from "./component/jumbotron.jsx";
-import Main from "./component/main.jsx";
+import Header from "./component/Header.jsx";
+import Jumbotron from "./component/Jumbotron.jsx";
+import Main from "./component/Main.jsx";
 
 function Homepage() {
 	return (
@@ -9,6 +9,7 @@ function Homepage() {
 			<Header />
 			<Main />
 			<Jumbotron />
+			{/* <SearchBar /> */}
 		</div>
 	);
 }

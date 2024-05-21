@@ -39,7 +39,8 @@ router
   .put(verifyToken, PostController.modifyPost)
   .delete(verifyToken, PostController.deletePost);
 
-  router.route("/:postId/upvote")
+router.route("/:postId/upvote")
   .post(verifyToken, PostController.postUpVote)
   .delete(verifyToken, PostController.deleteUpvote);
 export default router;
+

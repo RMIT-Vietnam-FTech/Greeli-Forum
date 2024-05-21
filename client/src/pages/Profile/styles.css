@@ -59,9 +59,19 @@
 }
 
 /* Post Gallery */
+.post-tab,
 .post-tab-active {
-	color: #dcb968;
-	border-bottom: solid 1px #dcb968;
+	cursor: pointer;
+	margin-bottom: 0;
+	padding-bottom: 0.75rem;
+}
+
+.post-tab-active {
+	font-weight: bold;
+}
+
+.post-tab {
+	color: #a8a8a8;
 }
 /* Post Item Styling */
 .post-item {

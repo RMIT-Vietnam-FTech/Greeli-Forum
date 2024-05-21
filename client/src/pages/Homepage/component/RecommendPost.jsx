@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import Slider from "react-slick";
-
 import axios from "axios";
 
 function Posts() {
