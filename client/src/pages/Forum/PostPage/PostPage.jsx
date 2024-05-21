@@ -7,23 +7,23 @@ import InitialPost from "./IntialPost";
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 export default function PostPage() {
-	const { postId } = useParams();
-	const { data, error, isLoading } = useSwr(
-		`http://localhost:3001/api/v1/posts/${postId}`,
-		fetcher,
-	);
-	if (error) {
-		return <div>is error</div>;
-	}
-	if (isLoading) {
-		return <div>is loading</div>;
-	}
-	return <PostPageStructure postData={data} />;
+  const { postId } = useParams();
+  const { data, error, isLoading } = useSwr(
+    `/api/v1/posts/${postId}`,
+    fetcher
+  );
+  if (error) {
+    return <div>is error</div>;
+  }
+  if (isLoading) {
+    return <div>is loading</div>;
+  }
+  return <PostPageStructure postData={data} />;
 }
 function PostPageStructure({ postData }) {
 	const navigate = useNavigate();
 	const { data, error, isLoading } = useSwr(
-		`http://localhost:3001/api/v1/threads/${postData.belongToThread}`,
+		`/api/v1/threads/${postData.belongToThread}`,
 		fetcher,
 	);
 	if (error) {

@@ -35,7 +35,7 @@ export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
         formData.append("content", JSON.stringify(description));
         formData.append("belongToThread", belongToThread);
         const res = await axios.post(
-          "http://localhost:3001/api/v1/posts",
+          "/api/v1/posts",
           formData,
           {
             headers: {
@@ -79,7 +79,6 @@ export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
               Title<span className="text-danger">*</span>
             </h4>
           </label>
-
           <input
             className="post-title w-100 rounded-3 bg-transparent position-relative  py-2 text-white border-solid border border-white shadow-none"
             type="text"

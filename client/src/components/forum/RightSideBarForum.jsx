@@ -12,7 +12,7 @@ export default function RightSideBarForum() {
 }
 
 function ForumStatistic() {
-  const path = `http://localhost:3001/api/v1/forums/statistic`;
+  const path = `/api/v1/forums/statistic`;
   const { data, error, isLoading } = useSWR(path, fetcher);
   if (isLoading) {
     return 0;
@@ -45,7 +45,7 @@ function ForumStatistic() {
 }
 
 function ForumLeaderBoard() {
-  const path = `http://localhost:3001/api/v1/forums/leaderboard`;
+  const path = `/api/v1/forums/leaderboard`;
   const { data, error, isLoading } = useSWR(path, fetcher);
   if (isLoading) {
     return 0;

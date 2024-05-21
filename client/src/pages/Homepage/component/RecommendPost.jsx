@@ -54,7 +54,7 @@ function Posts() {
 	useEffect(() => {
 		// Fetch data using Axios when component mounts
 		axios
-			.get("http://localhost:3001/api/v1/news/get")
+			.get("/api/v1/news/get")
 			.then((response) => {
 				setData(response.data);
 				console.log(response.data);

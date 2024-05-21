@@ -27,7 +27,7 @@ export default function Comment({ commentData }) {
   // console.log("profileImage: " + commentData.createBy.profileImage);
   const { data, error, isLoading } = useSwr(
     commentData.replies.length > 0
-      ? `http://localhost:3001/api/v1/comments?postsId=${postId}&parentId=${commentData._id}`
+      ? `/api/v1/comments?postsId=${postId}&parentId=${commentData._id}`
       : null,
     fetcher
   );

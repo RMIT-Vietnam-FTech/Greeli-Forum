@@ -18,7 +18,7 @@ const Conversation = ({ data, currentUserId, online, isActive }) => {
 			const userId = data.members.find((id) => id !== currentUserId);
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/user/find/${userId}`,
+				url: `/api/user/find/${userId}`,
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -47,10 +47,7 @@ const Conversation = ({ data, currentUserId, online, isActive }) => {
 				{userData ? (
 					<>
 						<img
-							src={
-								userData.profilePicture ||
-								"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"
-							}
+							src={userData?.profileImage || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'}
 							alt={userData.username}
 							className={`conversation-image ${
 								online ? "online" : "offline"

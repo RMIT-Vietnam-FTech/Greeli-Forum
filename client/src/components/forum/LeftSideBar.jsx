@@ -76,7 +76,7 @@ function PersonalThreadList({ children }) {
 }
 
 function CreatedThread() {
-  const path = `http://localhost:3001/api/user/${
+  const path = `/api/user/${
     JSON.parse(localStorage.getItem("user")).id
   }/created_threads`;
 
@@ -131,7 +131,7 @@ function CreatedThread() {
   );
 }
 function FollowingThread() {
-  const path = `http://localhost:3001/api/user/${
+  const path = `/api/user/${
     JSON.parse(localStorage.getItem("user")).id
   }/follow_threads`;
 
@@ -173,7 +173,7 @@ function FollowingThread() {
             return (
               <NavLink
                 key={thread._id}
-                to={`http://localhost:3000/forum/threads/${thread._id}`}
+                to={`/forum/threads/${thread._id}`}
                 className="d-block text-white"
               >
                 {thread.title}
@@ -212,7 +212,7 @@ function TopicList({ children }) {
 }
 
 function ThreadList() {
-  const path = "http://localhost:3001/api/v1/topics";
+  const path = "/api/v1/topics";
   const { data, error, isLoading } = useSwr(path, fetcher);
   if (isLoading) {
     return 0;

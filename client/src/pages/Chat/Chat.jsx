@@ -30,7 +30,7 @@ const Chat = () => {
 	const [query, setQuery] = useState("");
 
 	useEffect(() => {
-		socket.current = io("http://localhost:3001");
+		socket.current = io("https://group-project-cosc3060-2024a-ftech.onrender.com");
 		socket.current.connect();
 		return () => {
 			socket.current.disconnect();
@@ -50,7 +50,7 @@ const Chat = () => {
 		const getChats = async () => {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/chat/find/${userId}`,
+				url: `/api/chat/find/${userId}`,
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -102,7 +102,7 @@ const Chat = () => {
 		const getAllUsers = async () => {
 			const configuration = {
 				method: "get",
-				url: "http://localhost:3001/api/user/getAll",
+				url: "/api/user/getAll",
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -161,7 +161,7 @@ const Chat = () => {
 
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/chat/create",
+			url: "/api/chat/create",
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${token}`,
