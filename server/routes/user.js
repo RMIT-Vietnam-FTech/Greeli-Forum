@@ -54,7 +54,7 @@ router
 
 router
 	.route("/:userId/created_posts")
-	.get(verifyToken, getCreatedPost)
+	.get(getCreatedPost)
 	.post(verifyToken, postCreatedPost)
 	.delete(verifyToken, deleteCreatedPost);
 

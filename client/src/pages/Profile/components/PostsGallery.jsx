@@ -4,16 +4,14 @@ import axios from "axios";
 
 const PostGallery = (props) => {
 	const isMe = props.isMe;
-	const [profilePosts, setProfilePosts] = useState([props.profilePosts]);
-	const [renderPostList, setRenderPostList] = useState(null);
-	const token = JSON.parse(localStorage.getItem("user")).token;
 	const userId = props.userId;
-	// const userId = JSON.parse(localStorage.getItem("user")).id;
-
-	console.log(profilePosts);
+	const token = JSON.parse(localStorage.getItem("user")).token;
+	const [createdPosts, setCreatedPosts] = useState(null);
+	const [archivedPosts, setArchivedPosts] = useState(null);
+	const [renderPostList, setRenderPostList] = useState(null);
 
 	const processPosts = (postObject) => {
-		console.log(postObject);
+		// console.log(postObject);
 		const postId = postObject._id;
 		const title = postObject.title;
 		const { username, userId, uploadFile } = postObject.createdBy;
@@ -48,12 +46,29 @@ const PostGallery = (props) => {
 	};
 
 	useEffect(() => {
-		const fetchPath = ["created_posts", "archived_posts"];
 		var newRenderPostList = [];
-		const fetchPosts = async (fetchPath) => {
+		const fetchCreatedPosts = async () => {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/user/${userId}/${fetchPath}`,
+				url: `http://localhost:3001/api/user/${userId}/created_posts`,
+			};
+			await axios(configuration)
+				.then(async (response) => {
+					const data = response.data;
+					const processedData = await data.map((post) => processPosts(post));
+					newRenderPostList = [...newRenderPostList, ...processedData];
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+			setCreatedPosts(newRenderPostList);
+			newRenderPostList = [];
+		};
+
+		const fetchArchivedPosts = async () => {
+			const configuration = {
+				method: "get",
+				url: `http://localhost:3001/api/user/${userId}/archived_posts`,
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -62,23 +77,23 @@ const PostGallery = (props) => {
 			await axios(configuration)
 				.then(async (response) => {
 					const data = response.data;
-					console.log(data);
 					const processedData = await data.map((post) => processPosts(post));
-					console.log(processedData);
-					newRenderPostList.push(processedData);
+					newRenderPostList = [...newRenderPostList, ...processedData];
 				})
 				.catch((error) => {
 					console.log(error);
 				});
-			setProfilePosts(newRenderPostList);
+			setArchivedPosts(newRenderPostList);
 		};
-		const fetchPostsList = async () => {
-			await fetchPosts("created_posts");
-			await fetchPosts("archived_posts");
-			console.log(profilePosts);
+
+		const fetchRenderPosts = async () => {
+			await fetchCreatedPosts();
+			await (isMe && fetchArchivedPosts());
+			setRenderPostList(createdPosts);
 		};
-		fetchPostsList();
-	}, [userId, token]);
+
+		fetchRenderPosts();
+	}, [userId]);
 
 	const changeTabHandler = (event) => {
 		const activeTab = document.querySelector(".post-tab-active");
@@ -89,13 +104,12 @@ const PostGallery = (props) => {
 
 		const clickedTabName = event.target.textContent;
 		if (clickedTabName === "User's posts") {
-			setRenderPostList(profilePosts[0]);
-			console.log(profilePosts[0]);
+			setRenderPostList(createdPosts);
+			// console.log(renderPostList);
 		} else {
-			setRenderPostList(profilePosts[1]);
-			console.log(profilePosts[1]);
+			setRenderPostList(archivedPosts);
+			// console.log(renderPostList);
 		}
-		// console.log(profilePosts);
 	};
 
 	return (

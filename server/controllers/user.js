@@ -132,7 +132,7 @@ export const getProfile = async (req, res) => {
 			console.log("User not found");
 			return res.status(404).json({ message: "User not found" });
 		}
-		console.log("User found:", user);
+		// console.log("User found:", user);
 		res.status(200).json({ user });
 	} catch (error) {
 		console.error("Error fetching user:", error.message);
@@ -341,9 +341,9 @@ export const getCreatedPost = async (req, res) => {
 		const user = await User.findOne({ _id: userId });
 
 		if (!user) return res.status(404).json("userId not found");
-		if (req.user.id !== userId) {
-			res.status(403).json("Unauthorized!");
-		}
+		// if (req.user.id !== userId) {
+		// 	res.status(403).json("Unauthorized!");
+		// }
 
 		const createdPosts = await Post.find({ _id: { $in: user.createdPost } });
 		res.status(200).json(createdPosts);
