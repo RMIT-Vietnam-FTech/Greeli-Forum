@@ -10,6 +10,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { UserContext, useUserContext } from "../../context/UserContext";
 import "../../scss/custom.css";
 import "./custom.css";
+import LeftSideBar from "../forum/LeftSideBar";
 
 const Navbar = ({ isForum }) => {
 	const cookies = new Cookies();
@@ -33,31 +34,31 @@ const Navbar = ({ isForum }) => {
 		>
 			<div className="container-fluid">
 				<div className="d-flex gap-4">
-					{isForum && (
-						<button
-							className="navbar-toggler forum-toggle"
-							type="button"
-							data-bs-toggle="offcanvas"
-							data-bs-target="#offcanvasForum"
-							aria-controls="offcanvasForum"
-							aria-label="Toggle navigation"
-						>
-							<span className="text-greeli-emphasis">
-								<FiMoreVertical />
-							</span>
-						</button>
-					)}
-					<Link className="brand d-flex" to="/">
-						<Image
-							className="me-0 me-md-3"
-							src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
-							width={40}
-							alt="Greeli Logo"
-						/>
-						<p className="forum-name my-auto text-greeli-emphasis ml-3">
-							Greeli
-						</p>
-					</Link>
+				{isForum && (
+					<button
+						className=" navbar-toggler forum-toggle"
+						type="button"
+						data-bs-toggle="offcanvas"
+						data-bs-target="#offcanvasForum"
+						aria-controls="offcanvasForum"
+						aria-label="Toggle navigation"
+					>
+						<span className="text-greeli-emphasis">
+							<FiMoreVertical />
+						</span>
+					</button>
+				)}
+				<Link className="brand d-flex" to="/">
+					<Image
+						className="me-0 me-md-3"
+						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+						width={40}
+						alt="Greeli Logo"
+					/>
+					<p className="forum-name my-auto text-greeli-emphasis ml-3">
+						Greeli
+					</p>
+				</Link>
 				</div>
 				<div
 					className="offcanvas offcanvas-end"
@@ -137,22 +138,16 @@ const Navbar = ({ isForum }) => {
 
 				{isForum && (
 					<div
-						className="offcanvas offcanvas-start offCanvasForum"
+						className="bg-navbar-subtle offcanvas offcanvas-start offCanvasForum "
 						tabIndex="-1"
 						id="offcanvasForum"
 						aria-labelledby="offcanvasForumLabel"
 					>
-						<div
-							className="offcanvas-header"
-							style={{
-								boxShadow: "0 2px 4px rgba(0, 0, 0, 0.25)",
-							}}
-						>
+						<div className="offcanvas-header" >
 							<h5
 								className="offcanvas-title text-greeli-emphasis"
 								id="offcanvasNavbarLabel"
 							>
-								Topic
 							</h5>
 							<button
 								type="button"
@@ -162,41 +157,7 @@ const Navbar = ({ isForum }) => {
 							/>
 						</div>
 						<div className="offcanvas-body">
-							<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
-								<li className="nav-item">
-									<a
-										className="nav-link active text-greeli-emphasis"
-										aria-current="page"
-										href="/"
-									>
-										Healthy Eating
-									</a>
-								</li>
-								<li className="nav-item">
-									<a
-										className="nav-link text-greeli-emphasis"
-										href="/"
-									>
-										Exercise
-									</a>
-								</li>
-								<li className="nav-item">
-									<a
-										className="nav-link text-greeli-emphasis"
-										href="/"
-									>
-										Recycle Product
-									</a>
-								</li>
-								<li className="nav-item">
-									<a
-										className="nav-link text-greeli-emphasis"
-										href="/"
-									>
-										Sleeping
-									</a>
-								</li>
-							</ul>
+							<LeftSideBar/>
 						</div>
 					</div>
 				)}
