@@ -69,7 +69,7 @@ const ProfileShow = (props) => {
 					data-bs-toggle="modal"
 					data-bs-target="#exampleModal"
 				/>
-				<div class=".overlay-profile position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
+				<div class="overlay-profile position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
 					<div class="text-greeli-emphasis avatar-icon">
 						<FaCamera
 							data-bs-toggle="modal"
