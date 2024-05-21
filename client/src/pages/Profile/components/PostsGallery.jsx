@@ -62,6 +62,7 @@ const PostGallery = (props) => {
 					console.log(error);
 				});
 			setCreatedPosts(newRenderPostList);
+			setRenderPostList(newRenderPostList);
 			newRenderPostList = [];
 		};
 
@@ -89,7 +90,6 @@ const PostGallery = (props) => {
 		const fetchRenderPosts = async () => {
 			await fetchCreatedPosts();
 			await (isMe && fetchArchivedPosts());
-			setRenderPostList(createdPosts);
 		};
 
 		fetchRenderPosts();
@@ -114,7 +114,7 @@ const PostGallery = (props) => {
 
 	return (
 		<div className="container">
-			<div className="row text-greeli-emphasis gap-5 fs-4 fw-light profile-tab-container">
+			<div className="row text-greeli-emphasis gap-5 fs-5 fw-light profile-tab-container">
 				<p
 					className={`${isMe && "post-tab-active"} text-center col`}
 					onClick={isMe ? changeTabHandler : null}
