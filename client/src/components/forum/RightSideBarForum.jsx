@@ -19,6 +19,7 @@ function ForumStatistic() {
   }
   return (
     <div
+    tabIndex="0"
       className="w-100  p-3 bg-forum-subtle d-flex flex-column align-items-start"
       style={{ borderRadius: "0.75rem" }}
     >
@@ -51,6 +52,7 @@ function ForumLeaderBoard() {
   }
   return (
     <div
+    tabIndex="0"
       className=" w-100 bg-forum-subtle d-flex flex-column gap-2 align-items-start overflow-scroll-y"
       style={{
         borderRadius: "0.75rem",

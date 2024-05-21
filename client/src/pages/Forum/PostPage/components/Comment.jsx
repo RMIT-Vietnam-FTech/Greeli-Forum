@@ -42,7 +42,7 @@ export default function Comment({ commentData }) {
       <ReplyContext.Provider
         value={{ newReply, setNewReply, isReply, setIsReply }}
       >
-        <div className="my-4 position-relative">
+        <div tabIndex="0" aria-label="comment section" className="my-4 position-relative">
           <div className="d-flex align-items-center gap-1">
             {/* avatar */}
             <div
@@ -51,6 +51,7 @@ export default function Comment({ commentData }) {
             >
               {commentData.createdBy.profileImage ? (
                 <img
+                  alt={commentData.createdBy.username}
                   className="w-100 h-100"
                   src={commentData.createdBy.profileImage}
                 />
@@ -59,12 +60,13 @@ export default function Comment({ commentData }) {
 
             {/* username */}
             <p
+            tabIndex="0"
               className="fw-bold m-0 text-login-emphasis"
               style={{ fontSize: "14px" }}
             >
               {commentData.createdBy.username}
             </p>
-            <li className="text-greeli-emphasis" style={{fontSize:"12px"}}>
+            <li className="text-greeli-emphasis" style={{ fontSize: "12px" }}>
               {dayjs().to(dayjs(commentData.createdAt))}
             </li>
           </div>

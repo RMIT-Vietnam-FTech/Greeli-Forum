@@ -90,8 +90,8 @@ function CreatedThread() {
   return (
     <>
       {/*collapse header*/}
-      <a
-        className="w-100 d-flex justify-content-between align-items-center text-white"
+      <button
+        className="w-100 d-flex justify-content-between bg-transparent border-0 align-items-center text-white"
         data-bs-toggle="collapse"
         href="#collapse-created-thread"
         role="button"
@@ -103,7 +103,7 @@ function CreatedThread() {
         <p className="m-0 p-0">
           <IoIosArrowDown />
         </p>
-      </a>
+      </button>
 
       {/*collapse body*/}
       <div
@@ -146,19 +146,19 @@ function FollowingThread() {
   return (
     <>
       {/*collapse header*/}
-      <a
-        className="w-100 d-flex justify-content-between  align-items-center text-white "
+      <button
+        className="w-100 d-flex justify-content-between bg-transparent border-0 align-items-center text-white "
         data-bs-toggle="collapse"
         href="#collapse-following-thread"
         role="button"
-        aria-expanded="false"
+        aria-expanded="true"
         aria-controls="collapseExample"
       >
         <a>Following Thread</a>
         <p className="m-0 p-0">
           <IoIosArrowDown />
         </p>
-      </a>
+      </button>
 
       {/*collapse body*/}
       <div
@@ -190,19 +190,19 @@ function TopicList({ children }) {
   return (
     <>
       {/*collapse header*/}
-      <a
-        className="w-100 d-flex justify-content-between align-items-center  text-primary-yellow"
+      <button
+        className="w-100 d-flex justify-content-between align-items-center bg-transparent border-0 text-primary-yellow"
         data-bs-toggle="collapse"
         href="#collapse3"
         role="button"
-        aria-expanded="false"
+        aria-expanded="true"
         aria-controls="collapseExample"
       >
         <a style={{ fontSize: "18px" }}>Topic</a>
         <p className="m-0 p-0">
           <IoIosArrowDown />
         </p>
-      </a>
+      </button>
       {/*collapse body*/}
       <div className="collapse show" id="collapse3">
         {children}
@@ -223,19 +223,18 @@ function ThreadList() {
         return (
           <div key={topic._id}>
             {/*collapse header*/}
-            <a
-              className="w-100 d-flex justify-content-between align-items-center text-white"
+            <button
+              className="w-100 d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
               data-bs-toggle="collapse"
               href={`#${topic._id}`}
               role="button"
-              aria-expanded="false"
-              aria-controls="collapseExample"
+              aria-expanded="true"
             >
               <a>{topic.title}</a>
               <p className="p-0 m-0">
                 <IoIosArrowDown />
               </p>
-            </a>
+            </button>
 
             {/*collapse body*/}
             <div className="collapse border-left-gray ms-3" id={topic._id}>

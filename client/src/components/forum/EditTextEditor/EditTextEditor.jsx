@@ -53,6 +53,7 @@ export default function EditTextEditor({ content, componentType }) {
 
 	return (
 		<div
+		tabIndex="0"
 			className={
 				editContext.isEdit
 					? "text-editor text-greeli-emphasis show-border"

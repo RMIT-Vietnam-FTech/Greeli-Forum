@@ -83,6 +83,7 @@ export default function DashBoardPage() {
       <div className="position-relative">
         <div className="dropdown ms-3">
           <button
+          tabIndex="0"
             className={
               "btn  d-flex gap-1 bg-forum-subtle text-white d-flex rounded-5 px-4 "
             }
@@ -96,6 +97,7 @@ export default function DashBoardPage() {
           <ul className="dropdown-menu bg-forum-subtle ">
             <li>
               <a
+              tabIndex="0"
                 className={"dropdown-item "}
                 onClick={() => {
                   setSortOption("Hot");
@@ -106,6 +108,7 @@ export default function DashBoardPage() {
             </li>
             <li>
               <a
+              tabIndex="0"
                 className={"dropdown-item "}
                 onClick={() => {
                   setSortOption("New");
@@ -116,6 +119,7 @@ export default function DashBoardPage() {
             </li>
             <li>
               <a
+              tabIndex="0"
                 className={"dropdown-item "}
                 onClick={() => {
                   setSortOption("Top");
