@@ -19,7 +19,7 @@ const ProfileShow = (props) => {
 		formData.append("image", preview);
 		const configuration = {
 			method: "post",
-			url: `/api/user/upload/${userId}`,
+			url: `/api/upload/${userId}`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
