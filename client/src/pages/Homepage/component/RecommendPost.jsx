@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, lazy } from "react";
 import Slider from "react-slick";
-import { FaArrowRightLong, FaArrowLeftLong } from "react-icons/fa6";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import axios from "axios";
 
 function Posts() {
@@ -37,7 +37,7 @@ function Posts() {
         }}
         onClick={onClick}
       >
-        <FaArrowRightLong className="text-greeli-emphasis" size={30} />
+        <IoIosArrowForward className="text-greeli-emphasis" size={30} />
       </div>
     );
   };
@@ -57,7 +57,7 @@ function Posts() {
         }}
         onClick={onClick}
       >
-        <FaArrowLeftLong className="text-greeli-emphasis" size={30} />
+        <IoIosArrowBack className="text-greeli-emphasis" size={30} />
       </div>
     );
   };
