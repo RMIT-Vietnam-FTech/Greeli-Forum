@@ -40,6 +40,7 @@
 		"emoji-mart": "^5.6.0",
 		"form-data": "^4.0.0",
 		"formdata-polyfill": "^4.0.10",
+		"group-project-cosc3060-2024a-ftech": "file:..",
 		"lowlight": "^2.4.0",
 		"moment": "^2.30.1",
 		"rc-image": "^7.6.0",
