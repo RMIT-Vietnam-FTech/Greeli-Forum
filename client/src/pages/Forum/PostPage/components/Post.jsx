@@ -28,7 +28,7 @@ export default function Post({ postData, isThreadAdmin }) {
 
   async function handleApproved() {
     setIsApproved(true);
-    const path = `/api/v1/admin/posts/${postData._id}`;
+    const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
     await axios.put(
       path,
       { threadId: postData.belongToThread },
@@ -44,7 +44,7 @@ export default function Post({ postData, isThreadAdmin }) {
   async function handleUnApproved() {
     try {
       //delete and redirect
-      const path = `/api/v1/admin/posts/${postData._id}`;
+      const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
       await axios.delete(path, {
         data: {
           threadId: postData.belongToThread,

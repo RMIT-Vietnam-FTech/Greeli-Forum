@@ -21,8 +21,8 @@ const verifyAdminFetcher = async (url) => {
 };
 const getMetadata = async (isThreadAdmin, threadData) => {
   const path = isThreadAdmin
-    ? `/api/v1/admin/posts?page=1&belongToThread=${threadData._id}`
-    : `/api/v1/posts?page=1&belongToThread=${threadData._id}`;
+    ? `http://localhost:3001/api/v1/admin/posts?page=1&belongToThread=${threadData._id}`
+    : `http://localhost:3001/api/v1/posts?page=1&belongToThread=${threadData._id}`;
   return await axios
     .get(
       path,
@@ -73,26 +73,25 @@ export default function ThreadBody({ threadData }) {
     },
   });
 
-
   const { data, mutate, size, setSize, isValidating, isLoading } =
     useSWRInfinite(
       (index, prevData) =>
         prevData && !prevData.length
           ? null
           : isThreadAdmin
-          ? `/api/v1/admin/posts?page=${
+          ? `http://localhost:3001/api/v1/admin/posts?page=${
               index + 1
             }&belongToThread=${threadData._id}&sort=${sortOption}`
-          : `/api/v1/posts?page=${
+          : `http://localhost:3001/api/v1/posts?page=${
               index + 1
             }&belongToThread=${threadData._id}&sort=${sortOption}`,
+
       isThreadAdmin ? verifyAdminFetcher : fetcher
     );
 
 //   setSearchResult(issues);
   const issues = data ? [].concat(...data) : [];
   useEffect(() => {
-	console.log(issues)
     console.log(searchTerm);
     setSearchResult(
       issues.filter((issue) => issue.title.toLowerCase().includes(searchTerm))

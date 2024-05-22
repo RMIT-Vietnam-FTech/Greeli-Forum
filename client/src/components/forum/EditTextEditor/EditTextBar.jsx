@@ -5,67 +5,67 @@ import { EditContext } from "../../../context/EditContext";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 export default function EditTextBar({ content, componentType }) {
-  const editContext = useContext(EditContext);
-  const { threadId, postId } = useParams();
-  const component = componentType;
-  let objectId;
-  if (component == "post") {
-    objectId = postId;
-  } else {
-    objectId = threadId;
-  }
-  // const commentId = useId();
-  // const replyId = useId();
-  const { editor } = useCurrentEditor();
-  if (!editor.isEditable) {
-    editor.setEditable(true);
-  }
-  function handleOnCancel() {
-    editor.setEditable(false);
-    editContext.setIsEdit(false);
-    editor.commands.setContent(content);
-  }
-  async function handleOnDone() {
-    try {
-      if (editor.getText()) {
-        editor.setEditable(false);
-        editContext.setIsEdit(false);
-        // store data (PUT) in database
-		const currentContent = JSON.stringify(editor.getJSON());
-        await axios.put(
-          `/api/v1/${component}s/${objectId}`,
-		  {
-			content: currentContent
-		  },
-          {
-            headers: {
-              Authorization: `Bearer ${
-                JSON.parse(localStorage.getItem("user")).token
-              }`,
-            },
-          }
-        );
-      } else {
-        // toggle error text editor
-      }
-    } catch (error) {
-      console.error(error.message.data);
-    }
-  }
-  return (
-    <div className="d-flex justify-content-end gap-3 w-80 mx-auto px-3">
-      <button
-        onClick={handleOnCancel}
-        className="btn border-primary-green btn-primary-green"
-      >
-        Cancel
-      </button>
-      <button
-        onClick={() => handleOnDone()}
-        className="btn border-primary-green btn-primary-green"
-      >
-        Done
-      </button>
-    </div>
-  );
+	const editContext = useContext(EditContext);
+	const { threadId, postId } = useParams();
+	const component = componentType;
+	let objectId;
+	if (component == "post") {
+		objectId = postId;
+	} else {
+		objectId = threadId;
+	}
+	// const commentId = useId();
+	// const replyId = useId();
+	const { editor } = useCurrentEditor();
+	if (!editor.isEditable) {
+		editor.setEditable(true);
+	}
+	function handleOnCancel() {
+		editor.setEditable(false);
+		editContext.setIsEdit(false);
+		editor.commands.setContent(content);
+	}
+	async function handleOnDone() {
+		try {
+			if (editor.getText()) {
+				editor.setEditable(false);
+				editContext.setIsEdit(false);
+				// store data (PUT) in database
+				const currentContent = JSON.stringify(editor.getJSON());
+				await axios.put(
+					`http://localhost:3001/api/v1/${component}s/${objectId}`,
+					{
+						content: currentContent,
+					},
+					{
+						headers: {
+							Authorization: `Bearer ${
+								JSON.parse(localStorage.getItem("user")).token
+							}`,
+						},
+					},
+				);
+			} else {
+				// toggle error text editor
+			}
+		} catch (error) {
+			console.error(error.message.data);
+		}
+	}
+	return (
+		<div className="d-flex justify-content-end gap-3 w-80 mx-auto px-3">
+			<button
+				onClick={handleOnCancel}
+				className="btn border-primary-green btn-primary-green"
+			>
+				Cancel
+			</button>
+			<button
+				onClick={() => handleOnDone()}
+				className="btn border-primary-green btn-primary-green"
+			>
+				Done
+			</button>
+		</div>
+	);
 }

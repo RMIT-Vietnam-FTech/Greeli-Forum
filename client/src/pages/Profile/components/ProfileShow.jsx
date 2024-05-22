@@ -8,7 +8,7 @@ import { ThemeContext } from "../../../context/ThemeContext";
 import Avatar from "react-avatar-edit";
 const ProfileShow = (props) => {
 	const [file, setFile] = useState();
-	const { user, error, setError, setProfileImage } = useUserContext();
+	const { user, error, setError } = useUserContext();
 	const [src, setSrc] = useState(null);
 	const [preview, setPreview] = useState("");
 	const { isDarkMode } = useContext(ThemeContext);
@@ -19,7 +19,7 @@ const ProfileShow = (props) => {
 		formData.append("image", preview);
 		const configuration = {
 			method: "post",
-			url: `/api/upload/${userId}`,
+			url: `http://localhost:3001/api/upload/${userId}`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
@@ -28,20 +28,16 @@ const ProfileShow = (props) => {
 		axios(configuration)
 			.then((result) => {
 				toast.success("Successfully Uploaded!", {
-					duration: 2000,
-					position: "top-center",
-				});
-				setProfileImage("true")
-				console.log(result.data);
-				// setTimeout(() => {
-				// 	window.location.reload();
-				// }, 2000)
-			})
-			.catch((error) => {
-				toast.error("Upload failed, choose another file!", {
 					duration: 3000,
 					position: "top-center",
 				});
+				console.log(result.data);
+			})
+			.catch((error) => {
+				// toast.error(error.response.data.error, {
+				// 	duration: 3000,
+				// 	position: "top-center",
+				// });
 				console.log(error);
 			});
 	};
@@ -67,7 +63,7 @@ const ProfileShow = (props) => {
 					data-bs-toggle="modal"
 					data-bs-target="#exampleModal"
 				/>
-				<div class="overlay-profile position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
+				<div class=".overlay-profile position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
 					<div class="text-greeli-emphasis avatar-icon">
 						<FaCamera data-bs-toggle="modal" data-bs-target="#exampleModal" />
 					</div>
@@ -151,7 +147,6 @@ const ProfileShow = (props) => {
 							<form>
 								<input
 									type="file"
-									accept="image/*"
 									name="image"
 									onChange={(e) => {
 										setFile(e.target.files[0]);
