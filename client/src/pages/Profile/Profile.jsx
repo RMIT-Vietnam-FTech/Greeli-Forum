@@ -18,7 +18,6 @@ const Profile = () => {
 	const { isDarkMode } = useContext(ThemeContext);
 	const userData = demoUserInfo[0];
 	const navigate = useNavigate();
-	const { profileImage } = useUserContext();
 	const [basicInfo, setBasicInfo] = useState({});
 
 	// GET ID FROM LOCAL STORAGE
@@ -39,7 +38,7 @@ const Profile = () => {
 		async function fetchUser() {
 			const configuration = {
 				method: "get",
-				url: `/api/user/${userId}`,
+				url: `http://localhost:3001/api/user/${userId}`,
 			};
 			await axios(configuration)
 				.then((result) => {
@@ -100,7 +99,7 @@ const Profile = () => {
 		}
 
 		fetchUser();
-	}, [userId, isMe, profileImage]);
+	}, [userId, isMe]);
 	// ----------------------------
 
 	// LET USER EDIT THEIR INFO
@@ -113,7 +112,7 @@ const Profile = () => {
 	const updateUserData = (basicInfo) => {
 		const configuration = {
 			method: "post",
-			url: `/api/user/${basicInfo.userId}/update`,
+			url: `http://localhost:3001/api/user/${basicInfo.userId}/update`,
 			data: basicInfo,
 		};
 		axios(configuration)
@@ -133,7 +132,7 @@ const Profile = () => {
 	const deactivateAccount = () => {
 		const configuration = {
 			method: "post",
-			url: `/api/user/${userId}/deactivate`,
+			url: `http://localhost:3001/api/user/${userId}/deactivate`,
 		};
 		axios(configuration)
 			.then((result) => {
@@ -160,7 +159,7 @@ const Profile = () => {
 		// console.log("Lock/Unlock user");
 		const configuration = {
 			method: "put",
-			url: `/api/user/${adminId}/${userId}/${action}`,
+			url: `http://localhost:3001/api/user/${adminId}/${userId}/${action}`,
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${token}`,
@@ -179,31 +178,7 @@ const Profile = () => {
 				console.log(error);
 			});
 	};
-
-	// CREATE CHAT
-	const createChat = (user) => {
-		const configuration = {
-			method: "post",
-			url: "/api/chat/create",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${cookies.get("TOKEN")}`,
-			},
-			data: {
-				senderId: currentUserId,
-				receiverId: requiredId,
-			},
-		};
-		axios(configuration)
-			.then((result) => {
-				// console.log(result.data);
-				navigate("/chat")
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-
+	//---------------------------
 	return (
 		<div
 			className="container-fluid profile-container bg-greeli-subtle"
@@ -419,7 +394,9 @@ const Profile = () => {
 							<button
 								className="bg-primary-yellow text-black rounded-pill mt-5 py-2 w-100"
 								aria-label="Chat with this user"
-								onClick={createChat}
+								onClick={() => {
+									navigate(`/chat`, { root: true });
+								}}
 							>
 								Chat with this user
 							</button>

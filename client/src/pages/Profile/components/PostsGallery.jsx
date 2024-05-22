@@ -50,7 +50,7 @@ const PostGallery = (props) => {
 		const fetchCreatedPosts = async () => {
 			const configuration = {
 				method: "get",
-				url: `/api/user/${userId}/created_posts`,
+				url: `http://localhost:3001/api/user/${userId}/created_posts`,
 			};
 			await axios(configuration)
 				.then(async (response) => {
@@ -63,14 +63,13 @@ const PostGallery = (props) => {
 				});
 			setCreatedPosts(newRenderPostList);
 			setRenderPostList(newRenderPostList);
-			setRenderPostList(newRenderPostList);
 			newRenderPostList = [];
 		};
 
 		const fetchArchivedPosts = async () => {
 			const configuration = {
 				method: "get",
-				url: `/api/user/${userId}/archived_posts`,
+				url: `http://localhost:3001/api/user/${userId}/archived_posts`,
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -91,7 +90,6 @@ const PostGallery = (props) => {
 		const fetchRenderPosts = async () => {
 			await fetchCreatedPosts();
 			await (isMe && fetchArchivedPosts());
-			// setRenderPostList(createdPosts);
 		};
 
 		fetchRenderPosts();

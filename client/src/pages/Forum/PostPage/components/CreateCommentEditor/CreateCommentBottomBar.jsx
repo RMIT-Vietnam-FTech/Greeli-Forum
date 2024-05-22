@@ -26,7 +26,7 @@ export default function CreateCommentBottomBar({ content }) {
 			editContext.setIsEdit(false);
 			const user = await axios
 				.get(
-					`/api/user/${
+					`http://localhost:3001/api/user/${
 						JSON.parse(localStorage.getItem("user")).id
 					}`,
 				)
@@ -39,17 +39,15 @@ export default function CreateCommentBottomBar({ content }) {
 				parentId: null,
 			};
 
-      const newCommentData = await axios.post(
-        "/api/v1/comments",
-        storeObject,
-        {
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
-          },
-        }
-      ).then(res=>res.data);
+			const newCommentData = await axios
+				.post("http://localhost:3001/api/v1/comments", storeObject, {
+					headers: {
+						Authorization: `Bearer ${
+							JSON.parse(localStorage.getItem("user")).token
+						}`,
+					},
+				})
+				.then((res) => res.data);
 
 			commentContext.setNewComment([
 				<Comment key={commentId} commentData={newCommentData} />,

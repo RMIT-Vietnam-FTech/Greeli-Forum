@@ -24,7 +24,7 @@ const PostItem = (props) => {
 		const getPostThreadAsync = async (threadId) => {
 			const configuration = {
 				method: "get",
-				url: `/api/v1/threads/${threadId}`,
+				url: `http://localhost:3001/api/v1/threads/${threadId}`,
 			};
 			await axios(configuration)
 				.then((response) => {

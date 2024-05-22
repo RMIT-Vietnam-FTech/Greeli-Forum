@@ -12,8 +12,6 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import "./login.css"
-
 const Login = () => {
 	const { user, setUser } = useUserContext();
 	const navigate = useNavigate();
@@ -46,7 +44,7 @@ const Login = () => {
 	const login = async () => {
 		const configuration = {
 			method: "post",
-			url: "/api/user/login",
+			url: "http://localhost:3001/api/user/login",
 			data: {
 				email,
 				password,
@@ -157,7 +155,7 @@ const Login = () => {
 									onChange={(e) => setEmail(e.target.value)}
 								/>
 								<label
-									for="emailInput"
+									for="floatingInput"
 									className="text-greeli-emphasis"
 								>
 									Email address

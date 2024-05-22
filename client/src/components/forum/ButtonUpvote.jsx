@@ -20,7 +20,7 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
             console.log("desc upvote length");
             if (postId) {
               await axios.delete(
-                `/api/v1/posts/${postId}/upvote`,
+                `http://localhost:3001/api/v1/posts/${postId}/upvote`,
                 {
                   headers: {
                     Authorization: `Bearer ${token}`,
@@ -31,7 +31,7 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
 
             if (commentId) {
               await axios.delete(
-                `/api/v1/comments/${commentId}/upvote`,
+                `http://localhost:3001/api/v1/comments/${commentId}/upvote`,
                 {
                   headers: {
                     Authorization: `Bearer ${token}`,
@@ -48,7 +48,7 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
           console.log("asc upvote length");
           if (postId) {
             axios.post(
-              `/api/v1/posts/${postId}/upvote`,
+              `http://localhost:3001/api/v1/posts/${postId}/upvote`,
               {},
               {
                 headers: {
@@ -60,7 +60,7 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
 
           if (commentId) {
             await axios.post(
-              `/api/v1/comments/${commentId}/upvote`,
+              `http://localhost:3001/api/v1/comments/${commentId}/upvote`,
               {},
               {
                 headers: {
