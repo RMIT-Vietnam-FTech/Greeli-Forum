@@ -10,7 +10,6 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
   async function handleUpvote() {
     try {
       if (!isLogin) {
-        console.log("ceck popup state: "+ popupContext.isPopup)
         popupContext.setIsPopup(true);
       } else {
         const token = JSON.parse(localStorage.getItem("user")).token;

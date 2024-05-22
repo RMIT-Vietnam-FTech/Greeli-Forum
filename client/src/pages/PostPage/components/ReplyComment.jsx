@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import useSwr from "swr";
-import ButtonUpvote from "../../../components/Forum/ButtonUpvote";
+import ButtonUpvote from "../../../components/forum/ButtonUpvote";
 import EditTextEditor from "../../../components/forum/EditTextEditor/EditTextEditor";
 import { EditContextProvider } from "../../../../context/EditContext";
 import { ReplyContext } from "../../../../context/ReplyContext";
