@@ -1,6 +1,6 @@
 import useSWR from "swr";
 import axios from "axios";
-import Avatar from "./Avatar";
+import Avatar from "../Avatar";
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function RightSideBarForum() {
   return (

@@ -4,7 +4,7 @@ import axios from "axios";
 import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
-import Post from "../../pages/Forum/PostPage/components/Post";
+import Post from "../Post";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 const fetchPost = (url) => axios.get(url).then((res) => res.data.data);

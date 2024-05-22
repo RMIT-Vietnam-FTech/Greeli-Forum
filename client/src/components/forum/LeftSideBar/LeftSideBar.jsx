@@ -5,7 +5,7 @@ import { useState, useContext } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
 
-import NewThreadPopUp from "../../pages/Forum/ThreadPage/components/NewThreadPopUp";
+import NewThreadPopUp from "../../../pages/ThreadPage/components/NewThreadPopUp";
 import { NavLink } from "react-router-dom";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);

@@ -2,11 +2,11 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import useSwr from "swr";
-import Avatar from "../../../../components/forum/Avatar";
-import ButtonUpvote from "../../../../components/forum/ButtonUpvote";
-import TextEditor from "../../../../components/forum/EditTextEditor/EditTextEditor";
+import ButtonUpvote from "../../../components/Forum/ButtonUpvote";
+import EditTextEditor from "../../../components/forum/EditTextEditor/EditTextEditor";
 import { EditContextProvider } from "../../../../context/EditContext";
 import { ReplyContext } from "../../../../context/ReplyContext";
+
 import ReplyButton from "./ReplyButton";
 import ReplyEditor from "./ReplyEditor/ReplyEditor";
 import dayjs from "dayjs";

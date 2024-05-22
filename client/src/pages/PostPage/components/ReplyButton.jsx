@@ -3,9 +3,9 @@ import { useContext, useRef, useState } from "react";
 import Button from "react-bootstrap/esm/Button";
 import { FaCommentAlt } from "react-icons/fa";
 
-import { ReplyContext } from "../../../../context/ReplyContext";
-import { PopupContext } from "../../../../context/PopupContext";
-import { useLogin } from "../../../../components/Popup/LoginPopup";
+import { ReplyContext } from "../../../context/ReplyContext";
+import { PopupContext } from "../../../context/PopupContext";
+import { useLogin } from "../../../hooks/useLogin";
 
 export default function ReplyButton({ nOfReply }) {
   const replyContext = useContext(ReplyContext);

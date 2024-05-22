@@ -2,8 +2,8 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { Button } from "react-bootstrap";
 
-import Avatar from "../../../../components/forum/Avatar";
-import ImageOrVideo from "../../../../components/forum/ImageOrVideo";
+import Avatar from "./Avatar";
+import ImageOrVideo from "./ImageOrVideo";
 import { IoIosPaper } from "react-icons/io";
 import { IoCloseCircle } from "react-icons/io5";
 import { IoCheckmarkCircle } from "react-icons/io5";
@@ -17,7 +17,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-import { ThemeContext } from "../../../../context/ThemeContext";
+import { ThemeContext } from "../../context/ThemeContext";
 
 dayjs.extend(relativeTime);
 

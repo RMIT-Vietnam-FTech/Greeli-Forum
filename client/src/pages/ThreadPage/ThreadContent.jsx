@@ -1,17 +1,17 @@
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import ImageOrVideo from "../../../components/forum/ImageOrVideo";
+import ImageOrVideo from "../../components/Forum/ImageOrVideo";
 
 import Button from "react-bootstrap/Button";
-import DropDown from "../../../components/forum/DropDown";
-import EditTextEditor from "../../../components/forum/EditTextEditor/EditTextEditor";
+import DropDown from "../../components/forum/DropDown";
+import EditTextEditor from "../../components/forum/EditTextEditor/EditTextEditor";
 
-import { AuthorizationContextProvider } from "../../../context/AuthorizationContext";
-import { EditContextProvider } from "../../../context/EditContext";
+import { AuthorizationContextProvider } from "../../context/AuthorizationContext";
+import { EditContextProvider } from "../../context/EditContext";
 import NewPostPopUp from "./components/NewPostPopUp";
-import { useLogin } from "../../../components/Popup/LoginPopup";
-import { PopupContext } from "../../../context/PopupContext";
+import { useLogin } from "../../components/Popup/LoginPopup";
+import { PopupContext } from "../../context/PopupContext";
 export default function ThreadHeader({ ...prop }) {
   const { title, uploadFile, content, objectId, createdBy} = prop;
 

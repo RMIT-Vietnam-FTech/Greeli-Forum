@@ -1,12 +1,6 @@
 import axios from "axios";
-import Post from "./PostPage/components/Post";
-import { useEffect, useRef, useState } from "react";
-import useSWRInfinite from "swr/infinite";
-import { useInView } from "react-intersection-observer";
-import { IoMdArrowDropdown } from "react-icons/io";
-import { useUserContext } from "../../context/UserContext";
 
-const fetcher = (url) => axios.get(url).then((res) => res.data.data);
+fetcher = (url) => axios.get(url).then((res) => res.data.data);
 
 const getMetadata = async (url) => {
   return await axios.get(url).then((res) => res.data.metadata);

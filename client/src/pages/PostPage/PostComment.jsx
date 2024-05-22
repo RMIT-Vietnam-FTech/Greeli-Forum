@@ -3,11 +3,10 @@ import { useContext, useEffect, useInsertionEffect, useState } from "react";
 
 import useSwr from "swr";
 import { Button } from "react-bootstrap";
-import { CommentContext } from "../../../context/CommentContext";
-import { EditContextProvider } from "../../../context/EditContext";
-import Comment from "./components/Comment";
+import { CommentContext } from "../../context/CommentContext";
+import { EditContextProvider } from "../../context/EditContext";
 import CreateCommentEditor from "./components/CreateCommentEditor/CreateCommentEditor";
-import ButtonUpvote from "../../../components/forum/ButtonUpvote";
+import ButtonUpvote from "../../components/forum/ButtonUpvote";
 
 import { FaCommentAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
@@ -16,14 +15,15 @@ import { BsShieldFillX } from "react-icons/bs";
 import { BsShieldFillCheck } from "react-icons/bs";
 
 import { useNavigate } from "react-router-dom";
-import LoginPopup, { useLogin } from "../../../components/Popup/LoginPopup";
+import LoginPopup, { useLogin } from "../../components/Popup/LoginPopup";
 import {
   PopupContext,
   PopupContextProvider,
-} from "../../../context/PopupContext";
+} from "../../context/PopupContext";
+import ReplyComment from "../PostPage/components/ReplyComment";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
-export default function Comments({ postData, threadAdminId }) {
+export default function PostComment({ postData, threadAdminId }) {
   const isLogin = useLogin();
   const [newComment, setNewComment] = useState([]);
   const [isApproved, setIsApproved] = useState(postData.isApproved);
@@ -138,7 +138,7 @@ export default function Comments({ postData, threadAdminId }) {
         <section id="comment-section" className="mt-3 w-100">
           {newComment}
           {data.map((commentData) => {
-            return <Comment key={commentData._id} commentData={commentData} />;
+            return <ReplyComment  key={commentData._id} commentData={commentData} />;
           })}
         </section>
       </CommentContext.Provider>

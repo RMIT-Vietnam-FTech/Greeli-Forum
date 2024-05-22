@@ -1,18 +1,19 @@
 import { Route, Routes } from "react-router-dom";
 
-import LeftSideBar from "../../components/forum/LeftSideBar";
-import RightSideBarThread from "../../components/forum/RightSideBarThread";
-import RightSideBarForum from "../../components/forum/RightSideBarForum";
+import LeftSideBar from "../../components/Forum/LeftSideBar/LeftSideBar";
+import RightSideBarForum from "../../components/Forum/RightSideBar/RightSideBarForum";
+import RightSideBarThread from "../../components/Forum/RightSideBar/RightSideBarThread";
+
 import SearchBar from "../../components/Search/Search";
-import ThreadPage from "./ThreadPage/ThreadPage";
-import DashBoardPage from "./DashBoardPage";
-import PostPage from "./PostPage/PostPage";
+import ThreadPage from "../ThreadPage/ThreadPage";
+import DashBoardPage from "../DashBoardPage";
+import PostPage from "../PostPage/PostPage";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useContext } from "react";
 import { PopupContextProvider } from "../../context/PopupContext";
 import LoginPopup from "../../components/Popup/LoginPopup";
 
-export function ForumRouter() {
+export default function ForumPage() {
   const { isDarkMode } = useContext(ThemeContext);
   return (
     <main

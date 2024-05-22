@@ -1,17 +1,17 @@
-import { useContext, useId, useRef } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
 import { useCurrentEditor } from "@tiptap/react";
-import { EditContext } from "../../../../../context/EditContext";
-import { ReplyContext } from "../../../../../context/ReplyContext";
-import Comment from "../Comment";
-export default function ReplyBottomBar({ parentId }) {
+import { useContext, useId } from "react";
+import { useParams } from "react-router-dom";
+import { CommentContext } from "../../../../context/CommentContext";
+import { EditContext } from "../../../../context/EditContext";
+import Comment from "../ReplyComment";
+import axios from "axios";
+export default function CreateCommentBottomBar({ content }) {
 	const editContext = useContext(EditContext);
-	const replyContext = useContext(ReplyContext);
+	const commentContext = useContext(CommentContext);
+	const commentId = useId();
 	const { postId } = useParams();
-	const replyId = useId();
-	const { editor } = useCurrentEditor();
 
+	const { editor } = useCurrentEditor();
 	if (!editor.isEditable) {
 		editor.setEditable(true);
 	}
@@ -19,16 +19,11 @@ export default function ReplyBottomBar({ parentId }) {
 		editor.setEditable(false);
 		editContext.setIsEdit(false);
 		editor.commands.setContent("");
-		replyContext.setIsReply(false);
 	}
-
-	async function handleOnDone(parentId) {
-		console.log("check parentId: " + parentId);
+	async function handleOnDone() {
 		if (editor.getText()) {
 			editor.setEditable(false);
 			editContext.setIsEdit(false);
-			replyContext.setIsReply(false);
-
 			const user = await axios
 				.get(
 					`http://localhost:3001/api/user/${
@@ -41,9 +36,10 @@ export default function ReplyBottomBar({ parentId }) {
 			const storeObject = {
 				content: JSON.stringify(editor.getJSON()),
 				postId: postId,
-				parentId: parentId,
+				parentId: null,
 			};
-			const newReplyData = await axios
+
+			const newCommentData = await axios
 				.post("http://localhost:3001/api/v1/comments", storeObject, {
 					headers: {
 						Authorization: `Bearer ${
@@ -53,11 +49,10 @@ export default function ReplyBottomBar({ parentId }) {
 				})
 				.then((res) => res.data);
 
-			replyContext.setNewReply([
-				<Comment key={replyId} commentData={newReplyData} />,
-				...replyContext.newReply,
+			commentContext.setNewComment([
+				<Comment key={commentId} commentData={newCommentData} />,
+				...commentContext.newComment,
 			]);
-
 			//set content
 			editor.commands.setContent("");
 		} else {
@@ -73,7 +68,7 @@ export default function ReplyBottomBar({ parentId }) {
 				Cancel
 			</button>
 			<button
-				onClick={() => handleOnDone(parentId)}
+				onClick={() => handleOnDone()}
 				className="btn border-primary-green btn-primary-green"
 			>
 				Done

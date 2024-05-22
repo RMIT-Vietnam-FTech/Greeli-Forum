@@ -3,7 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import useSwr from "swr";
 import "../assets/forum.scss";
 import Comments from "./Comments";
-import InitialPost from "./IntialPost";
+import PostContent from "../ForumPage/PostPage/PostContent";
+import PostComment from "./PostComment";
+
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 export default function PostPage() {
@@ -42,8 +44,8 @@ function PostPageStructure({ postData }) {
 	) {
 		return (
 			<>
-				<InitialPost postData={postData} />
-				<Comments
+				<PostContent postData={postData} />
+				<PostComment
 					postData={postData}
 					threadAdminId={data.createdBy.userId}
 				/>

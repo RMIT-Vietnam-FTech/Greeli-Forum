@@ -10,7 +10,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { UserContext, useUserContext } from "../../context/UserContext";
 import "../../scss/custom.css";
 import "./custom.css";
-import LeftSideBar from "../forum/LeftSideBar";
+import LeftSideBar from "../Forum/LeftSideBar/LeftSideBar";
 
 const Navbar = ({ isForum }) => {
 	const cookies = new Cookies();

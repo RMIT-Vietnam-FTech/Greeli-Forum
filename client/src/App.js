@@ -21,7 +21,7 @@ import Profile from "./pages/Profile/Profile";
 import GeneralPage from "./pages/generalPage/generalPage";
 import Upload from "./pages/UploadImage/Upload.jsx";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
-import { ForumRouter } from "./pages/Forum/ForumRouter.jsx";
+import ForumPage from "./pages/ForumPage/ForumPage.jsx";
 // import { useUserContext } from "./context/UserContext.jsx";
 function App() {
 	let location = useLocation();
@@ -69,7 +69,7 @@ function App() {
 							</Route>
 							<Route
 								path="/forum/*"
-								element={<ForumRouter />}
+								element={<ForumPage/>}
 							></Route>
 							<Route path="*" element={<ErrorPage />} />
 						</Routes>
