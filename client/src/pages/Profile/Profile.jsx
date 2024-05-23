@@ -262,7 +262,7 @@ const Profile = () => {
 								id={0}
 								type="description"
 								basicInfo={basicInfo}
-								// updateBasicInfo={handleUpdateBasicInfo}
+								updateBasicInfo={handleUpdateBasicInfo}
 								toaster={Toaster}
 								isMe={isMe}
 							/>
@@ -330,7 +330,7 @@ const Profile = () => {
 							id={0}
 							type="description"
 							basicInfo={basicInfo}
-							// updateBasicInfo={handleUpdateBasicInfo}
+							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
 							isMe={isMe}
 						/>

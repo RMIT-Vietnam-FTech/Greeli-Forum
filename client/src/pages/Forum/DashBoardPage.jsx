@@ -4,123 +4,155 @@ import { useEffect, useRef, useState } from "react";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { useUserContext } from "../../context/UserContext";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 
 const getMetadata = async (url) => {
-	return await axios.get(url).then((res) => res.data.metadata);
+  return await axios.get(url).then((res) => res.data.metadata);
 };
-
+const getSearchResult = async (url) => {
+  return await axios.get(url).then((res) => res.data.data);
+};
 export default function DashBoardPage() {
-	const [metadata, setMetadata] = useState();
-	const [sortOption, setSortOption] = useState("Hot");
-	useEffect(() => {
-		getMetadata(`http://localhost:3001/api/v1/posts`).then((res) => {
-			setMetadata(res);
-		});
-	}, []);
-	// console.log(`check metadata: ${JSON.stringify(metadata)}`);
-	const { ref, inView, entry } = useInView({
-		threshold: 0,
-		onChange: (inView, entry) => {
-			let limit;
-			let total;
-			if (metadata) {
-				limit = metadata.limit;
-				total = metadata.total;
-			} else {
-				limit = 10;
-				total = 21;
-			}
-			// console.log(`check size: ${size}\n check limit: ${limit}\n check total: ${total}`)
-			if (inView && size * limit <= total) {
-				setSize(size + 1);
-			}
-		},
-	});
+  const { searchTerm, setSearchTerm } = useUserContext();
+  const [searchResult, setSearchResult] = useState([]);
 
-	const { data, mutate, size, setSize, isValidating, isLoading } =
-		useSWRInfinite(
-			(index, prevData) =>
-				prevData && !prevData.length
-					? null
-					: `http://localhost:3001/api/v1/posts?page=${
-							index + 1
-						}&sort=${sortOption}`,
+  const [metadata, setMetadata] = useState();
+  const [sortOption, setSortOption] = useState("Hot");
 
-			fetcher,
-		);
+  useEffect(() => {
+    getMetadata(`http://localhost:3001/api/v1/posts`).then((res) => {
+      setMetadata(res);
+    });
+  }, []);
 
-	if (isLoading) {
-		return 0;
-	}
+  // console.log(`check metadata: ${JSON.stringify(metadata)}`);
+  const { ref, inView, entry } = useInView({
+    threshold: 0,
+    onChange: (inView, entry) => {
+      let limit;
+      let total;
+      if (metadata) {
+        limit = metadata.limit;
+        total = metadata.total;
+      } else {
+        limit = 10;
+        total = 11;
+      }
+      // console.log(`check size: ${size}\n check limit: ${limit}\n check total: ${total}`)
+      if (inView && size * limit <= total) {
+        setSize(size + 1);
+      }
+    },
+  });
 
-	const issues = data ? [].concat(...data) : [];
+  const { data, mutate, size, setSize, isValidating, isLoading } =
+    useSWRInfinite(
+      (index, prevData) =>
+        prevData && !prevData.length
+          ? null
+          : `http://localhost:3001/api/v1/posts?page=${
+              index + 1
+            }&sort=${sortOption}`,
 
-	return (
-		<>
-			{/*sorting*/}
-			<div className="position-relative">
-				<div className="dropdown ms-3">
-					<button
-						className={
-							"btn  d-flex gap-1 bg-forum-subtle text-white d-flex rounded-5 px-4 "
-						}
-						data-bs-toggle="dropdown"
-					>
-						<p className="m-0 p-0">{sortOption}</p>
-						<div>
-							<IoMdArrowDropdown />
-						</div>
-					</button>
-					<ul className="dropdown-menu bg-greeli-subtle ">
-						<li>
-							<a
-								className={"dropdown-item "}
-								onClick={() => {
-									setSortOption("Hot");
-								}}
-							>
-								Hot
-							</a>
-						</li>
-						<li>
-							<a
-								className={"dropdown-item "}
-								onClick={() => {
-									setSortOption("New");
-								}}
-							>
-								New
-							</a>
-						</li>
-						<li>
-							<a
-								className={"dropdown-item "}
-								onClick={() => {
-									setSortOption("Top");
-								}}
-							>
-								Top
-							</a>
-						</li>
-					</ul>
-				</div>
+      fetcher
+    );
+  const issues = data ? [].concat(...data) : [];
+  // const issueIsLoaded = useRef(false);
+  // useEffect(()=>{
+  //   if(!issueIsLoaded.current && issues.length > 0){
+  //     setSearchResult(issues);
+  //     issueIsLoaded.current = true
+  //    setSearchTerm("") ;
+  //   }
+  // },[issues])
+  useEffect(() => {
+    setSearchResult(
+      issues.filter((issue) => issue.title.toLowerCase().includes(searchTerm))
+    );
+  }, [searchTerm]);
 
-				{/*Post items*/}
-				<div>
-					{issues.map((postData) => {
-						return (
-							<Post
-								key={postData._id}
-								postData={postData}
-								isThreadAdmin={false}
-							/>
-						);
-					})}
-				</div>
-				<div className="mt-2" ref={ref}></div>
-			</div>
-		</>
-	);
+  if (isLoading) {
+    return 0;
+  }
+
+  return (
+    <>
+      {/*sorting*/}
+      <div className="position-relative">
+        <div className="dropdown ms-3">
+          <button
+          tabIndex="0"
+            className={
+              "btn  d-flex gap-1 bg-forum-subtle text-white d-flex rounded-5 px-4 "
+            }
+            data-bs-toggle="dropdown"
+          >
+            <p className="m-0 p-0">{sortOption}</p>
+            <div>
+              <IoMdArrowDropdown />
+            </div>
+          </button>
+          <ul className="dropdown-menu bg-forum-subtle ">
+            <li>
+              <a
+              tabIndex="0"
+                className={"dropdown-item "}
+                onClick={() => {
+                  setSortOption("Hot");
+                }}
+              >
+                Hot
+              </a>
+            </li>
+            <li>
+              <a
+              tabIndex="0"
+                className={"dropdown-item "}
+                onClick={() => {
+                  setSortOption("New");
+                }}
+              >
+                New
+              </a>
+            </li>
+            <li>
+              <a
+              tabIndex="0"
+                className={"dropdown-item "}
+                onClick={() => {
+                  setSortOption("Top");
+                }}
+              >
+                Top
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        {/*Post items*/}
+        <div>
+          {searchResult.length>0? searchResult.map((postData) => {
+            return (
+              <Post
+                key={postData._id}
+                postData={postData}
+                isThreadAdmin={false}
+              />
+            );
+          }): issues.map((postData) => {
+            return (
+              <Post
+                key={postData._id}
+                postData={postData}
+                isThreadAdmin={false}
+              />
+            );
+          })}
+        </div>
+        <div className="mt-2" ref={ref}></div>
+      </div>
+    </>
+  );
 }

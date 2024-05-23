@@ -162,7 +162,7 @@ a>p {
   }
 }
 
-@media (max-width: 1120px) {
+@media (max-width: 1199px) {
   #offcanvasForum {
     display: block;
   }

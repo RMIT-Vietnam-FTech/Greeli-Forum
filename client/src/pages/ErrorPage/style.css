@@ -1,26 +1,39 @@
 .errorpage-container {
-  height: 100vh;
-  width: 100vw;
+	height: 100vh;
 }
 
-.error-wrapper {
-  height: auto;
+.error-code {
+	font-size: 10vw;
 }
 
-.error-wrapper h1 {
-  font-size: 12vw;
-  font-weight: 800;
-}
-
-.error-wrapper p {
-  font-size: 2vw;
+.error-page-message {
+	font-size: 2vw;
 }
 
 .error-button {
-  font-size: 2vw;
+	font-size: 1.5vw;
 }
 
 .icons-container {
-  gap: 1rem;
+	height: 5vw;
+	width: 15vw;
 }
 
+@media screen and (max-width: 576px) {
+	.error-code {
+		font-size: 20vw;
+	}
+
+	.error-page-message {
+		font-size: 5vw;
+	}
+
+	.error-button {
+		font-size: 3vw;
+	}
+
+	.icons-container {
+		height: 16vw;
+		width: 32vw;
+	}
+}

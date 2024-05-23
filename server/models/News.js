@@ -24,15 +24,7 @@ const newsSchema = new mongoose.Schema(
 		image: {
 			type: String,
 			required: true,
-		},
-		date: {
-     		type: Date,
-      		default: Date.now,
-    	},
-		image: {
-			type: String,
-			required: true,
-		},
+		}
 	},
 	{ timestamps: true },
 );
