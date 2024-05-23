@@ -28,7 +28,7 @@ const Navbar = ({ isForum }) => {
 			.then((result) => {
 				console.log(result.data);
 				toast.success("Successfully Logout!", {
-					duration: 3000,
+					duration: 2000,
 					position: "top-center",
 				});
 				localStorage.removeItem("user");
