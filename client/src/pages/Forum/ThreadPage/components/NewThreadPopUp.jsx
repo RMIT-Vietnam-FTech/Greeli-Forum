@@ -25,7 +25,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		axios.get("http://localhost:3001/api/v1/topics").then((res) => {
+		axios.get("/api/v1/topics").then((res) => {
 			const topics = res.data.map((topic) => {
 				return topic.title;
 			});
@@ -68,7 +68,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
 					formData.append("topics[]", addedTopics[i]);
 				}
 				const res = await axios.post(
-					"http://localhost:3001/api/v1/threads",
+					"/api/v1/threads",
 					formData,
 					{
 						headers: {
@@ -177,7 +177,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
 											console.log("enter");
 											await axios
 												.post(
-													"http://localhost:3001/api/v1/threads/validation",
+													"/api/v1/threads/validation",
 													{ title: inputTitle },
 													{
 														headers: {

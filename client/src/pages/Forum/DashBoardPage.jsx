@@ -22,7 +22,7 @@ export default function DashBoardPage() {
 	const [sortOption, setSortOption] = useState("Hot");
 
 	useEffect(() => {
-		getMetadata(`http://localhost:3001/api/v1/posts`).then((res) => {
+		getMetadata(`/api/v1/posts`).then((res) => {
 			setMetadata(res);
 		});
 	}, []);
@@ -52,7 +52,7 @@ export default function DashBoardPage() {
 			(index, prevData) =>
 				prevData && !prevData.length
 					? null
-					: `http://localhost:3001/api/v1/posts?page=${
+					: `/api/v1/posts?page=${
 							index + 1
 						}&sort=${sortOption}`,
 

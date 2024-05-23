@@ -9,7 +9,7 @@ axios.defaults.withCredentials = true;
 export default function PostPage() {
 	const { postId } = useParams();
 	const { data, error, isLoading } = useSwr(
-		`http://localhost:3001/api/v1/posts/${postId}`,
+		`/api/v1/posts/${postId}`,
 		fetcher,
 	);
 	if (error) {
@@ -23,7 +23,7 @@ export default function PostPage() {
 function PostPageStructure({ postData }) {
 	const navigate = useNavigate();
 	const { data, error, isLoading } = useSwr(
-		`http://localhost:3001/api/v1/threads/${postData.belongToThread}`,
+		`/api/v1/threads/${postData.belongToThread}`,
 		fetcher,
 	);
 	if (error) {

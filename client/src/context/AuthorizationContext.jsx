@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { createContext } from "react";
 import useSwr from "swr";
 export const AuthorizationContext = createContext(false);
+axios.defaults.withCredentials = true;
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export const AuthorizationContextProvider = ({
@@ -16,7 +17,7 @@ export const AuthorizationContextProvider = ({
 		isAuthor.current = false;
 	}
 	const { data, error, isLoading } = useSwr(
-		`http://localhost:3001/api/v1/${componentType}s/${objectId}`,
+		`/api/v1/${componentType}s/${objectId}`,
 		fetcher,
 	);
 	if (error) return <div>Error </div>;

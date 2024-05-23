@@ -36,7 +36,7 @@ export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
 				formData.append("content", JSON.stringify(description));
 				formData.append("belongToThread", belongToThread);
 				const res = await axios.post(
-					"http://localhost:3001/api/v1/posts",
+					"/api/v1/posts",
 					formData,
 					{
 						headers: {
