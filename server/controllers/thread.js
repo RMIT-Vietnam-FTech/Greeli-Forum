@@ -41,7 +41,7 @@ export const createThread = async (req, res) => {
       if (uploadFile) {
         const imageName = createRandomName();
         const fileBuffer = await sharp(uploadFile.buffer)
-        .jpeg({ quality:100 })
+          .jpeg({ quality: 100 })
           .resize({ width: 730, height: 400, fit: "contain" })
           .toBuffer();
         uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
@@ -126,7 +126,10 @@ export const getThreadStatistic = async (req, res) => {
     const thread = await Thread.findById(threadId, {
       createdBy: 1,
       followedBy: 1,
-      posts: 1,
+    });
+    const posts = await Post.find({
+      belongToThread: threadId,
+      isApproved: true,
     });
     if (!thread)
       return res
@@ -135,7 +138,7 @@ export const getThreadStatistic = async (req, res) => {
 
     res.status(200).json({
       member: thread.followedBy.length,
-      post: thread.posts.length,
+      post: posts.length,
       admin: {
         username: thread.createdBy.username,
         profileImage: thread.createdBy.profileImage,
@@ -148,9 +151,9 @@ export const getThreadStatistic = async (req, res) => {
 export const validateThread = async (req, res) => {
   try {
     const { title } = req.body;
-    console.log(`title: ${title}`);
-    const threadExistence = await Thread.exists({ title: title });
-    if (threadExistence)
+    const validatedTitle = title.toLowerCase().replace(/\s/g, "");
+    const thread = await Thread.findOne({ title: validatedTitle });
+    if (thread)
       return res.status(403).json({ message: `${title} is already exist` });
     return res.status(200).json("success");
   } catch (e) {

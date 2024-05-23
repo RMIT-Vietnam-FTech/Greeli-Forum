@@ -12,12 +12,12 @@ import js from "highlight.js/lib/languages/javascript";
 import ts from "highlight.js/lib/languages/typescript";
 import html from "highlight.js/lib/languages/xml";
 
-import MenuBar from "../../../../../components/forum/EditTextEditor/MenuBar";
+import MenuBar from "../../../../../components/Forum/EditTextEditor/MenuBar";
 import { EditContext } from "../../../../../context/EditContext";
 import CreateCommentBottomBar from "./CreateCommentBottomBar";
 import { PopupContext } from "../../../../../context/PopupContext";
-import { useLogin } from "../../../../../components/Popup/LoginPopup";
 
+import { useLogin } from "../../../../../hooks/useLogin";
 //Utilities in tiptap
 lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);
