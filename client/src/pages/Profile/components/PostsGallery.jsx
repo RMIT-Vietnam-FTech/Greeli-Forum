@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import PostItem from "./PostItem";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const PostGallery = (props) => {
 	const isMe = props.isMe;
