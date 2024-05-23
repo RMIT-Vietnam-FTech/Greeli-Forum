@@ -104,7 +104,7 @@ const Main = () => {
         <Posts />
         <Link to="/forum" className="d-block text-center mt-2">
           <button
-            className="text-white btn btn-lg read-more bg-primary-green-700 px-5 py-3 rounded-pill fw-bold"
+            className="text-white btn btn-lg read-more bg-primary-green-700 px-5 py-3 mt-3 rounded-pill fw-bold"
             type="button"
           >
             Read more
