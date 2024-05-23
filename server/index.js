@@ -26,6 +26,7 @@ import User from "./models/User.js";
 /* CONFIGURATION */
 dotenv.config();
 const __dirname = path.resolve();
+
 // const app = express();
 app.use(express.static("public"))
 app.use(express.json());
@@ -44,10 +45,6 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, "/client/build")))
 app.use(express.static(path.join(__dirname, "/server/public")))
 
-app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "client", "build", "index.html"))
-})
-
 app.get("/api", (req, res) => {
 	res.status(201).json({ message: "hi there" });
 });
@@ -63,6 +60,10 @@ app.use("/api/v1/forums", forumRoutes);
 app.use("/api/v1/topics", topicRoutes);
 app.use("/api/v1/news", newsRoutes);
 app.use("/api/feedback", feedbackRoutes)
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "client", "build", "index.html"))
+})
 
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
