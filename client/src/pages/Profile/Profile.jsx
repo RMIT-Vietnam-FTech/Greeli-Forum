@@ -204,7 +204,7 @@ const Profile = () => {
 						{isMe ? (
 							<PreventionPopup
 								modalTitle="Deactivate Account"
-								buttonStyle="bg-danger text-white rounded-pill mt-5 py-2 d-lg-none d-block"
+								buttonStyle="bg-danger text-white rounded-pill mt-5 py-2 px-4 d-lg-none d-block"
 								ariaLabel="Deactivate account"
 								buttonValue="Deactivate account"
 								action="deactivate your account"
@@ -214,7 +214,7 @@ const Profile = () => {
 							/>
 						) : (
 							<button
-								className="bg-primary-yellow text-black rounded-pill mt-5 py-2 d-lg-none d-block"
+								className="bg-primary-yellow text-black rounded-pill mt-5 py-2 px-4 d-lg-none d-block"
 								aria-label="Chat with this user"
 								onClick={() => {
 									navigate(`/chat`, { root: true });
