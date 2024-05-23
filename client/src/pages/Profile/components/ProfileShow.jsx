@@ -28,7 +28,7 @@ const ProfileShow = (props) => {
 		};
 		axios(configuration)
 			.then((result) => {
-				setSuccess("Successfully Uploaded!")
+				setSuccess("Successfully Uploaded!");
 				toast.success("Successfully Uploaded!", {
 					duration: 3000,
 					position: "top-center",
@@ -61,16 +61,20 @@ const ProfileShow = (props) => {
 					// src={props.imgURL}
 					src={props.profileImage}
 					alt={`${props.userName} Avatar`}
-					className="rounded-circle w-70 avatar-image"
-					style={{ width: "50%" }}
+					className="rounded-circle avatar-image"
+					style={{ width: "70%" }}
 					data-bs-toggle="modal"
 					data-bs-target="#exampleModal"
 				/>
-				<div class=".overlay-profile position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
-					<div class="text-greeli-emphasis avatar-icon">
+				<div
+					className=".overlay-profile position-absolute start-50 translate-middle-x d-flex justify-content-center .bg-transparente"
+					style={{ bottom: "8px" }}
+				>
+					<div className="text-greeli-emphasis avatar-icon">
 						<FaCamera
 							data-bs-toggle="modal"
 							data-bs-target="#exampleModal"
+							color={"white"}
 						/>
 					</div>
 				</div>
@@ -125,7 +129,7 @@ const ProfileShow = (props) => {
 			<div
 				className="modal fade position-absolute top-50 start-50 translate-middle"
 				id="exampleModal"
-				tabindex="-1"
+				tabIndex="-1"
 				aria-labelledby="exampleModalLabel"
 				aria-hidden="true"
 			>
@@ -148,10 +152,7 @@ const ProfileShow = (props) => {
 						</div>
 						<div className="modal-body text-center">
 							{preview && (
-								<img
-									src={URL.createObjectURL(preview)}
-									alt="avatar image"
-								/>
+								<img src={URL.createObjectURL(preview)} alt="avatar image" />
 							)}
 							<form>
 								<input
