@@ -30,7 +30,6 @@ const ProfileShow = (props) => {
 		axios(configuration)
 			.then((result) => {
 				setSuccess("Successfully Uploaded!");
-				setSuccess("Successfully Uploaded!");
 				toast.success("Successfully Uploaded!", {
 					duration: 3000,
 					position: "top-center",
