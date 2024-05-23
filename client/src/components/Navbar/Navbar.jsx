@@ -13,6 +13,7 @@ import "./custom.css";
 import LeftSideBar from "../forum/LeftSideBar";
 import toast, { Toaster } from "react-hot-toast";
 axios.defaults.withCredentials = true;
+
 const Navbar = ({ isForum }) => {
 	const navigate = useNavigate();
 	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);

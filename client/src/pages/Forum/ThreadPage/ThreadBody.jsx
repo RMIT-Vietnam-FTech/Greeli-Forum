@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useUserContext } from "../../../context/UserContext";
 axios.defaults.withCredentials = true;
+
 const fetcher = (url) => axios.get(url).then((res) => res.data.data);
 
 const verifyAdminFetcher = async (url) => {

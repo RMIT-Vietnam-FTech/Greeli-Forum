@@ -13,6 +13,7 @@ import NewPostPopUp from "./components/NewPostPopUp";
 import { useLogin } from "../../../components/Popup/LoginPopup";
 import { PopupContext } from "../../../context/PopupContext";
 axios.defaults.withCredentials = true;
+
 export default function ThreadHeader({ ...prop }) {
 	const { title, uploadFile, content, objectId, createdBy } = prop;
 
