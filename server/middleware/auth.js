@@ -2,15 +2,16 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
 export const verifyToken = async (req, res, next) => {
+	const token = await req.cookies.JWT;
 	try {
-		let token = req.header("Authorization");
+		// console.log(token)
 		if (!token) {
 			// res.redirect("/")
 			return res.status(403).json({ message: "Access Denied" });
 		}
-		if (token.startsWith("Bearer ")) {
-			token = token.slice(7, token.length).trimLeft();
-		}
+		// if (token.startsWith("Bearer ")) {
+		// 	token = token.slice(7, token.length).trimLeft();
+		// }
 		const verified = await jwt.verify(token, process.env.JWT_SECRET);
 		if (!verified) {
 			return res.status(401).json({ error: "Unauthorized - Invalid Token" });

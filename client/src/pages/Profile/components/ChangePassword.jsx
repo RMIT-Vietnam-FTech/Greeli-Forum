@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-
+axios.defaults.withCredentials = true;
 const ChangePassword = (props) => {
 	const { userId } = props;
 	// console.log(userId);
@@ -34,7 +34,7 @@ const ChangePassword = (props) => {
 	const sendOldPassword = async (oldPassword, newPassword, userId) => {
 		const configuration = {
 			method: "post",
-			url: `/api/user/change-password`,
+			url: `http://localhost:3001/api/user/change-password`,
 			data: {
 				userId: userId,
 				oldPassword: oldPassword,
@@ -105,7 +105,8 @@ const ChangePassword = (props) => {
 								},
 								minLength: {
 									value: 8,
-									message: "This input must exceed 8 characters",
+									message:
+										"This input must exceed 8 characters",
 								},
 								validate: (value) => {
 									if (value === oldPassword) {

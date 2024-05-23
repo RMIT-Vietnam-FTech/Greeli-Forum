@@ -1,15 +1,13 @@
 import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
-import Cookies from "universal-cookie";
 import moment from "moment";
 import "./Conversation.css";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
+axios.defaults.withCredentials = true;
 
 const Conversation = ({ data, currentUserId, online, isActive }) => {
 	const [userData, setUserData] = useState(null);
-	const cookies = new Cookies();
-	const token = cookies.get("TOKEN");
 	const { isDarkMode } = useContext(ThemeContext);
 	const { error, setError } = useUserContext();
 
@@ -18,14 +16,15 @@ const Conversation = ({ data, currentUserId, online, isActive }) => {
 			const userId = data.members.find((id) => id !== currentUserId);
 			const configuration = {
 				method: "get",
-				url: `/api/user/find/${userId}`,
+				url: `http://localhost:3001/api/user/find/${userId}`,
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
+					// Authorization: `Bearer ${token}`,
 				},
 			};
 			axios(configuration)
 				.then((result) => {
+					setError(null);
 					setUserData(result.data);
 				})
 				.catch((error) => {
@@ -34,7 +33,7 @@ const Conversation = ({ data, currentUserId, online, isActive }) => {
 				});
 		};
 		getUserData();
-	}, [data, currentUserId, token]);
+	}, [data, currentUserId, error]);
 
 	return (
 		<div
@@ -47,16 +46,25 @@ const Conversation = ({ data, currentUserId, online, isActive }) => {
 				{userData ? (
 					<>
 						<img
-							src={userData?.profileImage || 'https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg'}
+							src={
+								userData.profileImage ||
+								"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"
+							}
 							alt={userData.username}
 							className={`conversation-image ${
 								online ? "online" : "offline"
 							}`}
 						/>
 						<div className="conversation-info">
-							<div className={`${
-									isDarkMode ? "conversation-name-dark" : "conversation-name-light"
-								} conversation-name ${isActive ? "active" : ""}`}>
+							<div
+								className={`${
+									isDarkMode
+										? "conversation-name-dark"
+										: "conversation-name-light"
+								} conversation-name ${
+									isActive ? "active" : ""
+								}`}
+							>
 								{userData.username || "Unknown"}
 							</div>
 							<div

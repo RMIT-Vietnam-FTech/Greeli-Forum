@@ -7,9 +7,9 @@ const RequireAuth = () => {
 	const { user } = useUserContext();
 	const location = useLocation();
 	const userId = JSON.parse(user)?.id || null;
-	const popupContext = useContext(PopupContext)
+	const popupContext = useContext(PopupContext);
 	console.log(userId);
-	return userId ? ( 
+	return userId ? (
 		<Outlet />
 	) : (
 		// <Navigate to="/login" state={{ from: location }} replace />

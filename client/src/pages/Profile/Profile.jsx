@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import "../../scss/custom.scss";
 import BasicInfo from "./components/BasicInfo";
 import PostsGallery from "./components/PostsGallery";
@@ -13,13 +13,20 @@ import demoUserInfo from "./data";
 import "./styles.css";
 import { UserContext, useUserContext } from "../../context/UserContext";
 import Cookies from "universal-cookie";
+import BasicInfoEmail from "./components/BasicInfoEmail";
+import BasicInfoTel from "./components/BasicInfoTel";
+import BasicInfoAddress from "./components/BasicInfoAddress";
+import BasicInfoGender from "./components/BasicInfoGender";
+axios.defaults.withCredentials = true;
 
 const Profile = () => {
 	const { isDarkMode } = useContext(ThemeContext);
 	const userData = demoUserInfo[0];
 	const navigate = useNavigate();
-	const { profileImage } = useUserContext();
 	const [basicInfo, setBasicInfo] = useState({});
+
+	const { user, setUser, toggleUserInfo, success, setSuccess } =
+		useUserContext();
 
 	// GET ID FROM LOCAL STORAGE
 	const currentUserId = JSON.parse(localStorage.getItem("user")).id;
@@ -39,7 +46,7 @@ const Profile = () => {
 		async function fetchUser() {
 			const configuration = {
 				method: "get",
-				url: `/api/user/${userId}`,
+				url: `http://localhost:3001/api/user/${userId}`,
 			};
 			await axios(configuration)
 				.then((result) => {
@@ -61,14 +68,18 @@ const Profile = () => {
 						archievedPost,
 						followThread,
 					} = user;
-					const tel = user.tel ? user.tel : `${prefixForNoInfo} phone number`;
+					const tel = user.tel
+						? user.tel
+						: `${prefixForNoInfo} phone number`;
 					const address = user.address
 						? user.address
 						: `${prefixForNoInfo} address`;
 					const gender = user.gender
 						? user.gender
 						: `${prefixForNoInfo} gender`;
-					const profileImage = user.profileImage ? user.profileImage : "";
+					const profileImage = user.profileImage
+						? user.profileImage
+						: "";
 					const description = user.description
 						? user.description
 						: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...";
@@ -100,7 +111,7 @@ const Profile = () => {
 		}
 
 		fetchUser();
-	}, [userId, isMe, profileImage]);
+	}, [userId, isMe, success]);
 	// ----------------------------
 
 	// LET USER EDIT THEIR INFO
@@ -113,33 +124,37 @@ const Profile = () => {
 	const updateUserData = (basicInfo) => {
 		const configuration = {
 			method: "post",
-			url: `/api/user/${basicInfo.userId}/update`,
+			url: `http://localhost:3001/api/user/${basicInfo.userId}/update`,
 			data: basicInfo,
 		};
 		axios(configuration)
 			.then((result) => {
 				console.log(result.data);
+				toast.success("Info Updated", {
+					duration: 3000,
+				});
 			})
 			.catch((error) => {
+				toast.failed(error.data.response.error, {
+					duration: 3000,
+				});
 				console.log(error);
 			});
 	};
 	// ----------------------------
 
 	// DEACTIVATE ACCOUNT FUNCTION
-	const { user, setUser, toggleUserInfo } = useUserContext();
 	const cookies = new Cookies();
 
 	const deactivateAccount = () => {
 		const configuration = {
 			method: "post",
-			url: `/api/user/${userId}/deactivate`,
+			url: `http://localhost:3001/api/user/${userId}/deactivate`,
 		};
 		axios(configuration)
 			.then((result) => {
 				console.log(result.data);
 				localStorage.removeItem("user");
-				cookies.remove("TOKEN", { path: "/" });
 				setUser(null);
 				navigate("/", { replace: true });
 			})
@@ -152,7 +167,6 @@ const Profile = () => {
 
 	// BLOCK/UNBLOCK USER FUNCTION
 	const isAdmin = JSON.parse(localStorage.getItem("user")).role === "admin";
-	const token = cookies.get("TOKEN");
 	const handleLockAccount = () => {
 		const userId = basicInfo.userId;
 		const adminId = JSON.parse(localStorage.getItem("user")).id;
@@ -160,10 +174,10 @@ const Profile = () => {
 		// console.log("Lock/Unlock user");
 		const configuration = {
 			method: "put",
-			url: `/api/user/${adminId}/${userId}/${action}`,
+			url: `http://localhost:3001/api/user/${adminId}/${userId}/${action}`,
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
+				// Authorization: `Bearer ${token}`,
 			},
 		};
 		axios(configuration)
@@ -179,6 +193,7 @@ const Profile = () => {
 				console.log(error);
 			});
 	};
+	//---------------------------
 
 	// CREATE CHAT
 	const createChat = (user) => {
@@ -187,7 +202,6 @@ const Profile = () => {
 			url: "/api/chat/create",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${cookies.get("TOKEN")}`,
 			},
 			data: {
 				senderId: currentUserId,
@@ -197,7 +211,7 @@ const Profile = () => {
 		axios(configuration)
 			.then((result) => {
 				// console.log(result.data);
-				navigate("/chat")
+				navigate("/chat");
 			})
 			.catch((error) => {
 				console.log(error);
@@ -209,9 +223,7 @@ const Profile = () => {
 			className="container-fluid profile-container bg-greeli-subtle"
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
-			<div>
-				<Toaster />
-			</div>
+			{/* <Toaster /> */}
 			<div className="row overflow-auto">
 				<div className="d-flex flex-column justify-content-between p-sm-5 pb-sm-0 p-4 pb-0 col-12 col-lg-7 full-height overflow-hidden place">
 					<ProfileShow
@@ -219,17 +231,24 @@ const Profile = () => {
 						profileImage={basicInfo.profileImage}
 						role={basicInfo.role}
 						threadsNum={
-							basicInfo.createdThread ? basicInfo.createdThread.length : 0
+							basicInfo.createdThread
+								? basicInfo.createdThread.length
+								: 0
 						}
-						postsNum={basicInfo.createdPost ? basicInfo.createdPost.length : 0}
+						postsNum={
+							basicInfo.createdPost
+								? basicInfo.createdPost.length
+								: 0
+						}
 						joinedDate={basicInfo.joinedDate}
+						isMe={isMe}
 					/>
 					<div className="btn-chat-container d-flex justify-content-center mt-3">
 						{/* Deactivate/ Chat with user button */}
 						{isMe ? (
 							<PreventionPopup
 								modalTitle="Deactivate Account"
-								buttonStyle="bg-danger text-white rounded-pill mt-5 py-2 d-lg-none d-block"
+								buttonStyle="bg-danger text-white rounded-pill mt-5 py-2 px-4 d-lg-none d-block"
 								ariaLabel="Deactivate account"
 								buttonValue="Deactivate account"
 								action="deactivate your account"
@@ -239,7 +258,7 @@ const Profile = () => {
 							/>
 						) : (
 							<button
-								className="bg-primary-yellow text-black rounded-pill mt-5 py-2 d-lg-none d-block"
+								className="bg-primary-yellow text-black rounded-pill mt-5 py-2 px-4 d-lg-none d-block"
 								aria-label="Chat with this user"
 								onClick={() => {
 									navigate(`/chat`, { root: true });
@@ -259,7 +278,9 @@ const Profile = () => {
 							// 	{`${basicInfo.isLocked ? "Unlock" : "Lock"} this user`}
 							// </button>
 							<PreventionPopup
-								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
+								modalTitle={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} Account`}
 								buttonStyle="bg-danger text-white rounded-pill mt-5 py-2 d-lg-none d-block"
 								ariaLabel={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
@@ -267,7 +288,9 @@ const Profile = () => {
 								buttonValue={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
 								} this user`}
-								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
+								action={`${
+									basicInfo.isLocked ? "unlock" : "lock"
+								} this user`}
 								warningMessage={`If you ${
 									basicInfo.isLocked ? "unlock" : "lock"
 								} this account, the user will be ${
@@ -291,33 +314,37 @@ const Profile = () => {
 								toaster={Toaster}
 								isMe={isMe}
 							/>
-							<BasicInfo
+							<BasicInfoEmail
 								id={1}
 								type="email"
+								name="email"
 								basicInfo={basicInfo}
 								updateBasicInfo={handleUpdateBasicInfo}
 								toaster={Toaster}
 								isMe={isMe}
 							/>
-							<BasicInfo
+							<BasicInfoTel
 								id={2}
 								type="tel"
+								name="tel"
 								basicInfo={basicInfo}
 								updateBasicInfo={handleUpdateBasicInfo}
 								toaster={Toaster}
 								isMe={isMe}
 							/>
-							<BasicInfo
+							<BasicInfoAddress
 								id={3}
 								type="address"
+								name="address"
 								basicInfo={basicInfo}
 								updateBasicInfo={handleUpdateBasicInfo}
 								toaster={Toaster}
 								isMe={isMe}
 							/>
-							<BasicInfo
+							<BasicInfoGender
 								id={4}
 								type="gender"
+								name="gender"
 								basicInfo={basicInfo}
 								updateBasicInfo={handleUpdateBasicInfo}
 								toaster={Toaster}
@@ -359,33 +386,37 @@ const Profile = () => {
 							toaster={Toaster}
 							isMe={isMe}
 						/>
-						<BasicInfo
+						<BasicInfoEmail
 							id={1}
 							type="email"
+							name="email"
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
 							isMe={isMe}
 						/>
-						<BasicInfo
+						<BasicInfoTel
 							id={2}
 							type="tel"
+							name="tel"
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
 							isMe={isMe}
 						/>
-						<BasicInfo
+						<BasicInfoAddress
 							id={3}
 							type="address"
+							name="address"
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
 							isMe={isMe}
 						/>
-						<BasicInfo
+						<BasicInfoGender
 							id={4}
 							type="gender"
+							name="gender"
 							basicInfo={basicInfo}
 							updateBasicInfo={handleUpdateBasicInfo}
 							toaster={Toaster}
@@ -435,7 +466,9 @@ const Profile = () => {
 							// 	{`${basicInfo.isLocked ? "Unlock" : "Lock"} this user`}
 							// </button>
 							<PreventionPopup
-								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
+								modalTitle={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} Account`}
 								buttonStyle="bg-danger text-white rounded-pill mt-2 py-2 d-block w-100"
 								ariaLabel={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
@@ -443,7 +476,9 @@ const Profile = () => {
 								buttonValue={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
 								} this user`}
-								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
+								action={`${
+									basicInfo.isLocked ? "unlock" : "lock"
+								} this user`}
 								warningMessage={`If you ${
 									basicInfo.isLocked ? "unlock" : "lock"
 								} this account, the user will be ${

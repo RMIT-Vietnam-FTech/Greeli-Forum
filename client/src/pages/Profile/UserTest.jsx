@@ -11,7 +11,7 @@ const UserTest = () => {
 		const fetchUser = () => {
 			const configuration = {
 				method: "get",
-				url: `/api/user/${userId}`,
+				url: `http://localhost:3001/api/user/${userId}`,
 			};
 			axios(configuration)
 				.then((result) => {

@@ -9,8 +9,11 @@ import {
 	MdPhone,
 } from "react-icons/md";
 import { RiDoubleQuotesL, RiDoubleQuotesR } from "react-icons/ri";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm } from "react-hook-form";
 
-const BasicInfo = (props) => {
+const BasicInfoTel = (props) => {
 	const { id, type, basicInfo, updateBasicInfo, toaster, isMe } = props;
 	const displayInfo = basicInfo[type];
 	const [isEditing, setIsEditing] = useState(false);
@@ -24,7 +27,8 @@ const BasicInfo = (props) => {
 				...basicInfo,
 				email: newInput,
 			};
-		} else if (type === "tel") {
+		}
+		if (type === "tel") {
 			newBasicInfo = {
 				...basicInfo,
 				tel: newInput,
@@ -49,9 +53,32 @@ const BasicInfo = (props) => {
 		updateBasicInfo(newBasicInfo);
 	};
 
+	// SET UP YUP FOR INPUT VALIDATION
+	const infoSchema = Yup.object().shape({
+		tel: Yup.number("Only include numbers")
+			.required("Phone number is required")
+			.min(10, "Phone number should be equal to 10"),
+	});
+
+	const {
+		register,
+		handleSubmit,
+		reset,
+		formState: { errors },
+	} = useForm({ resolver: yupResolver(infoSchema) });
+
 	const handleInput = (event) => {
 		setCurrentInput(event.target.value);
 		// console.log(event);
+	};
+
+	const submitForm = (e) => {
+		editInfoHandler(e);
+		setIsEditing(false);
+	};
+
+	const onError = (errors) => {
+		console.log("Form Errors:", errors);
 	};
 
 	const iconArray = [
@@ -75,33 +102,42 @@ const BasicInfo = (props) => {
 					{/* <label htmlFor={`info-input-${id}`} className="sr-only">
 						Edit {type}
 					</label> */}
-					<input
-						type="text"
-						id={`info-input-${id}`}
-						className="col-9 px-2  text-greeli-emphasis border-input-change-pass"
-						value={currentInput}
-						onChange={handleInput}
-						style={{
-							borderRadius: "4px",
-							backgroundColor: "transparent",
-						}}
-						aria-label={`Edit ${type}`}
-					/>
-					<MdCheckCircle
-						// role="button"
+					<form onSubmit={handleSubmit(submitForm, onError)}>
+						<input
+							type="text"
+							id={`info-input-${id}`}
+							{...register("tel")}
+							className="col-9 px-2  text-greeli-emphasis border-input-change-pass"
+							value={currentInput}
+							onChange={handleInput}
+							style={{
+								borderRadius: "4px",
+								backgroundColor: "transparent",
+							}}
+							aria-label={`Edit ${type}`}
+						/>
+						<button type="submit">
+							<span>
+								<MdCheckCircle />
+							</span>
+							{/* <MdCheckCircle
+						role="button"
 						type="submit"
 						size={"28px"}
 						tabIndex={0}
 						className="col-2 text-greeli-emphasis"
 						onClick={(e) => {
-							editInfoHandler(e);
-							setIsEditing(false);
-							toast.success("Info Updated");
 						}}
-						role="button"
 						aria-label="Save changes"
-					/>
+					/> */}
+						</button>
+					</form>
 				</div>
+				{errors.tel && (
+					<p className="error text-start" tabIndex={0}>
+						{errors.tel.message}
+					</p>
+				)}
 			</div>
 		);
 	} else {
@@ -142,4 +178,4 @@ const BasicInfo = (props) => {
 	}
 };
 
-export default BasicInfo;
+export default BasicInfoTel;

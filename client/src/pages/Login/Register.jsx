@@ -11,6 +11,8 @@ import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import "../../scss/custom.css";
+
+axios.defaults.withCredentials = true;
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
 };
@@ -59,7 +61,7 @@ const Register = () => {
 	const registerAccount = () => {
 		const configuration = {
 			method: "post",
-			url: "/api/user/register",
+			url: "http://localhost:3001/api/user/register",
 			data: {
 				username,
 				email,
@@ -311,7 +313,7 @@ const Register = () => {
 						)}
 						<Reaptcha
 							className=" mb-4"
-							sitekey="6Ld2nt8pAAAAANB0gjy0_G2vdBy80t8NO5E_tv0E"
+							sitekey="6LeZuswpAAAAAJsWzzaLYK_ZmUoPAhJO0Sns-qlx"
 							ref={captchaRef}
 							onVerify={verifyCaptcha}
 							onLoad={onLoadCaptcha}

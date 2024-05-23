@@ -1,64 +1,81 @@
 import React, { useContext } from "react";
+import axios from "axios";
 import Image from "react-bootstrap/Image";
 import { FaUser } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { IoMoon, IoSunny } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 import { ThemeContext } from "../../context/ThemeContext";
 import { UserContext, useUserContext } from "../../context/UserContext";
 import "../../scss/custom.css";
 import "./custom.css";
 import LeftSideBar from "../forum/LeftSideBar";
-
+import toast, { Toaster } from "react-hot-toast";
+axios.defaults.withCredentials = true;
 const Navbar = ({ isForum }) => {
-	const cookies = new Cookies();
 	const navigate = useNavigate();
 	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
 	const { user, setUser, toggleUserInfo } = useUserContext();
 	const userId = JSON.parse(user)?.id || null;
 	const logout = () => {
-		console.log(user);
-		console.log("logout");
 		// toggleUserInfo()
-		localStorage.removeItem("user");
-		cookies.remove("TOKEN", { path: "/" });
-		setUser(null);
-		navigate("/", { replace: true });
+		const configuration = {
+			method: "post",
+			url: "http://localhost:3001/api/user/logout",
+		};
+		axios(configuration)
+			.then((result) => {
+				console.log(result.data);
+				toast.success("Successfully Logout!", {
+					duration: 2000,
+					position: "top-center",
+				});
+				localStorage.removeItem("user");
+				setUser(null);
+				navigate("/", { replace: true });
+			})
+			.catch((error) => {
+				toast.error(error.response.data.error, {
+					duration: 3000,
+					position: "top-center",
+				});
+				console.log(error.response.data.error);
+			});
 	};
 	return (
 		<nav
 			className="navbar navbar-expand-xl fixed-top bg-navbar-subtle"
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
+			<Toaster />
 			<div className="container-fluid">
 				<div className="d-flex gap-4">
-				{isForum && (
-					<button
-						className=" navbar-toggler forum-toggle"
-						type="button"
-						data-bs-toggle="offcanvas"
-						data-bs-target="#offcanvasForum"
-						aria-controls="offcanvasForum"
-						aria-label="Toggle navigation"
-					>
-						<span className="text-greeli-emphasis">
-							<FiMoreVertical />
-						</span>
-					</button>
-				)}
-				<Link className="brand d-flex" to="/">
-					<Image
-						className="me-0 me-md-3"
-						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
-						width={40}
-						alt="Greeli Logo"
-					/>
-					<p className="forum-name my-auto text-greeli-emphasis ml-3">
-						Greeli
-					</p>
-				</Link>
+					{isForum && (
+						<button
+							className=" navbar-toggler forum-toggle"
+							type="button"
+							data-bs-toggle="offcanvas"
+							data-bs-target="#offcanvasForum"
+							aria-controls="offcanvasForum"
+							aria-label="Toggle navigation"
+						>
+							<span className="text-greeli-emphasis">
+								<FiMoreVertical />
+							</span>
+						</button>
+					)}
+					<Link className="brand d-flex" to="/">
+						<Image
+							className="me-0 me-md-3"
+							src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+							width={40}
+							alt="Greeli Logo"
+						/>
+						<p className="forum-name my-auto text-greeli-emphasis ml-3">
+							Greeli
+						</p>
+					</Link>
 				</div>
 				<div
 					className="offcanvas offcanvas-end"
@@ -143,14 +160,12 @@ const Navbar = ({ isForum }) => {
 						id="offcanvasForum"
 						aria-labelledby="offcanvasForumLabel"
 					>
-						<div className="offcanvas-header border-bottom border-white bg-forum-subtle" >
+						<div className="offcanvas-header border-bottom border-white bg-forum-subtle">
 							<h5
 								className="offcanvas-title text-white"
 								id="offcanvasNavbarLabel"
-							>
-							</h5>
+							></h5>
 							<button
-							    
 								type="button"
 								className="btn-close btn-close-white"
 								data-bs-dismiss="offcanvas"
@@ -158,7 +173,7 @@ const Navbar = ({ isForum }) => {
 							/>
 						</div>
 						<div className="offcanvas-body h-100 bg-forum-subtle">
-							<LeftSideBar/>
+							<LeftSideBar />
 						</div>
 					</div>
 				)}

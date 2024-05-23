@@ -5,11 +5,11 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
 import toast, { Toaster } from "react-hot-toast";
+axios.defaults.withCredentials = true;
 const SignIn = ({ isShow }) => {
 	const { isDarkMode } = useContext(ThemeContext);
 	const [showModal, setShowModal] = useState(isShow);
@@ -17,7 +17,6 @@ const SignIn = ({ isShow }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const from = location.state?.from?.pathname || "/";
-	const cookies = new Cookies();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
@@ -41,7 +40,7 @@ const SignIn = ({ isShow }) => {
 	const login = () => {
 		const configuration = {
 			method: "post",
-			url: "/api/user/login",
+			url: "http://localhost:3001/api/user/login",
 			data: {
 				email,
 				password,
@@ -52,15 +51,11 @@ const SignIn = ({ isShow }) => {
 				console.log(result.data);
 				if (result.data) {
 					toast.success("Successfully Login!", {
-						duration: 3000,
+						duration: 2000,
 						position: "top-center",
 					});
 					// setIsLogin(true);
 				}
-				cookies.set("TOKEN", result.data.token, {
-					path: "/",
-					maxAge: 60 * 60 * 24 * 3,
-				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
 				// set user context

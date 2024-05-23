@@ -1,18 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { io } from "socket.io-client";
-import Cookies from "universal-cookie";
 import ChatBox from "../../components/ChatBox/ChatBox";
 import Conversation from "../../components/Conversation/Conversation";
 import { useUserContext } from "../../context/UserContext";
 import "./chat.css";
-import { ThemeContext } from '../../context/ThemeContext';
+import { ThemeContext } from "../../context/ThemeContext";
 import SignIn from "../../components/Popup/SignIn";
-
+axios.defaults.withCredentials = true;
 const Chat = () => {
 	const socket = useRef();
-	const cookies = new Cookies();
-	const { user, error, setError} = useUserContext();
+	const { user, error, setError } = useUserContext();
 	const [chats, setChats] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
 	const [onlineUsers, setOnlineUsers] = useState([]);
@@ -21,7 +19,6 @@ const Chat = () => {
 	const [userList, setUserList] = useState([]);
 	const [updateChat, setUpdateChat] = useState(0);
 	const userId = JSON.parse(user).id;
-	const token = cookies.get("TOKEN") || null;
 	const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
 	const [showChatBox, setShowChatBox] = useState(false);
 	const { isDarkMode } = useContext(ThemeContext);
@@ -30,7 +27,7 @@ const Chat = () => {
 	const [query, setQuery] = useState("");
 
 	useEffect(() => {
-		socket.current = io("https://group-project-cosc3060-2024a-ftech.onrender.com");
+		socket.current = io("http://localhost:3001");
 		socket.current.connect();
 		return () => {
 			socket.current.disconnect();
@@ -50,11 +47,12 @@ const Chat = () => {
 		const getChats = async () => {
 			const configuration = {
 				method: "get",
-				url: `/api/chat/find/${userId}`,
+				url: `http://localhost:3001/api/chat/find/${userId}`,
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
+					// Authorization: `Bearer ${token}`,
 				},
+				withCredentials: true,
 			};
 			axios(configuration)
 				.then((result) => {
@@ -102,11 +100,12 @@ const Chat = () => {
 		const getAllUsers = async () => {
 			const configuration = {
 				method: "get",
-				url: "/api/user/getAll",
+				url: "http://localhost:3001/api/user/getAll",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
+					// Authorization: `Bearer ${token}`,
 				},
+				withCredentials: true,
 			};
 			axios(configuration)
 				.then((result) => {
@@ -161,15 +160,16 @@ const Chat = () => {
 
 		const configuration = {
 			method: "post",
-			url: "/api/chat/create",
+			url: "http://localhost:3001/api/chat/create",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
+				// Authorization: `Bearer ${token}`,
 			},
 			data: {
 				senderId: userId,
 				receiverId: receiverId,
 			},
+			withCredentials: true,
 		};
 		axios(configuration)
 			.then((result) => {

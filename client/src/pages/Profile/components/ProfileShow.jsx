@@ -6,20 +6,22 @@ import toast, { Toaster } from "react-hot-toast";
 import { useUserContext } from "../../../context/UserContext";
 import { ThemeContext } from "../../../context/ThemeContext";
 import Avatar from "react-avatar-edit";
+axios.defaults.withCredentials = true;
+
 const ProfileShow = (props) => {
 	const [file, setFile] = useState();
-	const { user, error, setError, setProfileImage } = useUserContext();
+	const { user, error, setError, setSuccess } = useUserContext();
 	const [src, setSrc] = useState(null);
 	const [preview, setPreview] = useState("");
 	const { isDarkMode } = useContext(ThemeContext);
-
+	const isMe = props.isMe;
 	const formData = new FormData();
 	const userId = JSON.parse(user).id;
 	const upload = () => {
 		formData.append("image", preview);
 		const configuration = {
 			method: "post",
-			url: `/api/upload/${userId}`,
+			url: `http://localhost:3001/api/user/${userId}/uploadImage`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
@@ -27,21 +29,19 @@ const ProfileShow = (props) => {
 		};
 		axios(configuration)
 			.then((result) => {
+				setSuccess("Successfully Uploaded!");
+				setSuccess("Successfully Uploaded!");
 				toast.success("Successfully Uploaded!", {
-					duration: 2000,
-					position: "top-center",
-				});
-				setProfileImage("true")
-				console.log(result.data);
-				// setTimeout(() => {
-				// 	window.location.reload();
-				// }, 2000)
-			})
-			.catch((error) => {
-				toast.error("Upload failed, choose another file!", {
 					duration: 3000,
 					position: "top-center",
 				});
+				console.log(result.data);
+			})
+			.catch((error) => {
+				// toast.error(error.response.data.error, {
+				// 	duration: 3000,
+				// 	position: "top-center",
+				// });
 				console.log(error);
 			});
 	};
@@ -57,22 +57,42 @@ const ProfileShow = (props) => {
 			aria-label="Profile Information"
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
-			<div className="w-70 text-center profile-image-container position-relative">
-				<img
-					// src={props.imgURL}
-					src={props.profileImage}
-					alt={`${props.userName} Avatar`}
-					className="rounded-circle w-70 avatar-image"
-					style={{ width: "50%" }}
-					data-bs-toggle="modal"
-					data-bs-target="#exampleModal"
-				/>
-				<div class="overlay-profile position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
-					<div class="text-greeli-emphasis avatar-icon">
-						<FaCamera data-bs-toggle="modal" data-bs-target="#exampleModal" />
+			{/* <Toaster /> */}
+			{isMe ? (
+				<div className="w-70 text-center profile-image-container position-relative">
+					<img
+						// src={props.imgURL}
+						src={props.profileImage}
+						alt={`${props.userName} Avatar`}
+						className="rounded-circle avatar-image"
+						style={{ width: "70%" }}
+						data-bs-toggle="modal"
+						data-bs-target="#exampleModal"
+					/>
+					<div
+						className=".overlay-profile position-absolute start-50 translate-middle-x d-flex justify-content-center .bg-transparente"
+						style={{ bottom: "8px" }}
+					>
+						<div className="text-greeli-emphasis avatar-icon">
+							<FaCamera
+								data-bs-toggle="modal"
+								data-bs-target="#exampleModal"
+								color={"white"}
+							/>
+						</div>
 					</div>
 				</div>
-			</div>
+			) : (
+				<div className="w-70 text-center profile-image-container position-relative">
+					<img
+						// src={props.imgURL}
+						src={props.profileImage}
+						alt={`${props.userName} Avatar`}
+						className="rounded-circle avatar-image"
+						style={{ width: "70%" }}
+					/>
+				</div>
+			)}
 
 			<div className="d-flex flex-column gap-3">
 				<h2 className="text-greeli-emphasis">{props.userName}</h2>
@@ -123,7 +143,7 @@ const ProfileShow = (props) => {
 			<div
 				className="modal fade position-absolute top-50 start-50 translate-middle"
 				id="exampleModal"
-				tabindex="-1"
+				tabIndex="-1"
 				aria-labelledby="exampleModalLabel"
 				aria-hidden="true"
 			>
@@ -146,12 +166,14 @@ const ProfileShow = (props) => {
 						</div>
 						<div className="modal-body text-center">
 							{preview && (
-								<img src={URL.createObjectURL(preview)} alt="avatar image" />
+								<img
+									src={URL.createObjectURL(preview)}
+									alt="avatar image"
+								/>
 							)}
 							<form>
 								<input
 									type="file"
-									accept="image/*"
 									name="image"
 									onChange={(e) => {
 										setFile(e.target.files[0]);
