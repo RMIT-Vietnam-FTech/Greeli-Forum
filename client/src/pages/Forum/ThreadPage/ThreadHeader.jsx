@@ -12,82 +12,83 @@ import { EditContextProvider } from "../../../context/EditContext";
 import NewPostPopUp from "./components/NewPostPopUp";
 import { useLogin } from "../../../components/Popup/LoginPopup";
 import { PopupContext } from "../../../context/PopupContext";
+axios.defaults.withCredentials = true;
 export default function ThreadHeader({ ...prop }) {
-  const { title, uploadFile, content, objectId, createdBy} = prop;
+	const { title, uploadFile, content, objectId, createdBy } = prop;
 
-  const popupContext = useContext(PopupContext);
+	const popupContext = useContext(PopupContext);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isFollowed, setIsFollowed] = useState(false);
-  const isLogin = useLogin();
+	const [isOpen, setIsOpen] = useState(false);
+	const [isFollowed, setIsFollowed] = useState(false);
+	const isLogin = useLogin();
 
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
-  useEffect(() => {
-    checkFollowingStatus().then((res) => {
-      setIsFollowed(res);
-    });
-  }, []);
+	useEffect(() => {
+		checkFollowingStatus().then((res) => {
+			setIsFollowed(res);
+		});
+	}, []);
 
-  async function checkFollowingStatus() {
-    if (JSON.parse(localStorage.getItem("user"))) {
-      const path = `http://localhost:3001/api/user/${
-        JSON.parse(localStorage.getItem("user")).id
-      }/follow_threads`;
-      const followThreads = await axios
-        .get(path, {
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
-          },
-        })
-        .then((res) => res.data);
-      return followThreads.some((object) => {
-        return object._id === objectId;
-      });
-    }
-    return false;
-  }
-  async function handleFollowThread() {
-    try {
-      const path = `http://localhost:3001/api/user/${
-        JSON.parse(localStorage.getItem("user")).id
-      }/follow_threads`;
-      await axios.post(
-        path,
-        {
-          threadId: objectId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
-          },
-        }
-      );
-      setIsFollowed(true);
-    } catch (e) {
-      console.error(e.message.data);
-    }
-  }
-  async function handleUnFollowThread() {
-    try {
-      const path = `http://localhost:3001/api/user/${
-        JSON.parse(localStorage.getItem("user")).id
-      }/follow_threads`;
-      await axios.delete(
-        path,
+	async function checkFollowingStatus() {
+		if (JSON.parse(localStorage.getItem("user"))) {
+			const path = `http://localhost:3001/api/user/${
+				JSON.parse(localStorage.getItem("user")).id
+			}/follow_threads`;
+			const followThreads = await axios
+				.get(path, {
+					headers: {
+						// Authorization: `Bearer ${
+						//   JSON.parse(localStorage.getItem("user")).token
+						// }`,
+					},
+				})
+				.then((res) => res.data);
+			return followThreads.some((object) => {
+				return object._id === objectId;
+			});
+		}
+		return false;
+	}
+	async function handleFollowThread() {
+		try {
+			const path = `http://localhost:3001/api/user/${
+				JSON.parse(localStorage.getItem("user")).id
+			}/follow_threads`;
+			await axios.post(
+				path,
+				{
+					threadId: objectId,
+				},
+				{
+					headers: {
+						// Authorization: `Bearer ${
+						//   JSON.parse(localStorage.getItem("user")).token
+						// }`,
+					},
+				},
+			);
+			setIsFollowed(true);
+		} catch (e) {
+			console.error(e.message.data);
+		}
+	}
+	async function handleUnFollowThread() {
+		try {
+			const path = `http://localhost:3001/api/user/${
+				JSON.parse(localStorage.getItem("user")).id
+			}/follow_threads`;
+			await axios.delete(
+				path,
 
 				{
 					data: {
 						threadId: objectId,
 					},
 					headers: {
-						Authorization: `Bearer ${
-							JSON.parse(localStorage.getItem("user")).token
-						}`,
+						// Authorization: `Bearer ${
+						// 	JSON.parse(localStorage.getItem("user")).token
+						// }`,
 					},
 				},
 			);
@@ -104,7 +105,9 @@ export default function ThreadHeader({ ...prop }) {
 						className="d-flex align-items-start"
 						style={{ width: "85%" }}
 					>
-						<h1 tabIndex="0" className="title fs-4">{title}</h1>
+						<h1 tabIndex="0" className="title fs-4">
+							{title}
+						</h1>
 
 						<Button
 							onClick={
@@ -131,7 +134,11 @@ export default function ThreadHeader({ ...prop }) {
 							className="w-100 mt-4 bg-primary-green-600 rounded-3 d-flex justify-content-center overflow-hidden"
 							style={{ height: "400px" }}
 						>
-							<ImageOrVideo alt={title} src={uploadFile} isPost={false} />
+							<ImageOrVideo
+								alt={title}
+								src={uploadFile}
+								isPost={false}
+							/>
 						</div>
 					) : null}
 
@@ -143,18 +150,18 @@ export default function ThreadHeader({ ...prop }) {
 					</div>
 				</EditContextProvider>
 
-        <Button
-          onClick={() => {
-            if (isLogin) {
-              setIsOpen(true);
-            }else{
-              popupContext.setIsPopup(true);
-            }
-          }}
-          className="w-100 bg-transparent border border-primary-green text-greeli-emphasis rounded-5 text-start"
-        >
-          Create Post +
-        </Button>
+				<Button
+					onClick={() => {
+						if (isLogin) {
+							setIsOpen(true);
+						} else {
+							popupContext.setIsPopup(true);
+						}
+					}}
+					className="w-100 bg-transparent border border-primary-green text-greeli-emphasis rounded-5 text-start"
+				>
+					Create Post +
+				</Button>
 
 				<NewPostPopUp
 					isOpen={isOpen}

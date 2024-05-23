@@ -9,9 +9,6 @@
 	}
 }
 
-#floatingInput {
-	color: black !important;
-}
 
 /* Contact Info */
 .contact-info {
@@ -45,7 +42,7 @@
 }
 
 /* Form styles */
-form {
+/* form {
 	max-width: 600px;
 	margin: 0 auto;
 }
@@ -65,7 +62,7 @@ form {
 .form-floating input:focus,
 .form-floating textarea:focus {
 	border-color: var(--dark-green);
-}
+} */
 
 .error {
 	color: var(--dark-red);

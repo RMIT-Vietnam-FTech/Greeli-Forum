@@ -6,7 +6,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
@@ -18,7 +17,6 @@ const Login = () => {
 	const location = useLocation();
 	const { isDarkMode } = useContext(ThemeContext);
 	const from = location.state?.from?.pathname || "/";
-	const cookies = new Cookies();
 	const backgroundImage = 'url("LoginBackground.png")';
 	const [email, setEmail] = useState("");
 	const [isLogin, setIsLogin] = useState(false);
@@ -49,20 +47,17 @@ const Login = () => {
 				email,
 				password,
 			},
+			withCredentials: true,
 		};
 		axios(configuration)
 			.then((result) => {
 				if (result.data) {
 					toast.success("Successfully Login!", {
-						duration: 3000,
+						duration: 2000,
 						position: "top-center",
 					});
 					setIsLogin(true);
 				}
-				cookies.set("TOKEN", result.data.token, {
-					path: "/",
-					maxAge: 60 * 60 * 24 * 3,
-				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
 				// set user context
@@ -70,11 +65,11 @@ const Login = () => {
 				// navigate(from, { replace: true });
 				setTimeout(() => {
 					navigate(from, { replace: true });
-				}, 2000);
+				}, 1500);
 			})
 			.catch((error) => {
 				toast.error(error.response.data.error, {
-					duration: 3000,
+					duration: 2000,
 					position: "top-center",
 				});
 				console.log(error.response.data.error);
@@ -100,7 +95,7 @@ const Login = () => {
 			e.preventDefault();
 			onSubmit(handleSubmit(onSubmit));
 		}
-	}
+	};
 
 	return (
 		<main
@@ -109,7 +104,7 @@ const Login = () => {
 		>
 			{/* <div>{JSON.parse(user).id}</div> */}
 			<div className="row">
-				<Toaster position="top-center" />
+				{/* <Toaster position="top-center" /> */}
 				{/* {(isLogin === true) && (toast.success("success"))} */}
 				<div
 					className=" col-sm-12 col-lg-6 bg-image"
