@@ -5,6 +5,7 @@ import { BsArrowUpSquareFill } from "react-icons/bs";
 import { PopupContext } from "../../context/PopupContext";
 import LoginPopup, { useLogin } from "../Popup/LoginPopup";
 axios.defaults.withCredentials = true;
+
 export default function ButtonUpvote({ upvote, postId, commentId }) {
 	const isLogin = useLogin();
 	const popupContext = useContext(PopupContext);

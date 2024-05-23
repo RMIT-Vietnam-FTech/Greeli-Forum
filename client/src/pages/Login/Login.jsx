@@ -53,7 +53,7 @@ const Login = () => {
 			.then((result) => {
 				if (result.data) {
 					toast.success("Successfully Login!", {
-						duration: 3000,
+						duration: 2000,
 						position: "top-center",
 					});
 					setIsLogin(true);
@@ -65,11 +65,11 @@ const Login = () => {
 				// navigate(from, { replace: true });
 				setTimeout(() => {
 					navigate(from, { replace: true });
-				}, 2000);
+				}, 1500);
 			})
 			.catch((error) => {
 				toast.error(error.response.data.error, {
-					duration: 3000,
+					duration: 2000,
 					position: "top-center",
 				});
 				console.log(error.response.data.error);
@@ -104,7 +104,7 @@ const Login = () => {
 		>
 			{/* <div>{JSON.parse(user).id}</div> */}
 			<div className="row">
-				<Toaster position="top-center" />
+				{/* <Toaster position="top-center" /> */}
 				{/* {(isLogin === true) && (toast.success("success"))} */}
 				<div
 					className=" col-sm-12 col-lg-6 bg-image"

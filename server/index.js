@@ -39,35 +39,10 @@ app.use(cors({
     credentials: true
 }));
 
-/*FILE STORAGE*/
-// const storage = multer.diskStorage({
-// 	destination: (req, file, cb) => {
-// 		cb(null, "./public/image/avatar");
-// 	},
-// 	filename: (req, file, cb) => {
-// 		cb(null, `${Date.now()}_${file.originalname}`);
-// 	},
-// });
-
-// const fileFilter = (req, file, cb) => {
-// 	if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
-// 		cb(null, true);
-// 	} else {
-// 		cb(null, false);
-// 		cb(new Error("Only .jpeg or .png files are allowed!"), false);
-// 	}
-// }
-
-// const upload = multer({storage: storage, fileFilter: fileFilter});
 
 app.get("/api", (req, res) => {
 	res.status(201).json({ message: "hi there" });
 });
-
-app.get('/read-cookie', (req, res) => {
-	const myCookieValue = req.cookies.JWT;
-	res.send(`Value of myCookie: ${myCookieValue}`);
-  });
 app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
@@ -80,16 +55,7 @@ app.use("/api/v1/forums", forumRoutes);
 app.use("/api/v1/topics", topicRoutes);
 app.use("/api/v1/news", newsRoutes);
 app.use("/api/feedback", feedbackRoutes)
-// app.post("/api/upload/:userId", upload.single("image"), async (req, res) => {
-// 	try {
-// 		const userId = req.params.userId;
-// 		const user = await User.findByIdAndUpdate(userId, { profileImage: `/image/avatar/${req.file.filename}`});
-// 		res.status(201).json('File uploaded succesfully!');
-// 	} catch (error) {
-// 		res.status(500).json(error)
-// 		console.log(error)
-// 	}
-// })
+
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
 mongoose

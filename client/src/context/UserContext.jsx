@@ -8,6 +8,7 @@ export const useUserContext = () => {
 
 export const UserContextProvider = ({ children }) => {
 	const [user, setUser] = useState(localStorage.getItem("user") || null);
+	const [success, setSuccess] = useState("");
 	const [error, setError] = useState("");
 	const [searchTerm, setSearchTerm] = useState();
 	useEffect(() => {
@@ -28,6 +29,8 @@ export const UserContextProvider = ({ children }) => {
 				toggleUserInfo,
 				searchTerm,
 				setSearchTerm,
+				success,
+				setSuccess,
 			}}
 		>
 			{children}
