@@ -9,7 +9,7 @@ import Avatar from "react-avatar-edit";
 axios.defaults.withCredentials = true;
 const ProfileShow = (props) => {
 	const [file, setFile] = useState();
-	const { user, error, setError } = useUserContext();
+	const { user, error, setError, setSuccess } = useUserContext();
 	const [src, setSrc] = useState(null);
 	const [preview, setPreview] = useState("");
 	const { isDarkMode } = useContext(ThemeContext);
@@ -20,7 +20,7 @@ const ProfileShow = (props) => {
 		formData.append("image", preview);
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/upload/${userId}`,
+			url: `http://localhost:3001/api/user/${userId}/uploadImage`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
@@ -28,6 +28,7 @@ const ProfileShow = (props) => {
 		};
 		axios(configuration)
 			.then((result) => {
+				setSuccess("Successfully Uploaded!")
 				toast.success("Successfully Uploaded!", {
 					duration: 3000,
 					position: "top-center",
@@ -54,6 +55,7 @@ const ProfileShow = (props) => {
 			aria-label="Profile Information"
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
+			{/* <Toaster /> */}
 			<div className="w-70 text-center profile-image-container position-relative">
 				<img
 					// src={props.imgURL}

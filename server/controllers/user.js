@@ -3,7 +3,9 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import Thread from "../models/Thread.js";
 import Post from "../models/Post.js";
+import { deleteFileData, uploadFileData } from "../service/awsS3.js";
 import express from "express";
+import sharp from "sharp";
 export const register = async (req, res) => {
 	try {
 		const { username, email, password } = req.body;
@@ -73,6 +75,26 @@ export const login = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
+
+export const uploadProfileImage = async (req, res) => {
+	try {
+		const uploadFile = req.file;
+		const userId = req.params.id;
+		if (uploadFile) {
+			const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+			const imageName = uniqueSuffix + '-' + uploadFile.originalname;
+			const fileBuffer = await sharp(uploadFile.buffer)
+			.jpeg({ quality:100})
+			.toBuffer();
+			await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
+			const user = await User.findByIdAndUpdate(userId, { profileImage: `https://d46o92zk7g554.cloudfront.net/${imageName}`});
+			res.status(201).json('File uploaded succesfully!');
+		}
+	} catch(error) {
+		res.status(500).json(error)
+		console.log(error)
+	}
+}
 
 export const logout = async(req, res) => {
 	try {

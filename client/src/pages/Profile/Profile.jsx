@@ -24,6 +24,8 @@ const Profile = () => {
 	const navigate = useNavigate();
 	const [basicInfo, setBasicInfo] = useState({});
 
+	const { user, setUser, toggleUserInfo, success, setSuccess } = useUserContext();
+
 	// GET ID FROM LOCAL STORAGE
 	const currentUserId = JSON.parse(localStorage.getItem("user")).id;
 
@@ -107,7 +109,7 @@ const Profile = () => {
 		}
 
 		fetchUser();
-	}, [userId, isMe]);
+	}, [userId, isMe, success]);
 	// ----------------------------
 
 	// LET USER EDIT THEIR INFO
@@ -140,7 +142,6 @@ const Profile = () => {
 	// ----------------------------
 
 	// DEACTIVATE ACCOUNT FUNCTION
-	const { user, setUser, toggleUserInfo } = useUserContext();
 	const cookies = new Cookies();
 
 	const deactivateAccount = () => {
