@@ -7,13 +7,14 @@ import { useUserContext } from "../../../context/UserContext";
 import { ThemeContext } from "../../../context/ThemeContext";
 import Avatar from "react-avatar-edit";
 axios.defaults.withCredentials = true;
+
 const ProfileShow = (props) => {
 	const [file, setFile] = useState();
 	const { user, error, setError, setSuccess } = useUserContext();
 	const [src, setSrc] = useState(null);
 	const [preview, setPreview] = useState("");
 	const { isDarkMode } = useContext(ThemeContext);
-
+	const isMe = props.isMe;
 	const formData = new FormData();
 	const userId = JSON.parse(user).id;
 	const upload = () => {
@@ -28,7 +29,7 @@ const ProfileShow = (props) => {
 		};
 		axios(configuration)
 			.then((result) => {
-				setSuccess("Successfully Uploaded!")
+				setSuccess("Successfully Uploaded!");
 				toast.success("Successfully Uploaded!", {
 					duration: 3000,
 					position: "top-center",
@@ -56,25 +57,37 @@ const ProfileShow = (props) => {
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			{/* <Toaster /> */}
-			<div className="w-70 text-center profile-image-container position-relative">
-				<img
-					// src={props.imgURL}
-					src={props.profileImage}
-					alt={`${props.userName} Avatar`}
-					className="rounded-circle w-70 avatar-image"
-					style={{ width: "50%" }}
-					data-bs-toggle="modal"
-					data-bs-target="#exampleModal"
-				/>
-				<div class=".overlay-profile position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
-					<div class="text-greeli-emphasis avatar-icon">
-						<FaCamera
-							data-bs-toggle="modal"
-							data-bs-target="#exampleModal"
-						/>
+			{isMe ? (
+				<div className="w-70 text-center profile-image-container position-relative">
+					<img
+						// src={props.imgURL}
+						src={props.profileImage}
+						alt={`${props.userName} Avatar`}
+						className="rounded-circle w-70 avatar-image"
+						style={{ width: "50%" }}
+						data-bs-toggle="modal"
+						data-bs-target="#exampleModal"
+					/>
+					<div class=".overlay-profile position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
+						<div class="text-greeli-emphasis avatar-icon">
+							<FaCamera
+								data-bs-toggle="modal"
+								data-bs-target="#exampleModal"
+							/>
+						</div>
 					</div>
 				</div>
-			</div>
+			) : (
+				<div className="w-70 text-center profile-image-container position-relative">
+					<img
+						// src={props.imgURL}
+						src={props.profileImage}
+						alt={`${props.userName} Avatar`}
+						className="rounded-circle w-70 avatar-image"
+						style={{ width: "50%" }}
+					/>
+				</div>
+			)}
 
 			<div className="d-flex flex-column gap-3">
 				<h2 className="text-greeli-emphasis">{props.userName}</h2>

@@ -29,8 +29,8 @@ export const UserContextProvider = ({ children }) => {
 				toggleUserInfo,
 				searchTerm,
 				setSearchTerm,
-				success, 
-				setSuccess
+				success,
+				setSuccess,
 			}}
 		>
 			{children}

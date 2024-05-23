@@ -51,7 +51,7 @@ const SignIn = ({ isShow }) => {
 				console.log(result.data);
 				if (result.data) {
 					toast.success("Successfully Login!", {
-						duration: 3000,
+						duration: 2000,
 						position: "top-center",
 					});
 					// setIsLogin(true);
