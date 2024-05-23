@@ -63,7 +63,7 @@ export default function PostComment({ postData, threadAdminId }) {
         }
       );
 
-      navigate(`/forum/${postData.belongToThread}`);
+      navigate(`/forum/threads/${postData.belongToThread}`);
     } catch (error) {
       console.error(error.message);
     }
@@ -146,7 +146,7 @@ export default function PostComment({ postData, threadAdminId }) {
     </>
   );
 }
-function ButtonComment({ commentLength }) {
+export function ButtonComment({ commentLength }) {
   const popupContext = useContext(PopupContext);
   const isLogin = useLogin();
   function handlePopup() {

@@ -4,10 +4,13 @@ import Avatar from "../Avatar";
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function RightSideBarForum() {
   return (
-    <>
+    <div
+      style={{ height: "95%" }}
+      className="w-100 d-flex flex-column-reverse justify-content-end overflow-scroll-y gap-4"
+    >
       <ForumLeaderBoard />
       <ForumStatistic />
-    </>
+    </div>
   );
 }
 
@@ -19,7 +22,7 @@ function ForumStatistic() {
   }
   return (
     <div
-    tabIndex="0"
+      tabIndex="0"
       className="w-100  p-3 bg-forum-subtle d-flex flex-column align-items-start"
       style={{ borderRadius: "0.75rem" }}
     >
@@ -52,11 +55,11 @@ function ForumLeaderBoard() {
   }
   return (
     <div
-    tabIndex="0"
+      tabIndex="0"
       className=" w-100 bg-forum-subtle d-flex flex-column gap-2 align-items-start overflow-scroll-y"
       style={{
         borderRadius: "0.75rem",
-        height: "100%",
+        height: "350px",
         marginTop: "23px",
         padding: "16px",
       }}
@@ -75,12 +78,19 @@ function ForumLeaderBoard() {
           >
             <div
               className=" d-flex gap-2 align-items-center justify-content-between"
-              style={{ width: "60px", maxWidth:"100px" }}
+              style={{ width: "60px", maxWidth: "100px" }}
             >
               <div>{index + 1}</div>
-              <div className="rounded-circle bg-white overflow-hidden" style={{ width: "30px", height: "30px" }}>
+              <div
+                className="rounded-circle bg-white overflow-hidden"
+                style={{ width: "30px", height: "30px" }}
+              >
                 {leadeboard.profileImage && (
-                  <img alt={leadeboard.username} src={leadeboard.profileImage} className="w-100 h-100" />
+                  <img
+                    alt={leadeboard.username}
+                    src={leadeboard.profileImage}
+                    className="w-100 h-100"
+                  />
                 )}
               </div>
             </div>

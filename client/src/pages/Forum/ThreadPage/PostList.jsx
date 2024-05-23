@@ -6,19 +6,36 @@ import { useInView } from "react-intersection-observer";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useUserContext } from "../../../context/UserContext";
 
-const fetcher = async (url, isThreadAdmin, isMetaData) => {
-  const header = {
-    headers: {
-      Authorization: `Bearer ${JSON.parse(localStorage.getItem("user")).token}`,
-    },
-  };
+const fetcher = async (prop) => {
+  const [url, isThreadAdmin, isMetaData] = prop;
+  console.log(
+    `check thread admin: ${isThreadAdmin} \n url: ${url}, \n isMetadata: ${isMetaData}`
+  );
+
   if (isMetaData) {
     if (isThreadAdmin) {
-      return await axios.get(url, header).then((res) => res.data.metadata);
+      console.log("in this play");
+      return await axios
+        .get(url, {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).token
+            }`,
+          },
+        })
+        .then((res) => res.data.metadata);
     }
     return await axios.get(url).then((res) => res.data.metadata);
   } else if (isThreadAdmin) {
-    return await axios.get(url, header).then((res) => res.data.data);
+    return await axios
+      .get(url, {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("user")).token
+          }`,
+        },
+      })
+      .then((res) => res.data.data);
   }
   return await axios.get(url).then((res) => res.data.data);
 };
@@ -26,10 +43,11 @@ const fetcher = async (url, isThreadAdmin, isMetaData) => {
 export default function PostList({ threadData }) {
   const { searchTerm } = useUserContext();
   const [searchResult, setSearchResult] = useState([]);
+  const [sortOption, setSortOption] = useState("Hot");
+
   const user = JSON.parse(localStorage.getItem("user"));
   const isThreadAdmin =
     user && threadData && threadData.createdBy.userId == user.id;
-  const [sortOption, setSortOption] = useState("Hot");
 
   const validatedPath = (isThreadAdmin, threadData, sort, page) => {
     if (isThreadAdmin) {
@@ -41,19 +59,19 @@ export default function PostList({ threadData }) {
   };
 
   const { data, size, setSize, isLoading } = useSWRInfinite(
-    (index, prevData) =>
-      prevData && !prevData.length
-        ? null
-        : [
-            validatedPath(isThreadAdmin, threadData, sortOption, index + 1),
-            isThreadAdmin,
-            false,
-          ],
+    (index, prevData) => {
+      if (prevData && !prevData.length) return null;
+      return [
+        validatedPath(isThreadAdmin, threadData, sortOption, index + 1),
+        isThreadAdmin,
+        false,
+      ];
+    },
     fetcher
   );
 
   const issues = data ? [].concat(...data) : [];
-
+  // console.log(data);
   {
     /*------define component to get metdata and use intersection observer to achieve lazyload-------------*/
   }
@@ -61,7 +79,7 @@ export default function PostList({ threadData }) {
 
   const [metaData, setMetaData] = useState();
   useEffect(() => {
-    fetcher(path, isThreadAdmin, true).then((res) => {
+    fetcher([path, isThreadAdmin, true]).then((res) => {
       setMetaData(res);
     });
   }, []);
@@ -100,7 +118,7 @@ export default function PostList({ threadData }) {
       <div className="position-relative">
         <Sorting sortOption={sortOption} setSortOption={setSortOption} />
         {/*Post items*/}
-        <div>
+        <div className="pt-4">
           {searchResult.length > 0
             ? searchResult.map((postData) => {
                 return (
@@ -114,11 +132,13 @@ export default function PostList({ threadData }) {
               })
             : issues.map((postData) => {
                 return (
-                  <Post
-                    key={postData._id}
-                    postData={postData}
-                    isThreadAdmin={isThreadAdmin}
-                  />
+                  <div className="post-list-item">
+                    <Post
+                      key={postData._id}
+                      postData={postData}
+                      isThreadAdmin={isThreadAdmin}
+                    />
+                  </div>
                 );
               })}
         </div>

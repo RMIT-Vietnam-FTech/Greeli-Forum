@@ -63,7 +63,7 @@ export default function EditTextEditor({ content, componentType }) {
 			<EditorProvider
 				editorProps={{
 					attributes: {
-						class: "cursor-text",
+						// class: "cursor-text",
 					},
 				}}
 				slotBefore={

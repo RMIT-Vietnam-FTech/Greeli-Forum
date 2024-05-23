@@ -77,7 +77,6 @@ export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
         {/*---------UploadFile ------------------------------------------------------------------------------*/}
         <DropZoneFile setFile={setFile} file={file} isReset={!isOpen} />
 
-
         {/*---------Post Title Input-------------------------------------------------------------------------*/}
         <div className="w-100 d-flex mt-3">
           <label className="text-white d-flex align-items-center me-1">

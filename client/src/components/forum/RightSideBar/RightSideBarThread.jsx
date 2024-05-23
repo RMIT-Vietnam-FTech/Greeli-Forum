@@ -5,15 +5,24 @@ import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import Post from "../Post";
+import Avatar from "../Avatar";
+import ImageOrVideo from "../ImageOrVideo";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 const fetchPost = (url) => axios.get(url).then((res) => res.data.data);
 export default function RightSideBarThread() {
+  const matchWindowWidth = useMediaQuery("(min-width: 800px)");
   return (
-    <>
+    <div
+      style={{ height: "95%" }}
+      className={
+        "w-100  gap-4 " +
+        (matchWindowWidth && "d-flex flex-column-reverse overflow-scroll-y")
+      }
+    >
       <PostYouMayLike />
       <ThreadStatistic />
-    </>
+    </div>
   );
 }
 
@@ -26,7 +35,7 @@ function ThreadStatistic() {
   }
   return (
     <div
-    tabIndex="0"
+      tabIndex="0"
       className="thread-statistic bg-forum-subtle"
       style={{ marginBottom: "23px" }}
     >
@@ -82,20 +91,11 @@ export function PostYouMayLike() {
   const issues = data ? [].concat(...data) : [];
 
   return (
-    <section
-    tabIndex="0"
-      className={
-        "recommend-post-wrapper " +
-        (matchWindowWidth ? "bg-forum-subtle mt-0" : null)
-      }
-    >
-      <p
-        className="text-primary-yellow right-side-bar-heading"
-        style={{ fontSize: "18px" }}
-      >
+    <section tabIndex="0">
+      <p className="ms-3 text-primary-yellow " style={{ fontSize: "18px" }}>
         Recommended Post
       </p>
-      <div ref={ref} className="recommend-post-section">
+      <div ref={ref} className="">
         {/*Recommend post items*/}
         {issues.map((postData) => {
           return matchWindowWidth ? (
@@ -112,45 +112,49 @@ export function PostYouMayLike() {
 const RecommendPost = ({ postData }) => {
   // console.log(`check data: ${postData._id}`)
   return (
-    <Link
-      to={`http://localhost:3000/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
-      className="recommend-post"
+    <div
+      style={{ height: "130px" }}
+      className="d-flex flex-column justify-content-between border-bottom-gray py-3"
     >
-      {/*user info*/}
-      <div className="d-flex gap-2">
-        {/*avatar*/}
-        <div
-          className="rounded-circle overflow-hidden bg-secondary"
-          style={{ width: "30px", height: "30px" }}
-        >
-          {postData.createdBy.profileImage ? (
-            <img
-              className="w-100 h-100"
-              src={postData.createdBy.profileImage}
-            />
-          ) : null}
-        </div>
+      <div className="w-100">
+        {/*left sidebar*/}
+        <div className="w-75">
+          {/*user info*/}
+          <div className="d-flex gap-2 mb-2">
+            {/*avatar*/}
+            <Avatar src={postData.createdBy.profileImage} size="sm" />
 
-        {/*user username*/}
-        <div className="right-side-bar-username" style={{ fontSize: "14px" }}>
-          {postData.createdBy.username}
+            {/*user username*/}
+            <div className="text-primary-yellow" style={{ fontSize: "14px" }}>
+              {postData.createdBy.username}
+            </div>
+          </div>
+
+          <Link
+            to={`http://localhost:3000/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
+            className=""
+          >
+            <h4
+              style={{
+                wordBreak: "break-word",
+                fontSize: "14px",
+                color: "#6b8177",
+              }}
+            >
+              {postData.title}
+            </h4>
+          </Link>
         </div>
       </div>
-
-      <p className="right-side-bar-title" style={{ wordBreak: "break-word" }}>
-        {postData.title}
-      </p>
-
       {/*number of like and comment*/}
-      <div className="d-flex gap-2 ">
-        <p className="m-0 p-0 right-side-bar-contact">
-          {postData.upvoteLength} upvotes
-        </p>
-        <p className="m-0 p-0 right-side-bar-contact">
-          {postData.commentLength} comments
-        </p>
+      <div
+        className="d-flex gap-2 "
+        style={{ fontSize: "12px", color: "gray" }}
+      >
+        <p className="m-0 p-0">{postData.upvoteLength} upvotes</p>
+        <p className="m-0 p-0">{postData.commentLength} comments</p>
       </div>
-    </Link>
+    </div>
   );
 };
 

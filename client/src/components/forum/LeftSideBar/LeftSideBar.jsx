@@ -8,6 +8,7 @@ import { IoAdd } from "react-icons/io5";
 import NewThreadPopUp from "../../../pages/Forum/ThreadPage/components/NewThreadPopUp";
 import { NavLink } from "react-router-dom";
 
+{/*---------------------fetching function ----------------------*/}
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 const validatedFetcher = (url) => {
   return axios
@@ -20,13 +21,21 @@ const validatedFetcher = (url) => {
     })
     .then((res) => res.data);
 };
+{/*--------------------default style  -------------------------*/}
+
+const listHeadingStyle = "w-100 d-flex justify-content-between   text-primary-yellow border-0 py-2 px-1 left-sidebar-item"
+const listItemStyle = "w-100 d-flex justify-content-between align-items-center  text-greeli-emphasis border-0 py-2 px-1 left-sidebar-item"
+const nestedListItemStyle = "d-block py-2 px-1 text-greeli-emphasis left-sidebar-item"
+
 export default function LeftSideBar() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <section className="w-100 d-flex flex-column px-2 pb-3 overflow-scroll-y">
+    <section className="w-100 d-flex flex-column px-2 pb-3 overflow-scroll-y"
+    style={{height:"88%"}}
+    >
       <PersonalThreadList>
         <button
-          className="w-100 bg-primary-yellow text-dark rounded-2 border-0"
+          className="w-100 my-2 bg-primary-yellow text-dark rounded-2 border-0"
           style={{ borderWidth: "0.5px" }}
           onClick={() => {
             setIsOpen(true);
@@ -49,21 +58,23 @@ function PersonalThreadList({ children }) {
   return (
     JSON.parse(localStorage.getItem("user")) && (
       <>
-        <section className=" w-100 pb-4 border-bottom  border-secondary">
+        <section
+          className=" w-100 py-2 border-bottom-gray"
+        >
           {/*collapse header*/}
-          <a
-            className="w-100 d-flex justify-content-between text-primary-yellow"
+          <button
+            className={listHeadingStyle}
             data-bs-toggle="collapse"
             href="#collapse-tracking"
             role="button"
             aria-expanded="false"
             aria-controls="collapseExample"
           >
-            <a style={{ fontSize: "18px" }}>Tracking</a>
+            <a >Tracking</a>
             <p className="m-0 p-0">
               <IoIosArrowDown />
             </p>
-          </a>
+          </button>
 
           {/*collapse body*/}
           <div className="collapse show" id="collapse-tracking">
@@ -91,7 +102,7 @@ function CreatedThread() {
     <>
       {/*collapse header*/}
       <button
-        className="w-100 d-flex justify-content-between bg-transparent border-0 align-items-center text-white"
+        className={listItemStyle}
         data-bs-toggle="collapse"
         href="#collapse-created-thread"
         role="button"
@@ -107,19 +118,18 @@ function CreatedThread() {
 
       {/*collapse body*/}
       <div
-        className="ms-3 collapse border-left-gray"
+        className="ms-3  collapse border-left-gray"
         id="collapse-created-thread"
       >
         <div
-          className="w-100 d-flex flex-column justify-content-between text-white cursor-pointer"
-          style={{ gap: "20px", marginBottom: "20px" }}
+          className="w-100 d-flex flex-column justify-content-between "
         >
           {data.map((thread) => {
             return (
               <NavLink
                 key={thread._id}
                 to={`/forum/threads/${thread._id}`}
-                className="d-block text-white"
+                className={nestedListItemStyle}
               >
                 {thread.title}
               </NavLink>
@@ -147,7 +157,7 @@ function FollowingThread() {
     <>
       {/*collapse header*/}
       <button
-        className="w-100 d-flex justify-content-between bg-transparent border-0 align-items-center text-white "
+        className={listItemStyle}
         data-bs-toggle="collapse"
         href="#collapse-following-thread"
         role="button"
@@ -162,19 +172,18 @@ function FollowingThread() {
 
       {/*collapse body*/}
       <div
-        className="ms-3 collapse  border-left-gray"
+        className="ms-3  collapse  border-left-gray"
         id="collapse-following-thread"
       >
         <div
           className="w-100 d-flex flex-column justify-content-between "
-          style={{ gap: "20px"}}
         >
           {data.map((thread) => {
             return (
               <NavLink
                 key={thread._id}
                 to={`http://localhost:3000/forum/threads/${thread._id}`}
-                className="d-block text-white"
+                className={nestedListItemStyle}
               >
                 {thread.title}
               </NavLink>
@@ -188,17 +197,17 @@ function FollowingThread() {
 
 function TopicList({ children }) {
   return (
-    <>
+    <section className="py-2">
+
       {/*collapse header*/}
       <button
-        className="w-100 d-flex justify-content-between align-items-center bg-transparent border-0 text-primary-yellow"
+        className={listHeadingStyle}
         data-bs-toggle="collapse"
         href="#collapse3"
-        role="button"
         aria-expanded="true"
         aria-controls="collapseExample"
       >
-        <a style={{ fontSize: "18px" }}>Topic</a>
+        <a>Topic</a>
         <p className="m-0 p-0">
           <IoIosArrowDown />
         </p>
@@ -207,7 +216,7 @@ function TopicList({ children }) {
       <div className="collapse show" id="collapse3">
         {children}
       </div>
-    </>
+    </section>
   );
 }
 
@@ -224,7 +233,7 @@ function ThreadList() {
           <div key={topic._id}>
             {/*collapse header*/}
             <button
-              className="w-100 d-flex justify-content-between align-items-center bg-transparent border-0 text-white"
+              className={listItemStyle}
               data-bs-toggle="collapse"
               href={`#${topic._id}`}
               role="button"
@@ -243,7 +252,7 @@ function ThreadList() {
                   <NavLink
                     key={thread._id}
                     to={`/forum/threads/${thread._id}`}
-                    className="d-block text-white mb-4"
+                    className={nestedListItemStyle}
                   >
                     {thread.title}
                   </NavLink>

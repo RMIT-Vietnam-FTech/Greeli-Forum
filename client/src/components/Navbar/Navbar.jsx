@@ -145,21 +145,21 @@ const Navbar = ({ isForum }) => {
 						id="offcanvasForum"
 						aria-labelledby="offcanvasForumLabel"
 					>
-						<div className="offcanvas-header border-bottom border-white bg-forum-subtle" >
+						<div className="offcanvas-header border-bottom border-white bg-greeli-subtle" >
 							<h5
-								className="offcanvas-title text-white"
+								className="offcanvas-title text-greeli-emphasis"
 								id="offcanvasNavbarLabel"
 							>
 							</h5>
 							<button
 							    
 								type="button"
-								className="btn-close btn-close-white"
+								className="btn-close "
 								data-bs-dismiss="offcanvas"
 								aria-label="Close"
 							/>
 						</div>
-						<div className="offcanvas-body h-100 bg-forum-subtle">
+						<div className="offcanvas-body h-100 bg-greeli-subtle">
 							<LeftSideBar/>
 						</div>
 					</div>

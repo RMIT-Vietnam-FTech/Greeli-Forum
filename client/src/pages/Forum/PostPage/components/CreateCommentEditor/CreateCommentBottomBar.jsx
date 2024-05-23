@@ -50,14 +50,13 @@ export default function CreateCommentBottomBar({ content }) {
         })
         .then((res) => res.data);
 
-      // commentContext.setNewComment([
-      // 	<Comment key={newCommentData._id} commentData={newCommentData} />,
-      // 	...commentContext.newComment,
-      // ]);
+      commentContext.setNewComment([
+      	<Comment key={newCommentData._id} commentData={newCommentData} />,
+      	...commentContext.newComment,
+      ]);
 
       //set content
       editor.commands.setContent("");
-      window.location.reload();
     } else {
       // toggle error text editor
     }
