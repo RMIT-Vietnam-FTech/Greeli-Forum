@@ -5,6 +5,7 @@ import { useCurrentEditor } from "@tiptap/react";
 import { EditContext } from "../../../../../context/EditContext";
 import { ReplyContext } from "../../../../../context/ReplyContext";
 import Comment from "../Comment";
+axios.defaults.withCredentials = true;
 export default function ReplyBottomBar({ parentId }) {
 	const editContext = useContext(EditContext);
 	const replyContext = useContext(ReplyContext);
@@ -46,9 +47,9 @@ export default function ReplyBottomBar({ parentId }) {
 			const newReplyData = await axios
 				.post("http://localhost:3001/api/v1/comments", storeObject, {
 					headers: {
-						Authorization: `Bearer ${
-							JSON.parse(localStorage.getItem("user")).token
-						}`,
+						// Authorization: `Bearer ${
+						// 	JSON.parse(localStorage.getItem("user")).token
+						// }`,
 					},
 				})
 				.then((res) => res.data);

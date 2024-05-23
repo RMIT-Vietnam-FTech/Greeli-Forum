@@ -11,6 +11,8 @@ import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import "../../scss/custom.css";
+
+axios.defaults.withCredentials = true;
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
 };

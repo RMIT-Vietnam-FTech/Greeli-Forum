@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useUserContext } from "../../../context/UserContext";
 import { ThemeContext } from "../../../context/ThemeContext";
 import Avatar from "react-avatar-edit";
+axios.defaults.withCredentials = true;
 const ProfileShow = (props) => {
 	const [file, setFile] = useState();
 	const { user, error, setError } = useUserContext();
@@ -65,7 +66,10 @@ const ProfileShow = (props) => {
 				/>
 				<div class=".overlay-profile position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
 					<div class="text-greeli-emphasis avatar-icon">
-						<FaCamera data-bs-toggle="modal" data-bs-target="#exampleModal" />
+						<FaCamera
+							data-bs-toggle="modal"
+							data-bs-target="#exampleModal"
+						/>
 					</div>
 				</div>
 			</div>
@@ -142,7 +146,10 @@ const ProfileShow = (props) => {
 						</div>
 						<div className="modal-body text-center">
 							{preview && (
-								<img src={URL.createObjectURL(preview)} alt="avatar image" />
+								<img
+									src={URL.createObjectURL(preview)}
+									alt="avatar image"
+								/>
 							)}
 							<form>
 								<input

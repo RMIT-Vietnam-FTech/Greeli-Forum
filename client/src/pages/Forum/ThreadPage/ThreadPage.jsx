@@ -7,7 +7,7 @@ import ThreadHeader from "./ThreadHeader";
 import axios from "axios";
 import useSwr from "swr";
 import ThreadBody from "./ThreadBody";
-
+axios.defaults.withCredentials = true;
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function ThreadPage() {
 	const { threadId } = useParams();
@@ -26,7 +26,7 @@ export default function ThreadPage() {
 				uploadFile={data.uploadFile}
 				content={data.content}
 				objectId={data._id}
-        createdBy={data.createdBy}
+				createdBy={data.createdBy}
 			/>
 			<ThreadBody threadData={data} />
 		</>

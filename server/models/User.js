@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema(
 		},
 		profileImage: {
 			type: String,
-			default: "/image/avatar/1715931727316_user.png",
+			default: "https://d46o92zk7g554.cloudfront.net/1716350848246-965924355-Frame%201361%20(2).png",
 		},
 		lastActive: {
 			type: Date,

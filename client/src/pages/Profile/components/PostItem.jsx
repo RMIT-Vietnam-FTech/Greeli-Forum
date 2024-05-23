@@ -4,7 +4,7 @@ import { TbArrowBigUp } from "react-icons/tb";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+axios.defaults.withCredentials = true;
 const PostItem = (props) => {
 	const [threadTitle, setThreadTitle] = useState("");
 	const navigate = useNavigate();
@@ -39,7 +39,9 @@ const PostItem = (props) => {
 
 	//REDIRECT TO POST PAGE
 	const handlePostClick = () => {
-		navigate(`/forum/threads/${threadId}/posts/${postId}`, { replace: true });
+		navigate(`/forum/threads/${threadId}/posts/${postId}`, {
+			replace: true,
+		});
 	};
 
 	return (
@@ -71,7 +73,9 @@ const PostItem = (props) => {
 								</p>
 								<p className="text-white m-0">{createdDate}</p>
 							</div>
-							<p className="text-white p-0 m-0">{author.username}</p>
+							<p className="text-white p-0 m-0">
+								{author.username}
+							</p>
 						</div>
 					</div>
 					<p className="w-100 text-white mt-3">{content}</p>

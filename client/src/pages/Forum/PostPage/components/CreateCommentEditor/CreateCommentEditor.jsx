@@ -24,61 +24,65 @@ lowlight.registerLanguage("css", css);
 lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
 export default function CreateCommentEditor() {
-  const editContext = useContext(EditContext);
-  const popupContext = useContext(PopupContext);
-  const isLogin = useLogin();
+	const editContext = useContext(EditContext);
+	const popupContext = useContext(PopupContext);
+	const isLogin = useLogin();
 
-  const placeholder = "Comment ...";
+	const placeholder = "Comment ...";
 
-  const extensions = [
-    StarterKit.configure({
-      bulletList: {
-        keepMarks: true,
-        keepAttributes: false,
-      },
-      orderedList: {
-        keepMarks: true,
-        keepAttributes: false,
-      },
-    }),
-    Placeholder.configure({
-      placeholder: placeholder,
-      showOnlyWhenEditable: false,
-    }),
-    CodeBlockLowlight.configure({
-      lowlight,
-      languageClassPrefix: "language-",
-    }),
-  ];
-  function handleDisplay() {
-    if (isLogin) {
-      if (!editContext.isEdit) {
-        editContext.setIsEdit(true);
-      }
-    }else{
-		popupContext.setIsPopup(true);
+	const extensions = [
+		StarterKit.configure({
+			bulletList: {
+				keepMarks: true,
+				keepAttributes: false,
+			},
+			orderedList: {
+				keepMarks: true,
+				keepAttributes: false,
+			},
+		}),
+		Placeholder.configure({
+			placeholder: placeholder,
+			showOnlyWhenEditable: false,
+		}),
+		CodeBlockLowlight.configure({
+			lowlight,
+			languageClassPrefix: "language-",
+		}),
+	];
+	function handleDisplay() {
+		if (isLogin) {
+			if (!editContext.isEdit) {
+				editContext.setIsEdit(true);
+			}
+		} else {
+			popupContext.setIsPopup(true);
+		}
 	}
-  }
-  return (
-    <div
-    tabIndex="0"
-    aria-label="create comment"
-      onKeyDown={handleDisplay}
-      onClick={handleDisplay}
-      className={"text-editor text-greeli-emphasis show-border"}
-    >
-      <EditorProvider
-        editorProps={{
-          attributes: {
-            class: "cursor-text",
-          },
-        }}
-        slotBefore={editContext.isEdit ? <MenuBar className="" /> : null}
-        slotAfter={editContext.isEdit ? <CreateCommentBottomBar /> : null}
-        extensions={extensions}
-        editable={editContext.isEdit}
-        content=""
-      ></EditorProvider>
-    </div>
-  );
+	return (
+		<div
+			tabIndex="0"
+			aria-label="create comment"
+			onKeyDown={handleDisplay}
+			onClick={handleDisplay}
+			className={"text-editor text-greeli-emphasis show-border"}
+		>
+			<EditorProvider
+				editorProps={{
+					attributes: {
+						class: "cursor-text",
+					},
+				}}
+				slotBefore={
+					editContext.isEdit ? <MenuBar className="" /> : null
+				}
+				slotAfter={
+					editContext.isEdit ? <CreateCommentBottomBar /> : null
+				}
+				extensions={extensions}
+				editable={editContext.isEdit}
+				content=""
+			></EditorProvider>
+		</div>
+	);
 }

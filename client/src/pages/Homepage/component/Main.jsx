@@ -25,14 +25,16 @@ const Main = () => {
 						<span className="text-primary-yellow">Greeli</span>?
 					</h1>
 					<p className="fs-5 text-greeli-emphasis text-justify mb-3 p-3">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
-						consectetur totam quibusdam animi nulla omnis deleniti aliquid!
-						Veritatis distinctio voluptatem dicta quisquam sit voluptate odit,
-						placeat illo, sunt unde nulla? Lorem ipsum dolor sit amet,
-						consectetur adipisicing elit. Alias voluptatum minus fugiat tempora,
-						natus corrupti. Soluta incidunt aut officiis adipisci earum impedit
-						minima itaque quod non voluptatibus, modi tempora beatae? Lorem ipsum dolor sit amet,
-						consectetur adipisicing elit. 	
+						Lorem ipsum dolor sit amet consectetur adipisicing elit.
+						Quisquam consectetur totam quibusdam animi nulla omnis
+						deleniti aliquid! Veritatis distinctio voluptatem dicta
+						quisquam sit voluptate odit, placeat illo, sunt unde
+						nulla? Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit. Alias voluptatum minus fugiat tempora,
+						natus corrupti. Soluta incidunt aut officiis adipisci
+						earum impedit minima itaque quod non voluptatibus, modi
+						tempora beatae? Lorem ipsum dolor sit amet, consectetur
+						adipisicing elit.
 					</p>
 					<Link to="/about" className="d-inline-flex">
 						<button

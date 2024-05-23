@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import Thread from "../models/Thread.js";
 import Post from "../models/Post.js";
-
+import express from "express";
 export const register = async (req, res) => {
 	try {
 		const { username, email, password } = req.body;
@@ -43,19 +43,27 @@ export const login = async (req, res) => {
 		if (!isMatch) return res.status(400).json({ error: "Password incorrect" });
 		if (user.isLocked) return res.status(400).json({error: "Your account is locked, cannot log in!"})
 
-		const token = jwt.sign(
+		const token = await jwt.sign(
 			{ id: user._id, email: user.email, role: user.role },
 			process.env.JWT_SECRET,
 			{ expiresIn: "3d" }
-		);
+		);	
+
+		console.log(token)
+
 		delete user.password;
 
 		const updates = {
 			lastActive: Date.now(),
 		};
 
-		res.status(200).json({
-			token: token,
+		res.cookie("JWT", token, {
+			path: "/",
+			maxAge: 3 * 24 * 60 * 60 * 1000, // MS
+			httpOnly: true, // prevent XSS attacks cross-site scripting attacks
+			sameSite: "strict", // CSRF attacks cross-site request forgery attacks
+			secure: process.env.NODE_ENV !== "development",
+		}).status(200).json({
 			id: user._id,
 			message: "successfully login",
 			role: user.role,
@@ -65,6 +73,15 @@ export const login = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
+
+export const logout = async(req, res) => {
+	try {
+		res.cookie("JWT", "", { maxAge: 0 });
+		res.status(200).json({ message: "Logged out successfully" });
+	} catch (error) {
+		res.status(500).json({ error: "Internal Server Error" });
+	}
+}
 
 export const lock = async (req, res) => {
 	try {
