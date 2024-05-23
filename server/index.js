@@ -44,6 +44,10 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, "/client/build")))
 app.use(express.static(path.join(__dirname, "/server/public")))
 
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "client", "build", "index.html"))
+})
+
 app.get("/api", (req, res) => {
 	res.status(201).json({ message: "hi there" });
 });
