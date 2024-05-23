@@ -1,21 +1,22 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
-import useSwr from "swr";
-import ButtonUpvote from "../../../components/forum/ButtonUpvote";
-import EditTextEditor from "../../../components/forum/EditTextEditor/EditTextEditor";
+import useSWRImmutable from 'swr/immutable'
+
+import ButtonUpvote from "../../../../components/Forum/ButtonUpvote";
 import { EditContextProvider } from "../../../../context/EditContext";
 import { ReplyContext } from "../../../../context/ReplyContext";
 
 import ReplyButton from "./ReplyButton";
 import ReplyEditor from "./ReplyEditor/ReplyEditor";
+import EditTextEditor from "../../../../components/Forum/EditTextEditor/EditTextEditor";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
-export default function Comment({ commentData }) {
+export default function ReplyComment({ commentData }) {
   const { postId } = useParams();
   const [newReply, setNewReply] = useState([]);
   const [isReply, setIsReply] = useState(false);
@@ -25,11 +26,11 @@ export default function Comment({ commentData }) {
   // console.log("replies: " + commentData.replies);
   // console.log("username: " + commentData.createBy.username);
   // console.log("profileImage: " + commentData.createBy.profileImage);
-  const { data, error, isLoading } = useSwr(
+  const { data, error, isLoading } = useSWRImmutable(
     commentData.replies.length > 0
       ? `http://localhost:3001/api/v1/comments?postsId=${postId}&parentId=${commentData._id}`
       : null,
-    fetcher
+    fetcher,{refreshInterval:500}
   );
   if (error) {
     return "error";
@@ -74,7 +75,7 @@ export default function Comment({ commentData }) {
           {/*content*/}
           <div className="ms-4">
             <EditContextProvider>
-              <TextEditor content={JSON.parse(commentData.content)} />
+              <EditTextEditor content={JSON.parse(commentData.content)} />
             </EditContextProvider>
 
             {/*upvote*/}
@@ -94,7 +95,7 @@ export default function Comment({ commentData }) {
             {data
               ? data.map((commentData) => {
                   return (
-                    <Comment key={commentData._id} commentData={commentData} />
+                    <ReplyComment key={commentData._id} commentData={commentData} />
                   );
                 })
               : null}

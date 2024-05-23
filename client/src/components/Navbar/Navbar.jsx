@@ -8,9 +8,11 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { ThemeContext } from "../../context/ThemeContext";
 import { UserContext, useUserContext } from "../../context/UserContext";
+import LeftSideBar from "../Forum/LeftSideBar/LeftSideBar";
+
 import "../../scss/custom.css";
 import "./custom.css";
-import LeftSideBar from "../Forum/LeftSideBar/LeftSideBar";
+
 
 const Navbar = ({ isForum }) => {
 	const cookies = new Cookies();

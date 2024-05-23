@@ -1,20 +1,23 @@
 import { Route, Routes } from "react-router-dom";
 
-import LeftSideBar from "../../components/Forum/LeftSideBar/LeftSideBar";
-import RightSideBarForum from "../../components/Forum/RightSideBar/RightSideBarForum";
-import RightSideBarThread from "../../components/Forum/RightSideBar/RightSideBarThread";
 
-import SearchBar from "../../components/Search/Search";
+import RightSideBarForum from "../../../components/Forum/RightSideBar/RightSideBarForum";
+import RightSideBarThread from "../../../components/Forum/RightSideBar/RightSideBarThread";
+import LeftSideBar from "../../../components/Forum/LeftSideBar/LeftSideBar";
+
+import SearchBar from "../../../components/Search/Search";
 import ThreadPage from "../ThreadPage/ThreadPage";
-import DashBoardPage from "../DashBoardPage";
 import PostPage from "../PostPage/PostPage";
-import { ThemeContext } from "../../context/ThemeContext";
+
+import { ThemeContext } from "../../../context/ThemeContext";
 import { useContext } from "react";
-import { PopupContextProvider } from "../../context/PopupContext";
-import LoginPopup from "../../components/Popup/LoginPopup";
+import { PopupContextProvider } from "../../../context/PopupContext";
+import LoginPopup from "../../../components/Popup/LoginPopup";
+import PostList from "../ThreadPage/PostList";
 
 export default function ForumPage() {
   const { isDarkMode } = useContext(ThemeContext);
+
   return (
     <main
       className=" bg-greeli-subtle"
@@ -31,7 +34,7 @@ export default function ForumPage() {
           <section className="main-container">
             <section className="main">
               <Routes path="/">
-                <Route index element={<DashBoardPage />} />
+                <Route index element={<PostList/>} />
                 <Route path="threads/:threadId">
                   <Route index element={<ThreadPage />} />
                   <Route path="posts/:postId" element={<PostPage />} />

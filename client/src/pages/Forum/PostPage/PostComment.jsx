@@ -1,12 +1,14 @@
 import axios from "axios";
-import { useContext, useEffect, useInsertionEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import useSwr from "swr";
+import useSWRImmutable from 'swr/immutable'
+
 import { Button } from "react-bootstrap";
-import { CommentContext } from "../../context/CommentContext";
-import { EditContextProvider } from "../../context/EditContext";
+import { CommentContext } from "../../../context/CommentContext";
+import { EditContextProvider} from "../../../context/EditContext";
 import CreateCommentEditor from "./components/CreateCommentEditor/CreateCommentEditor";
-import ButtonUpvote from "../../components/forum/ButtonUpvote";
+import ButtonUpvote from "../../../components/Forum/ButtonUpvote";
 
 import { FaCommentAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
@@ -14,12 +16,9 @@ import { IoMdCheckmark } from "react-icons/io";
 import { BsShieldFillX } from "react-icons/bs";
 import { BsShieldFillCheck } from "react-icons/bs";
 
-import { useNavigate } from "react-router-dom";
-import LoginPopup, { useLogin } from "../../components/Popup/LoginPopup";
-import {
-  PopupContext,
-  PopupContextProvider,
-} from "../../context/PopupContext";
+import { useLogin } from "../../../hooks/useLogin";
+
+import { PopupContext } from "../../../context/PopupContext";
 import ReplyComment from "../PostPage/components/ReplyComment";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
@@ -52,24 +51,24 @@ export default function PostComment({ postData, threadAdminId }) {
       await axios.delete(
         path,
 
-				{
-					data: {
-						threadId: postData.belongToThread,
-					},
-					headers: {
-						Authorization: `Bearer ${
-							JSON.parse(localStorage.getItem("user")).token
-						}`,
-					},
-				},
-			);
+        {
+          data: {
+            threadId: postData.belongToThread,
+          },
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).token
+            }`,
+          },
+        }
+      );
 
       navigate(`/forum/${postData.belongToThread}`);
     } catch (error) {
       console.error(error.message);
     }
   }
-  const { data, error, isLoading } = useSwr(
+  const { data, error, isLoading } = useSWRImmutable(
     `http://localhost:3001/api/v1/comments?postId=${postData._id}&parentId=null`,
     fetcher
   );
@@ -138,7 +137,9 @@ export default function PostComment({ postData, threadAdminId }) {
         <section id="comment-section" className="mt-3 w-100">
           {newComment}
           {data.map((commentData) => {
-            return <ReplyComment  key={commentData._id} commentData={commentData} />;
+            return (
+              <ReplyComment key={commentData._id} commentData={commentData} />
+            );
           })}
         </section>
       </CommentContext.Provider>
@@ -158,6 +159,7 @@ function ButtonComment({ commentLength }) {
       className=" px-1 rounded-5 border border-primary-green bg-transparent text-forum-emphasis d-flex align-items-center gap-2"
       style={{ fontSize: "14px" }}
     >
+
       {commentLength} <FaCommentAlt className="me-2" />
     </button>
   );

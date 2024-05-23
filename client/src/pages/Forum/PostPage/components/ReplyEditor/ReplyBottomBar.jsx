@@ -4,12 +4,12 @@ import { useParams } from "react-router-dom";
 import { useCurrentEditor } from "@tiptap/react";
 import { EditContext } from "../../../../../context/EditContext";
 import { ReplyContext } from "../../../../../context/ReplyContext";
-import Comment from "../ReplyComment";
+import ReplyComment from "../ReplyComment";
+
 export default function ReplyBottomBar({ parentId }) {
 	const editContext = useContext(EditContext);
 	const replyContext = useContext(ReplyContext);
 	const { postId } = useParams();
-	const replyId = useId();
 	const { editor } = useCurrentEditor();
 
 	if (!editor.isEditable) {
@@ -54,7 +54,7 @@ export default function ReplyBottomBar({ parentId }) {
 				.then((res) => res.data);
 
 			replyContext.setNewReply([
-				<Comment key={replyId} commentData={newReplyData} />,
+				<ReplyComment key={newReplyData._id} commentData={newReplyData} />,
 				...replyContext.newReply,
 			]);
 

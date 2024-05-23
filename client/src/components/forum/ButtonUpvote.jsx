@@ -1,9 +1,10 @@
 import axios from "axios";
 import { useContext, useState } from "react";
-import Button from "react-bootstrap/esm/Button";
 import { BsArrowUpSquareFill } from "react-icons/bs";
-import {PopupContext} from "../../context/PopupContext";
-import LoginPopup, { useLogin } from "../Popup/LoginPopup";
+
+import { PopupContext } from "../../context/PopupContext";
+import { useLogin } from "../../hooks/useLogin";
+
 export default function ButtonUpvote({ upvote, postId, commentId }) {
   const isLogin = useLogin();
   const popupContext = useContext(PopupContext);

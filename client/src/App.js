@@ -21,11 +21,7 @@ import Profile from "./pages/Profile/Profile";
 import GeneralPage from "./pages/generalPage/generalPage";
 import Upload from "./pages/UploadImage/Upload.jsx";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
-<<<<<<< Updated upstream
-import ForumPage from "./pages/ForumPage/ForumPage.jsx";
-=======
-import { ForumRouter } from "./pages/Forum/ForumPage.jsx";
->>>>>>> Stashed changes
+import ForumPage from "./pages/Forum/ForumPage/ForumPage.jsx";
 // import { useUserContext } from "./context/UserContext.jsx";
 function App() {
 	let location = useLocation();

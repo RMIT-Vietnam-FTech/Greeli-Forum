@@ -1,7 +1,8 @@
-import Avatar from "../../../components/forum/Avatar";
-import DropDown from "../../../components/forum/DropDown";
-import EditTextEditor from "../../../components/forum/EditTextEditor/EditTextEditor";
-import ImageOrVideo from "../../../components/forum/ImageOrVideo";
+import Avatar from "../../../components/Forum/Avatar";
+import DropDown from "../../../components/Forum/DropDown";
+import EditTextEditor from "../../../components/Forum/EditTextEditor/EditTextEditor";
+import ImageOrVideo from "../../../components/Forum/ImageOrVideo";
+
 import { AuthorizationContextProvider } from "../../../context/AuthorizationContext";
 import { EditContextProvider } from "../../../context/EditContext";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +12,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);
 
-export default function InitialPost({ postData }) {
+export default function PostContent({ postData }) {
   const navigate = useNavigate();
 
   const handleUserProfileRedirect = () => {
