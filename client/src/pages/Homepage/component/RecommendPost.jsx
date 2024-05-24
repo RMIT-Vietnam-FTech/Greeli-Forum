@@ -108,7 +108,7 @@ function Posts() {
 	const [data, setData] = useState([]);
 	useEffect(() => {
 		axios
-			.get("http://localhost:3001/api/v1/posts/")
+			.get("/api/v1/posts/")
 			.then((response) => {
 				setData(response.data.data);
 				console.log(response.data.data);

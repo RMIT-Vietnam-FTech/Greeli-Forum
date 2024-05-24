@@ -14,6 +14,7 @@ import "../../scss/custom.css";
 import "./custom.css";
 import toast, { Toaster } from "react-hot-toast";
 axios.defaults.withCredentials = true;
+
 const Navbar = ({ isForum }) => {
 	const navigate = useNavigate();
 	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
@@ -23,7 +24,7 @@ const Navbar = ({ isForum }) => {
 		// toggleUserInfo()
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/logout",
+			url: "/api/user/logout",
 		};
 		axios(configuration)
 			.then((result) => {

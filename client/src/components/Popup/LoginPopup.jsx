@@ -12,6 +12,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
 import { PopupContext } from "../../context/PopupContext";
 axios.defaults.withCredentials = true;
+
 export default function LoginPopup() {
 	const { isDarkMode } = useContext(ThemeContext);
 	const popupContext = useContext(PopupContext);
@@ -42,7 +43,7 @@ export default function LoginPopup() {
 	const login = () => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/login",
+			url: "/api/user/login",
 			data: {
 				email,
 				password,

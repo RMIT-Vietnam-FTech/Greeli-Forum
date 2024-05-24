@@ -7,7 +7,7 @@ const Upload = () => {
 		formData.append("image", file);
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/upload",
+			url: "/api/upload",
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},

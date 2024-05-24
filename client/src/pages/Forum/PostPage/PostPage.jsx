@@ -5,12 +5,14 @@ import "../assets/forum.scss";
 import PostContent from "./PostContent";
 import PostComment from "./PostComment";
 
-const fetcher = (url) => axios.get(url).then((res) => res.data);
 axios.defaults.withCredentials = true;
+
+const fetcher = (url) => axios.get(url).then((res) => res.data);
+
 export default function PostPage() {
   const { postId } = useParams();
   const { data, error, isLoading } = useSwr(
-    `http://localhost:3001/api/v1/posts/${postId}`,
+    `/api/v1/posts/${postId}`,
     fetcher
   );
   if (error) {
@@ -25,7 +27,7 @@ function PostPageStructure({ postData }) {
   const navigate = useNavigate();
   const user = localStorage.getItem("user");
   const { data, error, isLoading } = useSwr(
-    `http://localhost:3001/api/v1/threads/${postData.belongToThread}`,
+    `/api/v1/threads/${postData.belongToThread}`,
     fetcher
   );
   if (error) {

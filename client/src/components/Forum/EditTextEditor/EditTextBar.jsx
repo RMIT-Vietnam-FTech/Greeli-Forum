@@ -1,9 +1,10 @@
 import { useContext, useId, useRef } from "react";
-
 import { useCurrentEditor } from "@tiptap/react";
 import { EditContext } from "../../../context/EditContext";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+axios.defaults.withCredentials = true;
+
 export default function EditTextBar({ content, componentType }) {
 	const editContext = useContext(EditContext);
 	const { threadId, postId } = useParams();
@@ -33,15 +34,15 @@ export default function EditTextBar({ content, componentType }) {
 				// store data (PUT) in database
 				const currentContent = JSON.stringify(editor.getJSON());
 				await axios.put(
-					`http://localhost:3001/api/v1/${component}s/${objectId}`,
+					`/api/v1/${component}s/${objectId}`,
 					{
 						content: currentContent,
 					},
 					{
 						headers: {
-							Authorization: `Bearer ${
-								JSON.parse(localStorage.getItem("user")).token
-							}`,
+							// Authorization: `Bearer ${
+							// 	JSON.parse(localStorage.getItem("user")).token
+							// }`,
 						},
 					},
 				);

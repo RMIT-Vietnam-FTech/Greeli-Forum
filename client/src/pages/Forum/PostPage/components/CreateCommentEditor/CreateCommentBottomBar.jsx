@@ -7,6 +7,7 @@ import { EditContext } from "../../../../../context/EditContext";
 import Comment from "../ReplyComment";
 import axios from "axios";
 axios.defaults.withCredentials = true;
+
 export default function CreateCommentBottomBar({ content }) {
   const editContext = useContext(EditContext);
   const commentContext = useContext(CommentContext);
@@ -28,7 +29,7 @@ export default function CreateCommentBottomBar({ content }) {
       editContext.setIsEdit(false);
       const user = await axios
         .get(
-          `http://localhost:3001/api/user/${
+          `/api/user/${
             JSON.parse(localStorage.getItem("user")).id
           }`
         )
@@ -42,7 +43,7 @@ export default function CreateCommentBottomBar({ content }) {
       };
 
 			const newCommentData = await axios
-				.post("http://localhost:3001/api/v1/comments", storeObject, {
+				.post("/api/v1/comments", storeObject, {
 					headers: {
 						// Authorization: `Bearer ${
 						// 	JSON.parse(localStorage.getItem("user")).token

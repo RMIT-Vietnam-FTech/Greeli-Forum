@@ -3,6 +3,8 @@ import { useUserContext } from "../../context/UserContext";
 import LoginPopup from "../Popup/LoginPopup";
 import PreventionPopup from "../Popup/PreventionPopup";
 import axios from "axios";
+axios.defaults.withCredentials = true;
+
 const RequireActivate = () => {
 	const { user } = useUserContext();
 	const userData = JSON.parse(localStorage.getItem("user"));
@@ -16,7 +18,7 @@ const RequireActivate = () => {
 	const activateAccount = () => {
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/user/${userId}/activate`,
+			url: `/api/user/${userId}/activate`,
 		};
 		axios(configuration)
 			.then((result) => {

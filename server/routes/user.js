@@ -54,7 +54,7 @@ router.get("/find/:id", verifyToken, getUser);
 router.get("/getAll", verifyToken, getAllUser);
 router.get("/:id", getProfile);
 router.post("/:id/uploadImage", verifyToken, upload.single("image"), uploadProfileImage);
-router.post("/logout", verifyToken, logout);
+router.post("/logout", logout);
 router.post("/:id/update", updateUserProfile);
 router.post("/:id/deactivate", deactivateAccount);
 router.post("/:id/activate", activateAccount);

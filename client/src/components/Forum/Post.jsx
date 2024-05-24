@@ -24,6 +24,8 @@ import { BsShieldFillCheck } from "react-icons/bs";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+axios.defaults.withCredentials = true;
+
 dayjs.extend(relativeTime);
 
 export default function Post({ postData, isThreadAdmin }) {
@@ -38,15 +40,15 @@ export default function Post({ postData, isThreadAdmin }) {
 
   async function handleApproved() {
     setIsApproved(true);
-    const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
+    const path = `/api/v1/admin/posts/${postData._id}`;
     await axios.put(
       path,
       { threadId: postData.belongToThread },
       {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("user")).token
-          }`,
+          // Authorization: `Bearer ${
+          //   JSON.parse(localStorage.getItem("user")).token
+          // }`,
         },
       }
     );
@@ -55,7 +57,7 @@ export default function Post({ postData, isThreadAdmin }) {
   async function handleUnApproved() {
     try {
       //delete and redirect
-      const path = `http://localhost:3001/api/v1/posts/${postData._id}`;
+      const path = `/api/v1/posts/${postData._id}`;
       await axios.delete(
         path,
 
@@ -64,9 +66,9 @@ export default function Post({ postData, isThreadAdmin }) {
             threadId: postData.belongToThread,
           },
           headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
+            // Authorization: `Bearer ${
+            //   JSON.parse(localStorage.getItem("user")).token
+            // }`,
           },
         }
       );

@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import multer from "multer";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 import chatRoutes from "./routes/chat.js";
 import messageRoutes from "./routes/message.js";
@@ -24,6 +25,8 @@ import User from "./models/User.js";
 
 /* CONFIGURATION */
 dotenv.config();
+const __dirname = path.resolve();
+
 // const app = express();
 app.use(express.static("public"))
 app.use(express.json());
@@ -35,10 +38,12 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors({
-    origin: 'http://localhost:3000', // Your client-side URL
+    origin: ["https://group-project-cosc3060-2024a-ftech.onrender.com"], // Your client-side URL
     credentials: true
 }));
 
+app.use(express.static(path.join(__dirname, "/client/build")))
+app.use(express.static(path.join(__dirname, "/server/public")))
 
 app.get("/api", (req, res) => {
 	res.status(201).json({ message: "hi there" });
@@ -55,6 +60,10 @@ app.use("/api/v1/forums", forumRoutes);
 app.use("/api/v1/topics", topicRoutes);
 app.use("/api/v1/news", newsRoutes);
 app.use("/api/feedback", feedbackRoutes)
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname, "client", "build", "index.html"))
+})
 
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
