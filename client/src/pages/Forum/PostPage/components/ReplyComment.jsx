@@ -14,6 +14,8 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
+axios.defaults.withCredentials = true;
+
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 export default function ReplyComment({ commentData }) {

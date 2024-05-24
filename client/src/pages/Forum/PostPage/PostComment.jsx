@@ -21,6 +21,8 @@ import { useLogin } from "../../../hooks/useLogin";
 import { PopupContext } from "../../../context/PopupContext";
 import ReplyComment from "../PostPage/components/ReplyComment";
 
+axios.defaults.withCredentials = true;
+
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function PostComment({ postData, threadAdminId }) {
   const isLogin = useLogin();
@@ -36,9 +38,9 @@ export default function PostComment({ postData, threadAdminId }) {
       { threadId: postData.belongToThread },
       {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("user")).token
-          }`,
+        //   Authorization: `Bearer ${
+        //     JSON.parse(localStorage.getItem("user")).token
+        //   }`,
         },
       }
     );
@@ -56,9 +58,9 @@ export default function PostComment({ postData, threadAdminId }) {
             threadId: postData.belongToThread,
           },
           headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
+            // Authorization: `Bearer ${
+            //   JSON.parse(localStorage.getItem("user")).token
+            // }`,
           },
         }
       );

@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import useSwr from "swr";
 import { useState, useContext } from "react";
@@ -7,6 +8,8 @@ import { IoAdd } from "react-icons/io5";
 
 import NewThreadPopUp from "../../../pages/Forum/ThreadPage/components/NewThreadPopUp";
 import { NavLink } from "react-router-dom";
+
+axios.defaults.withCredentials = true;
 
 {/*---------------------fetching function ----------------------*/}
 const fetcher = (url) => axios.get(url).then((res) => res.data);

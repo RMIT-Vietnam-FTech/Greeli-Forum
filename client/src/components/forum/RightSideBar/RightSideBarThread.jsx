@@ -8,6 +8,8 @@ import Post from "../Post";
 import Avatar from "../Avatar";
 import ImageOrVideo from "../ImageOrVideo";
 
+axios.defaults.withCredentials = true;
+
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 const fetchPost = (url) => axios.get(url).then((res) => res.data.data);
 export default function RightSideBarThread() {

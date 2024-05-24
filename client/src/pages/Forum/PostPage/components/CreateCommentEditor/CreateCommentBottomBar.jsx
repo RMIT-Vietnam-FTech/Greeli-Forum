@@ -6,6 +6,7 @@ import { CommentContext } from "../../../../../context/CommentContext";
 import { EditContext } from "../../../../../context/EditContext";
 import Comment from "../ReplyComment";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 export default function CreateCommentBottomBar({ content }) {
   const editContext = useContext(EditContext);
   const commentContext = useContext(CommentContext);
@@ -40,15 +41,15 @@ export default function CreateCommentBottomBar({ content }) {
         parentId: null,
       };
 
-      const newCommentData = await axios
-        .post("http://localhost:3001/api/v1/comments", storeObject, {
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
-          },
-        })
-        .then((res) => res.data);
+			const newCommentData = await axios
+				.post("http://localhost:3001/api/v1/comments", storeObject, {
+					headers: {
+						// Authorization: `Bearer ${
+						// 	JSON.parse(localStorage.getItem("user")).token
+						// }`,
+					},
+				})
+				.then((res) => res.data);
 
       commentContext.setNewComment([
       	<Comment key={newCommentData._id} commentData={newCommentData} />,

@@ -8,6 +8,7 @@ import { RiCloseLargeLine } from "react-icons/ri";
 import DropZoneFile from "./DropZoneFile";
 import PopupEditor from "./PopupEditor/PopupEditor";
 import { useNavigate, useParams } from "react-router-dom";
+axios.defaults.withCredentials = true;
 export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState("");
@@ -40,9 +41,9 @@ export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
           formData,
           {
             headers: {
-              Authorization: `Bearer ${
-                JSON.parse(localStorage.getItem("user")).token
-              }`,
+              // Authorization: `Bearer ${
+              //   JSON.parse(localStorage.getItem("user")).token
+              // }`,
               "Content-Type": "multipart/form-data",
             },
           }

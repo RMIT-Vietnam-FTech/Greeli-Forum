@@ -9,7 +9,7 @@ import Slider from "react-slick";
 import DropZoneFile from "./DropZoneFile";
 import PopupEditor from "./PopupEditor/PopupEditor";
 import { useNavigate } from "react-router-dom";
-
+axios.defaults.withCredentials = true;
 export default function NewThreadPopUp({ isOpen, setIsOpen }) {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState([]);
@@ -27,21 +27,21 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    axios.get("http://localhost:3001/api/v1/topics").then((res) => {
-      const topics = res.data.map((topic) => {
-        return topic.title;
-      });
-      setDefaultTopics([...topics]);
-    });
-  }, []);
+	useEffect(() => {
+		axios.get("http://localhost:3001/api/v1/topics").then((res) => {
+			const topics = res.data.map((topic) => {
+				return topic.title;
+			});
+			setDefaultTopics([...topics]);
+		});
+	}, []);
 
-  useEffect(() => {
-    const chooseTopic = document.querySelector("#choose-topic-warning");
-    if (addedTopics.length > 0) {
-      chooseTopic.classList.add("d-none");
-    }
-  }, [addedTopics]);
+	useEffect(() => {
+		const chooseTopic = document.querySelector("#choose-topic-warning");
+		if (addedTopics.length > 0) {
+			chooseTopic.classList.add("d-none");
+		}
+	}, [addedTopics]);
 
   async function handleData() {
     try {
@@ -77,9 +77,9 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
           formData,
           {
             headers: {
-              Authorization: `Bearer ${
-                JSON.parse(localStorage.getItem("user")).token
-              }`,
+            //   Authorization: `Bearer ${
+            //     JSON.parse(localStorage.getItem("user")).token
+            //   }`,
             },
           }
         );
@@ -90,25 +90,25 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
     }
   }
 
-  var settings = {
-    dots: false,
-    infinite: false,
-    speed: 200,
-    touchMove: false,
-    accessibility: false,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    nextArrow: (
-      <NextArrow
-        inputTitleLength={inputTitle.length}
-        handleData={handleData}
-        isNext={isNext}
-        setIsNext={setIsNext}
-        isDisable={isDisable}
-      />
-    ),
-    prevArrow: <PrevArrow isNext={isNext} setIsNext={setIsNext} />,
-  };
+	var settings = {
+		dots: false,
+		infinite: false,
+		speed: 200,
+		touchMove: false,
+		accessibility: false,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		nextArrow: (
+			<NextArrow
+				inputTitleLength={inputTitle.length}
+				handleData={handleData}
+				isNext={isNext}
+				setIsNext={setIsNext}
+				isDisable={isDisable}
+			/>
+		),
+		prevArrow: <PrevArrow isNext={isNext} setIsNext={setIsNext} />,
+	};
 
   {
     /*-----------------------------------------------------------MAIN---------------------------------------------------------*/
@@ -183,9 +183,9 @@ function FirstSlide({
             { title: inputTitle },
             {
               headers: {
-                Authorization: `Bearer ${
-                  JSON.parse(localStorage.getItem("user")).token
-                }`,
+                // Authorization: `Bearer ${
+                //   JSON.parse(localStorage.getItem("user")).token
+                // }`,
               },
             }
           )
@@ -313,92 +313,92 @@ function SecondSlide({
 }
 
 function AddedButton({ topicName, addedTopics, setAddedTopics }) {
-  function handleAddBtn(topic) {
-    setAddedTopics([...addedTopics, topic]);
-  }
-  function handleRemoveBtn(topic) {
-    const copyTopics = [...addedTopics];
-    copyTopics.splice([...copyTopics].indexOf(topic), 1);
-    setAddedTopics([...copyTopics]);
-  }
-  return (
-    <button
-      className="m-1 py-1 px-2 btn border border-none text-white d-flex align-items-center  gap-2"
-      style={{ borderRadius: "30px" }}
-      onClick={
-        addedTopics.includes(topicName)
-          ? () => {
-              handleRemoveBtn(topicName);
-            }
-          : () => {
-              handleAddBtn(topicName);
-            }
-      }
-      value={topicName}
-    >
-      <p className="m-0">{topicName}</p>
-      {addedTopics.includes(topicName) ? <p className="m-0">-</p> : null}
-    </button>
-  );
+	function handleAddBtn(topic) {
+		setAddedTopics([...addedTopics, topic]);
+	}
+	function handleRemoveBtn(topic) {
+		const copyTopics = [...addedTopics];
+		copyTopics.splice([...copyTopics].indexOf(topic), 1);
+		setAddedTopics([...copyTopics]);
+	}
+	return (
+		<button
+			className="m-1 py-1 px-2 btn border border-none text-white d-flex align-items-center  gap-2"
+			style={{ borderRadius: "30px" }}
+			onClick={
+				addedTopics.includes(topicName)
+					? () => {
+							handleRemoveBtn(topicName);
+						}
+					: () => {
+							handleAddBtn(topicName);
+						}
+			}
+			value={topicName}
+		>
+			<p className="m-0">{topicName}</p>
+			{addedTopics.includes(topicName) ? <p className="m-0">-</p> : null}
+		</button>
+	);
 }
 
 function RemovedButton({ topicName, addedTopics, setAddedTopics }) {
-  function handleRemoveBtn(topic) {
-    const copyTopics = [...addedTopics];
-    console.log("copy topic in remove button:" + copyTopics);
-    copyTopics.splice([...copyTopics].indexOf(topic), 1);
-    setAddedTopics([...copyTopics]);
-  }
-  return (
-    <button
-      className="m-1 py-1 px-2 btn btn-primary-green-300 text-dark border border-none d-flex align-items-center  gap-2"
-      style={{ borderRadius: "30px" }}
-      onClick={() => {
-        handleRemoveBtn(topicName);
-      }}
-      value={topicName}
-    >
-      <p className="m-0">{topicName}</p>
-      <p className="m-0">-</p>
-    </button>
-  );
+	function handleRemoveBtn(topic) {
+		const copyTopics = [...addedTopics];
+		console.log("copy topic in remove button:" + copyTopics);
+		copyTopics.splice([...copyTopics].indexOf(topic), 1);
+		setAddedTopics([...copyTopics]);
+	}
+	return (
+		<button
+			className="m-1 py-1 px-2 btn btn-primary-green-300 text-dark border border-none d-flex align-items-center  gap-2"
+			style={{ borderRadius: "30px" }}
+			onClick={() => {
+				handleRemoveBtn(topicName);
+			}}
+			value={topicName}
+		>
+			<p className="m-0">{topicName}</p>
+			<p className="m-0">-</p>
+		</button>
+	);
 }
 function NextArrow(props) {
-  const { onClick, isNext, setIsNext, handleData, isDisable } = props;
-  return (
-    <div onClick={onClick}>
-      <button
-        disabled={isDisable}
-        className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 border-none position-absolute"
-        style={{ bottom: "-50px", left: "100px" }}
-        onClick={
-          isNext
-            ? handleData
-            : () => {
-                setIsNext(true);
-              }
-        }
-      >
-        {isNext ? "Submit" : "Next"}
-      </button>
-    </div>
-  );
+	const { onClick, isNext, setIsNext, handleData, isDisable } = props;
+	return (
+		<div onClick={onClick}>
+			<button
+				disabled={isDisable}
+				className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 border-none position-absolute"
+				style={{ bottom: "-50px", left: "100px" }}
+				onClick={
+					isNext
+						? handleData
+						: () => {
+								setIsNext(true);
+							}
+				}
+			>
+				{isNext ? "Submit" : "Next"}
+			</button>
+		</div>
+	);
 }
 
 function PrevArrow(props) {
-  const { onClick, isNext, setIsNext } = props;
-  return (
-    <div onClick={onClick}>
-      <button
-        disabled={!isNext}
-        className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 text-dark  border-none position-absolute"
-        style={{ bottom: "-50px", left: "0" }}
-        onClick={() => {
-          setIsNext(false);
-        }}
-      >
-        Left
-      </button>
-    </div>
-  );
+	const { onClick, isNext, setIsNext } = props;
+	return (
+		<div onClick={onClick}>
+			<button
+				disabled={!isNext}
+				className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 text-dark  border-none position-absolute"
+				style={{ bottom: "-50px", left: "0" }}
+				onClick={() => {
+					setIsNext(false);
+				}}
+			>
+				Left
+			</button>
+		</div>
+	);
 }
