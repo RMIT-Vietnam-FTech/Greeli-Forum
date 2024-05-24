@@ -124,8 +124,8 @@ export default function Post({ postData, isThreadAdmin }) {
 
           {postData.uploadFile ? (
             <div
-              className=" my-4 bg-forum-subtle rounded-3 d-flex justify-content-center overflow-hidden"
-              style={{ height: "45vh" }}
+              className=" my-4 bg-forum-subtle d-flex justify-content-center align-items-center overflow-hidden"
+              style={{ height: "45vh", borderRadius:"0.75rem"}}
             >
               <ImageOrVideo
                 alt={postData.createdBy.username}

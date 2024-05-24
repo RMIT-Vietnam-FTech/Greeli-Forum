@@ -16,7 +16,6 @@
 /* Handle */
 ::-webkit-scrollbar-thumb {
   border-radius: 30px;
-  background-color: white;
 }
 
 /* Handle on hover */
@@ -25,9 +24,11 @@
 }
 .overflow-scroll-y {
   overflow-y: scroll;
-  &::-webkit-scrollbar-thumb {
+}
+.scrollbar-thumb-show {
+  ::-webkit-scrollbar-thumb {
     border-radius: 30px;
-    background-color: transparent;
+    background-color: #0a2a28;
   }
 }
 .border-left-gray {
@@ -398,7 +399,7 @@ video {
 }
 .main-container {
   width: 95%;
-  margin: 30px auto;
+  margin: 70px auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -427,8 +428,8 @@ video {
 .main {
   width: 100%;
 }
-.line-clamp-2-line{
- display: -webkit-box;
+.line-clamp-2-line {
+  display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 
@@ -438,7 +439,7 @@ video {
   overflow: hidden;
   text-overflow: ellipsis;
 }
- .line-clamp.tiptap {
+.line-clamp.tiptap {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -448,9 +449,9 @@ video {
 
   overflow: hidden;
   text-overflow: ellipsis;
-  }
+}
 @media only screen and (min-width: 800px) {
-  .line-clamp.tiptap  {
+  .line-clamp.tiptap {
     -webkit-line-clamp: 6;
   }
   .right-sidebar {

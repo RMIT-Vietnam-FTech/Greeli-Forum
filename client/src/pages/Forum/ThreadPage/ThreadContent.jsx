@@ -7,6 +7,7 @@ import { PopupContext } from "../../../context/PopupContext";
 import NewPostPopUp from "./components/NewPostPopUp";
 import Button from "react-bootstrap/Button";
 import DropDown from "../../../components/Forum/DropDown";
+import SearchBar from "../../../components/Search/Search";
 import EditTextEditor from "../../../components/Forum/EditTextEditor/EditTextEditor";
 
 import { AuthorizationContextProvider } from "../../../context/AuthorizationContext";
@@ -108,10 +109,9 @@ export default function ThreadContent({ ...prop }) {
   return (
     <>
       <section className="w-100 position-relative text-general-emphasis">
+        <SearchBar />
         <EditContextProvider>
-
-
-{/*---------TITLE, FOLLOW BUTTON AND DROPDOWN----------------------------------------------------------------------*/}
+          {/*---------TITLE, FOLLOW BUTTON AND DROPDOWN----------------------------------------------------------------------*/}
           <div className="d-flex align-items-start" style={{ width: "85%" }}>
             <h1 tabIndex="0" className="title fs-4">
               {title}
@@ -132,9 +132,9 @@ export default function ThreadContent({ ...prop }) {
           >
             <DropDown componentType="thread" />
           </AuthorizationContextProvider>
-{/*-------------------------------------------------------------------------------------------------------------*/}
+          {/*-------------------------------------------------------------------------------------------------------------*/}
 
-{/*---------Display image or video if have and content----------------------------------------------------------*/}
+          {/*---------Display image or video if have and content----------------------------------------------------------*/}
           {uploadFile ? (
             <div
               className="w-100 mt-4 bg-primary-green-600 rounded-3 d-flex justify-content-center overflow-hidden"
@@ -151,10 +151,9 @@ export default function ThreadContent({ ...prop }) {
             />
           </div>
         </EditContextProvider>
-{/*-------------------------------------------------------------------------------------------------------------*/}
+        {/*-------------------------------------------------------------------------------------------------------------*/}
 
-
-{/*-----------Create Post Button--------------------------------------------------------------------------------*/}
+        {/*-----------Create Post Button--------------------------------------------------------------------------------*/}
         <Button
           onClick={() => {
             if (isLogin) {

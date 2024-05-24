@@ -150,7 +150,7 @@ const RecommendPost = ({ postData }) => {
             </h4>
           </Link>
         </div>
-        <div className="w-25 ratio ratio-1x1 border border-secondary overflow-hidden text-secondary"
+        <div className="w-25 ratio ratio-1x1  overflow-hidden text-white bg-primary-green-600"
         style={{borderRadius:"0.75rem"}}
         >
          { postData.uploadFile?

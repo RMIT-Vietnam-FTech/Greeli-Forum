@@ -5,6 +5,7 @@ import User from "../models/User.js";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
 import mongoose from "mongoose";
 import sharp from "sharp";
+import { response } from "express";
 const createRandomName = (bytes = 32) =>
   crypto.randomBytes(bytes).toString("hex");
 
@@ -45,7 +46,7 @@ export const createPost = async (req, res) => {
       if (uploadFile) {
         const imageName = createRandomName();
         const fileBuffer = await sharp(uploadFile.buffer)
-          .jpeg({ quality:100})
+          .jpeg({ quality: 100 })
           .resize({ width: 730, height: 400 })
           .toBuffer();
         console.log(fileBuffer);
@@ -75,7 +76,10 @@ export const getPosts = async (req, res) => {
   try {
     //filter -> threadId
     //sorting
-    let { sort, filter, belongToThread, page, limit } = req.query;
+    let { sort, filter, belongToThread, page, limit, search } = req.query;
+
+    let response;
+
     if (belongToThread) {
       const thread = await Thread.findById(belongToThread);
       if (!thread)
@@ -109,62 +113,77 @@ export const getPosts = async (req, res) => {
       filterCommand.belongToThread =
         mongoose.Types.ObjectId.createFromHexString(belongToThread);
     }
-    //sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
-    const result = await Post.aggregate([{ $match: filterCommand }]).facet({
-      metadata: [
-        { $count: "total" },
-        {
-          $addFields: {
-            page: parseInt(page),
-            limit: parseInt(limit),
-          },
-        },
-      ],
-      data: [
-        {
-          $addFields: {
-            upvoteLength: { $size: "$upvote" },
-            commentLength: { $size: "$comments" },
-            time: {
-              $divide: [
-                {
-                  $multiply: [
-                    {
-                      $add: [
-                        {
-                          $add: [{ $size: "$upvote" }, { $size: "$comments" }],
-                        },
-                        1,
-                      ],
-                    },
-                    144000000,
-                  ],
-                },
-                {
-                  $add: [
-                    {
-                      $dateDiff: {
-                        startDate: "$verifiedAt",
-                        endDate: new Date(),
-                        unit: "minute",
-                      },
-                    },
-                    60000,
-                  ],
-                },
-              ],
+    if (search) {
+      response = await Post.aggregate()
+        .search({
+          index: "postIndex",
+          autocomplete: { query: search, path: "title" },
+        })
+        .project({ content: 0, comments: 0, upvote: 0 })
+        .limit(10)
+        .match({ isApproved: true});
+    } else {
+      //sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
+      const result = await Post.aggregate([{ $match: filterCommand }]).facet({
+        metadata: [
+          { $count: "total" },
+          {
+            $addFields: {
+              page: parseInt(page),
+              limit: parseInt(limit),
             },
           },
-        },
-        { $sort: sortObject },
-        { $skip: (Number.parseInt(page) - 1) * limit },
-        { $limit: Number.parseInt(limit) },
-      ],
-    });
-    res.status(200).json({
-      metadata: result[0].metadata[0],
-      data: result[0].data,
-    });
+        ],
+        data: [
+          {
+            $addFields: {
+              upvoteLength: { $size: "$upvote" },
+              commentLength: { $size: "$comments" },
+              time: {
+                $divide: [
+                  {
+                    $multiply: [
+                      {
+                        $add: [
+                          {
+                            $add: [
+                              { $size: "$upvote" },
+                              { $size: "$comments" },
+                            ],
+                          },
+                          1,
+                        ],
+                      },
+                      144000000,
+                    ],
+                  },
+                  {
+                    $add: [
+                      {
+                        $dateDiff: {
+                          startDate: "$verifiedAt",
+                          endDate: new Date(),
+                          unit: "minute",
+                        },
+                      },
+                      60000,
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+          { $sort: sortObject },
+          { $skip: (Number.parseInt(page) - 1) * limit },
+          { $limit: Number.parseInt(limit) },
+        ],
+      });
+      response = {
+        metadata: result[0].metadata[0],
+        data: result[0].data,
+      };
+    }
+    res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -453,6 +472,16 @@ export const deleteUpvote = async (req, res) => {
     post.upvote.remove(req.user.id);
     await post.save();
     res.status(200).json("delete success");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const searchPost = async (req, res) => {
+  try {
+    const searchQuery = req.query.search;
+
+    console.log(res);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

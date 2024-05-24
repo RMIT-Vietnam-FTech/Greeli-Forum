@@ -13,7 +13,6 @@ import { useContext } from "react";
 import { PopupContextProvider } from "../../../context/PopupContext";
 import LoginPopup from "../../../components/Popup/LoginPopup";
 import PostList from "../ThreadPage/PostList";
-
 export default function ForumPage() {
   const { isDarkMode } = useContext(ThemeContext);
   return (
@@ -22,15 +21,15 @@ export default function ForumPage() {
       data-bs-theme={isDarkMode ? "dark" : "light"}
     >
       <PopupContextProvider>
-        <section className="search-container d-flex justify-content-center w-100">
-          <SearchBar />
-        </section>
+        <section className="search-container d-flex justify-content-center w-100"></section>
+
         <section className="container-wrapper">
           <section className="left-sidebar">
             <LeftSideBar />
           </section>
           <section className="main-container">
             <section className="main">
+              <SearchBar />
               <Routes path="/">
                 <Route index element={<PostList />} />
                 <Route path="threads/:threadId">

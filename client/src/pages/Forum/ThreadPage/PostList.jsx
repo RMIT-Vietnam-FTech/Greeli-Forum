@@ -5,6 +5,7 @@ import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useUserContext } from "../../../context/UserContext";
+import PostSkeleton from "../../../components/Forum/Skeleton/PostSkeleton";
 
 const fetcher = async (prop) => {
   const [url, isThreadAdmin, isMetaData] = prop;
@@ -71,7 +72,6 @@ export default function PostList({ threadData }) {
   );
 
   const issues = data ? [].concat(...data) : [];
-  // console.log(data);
   {
     /*------define component to get metdata and use intersection observer to achieve lazyload-------------*/
   }
@@ -108,9 +108,8 @@ export default function PostList({ threadData }) {
       issues.filter((issue) => issue.title.toLowerCase().includes(searchTerm))
     );
   }, [searchTerm]);
-
   if (isLoading) {
-    return 0;
+    return <PostSkeleton nOfCard={5}/>;
   }
 
   return (
