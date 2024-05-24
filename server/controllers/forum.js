@@ -6,7 +6,10 @@ export const getForumStatistic = async (req, res) => {
   try {
     const threadCount = await Thread.find({}, {}).countDocuments();
     const userCount = await User.find({}, {}).countDocuments();
-    const postCount = await Post.find({}, {}).countDocuments();
+    const postCount = await Post.find(
+      { isApproved: true },
+      {}
+    ).countDocuments();
     res.status(200).json({
       thread: threadCount,
       user: userCount,

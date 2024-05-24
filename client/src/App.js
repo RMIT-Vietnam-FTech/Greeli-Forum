@@ -6,10 +6,8 @@ import RequireActivate from "./components/Auth/RequireActivate.jsx";
 import Footer from "./components/Footer/footer";
 import Navbar from "./components/Navbar/Navbar";
 import ChatBubble from "./components/ChatBubble/ChatBubble.jsx";
-import LoginPopup from "./components/Popup/LoginPopup.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
-import { PopupContextProvider } from "./context/PopupContext.jsx";
 import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 import Chat from "./pages/Chat/Chat";
 import ContactPage from "./pages/ContactPage/Contact.jsx";
@@ -21,7 +19,7 @@ import Profile from "./pages/Profile/Profile";
 import GeneralPage from "./pages/generalPage/generalPage";
 import Upload from "./pages/UploadImage/Upload.jsx";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
-import { ForumRouter } from "./pages/Forum/ForumRouter.jsx";
+import ForumPage from "./pages/Forum/ForumPage/ForumPage.jsx";
 import CookiesConsent from "react-cookie-consent";
 // import { useUserContext } from "./context/UserContext.jsx";
 function App() {
@@ -62,7 +60,7 @@ function App() {
                   <Route path="/chat" element={<Chat />} />
                 </Route>
               </Route>
-              <Route path="/forum/*" element={<ForumRouter />}></Route>
+              <Route path="/forum/*" element={<ForumPage/>}></Route>
               <Route path="*" element={<ErrorPage />} />
             </Routes>
           </div>
