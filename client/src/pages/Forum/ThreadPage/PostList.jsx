@@ -6,6 +6,8 @@ import { useInView } from "react-intersection-observer";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useUserContext } from "../../../context/UserContext";
 
+axios.defaults.withCredentials = true;
+
 const fetcher = async (prop) => {
   const [url, isThreadAdmin, isMetaData] = prop;
   console.log(
@@ -18,9 +20,9 @@ const fetcher = async (prop) => {
       return await axios
         .get(url, {
           headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
+            // Authorization: `Bearer ${
+            //   JSON.parse(localStorage.getItem("user")).token
+            // }`,
           },
         })
         .then((res) => res.data.metadata);
@@ -30,9 +32,9 @@ const fetcher = async (prop) => {
     return await axios
       .get(url, {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("user")).token
-          }`,
+          // Authorization: `Bearer ${
+          //   JSON.parse(localStorage.getItem("user")).token
+          // }`,
         },
       })
       .then((res) => res.data.data);
@@ -51,11 +53,11 @@ export default function PostList({ threadData }) {
 
   const validatedPath = (isThreadAdmin, threadData, sort, page) => {
     if (isThreadAdmin) {
-      return `http://localhost:3001/api/v1/admin/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
+      return `/api/v1/admin/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
     } else if (threadData) {
-      return `http://localhost:3001/api/v1/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
+      return `/api/v1/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
     }
-    return `http://localhost:3001/api/v1/posts?page=${page}&sort=${sort}`;
+    return `/api/v1/posts?page=${page}&sort=${sort}`;
   };
 
   const { data, size, setSize, isLoading } = useSWRInfinite(

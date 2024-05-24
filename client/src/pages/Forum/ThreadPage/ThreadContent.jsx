@@ -14,6 +14,8 @@ import { EditContextProvider } from "../../../context/EditContext";
 
 import { useLogin } from "../../../hooks/useLogin";
 
+axios.defaults.withCredentials = true;
+
 export default function ThreadContent({ ...prop }) {
   const { title, uploadFile, content, objectId, createdBy } = prop;
 
@@ -37,15 +39,15 @@ export default function ThreadContent({ ...prop }) {
 
   async function checkFollowingStatus() {
     if (JSON.parse(localStorage.getItem("user"))) {
-      const path = `http://localhost:3001/api/user/${
+      const path = `/api/user/${
         JSON.parse(localStorage.getItem("user")).id
       }/follow_threads`;
       const followThreads = await axios
         .get(path, {
           headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
+            // Authorization: `Bearer ${
+            //   JSON.parse(localStorage.getItem("user")).token
+            // }`,
           },
         })
         .then((res) => res.data);
@@ -58,7 +60,7 @@ export default function ThreadContent({ ...prop }) {
 
   async function handleFollowThread() {
     try {
-      const path = `http://localhost:3001/api/user/${
+      const path = `/api/user/${
         JSON.parse(localStorage.getItem("user")).id
       }/follow_threads`;
       await axios.post(
@@ -68,9 +70,9 @@ export default function ThreadContent({ ...prop }) {
         },
         {
           headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
+            // Authorization: `Bearer ${
+            //   JSON.parse(localStorage.getItem("user")).token
+            // }`,
           },
         }
       );
@@ -82,7 +84,7 @@ export default function ThreadContent({ ...prop }) {
 
   async function handleUnFollowThread() {
     try {
-      const path = `http://localhost:3001/api/user/${
+      const path = `/api/user/${
         JSON.parse(localStorage.getItem("user")).id
       }/follow_threads`;
       await axios.delete(
@@ -93,9 +95,9 @@ export default function ThreadContent({ ...prop }) {
             threadId: objectId,
           },
           headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
+            // Authorization: `Bearer ${
+            //   JSON.parse(localStorage.getItem("user")).token
+            // }`,
           },
         }
       );

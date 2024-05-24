@@ -7,6 +7,7 @@ import { EditContext } from "../../../../../context/EditContext";
 import Comment from "../ReplyComment";
 import axios from "axios";
 axios.defaults.withCredentials = true;
+
 export default function CreateCommentBottomBar({ content }) {
   const editContext = useContext(EditContext);
   const commentContext = useContext(CommentContext);

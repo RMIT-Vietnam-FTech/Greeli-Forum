@@ -15,7 +15,7 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
       if (!isLogin) {
         popupContext.setIsPopup(true);
       } else {
-        const token = JSON.parse(localStorage.getItem("user")).token;
+        // const token = JSON.parse(localStorage.getItem("user")).token;
         if (isVoted) {
           const index = upvote.indexOf(user.id);
           if (index > -1) {
