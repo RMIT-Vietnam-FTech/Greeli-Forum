@@ -8,7 +8,9 @@ import { IoAdd } from "react-icons/io5";
 import NewThreadPopUp from "../../../pages/Forum/ThreadPage/components/NewThreadPopUp";
 import { NavLink } from "react-router-dom";
 
-{/*---------------------fetching function ----------------------*/}
+{
+  /*---------------------fetching function ----------------------*/
+}
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 const validatedFetcher = (url) => {
   return axios
@@ -21,17 +23,23 @@ const validatedFetcher = (url) => {
     })
     .then((res) => res.data);
 };
-{/*--------------------default style  -------------------------*/}
+{
+  /*--------------------default style  -------------------------*/
+}
 
-const listHeadingStyle = "w-100 d-flex justify-content-between   text-primary-yellow border-0 py-2 px-1 left-sidebar-item"
-const listItemStyle = "w-100 d-flex justify-content-between align-items-center  text-greeli-emphasis border-0 py-2 px-1 left-sidebar-item"
-const nestedListItemStyle = "d-block py-2 px-1 text-greeli-emphasis left-sidebar-item"
+const listHeadingStyle =
+  "w-100 d-flex justify-content-between   text-primary-yellow border-0 py-2 px-1 left-sidebar-item";
+const listItemStyle =
+  "w-100 d-flex justify-content-between align-items-center  text-greeli-emphasis border-0 py-2 px-1 left-sidebar-item";
+const nestedListItemStyle =
+  "d-block py-2 px-1 text-greeli-emphasis left-sidebar-item";
 
 export default function LeftSideBar() {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <section className="w-100 d-flex flex-column px-2 pb-3 overflow-scroll-y"
-    style={{height:"88%"}}
+    <section
+      className="w-100 d-flex flex-column px-2 pb-3 overflow-scroll-y"
+      style={{ height: "88%" }}
     >
       <PersonalThreadList>
         <button
@@ -58,9 +66,7 @@ function PersonalThreadList({ children }) {
   return (
     JSON.parse(localStorage.getItem("user")) && (
       <>
-        <section
-          className=" w-100 py-2 border-bottom-gray"
-        >
+        <section className=" w-100 py-2 border-bottom-gray">
           {/*collapse header*/}
           <button
             className={listHeadingStyle}
@@ -70,7 +76,7 @@ function PersonalThreadList({ children }) {
             aria-expanded="false"
             aria-controls="collapseExample"
           >
-            <a >Tracking</a>
+            <a>Tracking</a>
             <p className="m-0 p-0">
               <IoIosArrowDown />
             </p>
@@ -121,9 +127,7 @@ function CreatedThread() {
         className="ms-3  collapse border-left-gray"
         id="collapse-created-thread"
       >
-        <div
-          className="w-100 d-flex flex-column justify-content-between "
-        >
+        <div className="w-100 d-flex flex-column justify-content-between ">
           {data.map((thread) => {
             return (
               <NavLink
@@ -175,9 +179,7 @@ function FollowingThread() {
         className="ms-3  collapse  border-left-gray"
         id="collapse-following-thread"
       >
-        <div
-          className="w-100 d-flex flex-column justify-content-between "
-        >
+        <div className="w-100 d-flex flex-column justify-content-between ">
           {data.map((thread) => {
             return (
               <NavLink
@@ -198,7 +200,6 @@ function FollowingThread() {
 function TopicList({ children }) {
   return (
     <section className="py-2">
-
       {/*collapse header*/}
       <button
         className={listHeadingStyle}

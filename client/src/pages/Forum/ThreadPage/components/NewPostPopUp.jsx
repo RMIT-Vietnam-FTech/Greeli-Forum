@@ -20,7 +20,7 @@ export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
 
       if (
         postTitleInput.value.length >= 5 &&
-        postTitleInput.value.length <= 50
+        postTitleInput.value.length <= 100
       ) {
         setFile(null);
         setIsOpen(false);
@@ -99,7 +99,7 @@ export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
             }}
             onBlur={(e) => {
               // toggle text class
-              if (e.target.value.length < 5 || e.target.value.length > 50) {
+              if (e.target.value.length < 5 || e.target.value.length > 100) {
                 const titleWarning = document.querySelector(".title-warning");
                 titleWarning.classList.remove("d-none");
               }
@@ -109,12 +109,12 @@ export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
             className="position-absolute text-white"
             style={{ right: "20px", top: "0" }}
           >
-            /50
+            /100
           </p>
         </div>
 
         <p className="title-warning text-danger d-none">
-          at least 5 and maximum 50 characters
+          at least 5 and maximum 100 characters
         </p>
         {/*----------------Text area---------------------------------------------------------------------------*/}
 

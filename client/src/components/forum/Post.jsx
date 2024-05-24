@@ -136,10 +136,12 @@ export default function Post({ postData, isThreadAdmin }) {
           ) : null}
           <Link
             to={`/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
-            className="cursor-pointer"
+            className="post-content-wrapper d-block w-100 cursor-pointer overflow-hidden"
           >
             <EditTextEditor
+              className="post-content"
               componentType="post"
+              isOverFlow={true}
               content={JSON.parse(postData.content)}
             />
           </Link>

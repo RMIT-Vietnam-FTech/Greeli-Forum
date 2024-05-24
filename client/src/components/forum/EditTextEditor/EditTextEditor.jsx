@@ -21,7 +21,7 @@ lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);
 lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
-export default function EditTextEditor({ content, componentType }) {
+export default function EditTextEditor({ content, componentType, isOverFlow }) {
 	//edit text editor for thread and post only
 	const editContext = useContext(EditContext);
 	let placeholder = "";
@@ -64,6 +64,7 @@ export default function EditTextEditor({ content, componentType }) {
 				editorProps={{
 					attributes: {
 						// class: "cursor-text",
+						class: (isOverFlow?"line-clamp":"")
 					},
 				}}
 				slotBefore={

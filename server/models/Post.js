@@ -10,7 +10,7 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
       min: 5,
-      max: 50,
+      max: 100,
     },
     uploadFile: {
       type: String,

@@ -163,11 +163,11 @@ const Sorting = ({ sortOption, setSortOption }) => {
         </div>
       </button>
 
-      <ul className="dropdown-menu bg-forum-subtle">
+      <ul className="dropdown-menu bg-forum-subtle ">
         <li>
           <a
             tabIndex="0"
-            className={"dropdown-item"}
+            className="dropdown-item text-white"
             onClick={() => {
               setSortOption("Hot");
             }}
@@ -179,7 +179,7 @@ const Sorting = ({ sortOption, setSortOption }) => {
         <li>
           <a
             tabIndex="0"
-            className={"dropdown-item"}
+            className="dropdown-item text-white"
             onClick={() => {
               setSortOption("New");
             }}
@@ -191,7 +191,7 @@ const Sorting = ({ sortOption, setSortOption }) => {
         <li>
           <a
             tabIndex="0"
-            className={"dropdown-item"}
+            className="dropdown-item text-white"
             onClick={() => {
               setSortOption("Top");
             }}

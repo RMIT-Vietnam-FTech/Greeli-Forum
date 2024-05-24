@@ -2,11 +2,14 @@ import { useState, useEffect, useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import useSWR from "swr";
+
 import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
 import Post from "../Post";
 import Avatar from "../Avatar";
 import ImageOrVideo from "../ImageOrVideo";
+
+import { IoDocumentTextOutline } from "react-icons/io5";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 const fetchPost = (url) => axios.get(url).then((res) => res.data.data);
@@ -16,12 +19,14 @@ export default function RightSideBarThread() {
     <div
       style={{ height: "95%" }}
       className={
-        "w-100  gap-4 " +
-        (matchWindowWidth && "d-flex flex-column-reverse overflow-scroll-y")
+        "w-100  gap-4 d-flex " +
+        (matchWindowWidth
+          ? "flex-column overflow-scroll-y"
+          : "flex-column-reverse")
       }
     >
-      <PostYouMayLike />
       <ThreadStatistic />
+      <PostYouMayLike />
     </div>
   );
 }
@@ -114,25 +119,25 @@ const RecommendPost = ({ postData }) => {
   return (
     <div
       style={{ height: "130px" }}
-      className="d-flex flex-column justify-content-between border-bottom-gray py-3"
+      className="w-100 d-flex flex-column justify-content-between border-bottom-gray py-3"
     >
-      <div className="w-100">
+      <div className="w-100 d-flex justify-content-between">
         {/*left sidebar*/}
-        <div className="w-75">
+        <div style={{width:"65%"}}>
           {/*user info*/}
           <div className="d-flex gap-2 mb-2">
             {/*avatar*/}
             <Avatar src={postData.createdBy.profileImage} size="sm" />
 
             {/*user username*/}
-            <div className="text-primary-yellow" style={{ fontSize: "14px" }}>
+            <div className="text-greeli-emphasis" style={{ fontSize: "14px" }}>
               {postData.createdBy.username}
             </div>
           </div>
 
           <Link
             to={`http://localhost:3000/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
-            className=""
+            className="line-clamp-2-line"
           >
             <h4
               style={{
@@ -144,6 +149,13 @@ const RecommendPost = ({ postData }) => {
               {postData.title}
             </h4>
           </Link>
+        </div>
+        <div className="w-25 ratio ratio-1x1 border border-secondary overflow-hidden text-secondary"
+        style={{borderRadius:"0.75rem"}}
+        >
+         { postData.uploadFile?
+        <ImageOrVideo src={postData.uploadFile}/> :<IoDocumentTextOutline/>
+        }
         </div>
       </div>
       {/*number of like and comment*/}
