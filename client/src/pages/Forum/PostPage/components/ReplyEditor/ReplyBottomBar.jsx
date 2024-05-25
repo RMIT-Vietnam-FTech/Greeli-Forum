@@ -54,8 +54,7 @@ export default function ReplyBottomBar({ parentId }) {
         .then((res) => res.data);
 
       replyContext.setNewReply([
-        <ReplyComment key={newReplyData._id} commentData={newReplyData} />,
-        ...replyContext.newReply,
+        <ReplyComment key={newReplyData._id} commentData={newReplyData} isNew={true} />,
       ]);
 
       //set content

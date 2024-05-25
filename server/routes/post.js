@@ -33,6 +33,7 @@ router
   .post(verifyToken, upload.single("uploadFile"), PostController.createPost)
   .delete(PostController.deleteAllPost);
 
+
 router
   .route("/:postId")
   .get(PostController.getPost)

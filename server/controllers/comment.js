@@ -1,6 +1,7 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
+import mongoose from "mongoose";
 export const createComment = async (req, res) => {
   try {
     const { content, parentId, postId } = req.body;
@@ -58,16 +59,22 @@ export const createComment = async (req, res) => {
 
 export const getComments = async (req, res) => {
   try {
-    const { postId, parentId } = req.query;
+    let { postId, parentId, page, limit } = req.query;
     console
       .log
       //   `check iput:\n postId: ${postId}\n parentId: ${parentId}\n check TypeOf:\n postId type: ${typeof postId}\n parenId type: ${typeof parentId}`
       ();
+    if (!page) {
+      page = "1";
+    }
+    if (!limit) {
+      limit = "10";
+    }
     const queryCommand = {};
 
     if (parentId) {
       if (parentId !== "null") {
-        queryCommand.parentId = parentId;
+        queryCommand.parentId = new mongoose.Types.ObjectId(parentId);
       } else {
         queryCommand.parentId = null;
       }
@@ -80,10 +87,41 @@ export const getComments = async (req, res) => {
       }
       queryCommand._id = { $in: post.comments };
     }
-    console.log("check query Comment: " + JSON.stringify(queryCommand));
-    const comments = await Comment.find(queryCommand).sort({ createdAt: -1 });
+    console.log(` check query command: ${JSON.stringify(queryCommand)}`);
+    const comments = await Comment.aggregate([{ $match: queryCommand }])
+      .facet({
+        metadata: [
+          {
+            $project: {
+              _id: 1,
+            },
+          },
+          { $count: "total" },
+          {
+            $addFields: {
+              page: parseInt(page),
+              limit: parseInt(limit),
+            },
+          },
+        ],
+
+        data: [
+          {
+            $sort: {
+              createdAt: -1,
+            },
+          },
+          { $skip: (Number.parseInt(page) - 1) * limit },
+          { $limit: Number.parseInt(limit) },
+        ],
+      })
+     
     if (!comments) return res.status(400).json("cannot found items");
-    res.status(200).json(comments);
+    res.status(200).json(
+        // metadata: comments[0].metadata[0],
+        // data: 
+        comments[0].data,
+    );
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

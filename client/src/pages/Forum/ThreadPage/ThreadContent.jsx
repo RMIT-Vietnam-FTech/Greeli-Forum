@@ -7,7 +7,6 @@ import { PopupContext } from "../../../context/PopupContext";
 import NewPostPopUp from "./components/NewPostPopUp";
 import Button from "react-bootstrap/Button";
 import DropDown from "../../../components/Forum/DropDown";
-import SearchBar from "../../../components/Search/Search";
 import EditTextEditor from "../../../components/Forum/EditTextEditor/EditTextEditor";
 
 import { AuthorizationContextProvider } from "../../../context/AuthorizationContext";
@@ -109,7 +108,6 @@ export default function ThreadContent({ ...prop }) {
   return (
     <>
       <section className="w-100 position-relative text-general-emphasis">
-        <SearchBar />
         <EditContextProvider>
           {/*---------TITLE, FOLLOW BUTTON AND DROPDOWN----------------------------------------------------------------------*/}
           <div className="d-flex align-items-start" style={{ width: "85%" }}>

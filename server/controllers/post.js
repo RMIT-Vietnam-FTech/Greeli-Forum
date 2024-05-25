@@ -126,6 +126,9 @@ export const getPosts = async (req, res) => {
       //sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
       const result = await Post.aggregate([{ $match: filterCommand }]).facet({
         metadata: [
+          {$project:{
+            _id: 1
+          }},
           { $count: "total" },
           {
             $addFields: {

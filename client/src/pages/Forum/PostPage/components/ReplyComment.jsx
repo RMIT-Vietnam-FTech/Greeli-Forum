@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
-import useSWRImmutable from 'swr/immutable'
+import useSWRImmutable from "swr/immutable";
 
 import ButtonUpvote from "../../../../components/Forum/ButtonUpvote";
 import { EditContextProvider } from "../../../../context/EditContext";
@@ -14,9 +14,12 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-const fetcher = (url) => axios.get(url).then((res) => res.data);
+const fetcher = (url) => axios.get(url).then((res) => {
+  console.log(res.data);
+  return (res.data);
+});
 
-export default function ReplyComment({ commentData }) {
+export default function ReplyComment({ commentData, isLastIndex, isNew }) {
   const { postId } = useParams();
   const [newReply, setNewReply] = useState([]);
   const [isReply, setIsReply] = useState(false);
@@ -30,7 +33,7 @@ export default function ReplyComment({ commentData }) {
     commentData.replies.length > 0
       ? `http://localhost:3001/api/v1/comments?postsId=${postId}&parentId=${commentData._id}`
       : null,
-    fetcher,{refreshInterval:500}
+    fetcher,
   );
   if (error) {
     return "error";
@@ -38,12 +41,56 @@ export default function ReplyComment({ commentData }) {
   if (isLoading) {
     return "is loading";
   }
+
+  // const reply = data
+  //   ? data.map((commentData, index, data) => {
+  //       return (
+  //         <ReplyComment
+  //           key={commentData._id}
+  //           commentData={commentData}
+  //           isLastIndex={index === data.length - 1}
+  //         />
+  //       );
+  //     })
+  //   : [];
+    console.log(`check input: isLastIndex: ${isLastIndex}`)
   return (
     <>
       <ReplyContext.Provider
         value={{ newReply, setNewReply, isReply, setIsReply }}
       >
-        <div tabIndex="0" aria-label="comment section" className="my-4 position-relative">
+        <div
+          tabIndex="0"
+          aria-label="comment section"
+          className="my-4 position-relative"
+        >
+          {commentData.parentId !== null && (
+            <div
+              className="bg-login-subtle opacity-25 position-absolute"
+              style={{
+                width: "30px",
+                height: "1px",
+                top: "19px",
+                left: "-12px",
+              }}
+            ></div>
+          )}
+          {(commentData.replies.length > 0 || newReply.length > 0) && (
+            <div
+              className="bg-login-subtle h-100 opacity-25 position-absolute"
+              style={{ width: "1px", top: "5px", left: "10px" }}
+            ></div>
+          )}
+          {(isLastIndex || isNew) && (
+            <div
+              className="bg-greeli-subtle h-100 position-absolute z-1"
+              style={{
+                width: "5px",
+                top: "20px",
+                left: "-13px",
+              }}
+            ></div>
+          )}
           <div className="d-flex align-items-center gap-1">
             {/* avatar */}
             <div
@@ -61,7 +108,7 @@ export default function ReplyComment({ commentData }) {
 
             {/* username */}
             <p
-            tabIndex="0"
+              tabIndex="0"
               className="fw-bold m-0 text-login-emphasis"
               style={{ fontSize: "14px" }}
             >
@@ -90,15 +137,9 @@ export default function ReplyComment({ commentData }) {
               {isReply ? <ReplyEditor parentId={commentData._id} /> : null}
             </EditContextProvider>
           </div>
-          <div className="ms-5">
+          <div style={{ marginLeft: "23px" }}>
             {newReply}
-            {data
-              ? data.map((commentData) => {
-                  return (
-                    <ReplyComment key={commentData._id} commentData={commentData} />
-                  );
-                })
-              : null}
+            {/* {reply} */}
           </div>
         </div>
       </ReplyContext.Provider>

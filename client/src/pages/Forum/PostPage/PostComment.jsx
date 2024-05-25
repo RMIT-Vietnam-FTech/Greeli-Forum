@@ -2,11 +2,11 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import useSWRImmutable from 'swr/immutable'
+import useSWRInfinite from 'swr/infinite';
 
 import { Button } from "react-bootstrap";
 import { CommentContext } from "../../../context/CommentContext";
-import { EditContextProvider} from "../../../context/EditContext";
+import { EditContextProvider } from "../../../context/EditContext";
 import CreateCommentEditor from "./components/CreateCommentEditor/CreateCommentEditor";
 import ButtonUpvote from "../../../components/Forum/ButtonUpvote";
 
@@ -21,7 +21,10 @@ import { useLogin } from "../../../hooks/useLogin";
 import { PopupContext } from "../../../context/PopupContext";
 import ReplyComment from "../PostPage/components/ReplyComment";
 
-const fetcher = (url) => axios.get(url).then((res) => res.data);
+const fetcher = (url) =>
+  axios.get(url).then((res) => {
+    return res.data;
+  });
 export default function PostComment({ postData, threadAdminId }) {
   const isLogin = useLogin();
   const [newComment, setNewComment] = useState([]);
@@ -68,16 +71,20 @@ export default function PostComment({ postData, threadAdminId }) {
       console.error(error.message);
     }
   }
-  const { data, error, isLoading } = useSWRImmutable(
-    `http://localhost:3001/api/v1/comments?postId=${postData._id}&parentId=null`,
+  const { data, size, setSize, isLoading } = useSWRInfinite(
+    (index, prevData) => {
+      if (prevData && !prevData.length) return null;
+      return `http://localhost:3001/api/v1/comments?postId=${
+        postData._id
+      }&parentId=null&$page=${index + 1}`;
+    },
     fetcher
   );
-  if (error) {
-    return "error";
-  }
+
   if (isLoading) {
     return "is loading";
   }
+  const issues = data ? [].concat(...data) : [];
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -136,13 +143,18 @@ export default function PostComment({ postData, threadAdminId }) {
         </EditContextProvider>
         <section id="comment-section" className="mt-3 w-100">
           {newComment}
-          {data.map((commentData) => {
+          {issues.map((commentData, index, data) => {
             return (
-              <ReplyComment key={commentData._id} commentData={commentData} />
+              <ReplyComment
+                key={commentData._id}
+                commentData={commentData}
+                isLastIndex={index === data.length - 1}
+              />
             );
           })}
         </section>
       </CommentContext.Provider>
+      <button className="px-4 py-2 bg-forum-subtle text-white border border-0" style={{borderRadius:"20px"}}>Load more comments</button>
     </>
   );
 }
@@ -159,7 +171,6 @@ export function ButtonComment({ commentLength }) {
       className=" px-1 rounded-5 border border-primary-green bg-transparent text-forum-emphasis d-flex align-items-center gap-2"
       style={{ fontSize: "14px" }}
     >
-
       {commentLength} <FaCommentAlt className="me-2" />
     </button>
   );

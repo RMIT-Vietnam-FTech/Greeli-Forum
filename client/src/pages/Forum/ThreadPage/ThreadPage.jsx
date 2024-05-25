@@ -25,7 +25,6 @@ export default function ThreadPage() {
 
   return (
     <>
-      <SearchBar />
       <ThreadContent
         title={data.title}
         uploadFile={data.uploadFile}
