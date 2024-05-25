@@ -20,7 +20,7 @@ import GeneralPage from "./pages/generalPage/generalPage";
 import Upload from "./pages/UploadImage/Upload.jsx";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
 import ForumPage from "./pages/Forum/ForumPage/ForumPage.jsx";
-import CookiesConsent from "react-cookie-consent";
+import Cookies from "./components/Cookies/Cookie.jsx";
 // import { useUserContext } from "./context/UserContext.jsx";
 function App() {
 	let location = useLocation();
@@ -60,33 +60,14 @@ function App() {
                   <Route path="/chat" element={<Chat />} />
                 </Route>
               </Route>
-              <Route path="/forum/*" element={<ForumPage/>}></Route>
+              <Route path="/forum/*" element={<ForumPage />}></Route>
               <Route path="*" element={<ErrorPage />} />
             </Routes>
           </div>
           <Footer />
           <ChatBubble />
+          <Cookies />
           <div id="popup-root"></div>
-          <CookiesConsent
-            debug={true}
-            location="bottom"
-            buttonText="Accept all cookies"
-            style={{ background: "#2B373B" }}
-            buttonClasses="bg-primary-green text-light rounded-4 m-2 py-2 px-3"
-            overlay={true}
-            containerClasses="text-start bg-primary-yellow-300 rounded-4 m-2 p-2 w-25"
-            contentClasses="text-primary-green d-block h-auto m-2"
-          >
-            <img
-              className="m-2 d-block"
-              src="LightLogo.svg"
-              width={60}
-              alt="Greeli Logo"
-            />
-            By clicking “Accept all cookies”, you agree Greeli can store cookies
-            on your device and disclose information in accordance with our
-            Cookie Policy.
-          </CookiesConsent>
         </UserContextProvider>
       </ThemeProvider>
     </div>

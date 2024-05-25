@@ -13,10 +13,10 @@ function Posts() {
 				<div className="news-card card-item rounded-4">
 					<img
 						src={props.img}
-						alt="News"
+						alt="Recommended Post"
 						className="card-img-top h-50 object-fit-cover rounded-top-4"
 					/>
-					<div className="cards-body h-auto">
+					<div className="cards-body">
 						<p className="card-date">
 							<small>{props.date}</small>
 						</p>
