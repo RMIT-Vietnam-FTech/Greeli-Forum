@@ -23,6 +23,7 @@ import {
 	activateAccount,
 	logout,
 	uploadProfileImage,
+	getPaginatedUsers,
 } from "../controllers/user.js";
 // import { getProfile } from "../controllers/userProfile.js";
 import { verifyToken, verifyAdmin } from "../middleware/auth.js";
@@ -63,6 +64,7 @@ router.post("/change-password", changePassword);
 router.post("/register", register);
 router.put("/:adminId/:userId/lock", verifyToken, verifyAdmin, lock);
 router.put("/:adminId/:userId/unlock", verifyToken, verifyAdmin, unlock);
+router.get("/getPaginatedUsers", getPaginatedUsers);
 
 router.route("/:userId/created_threads").get(verifyToken, getCreatedThread);
 

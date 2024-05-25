@@ -43,13 +43,13 @@ export const login = async (req, res) => {
 		if (!user) return res.status(400).json({ error: "User doesn't exist" });
 		const isMatch = await bcrypt.compare(password, user.password);
 		if (!isMatch) return res.status(400).json({ error: "Password incorrect" });
-		if (user.isLocked) return res.status(400).json({error: "Your account is locked, cannot log in!"})
+		if (user.isLocked) return res.status(400).json({ error: "Your account is locked, cannot log in!" })
 
 		const token = await jwt.sign(
 			{ id: user._id, email: user.email, role: user.role },
 			process.env.JWT_SECRET,
 			{ expiresIn: "3d" }
-		);	
+		);
 
 		console.log(token)
 
@@ -84,19 +84,19 @@ export const uploadProfileImage = async (req, res) => {
 			const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
 			const imageName = uniqueSuffix + '-' + uploadFile.originalname;
 			const fileBuffer = await sharp(uploadFile.buffer)
-			.jpeg({ quality:100})
-			.toBuffer();
+				.jpeg({ quality: 100 })
+				.toBuffer();
 			await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
-			const user = await User.findByIdAndUpdate(userId, { profileImage: `https://d46o92zk7g554.cloudfront.net/${imageName}`});
+			const user = await User.findByIdAndUpdate(userId, { profileImage: `https://d46o92zk7g554.cloudfront.net/${imageName}` });
 			res.status(201).json('File uploaded succesfully!');
 		}
-	} catch(error) {
+	} catch (error) {
 		res.status(500).json(error)
 		console.log(error)
 	}
 }
 
-export const logout = async(req, res) => {
+export const logout = async (req, res) => {
 	try {
 		res.cookie("JWT", "", { maxAge: 0 });
 		res.status(200).json({ message: "Logged out successfully" });
@@ -172,6 +172,18 @@ export const getAllUser = async (req, res) => {
 			res.status(200).json(users);
 		}
 	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+};
+
+export const getPaginatedUsers = async (req, res) => {
+	try {
+		const users = await User.find().select('-password');
+		if (users) {
+			res.status(200).json(users);
+		}
+	} catch (error) {
+		console.error('Error in getAllUsers:', error);
 		res.status(500).json({ error: error.message });
 	}
 };

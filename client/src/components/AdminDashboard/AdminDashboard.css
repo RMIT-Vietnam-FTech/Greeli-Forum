@@ -1,0 +1,102 @@
+.admin-dashboard {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+/* TOP */
+.top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.members-count h2 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.members-count p {
+    font-size: 32px;
+    margin: 0;
+    color: green;
+}
+
+.search-sort {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.sort-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* MIDDLE */
+.middle-container {
+    margin-bottom: 20px;
+}
+
+.members-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.members-table th,
+.members-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.members-table th {
+    background-color: #f4f4f4;
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 12px;
+    color: white;
+    font-weight: bold;
+}
+
+.status.active {
+    background-color: green;
+}
+
+.status.locked {
+    background-color: red;
+}
+
+.status.deactivated {
+    background-color: grey;
+}
+
+/* BOTTOM */
+.bottom-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 10px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.pagination button.active {
+    background-color: green;
+    color: white;
+    border: none;
+}

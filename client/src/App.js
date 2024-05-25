@@ -21,6 +21,7 @@ import Upload from "./pages/UploadImage/Upload.jsx";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
 import ForumPage from "./pages/Forum/ForumPage/ForumPage.jsx";
 import CookiesConsent from "react-cookie-consent";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 // import { useUserContext } from "./context/UserContext.jsx";
 function App() {
 	let location = useLocation();
@@ -53,6 +54,7 @@ function App() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/upload" element={<Upload />} />
               <Route path="/sitemap" element={<Sitemap />} />
+              <Route path="/admin" element={<AdminDashboard />} /> {/* Testing for admin dashboard */}
               <Route element={<RequireAuth />}>
                 <Route element={<RequireActivate />}>
                   <Route path="/profile" element={<Profile />} />
