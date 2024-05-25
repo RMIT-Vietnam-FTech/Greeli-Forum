@@ -102,23 +102,23 @@ const Main = () => {
 				</div>
 			</section>
 
-      {/* Recommend Post */}
-      <section className="mx-md-5 mx-4 p-4 bg-greeli-subtle rounded-5 section">
-        <h2 className="d-block fw-semibold text-center text-greeli-emphasis w-100">
-          Recommend Post
-        </h2>
-        <Posts />
-        <Link to="/forum" className="d-block text-center mt-2">
-          <button
-            className="text-white btn btn-lg read-more bg-primary-green-700 px-5 py-3 mt-3 rounded-pill fw-bold"
-            type="button"
-          >
-            Read more
-          </button>
-        </Link>
-      </section>
-    </main>
-  );
+			{/* Recommend Post */}
+			<section className="mx-md-5 mx-4 p-4 bg-greeli-subtle rounded-5 section">
+				<h2 className="d-block fw-semibold text-center text-greeli-emphasis w-100">
+					Recommend Post
+				</h2>
+				<Posts />
+				<Link to="/forum" className="d-block text-center mt-2">
+					<button
+						className="text-white btn btn-lg read-more bg-primary-green-700 px-5 py-3 mt-3 rounded-pill fw-bold"
+						type="button"
+					>
+						Read more
+					</button>
+				</Link>
+			</section>
+		</main>
+	);
 };
 
 export default Main;

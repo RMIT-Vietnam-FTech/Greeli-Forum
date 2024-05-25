@@ -13,8 +13,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 const NewPassword = () => {
 	const { user, setUser } = useUserContext();
-    const token = useParams().token;
-    const userId = useParams().userId;
+	const token = useParams().token;
+	const userId = useParams().userId;
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { isDarkMode } = useContext(ThemeContext);
@@ -23,10 +23,10 @@ const NewPassword = () => {
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPasword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
-    
-    const getCharacterValidationError = (str) => {
-        return `Your password must have at least 1 ${str} character`;
-    };
+
+	const getCharacterValidationError = (str) => {
+		return `Your password must have at least 1 ${str} character`;
+	};
 
 	const loginSchema = Yup.object().shape({
 		password: Yup.string()
@@ -63,7 +63,7 @@ const NewPassword = () => {
 		axios(configuration)
 			.then((result) => {
 				if (result.data) {
-					toast.success("Successfully Login!", {
+					toast.success(result.data.message, {
 						duration: 2000,
 						position: "top-center",
 					});
@@ -84,7 +84,7 @@ const NewPassword = () => {
 	const onSubmit = async (e) => {
 		submitNewPassword();
 		setPassword("");
-        setConfirmPasword("");
+		setConfirmPasword("");
 	};
 
 	const showPasswordButton = () => {
@@ -180,7 +180,7 @@ const NewPassword = () => {
 								{errors.password.message}
 							</p>
 						)}
-                        						<div
+						<div
 							className={
 								errors.confirmPassword
 									? "input-group mb-4 input-error"

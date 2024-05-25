@@ -43,7 +43,7 @@ const ResetPassword = () => {
 		};
 		axios(configuration)
 			.then((result) => {
-                console.log(result)
+				console.log(result);
 				if (result.data) {
 					toast.success(result.data.message, {
 						duration: 5000,
