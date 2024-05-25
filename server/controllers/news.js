@@ -4,15 +4,15 @@ const app = express();
 
 // CREATE news
 export const createNews = async (req, res) => {
-    const news = req.body;
-	
-    try {
-        const newItem = await News.create(news);
+	const news = req.body;
+
+	try {
+		const newItem = await News.create(news);
 		console.log(newItem);
-        res.status(201).json(newItem);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+		res.status(201).json(newItem);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
 };
 
 // READ news

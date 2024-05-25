@@ -12,6 +12,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
 import { PopupContext } from "../../context/PopupContext";
 axios.defaults.withCredentials = true;
+
 export default function LoginPopup() {
 	const { isDarkMode } = useContext(ThemeContext);
 	const popupContext = useContext(PopupContext);

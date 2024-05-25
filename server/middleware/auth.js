@@ -14,7 +14,9 @@ export const verifyToken = async (req, res, next) => {
 		// }
 		const verified = await jwt.verify(token, process.env.JWT_SECRET);
 		if (!verified) {
-			return res.status(401).json({ error: "Unauthorized - Invalid Token" });
+			return res
+				.status(401)
+				.json({ error: "Unauthorized - Invalid Token" });
 		}
 		req.user = verified;
 		next();

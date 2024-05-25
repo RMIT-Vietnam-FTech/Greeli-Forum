@@ -8,6 +8,7 @@
 			"./models/*.js",
 			"./routes/*.js",
 			"./index.js",
+			"./service/*js",
 			"./socket/*.js"
 		]
 	},

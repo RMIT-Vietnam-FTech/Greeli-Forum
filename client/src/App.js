@@ -20,7 +20,9 @@ import GeneralPage from "./pages/generalPage/generalPage";
 import Upload from "./pages/UploadImage/Upload.jsx";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
 import ForumPage from "./pages/Forum/ForumPage/ForumPage.jsx";
-import Cookies from "./components/Cookies/Cookie.jsx";
+import NewPassword from "./pages/Login/NewPassword.jsx";
+import ResetPassword from "./pages/Login/ResetPassword.jsx";
+import CookiesConsent from "react-cookie-consent";
 // import { useUserContext } from "./context/UserContext.jsx";
 function App() {
 	let location = useLocation();
@@ -53,6 +55,11 @@ function App() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/upload" element={<Upload />} />
               <Route path="/sitemap" element={<Sitemap />} />
+              <Route
+                path="/resetPassword/:token/:userId"
+                element={<NewPassword />}
+              />
+              <Route path="/resetPassword" element={<ResetPassword />} />
               <Route element={<RequireAuth />}>
                 <Route element={<RequireActivate />}>
                   <Route path="/profile" element={<Profile />} />
@@ -68,6 +75,7 @@ function App() {
           <ChatBubble />
           <Cookies />
           <div id="popup-root"></div>
+        
         </UserContextProvider>
       </ThemeProvider>
     </div>

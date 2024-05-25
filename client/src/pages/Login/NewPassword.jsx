@@ -5,31 +5,43 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-const Login = () => {
+const NewPassword = () => {
 	const { user, setUser } = useUserContext();
+	const token = useParams().token;
+	const userId = useParams().userId;
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { isDarkMode } = useContext(ThemeContext);
 	const from = location.state?.from?.pathname || "/";
 	const backgroundImage = 'url("/LoginBackground.png")';
-	const [email, setEmail] = useState("");
-	const [isLogin, setIsLogin] = useState(false);
 	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPasword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
+
+	const getCharacterValidationError = (str) => {
+		return `Your password must have at least 1 ${str} character`;
+	};
+
 	const loginSchema = Yup.object().shape({
-		email: Yup.string()
-			.required("Email is required")
-			.email("Email is invalid"),
 		password: Yup.string()
 			.required("Password is required")
-			.min(6, "Password must be at least 6 characters")
-			.max(40, "Password must not exceed 40 characters"),
+			.min(8, "Password must have at least 8 characters")
+			// different error messages for different requirements
+			.matches(/[0-9]/, getCharacterValidationError("digit"))
+			.matches(/[a-z]/, getCharacterValidationError("lowercase"))
+			.matches(/[A-Z]/, getCharacterValidationError("uppercase")),
+		confirmPassword: Yup.string()
+			.required("Confirm Password is required")
+			.oneOf(
+				[Yup.ref("password"), null],
+				"Confirm Password does not match",
+			),
 	});
 
 	const {
@@ -39,12 +51,11 @@ const Login = () => {
 		formState: { errors },
 	} = useForm({ resolver: yupResolver(loginSchema) });
 
-	const login = async () => {
+	const submitNewPassword = async () => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/login",
+			url: `http://localhost:3001/api/user/resetPassword/${token}/${userId}`,
 			data: {
-				email,
 				password,
 			},
 			withCredentials: true,
@@ -56,15 +67,9 @@ const Login = () => {
 						duration: 2000,
 						position: "top-center",
 					});
-					setIsLogin(true);
 				}
-				// store user data in local storage
-				localStorage.setItem("user", JSON.stringify(result.data));
-				// set user context
-				setUser(JSON.stringify(result.data));
-				// navigate(from, { replace: true });
 				setTimeout(() => {
-					navigate(from, { replace: true });
+					navigate("/login", { replace: true });
 				}, 1500);
 			})
 			.catch((error) => {
@@ -77,9 +82,9 @@ const Login = () => {
 	};
 
 	const onSubmit = async (e) => {
-		login();
-		setEmail("");
+		submitNewPassword();
 		setPassword("");
+		setConfirmPasword("");
 	};
 
 	const showPasswordButton = () => {
@@ -111,57 +116,17 @@ const Login = () => {
 					style={{ backgroundImage, backgroundSize: "cover" }}
 					aria-label="background image"
 				/>
-				<div className="col-12 col-lg-6 text-center login py-5 bg-greeli-subtle">
+				<div className="col-12 col-lg-6 text-center login py-5 bg-greeli-subtle d-flex flex-column justify-content-center">
 					<h1 className="text-login-emphasis">GREELI</h1>
-					<h1 className="text-greeli-emphasis">
-						The guide to sustainable life
-					</h1>
-					<Image
-						src={isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"}
-						width={120}
-						className="my-2"
-						alt="Greeli Forum Logo"
-					/>
+					<h3 className="text-greeli-emphasis">
+						Enter your new password
+					</h3>
 					<form
 						className="mt-4 mx-3 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
 						onKeyDown={handleKeyDown}
 						aria-label="login form"
 					>
-						<div
-							className={
-								errors.email
-									? "input-group mb-4 input-error"
-									: "input-group mb-4"
-							}
-						>
-							<span className="input-group-text">
-								<MdEmail className="text-login-emphasis" />
-							</span>
-							<div className="form-floating">
-								<input
-									name="email"
-									type="text"
-									{...register("email")}
-									className="form-control text-body-color"
-									id="floatingEmail"
-									placeholder="name@example.com"
-									value={email}
-									onChange={(e) => setEmail(e.target.value)}
-								/>
-								<label
-									for="floatingInput"
-									className="text-greeli-emphasis"
-								>
-									Email address
-								</label>
-							</div>
-						</div>
-						{errors.email && (
-							<p className="error text-start" tabIndex={0}>
-								{errors.email.message}
-							</p>
-						)}
 						<div
 							className={
 								errors.password
@@ -215,29 +180,58 @@ const Login = () => {
 								{errors.password.message}
 							</p>
 						)}
-						<div className="form-check text-start my-3">
-							<input
-								className="form-check-input"
-								type="checkbox"
-								value="remember-me"
-								id="flexCheckDefault"
-								aria-checked="true"
-								checked
-							/>
-							<label
-								className="form-check-label text-greeli-emphasis"
-								for="flexCheckDefault"
+						<div
+							className={
+								errors.confirmPassword
+									? "input-group mb-4 input-error"
+									: "input-group mb-4"
+							}
+						>
+							<span className="input-group-text">
+								<FaKey className="text-login-emphasis" />
+							</span>
+							<div className="form-floating">
+								<input
+									name="confirmPassword"
+									type={showPassword ? "text" : "password"}
+									{...register("confirmPassword")}
+									className="form-control"
+									id="confirmPassword"
+									autoComplete="on"
+									placeholder="Confirm Password"
+									value={confirmPassword}
+									onChange={(e) =>
+										setConfirmPasword(e.target.value)
+									}
+								/>
+								<label
+									for="confirmPassword"
+									className="text-greeli-emphasis"
+								>
+									Confirm Password
+								</label>
+							</div>
+							<span
+								className="input-group-text text-login-emphasis"
+								onClick={showPasswordButton}
+								aria-label="show password button"
+								role="button"
 							>
-								Remember me
-							</label>
+								{showPassword ? <FaEye /> : <FaEyeSlash />}
+							</span>
 						</div>
+						{errors.confirmPassword && (
+							<p className="error" tabIndex={0}>
+								{errors.confirmPassword.message}
+							</p>
+						)}
 						<button
 							className="btn btn-primary w-100 py-3"
 							type="submit"
 						>
-							Sign in
+							Create New Password
 						</button>
-						<p className="mt-2 mb-1 text-center text-greeli-emphasis">
+						<p className="mt-1 mb-3 text-center text-greeli-emphasis">
 							Don't have an account?{" "}
 							<Link
 								to="/register"
@@ -245,16 +239,6 @@ const Login = () => {
 								style={{ textDecoration: "none" }}
 							>
 								Register
-							</Link>
-						</p>
-						<p className="mb-3 text-center text-greeli-emphasis">
-							Forgot password?{" "}
-							<Link
-								to="/resetPassword"
-								className="text-primary-yellow"
-								style={{ textDecoration: "none" }}
-							>
-								Reset here
 							</Link>
 						</p>
 					</form>
@@ -265,4 +249,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default NewPassword;

@@ -22,7 +22,7 @@ export default function Footer() {
 							officiis odit ullam aut delectus ea magnam.
 						</p>
 						<img
-							src="logo.svg"
+							src="/logo.svg"
 							alt="greeli logo"
 							width={100}
 							className="pt-5"
