@@ -3,10 +3,9 @@ import CookiesConsent from "react-cookie-consent";
 import "../../scss/custom.css";
 import "./Cookies.css";
 
-const App = () => {
+const Cookies = () => {
   return (
     <CookiesConsent
-      debug={true}
       location="bottom"
       style={{
         position: "fixed",
@@ -43,4 +42,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Cookies;
