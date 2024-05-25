@@ -8,6 +8,7 @@ import PostComment from "./PostComment";
 axios.defaults.withCredentials = true;
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
+axios.defaults.withCredentials = true;
 
 export default function PostPage() {
   const { postId } = useParams();

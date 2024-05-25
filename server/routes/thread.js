@@ -4,49 +4,53 @@ import * as threadController from "../controllers/thread.js";
 import { verifyAdmin, verifyToken } from "../middleware/auth.js";
 const storage = multer.memoryStorage();
 const upload = multer({
-  storage: storage,
-  fileFilter: function fileFilter(req, file, callback) {
-    if (
-      file.mimetype === "image/jpeg" ||
-      file.mimetype === "image/png" ||
-      file.mimetype === "image/gif" ||
-      file.mimetype === "image/webp" ||
-      file.mimetype === "video/mp4" ||
-      file.mimetype === "video/webm"
-    ) {
-      callback(null, true);
-    } else {
-      callback(null, false);
-    }
-  },
-  limits: {
-    fileSize: 1024 * 1024 * 15, //15MB
-  },
+	storage: storage,
+	fileFilter: function fileFilter(req, file, callback) {
+		if (
+			file.mimetype === "image/jpeg" ||
+			file.mimetype === "image/png" ||
+			file.mimetype === "image/gif" ||
+			file.mimetype === "image/webp" ||
+			file.mimetype === "video/mp4" ||
+			file.mimetype === "video/webm"
+		) {
+			callback(null, true);
+		} else {
+			callback(null, false);
+		}
+	},
+	limits: {
+		fileSize: 1024 * 1024 * 15, //15MB
+	},
 });
 const router = express.Router();
 
 router
-  .route("/")
-  .get(threadController.getThreads)
-  .post(verifyToken, upload.single("uploadFile"), threadController.createThread)
-  .delete(verifyToken, threadController.reset);
+	.route("/")
+	.get(threadController.getThreads)
+	.post(
+		verifyToken,
+		upload.single("uploadFile"),
+		threadController.createThread,
+	)
+	.delete(verifyToken, threadController.reset);
 
-router.post("/validation",verifyToken,threadController.validateThread);
+router.post("/validation", verifyToken, threadController.validateThread);
 
 router
-  .route("/:threadId")
-  .get(threadController.getThread)
-  .put(verifyToken, threadController.modifyThreadContent);
+	.route("/:threadId")
+	.get(threadController.getThread)
+	.put(verifyToken, threadController.modifyThreadContent);
 
 router
-  .route("/:threadId/rule")
-  .post(verifyToken, threadController.createThreadRule)
-  .put(verifyToken, threadController.deleteThreadRule);
+	.route("/:threadId/rule")
+	.post(verifyToken, threadController.createThreadRule)
+	.put(verifyToken, threadController.deleteThreadRule);
 
 router.get("/:threadId/statistic", threadController.getThreadStatistic);
 
 router
-  .route("/:threadId/rule/:ruleIndex")
-  .put(verifyToken, threadController.modifyThreadRule)
-  .delete(verifyToken, threadController.deleteThreadRule);
+	.route("/:threadId/rule/:ruleIndex")
+	.put(verifyToken, threadController.modifyThreadRule)
+	.delete(verifyToken, threadController.deleteThreadRule);
 export default router;

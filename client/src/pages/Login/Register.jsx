@@ -18,7 +18,7 @@ const getCharacterValidationError = (str) => {
 };
 
 const Register = () => {
-	const backgroundImage = 'url("LoginBackground.png")';
+	const backgroundImage = 'url("/LoginBackground.png")';
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -141,7 +141,7 @@ const Register = () => {
 						The guide to sustainable life
 					</h1>
 					<Image
-						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+						src={isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"}
 						width={120}
 						className="my-2"
 						alt="Greeli Forum Logo"

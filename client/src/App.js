@@ -20,6 +20,8 @@ import GeneralPage from "./pages/generalPage/generalPage";
 import Upload from "./pages/UploadImage/Upload.jsx";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
 import ForumPage from "./pages/Forum/ForumPage/ForumPage.jsx";
+import NewPassword from "./pages/Login/NewPassword.jsx";
+import ResetPassword from "./pages/Login/ResetPassword.jsx";
 import CookiesConsent from "react-cookie-consent";
 import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 // import { useUserContext } from "./context/UserContext.jsx";
@@ -43,8 +45,8 @@ function App() {
     <div className="App w-100">
       <ThemeProvider>
         <UserContextProvider>
-          <Navbar isForum={isForum} />
           <div className="h-100" style={{ marginTop: "80px" }}>
+          <Navbar isForum={isForum} />
             <ScrollToTop />
             <Routes>
               <Route path="/" element={<Homepage />} />
@@ -54,6 +56,8 @@ function App() {
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/upload" element={<Upload />} />
               <Route path="/sitemap" element={<Sitemap />} />
+              <Route path="/resetPassword/:token/:userId" element={<NewPassword />}/>
+              <Route path="/resetPassword" element={<ResetPassword />}/>
               <Route path="/admin" element={<AdminDashboard />} /> {/* Testing for admin dashboard */}
               <Route element={<RequireAuth />}>
                 <Route element={<RequireActivate />}>

@@ -10,6 +10,7 @@ import DropZoneFile from "./DropZoneFile";
 import PopupEditor from "./PopupEditor/PopupEditor";
 import { useNavigate } from "react-router-dom";
 axios.defaults.withCredentials = true;
+
 export default function NewThreadPopUp({ isOpen, setIsOpen }) {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState([]);
