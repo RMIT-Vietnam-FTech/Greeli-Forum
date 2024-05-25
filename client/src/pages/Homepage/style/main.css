@@ -17,7 +17,7 @@ main {
 .feature {
   padding: 0.2em;
   border: 4px solid var(--bs-primary-yellow);
-  /* transition: transform 0.3s ease, box-shadow 0.3s ease; */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .section {
@@ -25,6 +25,7 @@ main {
   position: relative;
   top: -3em;
   z-index: 3;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 [data-bs-theme='dark'] .read-more {
@@ -38,7 +39,7 @@ main {
 }
 
 .card-item{
-  height: 16rem;
+  height: 20em;
 }
 
 @media screen and (max-width: 576px) {
@@ -57,7 +58,7 @@ main {
   }
 }
 
-/* .feature:hover,
+.feature:hover,
 .feature:focus {
   transform: translateY(-10px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
@@ -76,10 +77,10 @@ main {
 .introduction:hover,
 .introduction:focus {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-} */
+}
 
 /* Animations */
-/* @keyframes fadeInUp {
+@keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(20px);
@@ -101,4 +102,4 @@ main {
 
 .read-more {
   animation: fadeInUp 0.5s ease-in-out 0.4s;
-} */
+}
