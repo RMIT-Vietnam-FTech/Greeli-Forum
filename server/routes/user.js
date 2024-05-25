@@ -23,29 +23,32 @@ import {
 	activateAccount,
 	logout,
 	uploadProfileImage,
+	requestResetPassword,
+	resetPassword
 } from "../controllers/user.js";
 // import { getProfile } from "../controllers/userProfile.js";
 import { verifyToken, verifyAdmin } from "../middleware/auth.js";
 import { get } from "mongoose";
 import multer from "multer";
+import { RestoreRequestType } from "@aws-sdk/client-s3";
 
 const storage = multer.memoryStorage();
 const upload = multer({
-  storage: storage,
-  fileFilter: function fileFilter(req, file, callback) {
-    if (
-      file.mimetype === "image/jpeg" ||
-      file.mimetype === "image/png"  ||
-	  file.mimetype === "image/jpg"
-    ) {
-      callback(null, true);
-    } else {
-      callback(null, false);
-    }
-  },
-  limits: {
-    fileSize: 1024 * 1024 * 15, //15MB
-  },
+	storage: storage,
+	fileFilter: function fileFilter(req, file, callback) {
+		if (
+			file.mimetype === "image/jpeg" ||
+			file.mimetype === "image/png" ||
+			file.mimetype === "image/jpg"
+		) {
+			callback(null, true);
+		} else {
+			callback(null, false);
+		}
+	},
+	limits: {
+		fileSize: 1024 * 1024 * 15, //15MB
+	},
 });
 
 const router = express.Router();
@@ -53,7 +56,14 @@ const router = express.Router();
 router.get("/find/:id", verifyToken, getUser);
 router.get("/getAll", verifyToken, getAllUser);
 router.get("/:id", getProfile);
-router.post("/:id/uploadImage", verifyToken, upload.single("image"), uploadProfileImage);
+router.post(
+	"/:id/uploadImage",
+	verifyToken,
+	upload.single("image"),
+	uploadProfileImage,
+);
+router.post("/requestResetPassword", requestResetPassword);
+router.post("/resetPassword/:token/:userId", resetPassword);
 router.post("/logout", verifyToken, logout);
 router.post("/:id/update", updateUserProfile);
 router.post("/:id/deactivate", deactivateAccount);

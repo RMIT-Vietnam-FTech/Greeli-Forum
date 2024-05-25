@@ -16,16 +16,17 @@ import adminPostRoutes from "./routes/adminPost.js";
 import threadRoutes from "./routes/thread.js";
 import userRoutes from "./routes/user.js";
 import topicRoutes from "./routes/topic.js";
-import feedbackRoutes from "./routes/feedback.js"
+import feedbackRoutes from "./routes/feedback.js";
 import forumRoutes from "./routes/forum.js";
 import commentRoutes from "./routes/comment.js";
+import emailRoutes from "./routes/email.js";
 import { app, io, server } from "./socket/socket.js";
 import User from "./models/User.js";
 
 /* CONFIGURATION */
 dotenv.config();
 // const app = express();
-app.use(express.static("public"))
+app.use(express.static("public"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -34,11 +35,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors({
-    origin: 'http://localhost:3000', // Your client-side URL
-    credentials: true
-}));
-
+app.use(
+	cors({
+		origin: "http://localhost:3000", // Your client-side URL
+		credentials: true,
+	}),
+);
 
 app.get("/api", (req, res) => {
 	res.status(201).json({ message: "hi there" });
@@ -54,8 +56,8 @@ app.use("/api/v1/comments", commentRoutes);
 app.use("/api/v1/forums", forumRoutes);
 app.use("/api/v1/topics", topicRoutes);
 app.use("/api/v1/news", newsRoutes);
-app.use("/api/feedback", feedbackRoutes)
-
+app.use("/api/feedback", feedbackRoutes);
+app.use("/api/email", emailRoutes);
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
 mongoose

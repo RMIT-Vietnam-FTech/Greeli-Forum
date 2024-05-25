@@ -70,7 +70,7 @@ const Navbar = ({ isForum }) => {
 					<Link className="brand d-flex" to="/">
 						<Image
 							className="me-0 me-md-3"
-							src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+							src={isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"}
 							width={40}
 							alt="Greeli Logo"
 						/>
