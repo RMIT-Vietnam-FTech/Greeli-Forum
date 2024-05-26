@@ -106,19 +106,19 @@ export const requestResetPassword = async (req, res) => {
 Click the link to reset your password: ${link}`;
 		sendEmail(email, "Reset Password", emailContent);
 
-		res.status(200).json({message: "Check your email to reset the password"});
+		res.status(200).json({ message: "Check your email to reset the password" });
 	} catch (error) {
 		res.status(500).json(error);
 		console.log(error);
 	}
 }
 
-export const resetPassword = async(req, res) => {
+export const resetPassword = async (req, res) => {
 	try {
 		// const {id, token} = req.params;
-		const {token, userId} = await req.params
+		const { token, userId } = await req.params
 		const password = req.body.password;
-		const user = await User.findById({_id: userId});
+		const user = await User.findById({ _id: userId });
 		const resetPasswordToken = user.resetPasswordToken;
 		if (!resetPasswordToken) return res.status(403).json({ error: "Invalid or expired password reset token" });
 		const isValid = await bcrypt.compare(token, resetPasswordToken);
@@ -128,7 +128,7 @@ export const resetPassword = async(req, res) => {
 		user.password = hashPassword;
 		user.resetToken = "";
 		await user.save();
-		res.status(200).json({message: "Password created successfully!"})
+		res.status(200).json({ message: "Password created successfully!" })
 	} catch (error) {
 		res.status(500).json(error);
 		console.log(error);
@@ -232,27 +232,45 @@ export const getUser = async (req, res) => {
 };
 
 export const getAllUser = async (req, res) => {
-	try {
-		const users = await User.find().select("-password");
-		if (users) {
-			res.status(200).json(users);
-		}
-	} catch (error) {
-		res.status(500).json({ error: error.message });
-	}
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+
+		const sort = req.query.sort || 'newest';
+
+        let sortCriteria;
+        switch (sort) {
+            case 'newest':
+                sortCriteria = { createdAt: -1 };
+                break;
+            case 'oldest':
+                sortCriteria = { createdAt: 1 };
+                break;
+            case 'most-posts':
+                sortCriteria = { createdPost: -1 };
+                break;
+            case 'least-posts':
+                sortCriteria = { createdPost: 1 };
+                break;
+            default:
+                sortCriteria = { createdAt: -1 };
+        }
+
+        const users = await User.find()
+		.select("-password")
+		.skip(skip)
+		.limit(limit)
+		.sort(sortCriteria);
+        const totalUsers = await User.countDocuments();
+
+        res.status(200).json({ users, totalUsers });
+		console.log("users count: " + totalUsers);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 };
 
-export const getPaginatedUsers = async (req, res) => {
-	try {
-		const users = await User.find().select('-password');
-		if (users) {
-			res.status(200).json(users);
-		}
-	} catch (error) {
-		console.error('Error in getAllUsers:', error);
-		res.status(500).json({ error: error.message });
-	}
-};
 
 export const getProfile = async (req, res) => {
 	try {
