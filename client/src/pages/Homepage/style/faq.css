@@ -1,0 +1,23 @@
+
+
+.accordion-button:focus {
+    box-shadow: none !important;
+}
+
+[data-bs-theme='light'] .accordion-button:not(.collapsed), .accordion-button:not(.collapsed)::after {
+    color: #fff !important;
+    background-color: #365949;
+    /* border: 4px solid #dcb968; */
+    
+    /* Dark mode border color */
+}
+
+[data-bs-theme='dark'] .accordion-button:not(.collapsed), .accordion-button:not(.collapsed)::after {
+    color: #fff !important;
+    background-color: transparent;
+    /* border: 4px solid #dcb968; */
+
+    /* Dark mode border color */
+}
+
+

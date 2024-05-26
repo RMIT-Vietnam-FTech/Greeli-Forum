@@ -130,7 +130,7 @@ function Posts() {
 
 	return (
 		<div onWheel={handleWheel}>
-			<Slider {...settings} className="slider-container" ref={sliderRef}>
+			<Slider {...settings} className="slider-container p-3" ref={sliderRef}>
 				{data.map((item) => (
 					<Post
 						key={item._id} // Use _id from MongoDB
