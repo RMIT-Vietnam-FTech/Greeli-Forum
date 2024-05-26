@@ -6,6 +6,7 @@ import "./Cookies.css";
 const Cookies = () => {
   return (
     <CookiesConsent
+      debug="true"
       location="bottom"
       style={{
         position: "fixed",

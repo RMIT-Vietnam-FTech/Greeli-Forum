@@ -22,7 +22,7 @@ import Sitemap from "./pages/Sitemap/Sitemap.jsx";
 import ForumPage from "./pages/Forum/ForumPage/ForumPage.jsx";
 import NewPassword from "./pages/Login/NewPassword.jsx";
 import ResetPassword from "./pages/Login/ResetPassword.jsx";
-import Cookies from "./components/Cookies/Cookie.jsx"
+import Cookies from "./components/Cookies/Cookie.jsx";
 // import { useUserContext } from "./context/UserContext.jsx";
 function App() {
 	let location = useLocation();
