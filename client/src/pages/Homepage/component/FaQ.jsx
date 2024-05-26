@@ -6,10 +6,13 @@ const FAQ = () => {
     return (
       <div className="accordion accordion-flush p-3" id="accordionFlushExample">
         {forumFAQ.map((item) => (
-          <div className="accordion-item rounded-3 mb-2" key={item.id}>
+          <div
+            className="accordion-item rounded-3 mb-2"
+            key={item.id}
+          >
             <h1 className="accordion-header" id={`flush-heading${item.id}`}>
               <button
-                className="accordion-button collapsed fs-4"
+                className="accordion-button rounded-3 collapsed fs-4"
                 type="button"
                 data-bs-toggle="collapse"
                 data-bs-target={`#flush-collapse${item.id}`}
@@ -25,7 +28,7 @@ const FAQ = () => {
               aria-labelledby={`flush-heading${item.id}`}
               data-bs-parent="#accordionFlushExample"
             >
-              <p className="accordion-body">{item.answer}</p>
+              <p className="accordion-body fs-5">{item.answer}</p>
             </div>
           </div>
         ))}

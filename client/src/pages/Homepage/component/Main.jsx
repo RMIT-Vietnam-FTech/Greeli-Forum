@@ -8,6 +8,7 @@ import { useUserContext } from "../../../context/UserContext.jsx";
 import "../style/main.css";
 import Posts from "./RecommendPost.jsx";
 import FAQ from "./FaQ.jsx"; 
+import TeamMember from "./TeamMember.jsx";
 const Main = () => {
 	const { isDarkMode } = useContext(ThemeContext);
 	return (
@@ -35,14 +36,14 @@ const Main = () => {
             sustainable living, with a passionate community cheering you on
             every step of the way. Let's grow a greener future, together!
           </p>
-          <Link to="/about" className="d-block">
+          {/* <Link to="/about" className="d-block">
             <button
               className="text-center text-white read-more-btn bg-primary-green px-5 py-3 rounded-pill fw-bold"
               type="button"
             >
               Read more
             </button>
-          </Link>
+          </Link> */}
         </div>
       </section>
 
@@ -59,7 +60,7 @@ const Main = () => {
             <h5 className="fw-bolder text-primary-yellow mb-3">
               Collaborative Forum
             </h5>
-            <p className="fw-bolder text-white text-justify">
+            <p className="fw-bolder text-white text-start">
               Engage in our collaborative forum, where passionate individuals
               share knowledge, exchange ideas, and inspire one another on their
               sustainable paths.
@@ -72,7 +73,7 @@ const Main = () => {
             <h5 className="fw-bolder text-primary-yellow mb-3">
               Real-time Chatting
             </h5>
-            <p className="fw-bolder text-white text-justify">
+            <p className="fw-bolder text-white text-start">
               Need a quick tip or want to discuss something privately? Our
               real-time chat lets you connect with fellow Greeli members for
               instant eco-advice and support.
@@ -85,7 +86,7 @@ const Main = () => {
             <h5 className="fw-bolder text-primary-yellow mb-3">
               Informative Platform
             </h5>
-            <p className="fw-bolder text-white text-justify">
+            <p className="fw-bolder text-white text-start">
               Stay up-to-date with the latest sustainable news and events!
               Greeli delivers valuable resources to keep you informed and
               inspired on your journey to a greener future.
@@ -95,7 +96,7 @@ const Main = () => {
       </section>
 
       {/* Recommend Post */}
-      <section className="mx-md-5 mx-4 p-5 my-md-5 my-3 bg-greeli-subtle rounded-5 section">
+      <section className="mx-md-5 mx-4 px-5 py-3 my-md-5 my-3 bg-greeli-subtle rounded-5 section">
         <h1 className="display-5 fw-semibold text-center text-greeli-emphasis w-100 mb-3">
           Greeli Posts
         </h1>
@@ -105,12 +106,18 @@ const Main = () => {
             className="text-white read-more-btn bg-primary-green px-5 py-3 mt-3 rounded-pill fw-bold"
             type="button"
           >
-            Read more
+            Visit Forum
           </button>
         </Link>
       </section>
+
+      {/* Team Member */}
+      <section className="mx-md-5 mx-4 px-5 py-0 my-md-5 my-3 bg-greeli-subtle rounded-5 section">
+        <TeamMember />
+      </section>
+
       {/* FQA */}
-      <section className="mx-md-5 mx-4 p-5 bg-greeli-subtle rounded-5 section">
+      <section className="mx-md-5 mx-4 px-5 py-0 bg-greeli-subtle rounded-5 section">
         <h1 className="display-5 fw-semibold text-center text-greeli-emphasis w-100 mb-3">
           Greeli FAQs
         </h1>
