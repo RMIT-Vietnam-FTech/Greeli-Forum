@@ -125,6 +125,7 @@
   --bs-profile-text-emphasis: #0a2a28;
   --bs-profile-tab-text-emphasis: #365949;
   --bs-change-pass-text-emphasis: #03100f;
+  --bs-error-text-emphasis: #365949;
   --bs-primary-bg-subtle: #cfe2ff;
   --bs-secondary-bg-subtle: #e2e3e5;
   --bs-success-bg-subtle: #d8e5d0;
@@ -225,13 +226,14 @@
   --bs-danger-text-emphasis: #da7590;
   --bs-light-text-emphasis: #f8f9fa;
   --bs-dark-text-emphasis: #dee2e6;
-  --bs-forum-text-emphasis: #ead08d;
+  --bs-forum-text-emphasis: #ffffff;
   --bs-greeli-text-emphasis: #ffffff;
   --bs-login-text-emphasis: #dcb968;
   --bs-general-text-emphasis: #dcb968;
   --bs-profile-text-emphasis: #ffffff;
   --bs-profile-tab-text-emphasis: #dcb968;
   --bs-change-pass-text-emphasis: #ffffff;
+  --bs-error-text-emphasis: #dcb968;
   --bs-primary-bg-subtle: #031633;
   --bs-secondary-bg-subtle: #161719;
   --bs-success-bg-subtle: #0c1904;

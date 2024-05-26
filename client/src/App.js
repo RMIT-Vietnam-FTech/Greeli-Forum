@@ -18,6 +18,7 @@ import Homepage from "./pages/Homepage/Homepage.jsx";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
 import Profile from "./pages/Profile/Profile";
+import ProfileUpdate from "./pages/ProfileUpdate";
 import GeneralPage from "./pages/generalPage/generalPage";
 import Upload from "./pages/UploadImage/Upload.jsx";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
@@ -30,7 +31,7 @@ function App() {
 	// const isActivated = JSON.parse(user)?.isActivated;
 	useEffect(() => {
 		console.log(
-			`check location pathname: ${location.pathname}\n check isForum: ${isForum}`,
+			`check location pathname: ${location.pathname}\n check isForum: ${isForum}`
 		);
 		if (location.pathname.split("/")[1] == "forum") {
 			setIsForum(true);
@@ -56,21 +57,13 @@ function App() {
 							<Route path="/sitemap" element={<Sitemap />} />
 							<Route element={<RequireAuth />}>
 								<Route element={<RequireActivate />}>
-									<Route
-										path="/profile"
-										element={<Profile />}
-									/>
-									<Route
-										path="/user/:userId"
-										element={<Profile />}
-									/>
+									{/* <Route path="/profile" element={<Profile />} /> */}
+									<Route path="/profile" element={<ProfileUpdate />} />
+									<Route path="/user/:userId" element={<Profile />} />
 									<Route path="/chat" element={<Chat />} />
 								</Route>
 							</Route>
-							<Route
-								path="/forum/*"
-								element={<ForumRouter />}
-							></Route>
+							<Route path="/forum/*" element={<ForumRouter />}></Route>
 							<Route path="*" element={<ErrorPage />} />
 						</Routes>
 					</div>

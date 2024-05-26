@@ -238,6 +238,7 @@ a {
 .text-forum-emphasis {
 	color: var(--bs-forum-text-emphasis) !important;
 }
+
 .text-login-emphasis {
 	color: var(--bs-login-text-emphasis) !important;
 }
@@ -253,24 +254,31 @@ a {
 .text-error-emphasis {
 	color: var(--bs-error-text-emphasis) !important;
 }
+
 .border-forum {
 	border: 1px solid var(--bs-forum-text-emphasis) !important;
 }
+
 .border-profile {
 	border-bottom: 1px solid var(--bs-profile-text-emphasis) !important;
 }
+
 .border-input-change-pass {
 	border: 1px solid var(--bs-change-pass-text-emphasis) !important;
 }
+
 .border-greeli {
 	border: 1px solid var(--bs-error-text-emphasis) !important;
 }
+
 .border-error {
 	border: 1px solid var(--bs-login-text-emphasis) !important;
 }
+
 .bg-forum-subtle {
 	background-color: var(--bs-forum-bg-subtle) !important;
 }
+
 .bg-greeli-subtle {
 	background-color: var(--bs-greeli-bg-subtle) !important;
 }
