@@ -53,6 +53,11 @@ const postSchema = new mongoose.Schema(
 			type: Date,
 			default: () => new Date(),
 		},
+		isHidden: {
+			type: Boolean,
+			default: false,
+			require: true,
+		}
 	},
 	{ timestamps: true },
 );

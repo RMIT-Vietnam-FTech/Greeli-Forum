@@ -1,4 +1,4 @@
-const forumFaq = [
+export const forumFAQ = [
 	{
 		id: 1,
 		question: "How do I create a new thread?",
@@ -25,5 +25,3 @@ const forumFaq = [
 		answer: "To customize your profile, go to your user settings by clicking on your username or profile picture. From there, you can update your avatar, bio, contact information, and other personal details.",
 	},
 ];
-
-export default forumFAQ;

@@ -42,6 +42,8 @@ router
 	.get(threadController.getThread)
 	.put(verifyToken, threadController.modifyThreadContent);
 
+router.put("/:threadId/archive", verifyToken, verifyAdmin, threadController.archiveThread);
+
 router
 	.route("/:threadId/rule")
 	.post(verifyToken, threadController.createThreadRule)

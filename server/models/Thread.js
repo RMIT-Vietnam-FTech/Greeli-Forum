@@ -53,6 +53,11 @@ const threadSchema = new mongoose.Schema(
 				ref: "User",
 			},
 		],
+		isHidden: {
+			type: Boolean,
+			default: false,
+			required: true
+		}
 	},
 	{ timestamps: true },
 );

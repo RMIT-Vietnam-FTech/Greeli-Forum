@@ -271,3 +271,18 @@ export const deleteThreadRule = async (req, res) => {
 		res.status(500).json({ error: error.message });
 	}
 };
+
+export const archiveThread = async(req, res) => {
+	try {
+		const threadId = req.params.threadId;
+		if (!threadId) return res.status(400).json({ message: "Bad Request" });
+
+		const thread = await Thread.findById(threadId);
+		if (!thread) return res.status(404).json({message: "Thread id not found or invalid"});
+		thread.isHidden = true;
+		await thread.save();
+		res.status(200).json({message: "Archived successfully!"});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+}

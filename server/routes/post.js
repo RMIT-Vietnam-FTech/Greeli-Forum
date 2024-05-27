@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import { createPost, getPosts } from "../controllers/post.js";
 import * as PostController from "../controllers/post.js";
-import { verifyToken } from "../middleware/auth.js";
+import { verifyAdmin, verifyToken } from "../middleware/auth.js";
 const storage = multer.memoryStorage();
 const upload = multer({
 	storage: storage,
@@ -38,6 +38,8 @@ router
 	.get(PostController.getPost)
 	.put(verifyToken, PostController.modifyPost)
 	.delete(verifyToken, PostController.deletePost);
+
+router.put("/:postId/archive", verifyToken, verifyAdmin, PostController.archivePost);
 
 router
 	.route("/:postId/upvote")

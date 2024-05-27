@@ -482,3 +482,18 @@ export const deleteUpvote = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
+
+export const archivePost = async(req, res) => {
+	try {
+		const postId = req.params.postId;
+		if (!postId) return res.status(400).json({ message: "Bad Request" });
+
+		const post = await Post.findById(postId);
+		if (!post) return res.status(404).json({message: "post id not found or invalid"});
+		post.isHidden = true;
+		await post.save();
+		res.status(200).json({message: "Archived successfully!"});
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+}
