@@ -139,11 +139,7 @@ Click the link to reset your password: ${link}`;
 export const resetPassword = async (req, res) => {
 	try {
 		// const {id, token} = req.params;
-<<<<<<< HEAD
 		const { token, userId } = await req.params;
-=======
-		const { token, userId } = await req.params
->>>>>>> origin/development
 		const password = req.body.password;
 		const user = await User.findById({ _id: userId });
 		const resetPasswordToken = user.resetPasswordToken;
@@ -161,34 +157,7 @@ export const resetPassword = async (req, res) => {
 		user.password = hashPassword;
 		user.resetToken = "";
 		await user.save();
-<<<<<<< HEAD
 		res.status(200).json({ message: "Password created successfully!" });
-=======
-		res.status(200).json({ message: "Password created successfully!" })
-	} catch (error) {
-		res.status(500).json(error);
-		console.log(error);
-	}
-}
-
-export const uploadProfileImage = async (req, res) => {
-	try {
-		const uploadFile = req.file;
-		const userId = req.params.id;
-		if (uploadFile) {
-			const uniqueSuffix =
-				Date.now() + "-" + Math.round(Math.random() * 1e9);
-			const imageName = uniqueSuffix + "-" + uploadFile.originalname;
-			const fileBuffer = await sharp(uploadFile.buffer)
-				.jpeg({ quality: 100 })
-				.toBuffer();
-			await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
-			const user = await User.findByIdAndUpdate(userId, {
-				profileImage: `https://d46o92zk7g554.cloudfront.net/${imageName}`,
-			});
-			res.status(201).json("File uploaded succesfully!");
-		}
->>>>>>> origin/development
 	} catch (error) {
 		res.status(500).json(error);
 		console.log(error);
@@ -269,56 +238,44 @@ export const getUser = async (req, res) => {
 };
 
 export const getAllUser = async (req, res) => {
-<<<<<<< HEAD
 	try {
-		const users = await User.find().select("-password");
-		if (users) {
-			res.status(200).json(users);
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 10;
+		const skip = (page - 1) * limit;
+
+		const sort = req.query.sort || "newest";
+
+		let sortCriteria;
+		switch (sort) {
+			case "newest":
+				sortCriteria = { createdAt: -1 };
+				break;
+			case "oldest":
+				sortCriteria = { createdAt: 1 };
+				break;
+			case "most-posts":
+				sortCriteria = { createdPost: -1 };
+				break;
+			case "least-posts":
+				sortCriteria = { createdPost: 1 };
+				break;
+			default:
+				sortCriteria = { createdAt: -1 };
 		}
+
+		const users = await User.find()
+			.select("-password")
+			.skip(skip)
+			.limit(limit)
+			.sort(sortCriteria);
+		const totalUsers = await User.countDocuments();
+
+		res.status(200).json({ users, totalUsers });
+		console.log("users count: " + totalUsers);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}
-=======
-    try {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
-        const skip = (page - 1) * limit;
-
-		const sort = req.query.sort || 'newest';
-
-        let sortCriteria;
-        switch (sort) {
-            case 'newest':
-                sortCriteria = { createdAt: -1 };
-                break;
-            case 'oldest':
-                sortCriteria = { createdAt: 1 };
-                break;
-            case 'most-posts':
-                sortCriteria = { createdPost: -1 };
-                break;
-            case 'least-posts':
-                sortCriteria = { createdPost: 1 };
-                break;
-            default:
-                sortCriteria = { createdAt: -1 };
-        }
-
-        const users = await User.find()
-		.select("-password")
-		.skip(skip)
-		.limit(limit)
-		.sort(sortCriteria);
-        const totalUsers = await User.countDocuments();
-
-        res.status(200).json({ users, totalUsers });
-		console.log("users count: " + totalUsers);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
->>>>>>> origin/development
 };
-
 
 export const getProfile = async (req, res) => {
 	try {

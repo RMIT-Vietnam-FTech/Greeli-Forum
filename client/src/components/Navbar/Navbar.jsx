@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import axios from "axios";
 import Image from "react-bootstrap/Image";
 import { FaUser } from "react-icons/fa";
+import { IoMdArrowDropdown } from "react-icons/io";
 import { FiMoreVertical } from "react-icons/fi";
 import { IoMoon, IoSunny } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -45,6 +46,18 @@ const Navbar = ({ isForum }) => {
 				console.log(error.response.data.error);
 			});
 	};
+
+	//HANDLE DROPDOWN FOR PROFILE
+	const dropdownMenuHandler = (event) => {
+		const currentElementChild = event.target.firstElementChild;
+		if (
+			currentElementChild !== null &&
+			currentElementChild.nextElementSibling !== null
+		) {
+			currentElementChild.nextElementSibling.classList.add("show");
+			console.log(currentElementChild.nextElementSibling);
+		}
+	};
 	return (
 		<nav
 			className="navbar navbar-expand-xl fixed-top bg-navbar-subtle"
@@ -70,9 +83,7 @@ const Navbar = ({ isForum }) => {
 					<Link className="brand d-flex" to="/">
 						<Image
 							className="me-0 me-md-3"
-							src={
-								isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"
-							}
+							src={isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"}
 							width={40}
 							alt="Greeli Logo"
 						/>
@@ -183,17 +194,38 @@ const Navbar = ({ isForum }) => {
 				)}
 
 				<div className="d-flex flex-row align-items-center gap-3">
-					<NavLink
-						className=""
-						to="/profile"
-						role="user profile page"
-						aria-label="link to user profile page"
-					>
-						<FaUser
-							className="icon text-greeli-emphasis"
-							alt="user icon"
-						/>
-					</NavLink>
+					<div className="dropdown" style={{ top: "0px", right: "0px" }}>
+						<div data-bs-toggle="dropdown">
+							<FaUser className="icon text-greeli-emphasis" alt="user icon" />
+							<IoMdArrowDropdown
+								className="icon text-greeli-emphasis"
+								alt="user icon"
+							/>{" "}
+						</div>
+						<ul class="dropdown-menu" style={{ right: "0px", top: "120%" }}>
+							<li>
+								<NavLink
+									class="dropdown-item ps-3"
+									to="/profile"
+									role="user profile page"
+									aria-label="link to user profile page"
+								>
+									Profile
+								</NavLink>
+							</li>
+							<li>
+								<NavLink
+									class="dropdown-item ps-3"
+									to="/admin"
+									role="dashboard page"
+									aria-label="link to user dashboard page"
+								>
+									Dashboard
+								</NavLink>
+							</li>
+						</ul>
+						{/* </div> */}
+					</div>
 					<input
 						type="checkbox"
 						id="darkmode-toggle"
