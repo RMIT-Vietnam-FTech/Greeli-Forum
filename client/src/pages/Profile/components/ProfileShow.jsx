@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
 import axios from "axios";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { FaCamera } from "react-icons/fa";
-import toast, { Toaster } from "react-hot-toast";
-import { useUserContext } from "../../../context/UserContext";
-import { ThemeContext } from "../../../context/ThemeContext";
+import React, { useState, useContext } from "react";
 import Avatar from "react-avatar-edit";
+import toast, { Toaster } from "react-hot-toast";
+import { FaCamera } from "react-icons/fa";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { ThemeContext } from "../../../context/ThemeContext";
+import { useUserContext } from "../../../context/UserContext";
 axios.defaults.withCredentials = true;
 
 const ProfileShow = (props) => {

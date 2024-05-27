@@ -1,5 +1,5 @@
-import React, { useContext, useRef } from "react";
 import axios from "axios";
+import React, { useContext, useRef } from "react";
 import Image from "react-bootstrap/Image";
 import { FaUser } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
@@ -10,9 +10,9 @@ import { ThemeContext } from "../../context/ThemeContext";
 import { UserContext, useUserContext } from "../../context/UserContext";
 import LeftSideBar from "../Forum/LeftSideBar/LeftSideBar";
 
+import toast, { Toaster } from "react-hot-toast";
 import "../../scss/custom.css";
 import "./custom.css";
-import toast, { Toaster } from "react-hot-toast";
 axios.defaults.withCredentials = true;
 
 const Navbar = ({ isForum }) => {
@@ -176,7 +176,7 @@ const Navbar = ({ isForum }) => {
 							<h5
 								className="offcanvas-title text-greeli-emphasis"
 								id="offcanvasNavbarLabel"
-							></h5>
+							/>
 							<button
 								type="button"
 								className="btn-close "

@@ -2,10 +2,10 @@ import { useCurrentEditor } from "@tiptap/react";
 import { useContext, useId } from "react";
 import { useParams } from "react-router-dom";
 
+import axios from "axios";
 import { CommentContext } from "../../../../../context/CommentContext";
 import { EditContext } from "../../../../../context/EditContext";
 import Comment from "../ReplyComment";
-import axios from "axios";
 axios.defaults.withCredentials = true;
 
 export default function CreateCommentBottomBar({ content }) {

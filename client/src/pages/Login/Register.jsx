@@ -121,6 +121,14 @@ const Register = () => {
 			setShowPassword(true);
 		}
 	};
+	// fix biome by Bread, you can delete if it cause error
+	// fix bio me start
+	const handleKeyUp = (event) => {
+		if (event.key === "Enter" || event.key === " ") {
+			showPasswordButton();
+		}
+	};
+	// fix biome end
 
 	const { isDarkMode } = useContext(ThemeContext);
 
@@ -255,6 +263,7 @@ const Register = () => {
 							<span
 								className="input-group-text text-login-emphasis"
 								onClick={showPasswordButton}
+								onKeyUp={handleKeyUp} // fix biome by Bread, you can delete if it causes error
 								aria-label="show password button"
 								role="button"
 							>
@@ -300,6 +309,7 @@ const Register = () => {
 							<span
 								className="input-group-text text-login-emphasis"
 								onClick={showPasswordButton}
+								onKeyUp={handleKeyUp} // fix biome by Bread, you can delete if it causes error
 								aria-label="show password button"
 								role="button"
 							>
@@ -307,7 +317,7 @@ const Register = () => {
 							</span>
 						</div>
 						{errors.confirmPassword && (
-							<p className="error" tabIndex={0}>
+							<p className="error">
 								{errors.confirmPassword.message}
 							</p>
 						)}

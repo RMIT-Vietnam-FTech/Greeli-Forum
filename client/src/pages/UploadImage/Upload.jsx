@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
 const Upload = () => {
 	const [file, setFile] = useState();
 	const formData = new FormData();

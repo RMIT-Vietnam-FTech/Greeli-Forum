@@ -1,8 +1,8 @@
+import { useContext } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { PopupContext } from "../../context/PopupContext";
 import { useUserContext } from "../../context/UserContext";
 import SignIn from "../Popup/SignIn";
-import { useContext } from "react";
-import { PopupContext } from "../../context/PopupContext";
 const RequireAuth = () => {
 	const { user } = useUserContext();
 	const location = useLocation();

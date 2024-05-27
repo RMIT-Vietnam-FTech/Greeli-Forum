@@ -1,9 +1,9 @@
 import axios from "axios";
-import Post from "../../../components/Forum/Post";
 import { useEffect, useRef, useState } from "react";
-import useSWRInfinite from "swr/infinite";
-import { useInView } from "react-intersection-observer";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { useInView } from "react-intersection-observer";
+import useSwrInfinite from "swr/infinite";
+import Post from "../../../components/Forum/Post";
 import { useUserContext } from "../../../context/UserContext";
 
 axios.defaults.withCredentials = true;
@@ -60,7 +60,7 @@ export default function PostList({ threadData }) {
 		return `http://localhost:3001/api/v1/posts?page=${page}&sort=${sort}`;
 	};
 
-	const { data, size, setSize, isLoading } = useSWRInfinite(
+	const { data, size, setSize, isLoading } = useSwrInfinite(
 		(index, prevData) => {
 			if (prevData && !prevData.length) return null;
 			return [
@@ -73,10 +73,6 @@ export default function PostList({ threadData }) {
 	);
 
 	const issues = data ? [].concat(...data) : [];
-	// console.log(data);
-	{
-		/*------define component to get metdata and use intersection observer to achieve lazyload-------------*/
-	}
 	const path = validatedPath(isThreadAdmin, threadData, sortOption, 1);
 
 	const [metaData, setMetaData] = useState();
@@ -102,9 +98,6 @@ export default function PostList({ threadData }) {
 			}
 		},
 	});
-	{
-		/*------------------------------------------------------------------------------------------------------*/
-	}
 	useEffect(() => {
 		setSearchResult(
 			issues.filter((issue) =>

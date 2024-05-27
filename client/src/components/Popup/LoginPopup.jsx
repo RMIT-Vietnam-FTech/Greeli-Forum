@@ -8,9 +8,9 @@ import { MdEmail } from "react-icons/md";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
+import { PopupContext } from "../../context/PopupContext";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
-import { PopupContext } from "../../context/PopupContext";
 axios.defaults.withCredentials = true;
 
 export default function LoginPopup() {
@@ -78,6 +78,14 @@ export default function LoginPopup() {
 			setShowPassword(true);
 		}
 	};
+	// This is for fix biome by Bread, you can delete if u want
+	// fix biome start
+	const handleKeyUp = (event) => {
+		if (event.key === "Enter" || event.key === " ") {
+			showPasswordButton();
+		}
+	};
+	// fix biome ends
 	return (
 		<div data-bs-theme={isDarkMode ? "dark" : "light"}>
 			<div
@@ -200,6 +208,7 @@ export default function LoginPopup() {
 									<span
 										className="input-group-text text-login-emphasis"
 										onClick={showPasswordButton}
+										onKeyUp={handleKeyUp} // Just add to fix biome
 										aria-label="show password button"
 										role="button"
 									>

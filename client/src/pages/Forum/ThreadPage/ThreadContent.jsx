@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import ImageOrVideo from "../../../components/Forum/ImageOrVideo";
-import { PopupContext } from "../../../context/PopupContext";
-import NewPostPopUp from "./components/NewPostPopUp";
 import Button from "react-bootstrap/Button";
 import DropDown from "../../../components/Forum/DropDown";
 import EditTextEditor from "../../../components/Forum/EditTextEditor/EditTextEditor";
+import ImageOrVideo from "../../../components/Forum/ImageOrVideo";
+import { PopupContext } from "../../../context/PopupContext";
+import NewPostPopUp from "./components/NewPostPopUp";
 
 import { AuthorizationContextProvider } from "../../../context/AuthorizationContext";
 import { EditContextProvider } from "../../../context/EditContext";
@@ -32,10 +32,6 @@ export default function ThreadContent({ ...prop }) {
 			setIsFollowed(res);
 		});
 	}, []);
-
-	{
-		/*Check if user follow thread or not*/
-	}
 
 	async function checkFollowingStatus() {
 		if (JSON.parse(localStorage.getItem("user"))) {

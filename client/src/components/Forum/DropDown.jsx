@@ -1,9 +1,9 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
+import axios from "axios";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthorizationContext } from "../../context/AuthorizationContext";
 import { EditContext } from "../../context/EditContext";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
 axios.defaults.withCredentials = true;
 export default function DropDown({
 	isVertical,

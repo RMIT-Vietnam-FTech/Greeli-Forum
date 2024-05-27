@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { ThemeContext } from "../../../context/ThemeContext";
 import WeatherApi from "../data/weatherApi";
 import "../style.css";
-import toast, { Toaster } from "react-hot-toast";
 
 export default function Weather() {
 	const [weather, setWeather] = useState({

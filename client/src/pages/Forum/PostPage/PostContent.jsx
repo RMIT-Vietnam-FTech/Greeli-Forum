@@ -3,9 +3,9 @@ import DropDown from "../../../components/Forum/DropDown";
 import EditTextEditor from "../../../components/Forum/EditTextEditor/EditTextEditor";
 import ImageOrVideo from "../../../components/Forum/ImageOrVideo";
 
+import { useNavigate } from "react-router-dom";
 import { AuthorizationContextProvider } from "../../../context/AuthorizationContext";
 import { EditContextProvider } from "../../../context/EditContext";
-import { useNavigate } from "react-router-dom";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";

@@ -3,10 +3,10 @@ import React, { useEffect, useRef, useState, useContext } from "react";
 import { io } from "socket.io-client";
 import ChatBox from "../../components/ChatBox/ChatBox";
 import Conversation from "../../components/Conversation/Conversation";
+import SignIn from "../../components/Popup/SignIn";
+import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
 import "./chat.css";
-import { ThemeContext } from "../../context/ThemeContext";
-import SignIn from "../../components/Popup/SignIn";
 axios.defaults.withCredentials = true;
 const Chat = () => {
 	const socket = useRef();
@@ -27,7 +27,9 @@ const Chat = () => {
 	const [query, setQuery] = useState("");
 
 	useEffect(() => {
-		socket.current = io("https://group-project-cosc3060-2024a-ftech.onrender.com");
+		socket.current = io(
+			"https://group-project-cosc3060-2024a-ftech.onrender.com",
+		);
 		socket.current.connect();
 		return () => {
 			socket.current.disconnect();
@@ -81,7 +83,7 @@ const Chat = () => {
 		if (socket.current === null) return;
 		socket.current.on("receive-message", (data) => {
 			setReceiveMessage(data);
-			console.log(data)
+			console.log(data);
 		});
 		return () => {
 			socket.current.off("receive-message");
@@ -216,9 +218,14 @@ const Chat = () => {
 								fill="currentColor"
 								className="bi bi-person-add"
 								viewBox="0 0 16 16"
+								// fix biome by Bread, you can delete if it causes error
+								// fix start
+								role="button"
+								aria-label="creat chat button"
+								// fix end
 							>
-								<path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"></path>
-								<path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"></path>
+								<path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+								<path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
 							</svg>
 						</button>
 					</div>

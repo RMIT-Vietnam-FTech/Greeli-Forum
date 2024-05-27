@@ -2,8 +2,8 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import useSwr from "swr";
 import "../assets/forum.scss";
-import PostContent from "./PostContent";
 import PostComment from "./PostComment";
+import PostContent from "./PostContent";
 
 axios.defaults.withCredentials = true;
 

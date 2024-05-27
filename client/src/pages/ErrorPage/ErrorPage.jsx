@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import { MdEmail, MdFacebook, MdPhone } from "react-icons/md";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../context/ThemeContext";
 import "./style.css";
 

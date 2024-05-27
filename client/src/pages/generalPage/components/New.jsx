@@ -277,7 +277,9 @@ export default function News() {
 				setNewsData(data);
 				setLoading(false);
 			} catch (error) {
-				setError("Sorry my love ❤️, we trying to fix the issue. Please try again later.");
+				setError(
+					"Sorry my love ❤️, we trying to fix the issue. Please try again later.",
+				);
 				setLoading(false);
 			}
 		};
@@ -558,7 +560,15 @@ export default function News() {
 						</section> */}
 					</>
 				) : error ? (
-					<p className={`${isDarkMode ? "news-spinner-dark" : "news-spinner-light"} news-spinner`}>{error}</p>
+					<p
+						className={`${
+							isDarkMode
+								? "news-spinner-dark"
+								: "news-spinner-light"
+						} news-spinner`}
+					>
+						{error}
+					</p>
 				) : (
 					<section className="newsContainer">
 						<div

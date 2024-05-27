@@ -1,8 +1,8 @@
-import { useNavigate, Outlet, useLocation } from "react-router-dom";
+import axios from "axios";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
 import LoginPopup from "../Popup/LoginPopup";
 import PreventionPopup from "../Popup/PreventionPopup";
-import axios from "axios";
 axios.defaults.withCredentials = true;
 
 const RequireActivate = () => {
