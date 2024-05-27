@@ -5,10 +5,10 @@ import ReactDom from "react-dom";
 import { GrLinkPrevious } from "react-icons/gr";
 import { GrLinkNext } from "react-icons/gr";
 import { RiCloseLargeLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import DropZoneFile from "./DropZoneFile";
 import PopupEditor from "./PopupEditor/PopupEditor";
-import { useNavigate } from "react-router-dom";
 axios.defaults.withCredentials = true;
 
 export default function NewThreadPopUp({ isOpen, setIsOpen }) {
@@ -29,7 +29,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		axios.get("http://localhost:3001/api/v1/topics").then((res) => {
+		axios.get("/api/v1/topics").then((res) => {
 			const topics = res.data.map((topic) => {
 				return topic.title;
 			});
@@ -110,10 +110,6 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
 		),
 		prevArrow: <PrevArrow isNext={isNext} setIsNext={setIsNext} />,
 	};
-
-	{
-		/*-----------------------------------------------------------MAIN---------------------------------------------------------*/
-	}
 	if (!isOpen) return null;
 	return ReactDom.createPortal(
 		<section tabIndex="0" className="modal-wrapper">

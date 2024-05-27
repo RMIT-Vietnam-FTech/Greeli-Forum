@@ -1,12 +1,12 @@
 import axios from "axios";
+import { useContext, useState } from "react";
 import useSwr from "swr";
-import { useState, useContext } from "react";
 
 import { IoIosArrowDown } from "react-icons/io";
 import { IoAdd } from "react-icons/io5";
 
-import NewThreadPopUp from "../../../pages/Forum/ThreadPage/components/NewThreadPopUp";
 import { NavLink } from "react-router-dom";
+import NewThreadPopUp from "../../../pages/Forum/ThreadPage/components/NewThreadPopUp";
 
 axios.defaults.withCredentials = true;
 

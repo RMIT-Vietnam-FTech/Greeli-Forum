@@ -1,15 +1,14 @@
 import React, { useState, useContext } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaNewspaper } from "react-icons/fa";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { IoChatbubbles } from "react-icons/io5";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext.jsx";
 import { useUserContext } from "../../../context/UserContext.jsx";
 import "../style/main.css";
+import FAQ from "./FaQ.jsx";
 import Posts from "./RecommendPost.jsx";
-// import NewsData from "./data/new";
-// import NewList from "./newsItems";
-
+import TeamMember from "./TeamMember.jsx";
 const Main = () => {
 	const { isDarkMode } = useContext(ThemeContext);
 	return (
@@ -20,11 +19,10 @@ const Main = () => {
 			{/* What is Greeli?  */}
 			<section className="mx-md-5 mx-4 mb-md-5 mb-3 bg-greeli-subtle rounded-5 section introduction">
 				<div className="col-12 pt-5 pb-4 mx-auto text-center">
-					<h1 className="display-4 fw-semibold text-greeli-emphasis mb-3">
-						What is{" "}
-						<span className="text-primary-yellow">Greeli</span>?
+					<h1 className="display-5 fw-semibold text-greeli-emphasis mb-3">
+						What is <span className="highlight-text">Greeli</span>?
 					</h1>
-					<p className="fs-5 text-greeli-emphasis text-justify mb-3 p-3">
+					<p className="fs-5 text-greeli-emphasis text-center mb-3 p-3">
 						Greeli is your gateway to a greener tomorrow! We're more
 						than information - we're a vibrant community passionate
 						about sustainable living. At Greeli, you'll find a
@@ -41,23 +39,23 @@ const Main = () => {
 						you on every step of the way. Let's grow a greener
 						future, together!
 					</p>
-					<Link to="/about" className="d-inline-flex">
-						<button
-							className="text-center text-white btn btn-lg read-more bg-primary-green-700 px-5 py-3 rounded-pill fw-bold"
-							type="button"
-						>
-							Read more
-						</button>
-					</Link>
+					{/* <Link to="/about" className="d-block">
+            <button
+              className="text-center text-white read-more-btn bg-primary-green px-5 py-3 rounded-pill fw-bold"
+              type="button"
+            >
+              Read more
+            </button>
+          </Link> */}
 				</div>
 			</section>
 
 			{/* Our Solution */}
 			<section className="mx-md-5 mx-4 p-5 my-md-5 my-3 bg-primary-green rounded-5 section">
-				<h1 className="d-block display-4 fw-semibold text-center text-primary-yellow w-100">
+				<h1 className="display-5 fw-semibold text-center text-primary-yellow w-100 mb-3">
 					Our Solution
 				</h1>
-				<div className="container d-flex flex-column flex-md-row p-0 ">
+				<div className="container d-flex flex-column flex-md-row p-3 p-md-0">
 					<div className="p-md-4 w-60 w-md-100 text-center solution-item">
 						<div className="feature d-inline-block center text-primary-yellow rounded-4 mb-3">
 							<HiMiniUserGroup size={40} />
@@ -65,7 +63,7 @@ const Main = () => {
 						<h5 className="fw-bolder text-primary-yellow mb-3">
 							Collaborative Forum
 						</h5>
-						<p className="fw-bolder text-white text-justify">
+						<p className="fw-bolder text-white text-start">
 							Engage in our collaborative forum, where passionate
 							individuals share knowledge, exchange ideas, and
 							inspire one another on their sustainable paths.
@@ -78,7 +76,7 @@ const Main = () => {
 						<h5 className="fw-bolder text-primary-yellow mb-3">
 							Real-time Chatting
 						</h5>
-						<p className="fw-bolder text-white text-justify">
+						<p className="fw-bolder text-white text-start">
 							Need a quick tip or want to discuss something
 							privately? Our real-time chat lets you connect with
 							fellow Greeli members for instant eco-advice and
@@ -92,7 +90,7 @@ const Main = () => {
 						<h5 className="fw-bolder text-primary-yellow mb-3">
 							Informative Platform
 						</h5>
-						<p className="fw-bolder text-white text-justify">
+						<p className="fw-bolder text-white text-start">
 							Stay up-to-date with the latest sustainable news and
 							events! Greeli delivers valuable resources to keep
 							you informed and inspired on your journey to a
@@ -103,19 +101,32 @@ const Main = () => {
 			</section>
 
 			{/* Recommend Post */}
-			<section className="mx-md-5 mx-4 p-4 bg-greeli-subtle rounded-5 section">
-				<h2 className="d-block fw-semibold text-center text-greeli-emphasis w-100">
-					Recommend Post
-				</h2>
+			<section className="mx-md-5 mx-4 px-5 py-3 my-md-5 my-3 bg-greeli-subtle rounded-5 section">
+				<h1 className="display-5 fw-semibold text-center text-greeli-emphasis w-100 mb-3">
+					Greeli Posts
+				</h1>
 				<Posts />
-				<Link to="/forum" className="d-block text-center mt-2">
+				<Link to="/forum" className="d-block text-center ">
 					<button
-						className="text-white btn btn-lg read-more bg-primary-green-700 px-5 py-3 mt-3 rounded-pill fw-bold"
+						className="text-white read-more-btn bg-primary-green px-5 py-3 mt-3 rounded-pill fw-bold"
 						type="button"
 					>
-						Read more
+						Visit Forum
 					</button>
 				</Link>
+			</section>
+
+			{/* Team Member */}
+			<section className="mx-md-5 mx-4 px-5 py-0 my-md-5 my-3 bg-greeli-subtle rounded-5 section">
+				<TeamMember />
+			</section>
+
+			{/* FQA */}
+			<section className="mx-md-5 mx-4 px-5 py-0 bg-greeli-subtle rounded-5 section">
+				<h1 className="display-5 fw-semibold text-center text-greeli-emphasis w-100 mb-3">
+					Greeli FAQs
+				</h1>
+				<FAQ />
 			</section>
 		</main>
 	);

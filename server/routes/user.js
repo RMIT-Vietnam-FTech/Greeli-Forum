@@ -76,6 +76,8 @@ router.put("/:adminId/:userId/unlock", verifyToken, verifyAdmin, unlock);
 
 router.route("/:userId/created_threads").get(verifyToken, getCreatedThread);
 
+
+
 router
 	.route("/:userId/follow_threads")
 	.get(verifyToken, getFollowThread)

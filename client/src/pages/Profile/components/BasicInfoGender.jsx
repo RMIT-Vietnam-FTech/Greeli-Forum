@@ -1,4 +1,6 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import {
@@ -10,8 +12,6 @@ import {
 } from "react-icons/md";
 import { RiDoubleQuotesL, RiDoubleQuotesR } from "react-icons/ri";
 import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
 
 const BasicInfoGender = (props) => {
 	const { id, type, basicInfo, updateBasicInfo, toaster, isMe } = props;

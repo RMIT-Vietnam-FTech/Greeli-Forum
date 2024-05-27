@@ -14,8 +14,8 @@ import html from "highlight.js/lib/languages/xml";
 
 import MenuBar from "../../../../../components/Forum/EditTextEditor/MenuBar";
 import { EditContext } from "../../../../../context/EditContext";
-import CreateCommentBottomBar from "./CreateCommentBottomBar";
 import { PopupContext } from "../../../../../context/PopupContext";
+import CreateCommentBottomBar from "./CreateCommentBottomBar";
 
 import { useLogin } from "../../../../../hooks/useLogin";
 //Utilities in tiptap

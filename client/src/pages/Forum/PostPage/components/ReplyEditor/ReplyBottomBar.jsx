@@ -1,7 +1,7 @@
-import { useContext, useId, useRef } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
 import { useCurrentEditor } from "@tiptap/react";
+import axios from "axios";
+import { useContext, useId, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { EditContext } from "../../../../../context/EditContext";
 import { ReplyContext } from "../../../../../context/ReplyContext";
 import ReplyComment from "../ReplyComment";
@@ -45,7 +45,7 @@ export default function ReplyBottomBar({ parentId }) {
 				parentId: parentId,
 			};
 			const newReplyData = await axios
-				.post("http://localhost:3001/api/v1/comments", storeObject, {
+				.post("/api/v1/comments", storeObject, {
 					headers: {
 						// Authorization: `Bearer ${
 						// 	JSON.parse(localStorage.getItem("user")).token

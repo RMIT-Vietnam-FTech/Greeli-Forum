@@ -2,9 +2,9 @@ import React from "react";
 import { AiFillInstagram, AiOutlineTikTok } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../../scss/custom.css";
 import "../Footer/footer.css";
-import { Link, NavLink, useNavigate } from "react-router-dom";
 export default function Footer() {
 	return (
 		<>

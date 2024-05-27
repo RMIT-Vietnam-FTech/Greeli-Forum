@@ -1,9 +1,9 @@
 import React from "react";
-import Popup from "reactjs-popup";
 import Image from "react-bootstrap/Image";
+import { IoWarning } from "react-icons/io5";
+import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 import "./PreventionPopup.css";
-import { IoWarning } from "react-icons/io5";
 
 const PreventionPopup = (props) => {
 	const {
@@ -18,7 +18,11 @@ const PreventionPopup = (props) => {
 	return (
 		<Popup
 			trigger={
-				<button aria-label={ariaLabel} className={buttonStyle}>
+				<button
+					aria-label={ariaLabel}
+					type="button"
+					className={buttonStyle}
+				>
 					{buttonValue}
 				</button>
 			}
@@ -59,6 +63,7 @@ const PreventionPopup = (props) => {
 					<div className="popup-actions w-100 d-flex justify-content-between">
 						<button
 							className="popup-button bg-primary-green text-white"
+							type="button"
 							onClick={() => {
 								close();
 							}}

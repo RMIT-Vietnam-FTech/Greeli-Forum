@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./SearchBar.css";
+import React, { useState, useEffect } from "react";
+import { FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { useUserContext } from "../../context/UserContext";
+import "./SearchBar.css";
 
 function SearchBar() {
 	const { searchTerm, setSearchTerm } = useUserContext();

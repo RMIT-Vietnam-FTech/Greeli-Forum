@@ -6,23 +6,25 @@ import DropDown from "./DropDown";
 import EditTextEditor from "./EditTextEditor/EditTextEditor";
 import ImageOrVideo from "./ImageOrVideo";
 
+import { Link, useNavigate } from "react-router-dom";
 import { AuthorizationContextProvider } from "../../context/AuthorizationContext";
 import { EditContextProvider } from "../../context/EditContext";
-import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "react-bootstrap";
-import ButtonUpvote from "./ButtonUpvote";
 import { ButtonComment } from "../../pages/Forum/PostPage/PostComment";
+import ButtonUpvote from "./ButtonUpvote";
 
 import { useLogin } from "../../hooks/useLogin";
 
-import { IoMdClose } from "react-icons/io";
-import { IoMdCheckmark } from "react-icons/io";
 import { BsShieldFillX } from "react-icons/bs";
 import { BsShieldFillCheck } from "react-icons/bs";
+import { IoMdClose } from "react-icons/io";
+import { IoMdCheckmark } from "react-icons/io";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+
+axios.defaults.withCredentials = true;
 
 dayjs.extend(relativeTime);
 

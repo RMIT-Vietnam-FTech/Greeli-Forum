@@ -2,6 +2,7 @@
 	"name": "client",
 	"version": "0.1.0",
 	"private": true,
+	"proxy": "https://group-project-cosc3060-2024a-ftech.onrender.com",
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^6.5.2",
 		"@hookform/resolvers": "^3.3.4",
@@ -62,6 +63,7 @@
 		"react-router": "^6.23.1",
 		"react-router-dom": "^6.23.0",
 		"react-scripts": "5.0.1",
+		"react-share": "^5.1.0",
 		"react-slick": "^0.30.2",
 		"reactjs-popup": "^2.0.6",
 		"reaptcha": "^1.12.1",

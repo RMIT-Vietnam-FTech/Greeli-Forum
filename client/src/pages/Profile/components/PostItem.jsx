@@ -1,9 +1,9 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { MdInsertComment, MdShare } from "react-icons/md";
 import { TbArrowBigUp } from "react-icons/tb";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 axios.defaults.withCredentials = true;
 const PostItem = (props) => {
 	const [threadTitle, setThreadTitle] = useState("");
@@ -24,7 +24,7 @@ const PostItem = (props) => {
 		const getPostThreadAsync = async (threadId) => {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/v1/threads/${threadId}`,
+				url: `/api/v1/threads/${threadId}`,
 			};
 			await axios(configuration)
 				.then((response) => {

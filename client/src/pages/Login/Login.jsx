@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import React, { useState, useContext } from "react";
 import Image from "react-bootstrap/Image";
@@ -9,7 +10,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 const Login = () => {
 	const { user, setUser } = useUserContext();
@@ -42,7 +42,7 @@ const Login = () => {
 	const login = async () => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/login",
+			url: "/api/user/login",
 			data: {
 				email,
 				password,

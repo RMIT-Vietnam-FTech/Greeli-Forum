@@ -1,17 +1,17 @@
 import axios from "axios";
 import { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
-import useSWRImmutable from "swr/immutable";
+import useSwrImmutable from "swr/immutable";
 
 import ButtonUpvote from "../../../../components/Forum/ButtonUpvote";
 import { EditContextProvider } from "../../../../context/EditContext";
 import { ReplyContext } from "../../../../context/ReplyContext";
 
-import ReplyButton from "./ReplyButton";
-import ReplyEditor from "./ReplyEditor/ReplyEditor";
-import EditTextEditor from "../../../../components/Forum/EditTextEditor/EditTextEditor";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import EditTextEditor from "../../../../components/Forum/EditTextEditor/EditTextEditor";
+import ReplyButton from "./ReplyButton";
+import ReplyEditor from "./ReplyEditor/ReplyEditor";
 dayjs.extend(relativeTime);
 
 axios.defaults.withCredentials = true;
@@ -28,7 +28,7 @@ export default function ReplyComment({ commentData }) {
 	// console.log("replies: " + commentData.replies);
 	// console.log("username: " + commentData.createBy.username);
 	// console.log("profileImage: " + commentData.createBy.profileImage);
-	const { data, error, isLoading } = useSWRImmutable(
+	const { data, error, isLoading } = useSwrImmutable(
 		commentData.replies.length > 0
 			? `http://localhost:3001/api/v1/comments?postsId=${postId}&parentId=${commentData._id}`
 			: null,

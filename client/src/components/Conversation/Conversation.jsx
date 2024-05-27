@@ -1,9 +1,9 @@
 import axios from "axios";
-import React, { useState, useEffect, useContext } from "react";
 import moment from "moment";
-import "./Conversation.css";
+import React, { useState, useEffect, useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
+import "./Conversation.css";
 axios.defaults.withCredentials = true;
 
 const Conversation = ({ data, currentUserId, online, isActive, chatNoti}) => {
@@ -18,7 +18,7 @@ const Conversation = ({ data, currentUserId, online, isActive, chatNoti}) => {
 			userId = data.members.find((id) => id !== currentUserId);
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/user/find/${userId}`,
+				url: `/api/user/find/${userId}`,
 				headers: {
 					"Content-Type": "application/json",
 					// Authorization: `Bearer ${token}`,

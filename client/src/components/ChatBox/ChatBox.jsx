@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
-import axios from "axios";
-import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
-import "./ChatBox.css";
-import moment from "moment";
-import { ThemeContext } from "../../context/ThemeContext";
-import * as Yup from "yup";
+import Picker from "@emoji-mart/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import moment from "moment";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import * as Yup from "yup";
+import { ThemeContext } from "../../context/ThemeContext";
+import "./ChatBox.css";
 axios.defaults.withCredentials = true;
 
 const ChatBox = ({
@@ -30,7 +30,7 @@ const ChatBox = ({
 			const receiverId = chat.members.find((id) => id !== currentUserId);
 			const userConfig = {
 				method: "get",
-				url: `http://localhost:3001/api/user/find/${receiverId}`,
+				url: `/api/user/find/${receiverId}`,
 				headers: {
 					"Content-Type": "application/json",
 					// Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ const ChatBox = ({
 			};
 			const messagesConfig = {
 				method: "get",
-				url: `http://localhost:3001/api/message/find/${chat._id}`,
+				url: `/api/message/find/${chat._id}`,
 				headers: {
 					"Content-Type": "application/json",
 					// Authorization: `Bearer ${token}`,

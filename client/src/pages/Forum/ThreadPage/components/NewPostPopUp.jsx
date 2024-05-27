@@ -5,9 +5,9 @@ import { Button } from "react-bootstrap";
 import ReactDom from "react-dom";
 import { IoMdClose } from "react-icons/io";
 import { RiCloseLargeLine } from "react-icons/ri";
+import { useNavigate, useParams } from "react-router-dom";
 import DropZoneFile from "./DropZoneFile";
 import PopupEditor from "./PopupEditor/PopupEditor";
-import { useNavigate, useParams } from "react-router-dom";
 axios.defaults.withCredentials = true;
 
 export default function NewPostPopUp({ isOpen, setIsOpen, belongToThread }) {
