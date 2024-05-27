@@ -15,7 +15,7 @@ const FAQ = () => {
 						id={`flush-heading${item.id}`}
 					>
 						<button
-							className="accordion-button rounded-3 collapsed fs-4"
+							className="accordion-button border-none rounded-3 collapsed fs-4"
 							type="button"
 							data-bs-toggle="collapse"
 							data-bs-target={`#flush-collapse${item.id}`}
