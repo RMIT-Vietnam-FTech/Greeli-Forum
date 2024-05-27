@@ -6,7 +6,7 @@ import { useUserContext } from "../../context/UserContext";
 import "./Conversation.css";
 axios.defaults.withCredentials = true;
 
-const Conversation = ({ data, currentUserId, online, isActive, chatNoti}) => {
+const Conversation = ({ data, currentUserId, online, isActive, chatNoti }) => {
 	const [userData, setUserData] = useState(null);
 	const { isDarkMode } = useContext(ThemeContext);
 	const [unseenMessages, setUnseenMessages] = useState([]);
@@ -37,11 +37,10 @@ const Conversation = ({ data, currentUserId, online, isActive, chatNoti}) => {
 		getUserData();
 	}, [data, currentUserId, error]);
 	useEffect(() => {
-		setUnseenMessages(chatNoti.filter((chat) => chat.isRead !== true))
+		setUnseenMessages(chatNoti.filter((chat) => chat.isRead !== true));
 		// setUnseenMessages((unseenMessages?.filter((message) => message.isRead !== false)))
 		// console.log(unseenMessages)
-	}, [chatNoti])
-
+	}, [chatNoti]);
 
 	return (
 		<div
@@ -87,8 +86,17 @@ const Conversation = ({ data, currentUserId, online, isActive, chatNoti}) => {
 										).fromNow()}`}
 							</div>
 						</div>
-						{online && <div className="online-dot position-absolute top-0 end-0" />}
-						{(unseenMessages.length > 0) && <p className="rounded-circle text-greeli-emphasis position-absolute bottom-0 end-0 unseen" style={{backgroundColor: "#B80000"}}>{unseenMessages?.length}</p>}
+						{online && (
+							<div className="online-dot position-absolute top-0 end-0" />
+						)}
+						{unseenMessages.length > 0 && (
+							<p
+								className="rounded-circle text-greeli-emphasis position-absolute bottom-0 end-0 unseen"
+								style={{ backgroundColor: "#B80000" }}
+							>
+								{unseenMessages?.length}
+							</p>
+						)}
 					</>
 				) : (
 					<div className="no-user-data">

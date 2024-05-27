@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
@@ -93,6 +93,25 @@ const SignIn = ({ isShow }) => {
 			showPasswordButton();
 		}
 	};
+
+	function useEnterKeySubmit(onSubmit) {
+		const handleKeyDown = (event) => {
+			if (event.key === "Enter") {
+				onSubmit();
+			}
+		};
+
+		useEffect(() => {
+			document.addEventListener("keydown", handleKeyDown);
+
+			return () => document.removeEventListener("keydown", handleKeyDown);
+		}, [handleKeyDown]);
+
+		return handleKeyDown;
+	}
+
+	const handleKeyDown = useEnterKeySubmit(handleSubmit(onSubmit));
+
 	// fix biome end
 	return (
 		<div data-bs-theme={isDarkMode ? "dark" : "light"}>
@@ -124,6 +143,7 @@ const SignIn = ({ isShow }) => {
 							<form
 								className="mt-4 mx-3 px-md-5"
 								onSubmit={handleSubmit(onSubmit)}
+								onKeyDown={handleKeyDown}
 								aria-label="login form"
 							>
 								<div

@@ -1,5 +1,4 @@
 import axios from "axios";
-axios.defaults.withCredentials = false;
 
 const WeatherApi = async (city) => {
 	const apiKey = "0c44c252ca37f03dce72864824992126";

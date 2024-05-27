@@ -13,6 +13,7 @@ import { ThemeContext } from "../../context/ThemeContext";
 import "../../scss/custom.css";
 
 axios.defaults.withCredentials = true;
+
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
 };
@@ -38,7 +39,7 @@ const Register = () => {
 			.email("Email is invalid"),
 		password: Yup.string()
 			.required("Password is required")
-			.min(8, "Password must have at least 8 characters")
+			.min(6, "Password must have at least 6 characters")
 			// different error messages for different requirements
 			.matches(/[0-9]/, getCharacterValidationError("digit"))
 			.matches(/[a-z]/, getCharacterValidationError("lowercase"))
@@ -98,15 +99,6 @@ const Register = () => {
 	const onLoadCaptcha = () => {};
 
 	const onSubmit = (e) => {
-		// e.preventDefault();
-		// toast.promise(
-		// 	registerAccount(),
-		// 	 {
-		// 	   loading: 'Saving...',
-		// 	   success: <b>Settings saved!</b>,
-		// 	   error: <b>Could not save.</b>,
-		// 	 }
-		//    );
 		registerAccount();
 		setUsername("");
 		setEmail("");
@@ -123,11 +115,23 @@ const Register = () => {
 	};
 	// fix biome by Bread, you can delete if it cause error
 	// fix bio me start
-	const handleKeyUp = (event) => {
-		if (event.key === "Enter" || event.key === " ") {
-			showPasswordButton();
-		}
-	};
+	function useEnterKeySubmit(onSubmit) {
+		const handleKeyDown = (event) => {
+			if (event.key === "Enter") {
+				onSubmit();
+			}
+		};
+
+		useEffect(() => {
+			document.addEventListener("keydown", handleKeyDown);
+
+			return () => document.removeEventListener("keydown", handleKeyDown);
+		}, [handleKeyDown]);
+
+		return handleKeyDown;
+	}
+
+	const handleKeyDown = useEnterKeySubmit(handleSubmit(onSubmit));
 	// fix biome end
 
 	const { isDarkMode } = useContext(ThemeContext);
@@ -157,6 +161,7 @@ const Register = () => {
 					<form
 						className="mt-4 mx-3 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
+						onKeyDown={handleKeyDown}
 						aria-label="register form"
 					>
 						<div

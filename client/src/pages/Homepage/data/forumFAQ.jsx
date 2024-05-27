@@ -1,4 +1,4 @@
-export const forumFAQ = [
+export const forumFaq = [
 	{
 		id: 1,
 		question: "How do I create a new thread?",

@@ -37,7 +37,7 @@ const Sitemap = () => {
 				<h1>Sitemap</h1>
 				<ul>
 					{flattenedRoutes.map((route, index) => (
-						<li key={index}>
+						<li key={index} style={{ textDecoration: "none" }}>
 							<Link to={route.path}>{route.name}</Link>
 						</li>
 					))}

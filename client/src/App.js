@@ -7,8 +7,6 @@ import {
 	useRoutes,
 } from "react-router-dom";
 import "./App.css";
-import RequireActivate from "./components/Auth/RequireActivate.jsx";
-import RequireAuth from "./components/Auth/RequireAuth.jsx";
 import ChatBubble from "./components/ChatBubble/ChatBubble.jsx";
 import Cookies from "./components/Cookies/Cookie.jsx";
 import Footer from "./components/Footer/footer";
@@ -23,8 +21,6 @@ function App() {
 	const location = useLocation();
 	const [isForum, setIsForum] = useState(false);
 	const routes = useRoutes(routesConfig);
-	// const { user } = useUserContext();
-	// const isActivated = JSON.parse(user)?.isActivated;
 	useEffect(() => {
 		console.log(
 			`check location pathname: ${location.pathname}\n check isForum: ${isForum}`,

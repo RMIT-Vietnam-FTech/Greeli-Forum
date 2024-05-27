@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
@@ -90,12 +90,30 @@ const Login = () => {
 		}
 	};
 
-	const handleKeyDown = (e) => {
-		if (e.key === "Enter") {
-			e.preventDefault();
-			onSubmit(handleSubmit(onSubmit));
-		}
-	};
+	function useEnterKeySubmit(onSubmit) {
+		const handleKeyDown = (event) => {
+			if (event.key === "Enter") {
+				onSubmit();
+			}
+		};
+
+		useEffect(() => {
+			document.addEventListener("keydown", handleKeyDown);
+
+			return () => document.removeEventListener("keydown", handleKeyDown);
+		}, [handleKeyDown]);
+
+		return handleKeyDown;
+	}
+
+	const handleKeyDown = useEnterKeySubmit(handleSubmit(onSubmit));
+
+	// const handleKeyDown = (e) => {
+	// 	if (e.key === "Enter") {
+	// 		e.preventDefault();
+	// 		onSubmit(handleSubmit(onSubmit));
+	// 	}
+	// };
 
 	return (
 		<main

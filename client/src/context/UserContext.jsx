@@ -33,7 +33,7 @@ export const UserContextProvider = ({ children }) => {
 				success,
 				setSuccess,
 				chatNoti,
-				setChatNoti
+				setChatNoti,
 			}}
 		>
 			{children}
