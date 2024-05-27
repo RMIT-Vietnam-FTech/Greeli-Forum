@@ -2,8 +2,14 @@ import React from "react";
 // import { FaCamera } from "react-icons/fa";
 import BasicInfo from "./BasicInfo";
 import EditInfoModal from "./EditInfoModal";
+import PreventionPopup from "../../../components/Popup/PreventionPopup";
+import { useUserContext } from "../../../context/UserContext";
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
+import axios from "axios";
 
 const LeftSidePart = (props) => {
+	const navigate = useNavigate();
 	const basicInfo = props.userInfo;
 	const {
 		userId,
@@ -16,7 +22,62 @@ const LeftSidePart = (props) => {
 		joinedDate,
 		createdPost,
 		createdThread,
+		profileImage,
 	} = props.userInfo;
+
+	// DEACTIVATE ACCOUNT FUNCTION
+	const { user, setUser, toggleUserInfo } = useUserContext();
+	const cookies = new Cookies();
+
+	const deactivateAccount = () => {
+		const configuration = {
+			method: "post",
+			url: `http://localhost:3001/api/user/${userId}/deactivate`,
+		};
+		axios(configuration)
+			.then((result) => {
+				console.log(result.data);
+				localStorage.removeItem("user");
+				cookies.remove("TOKEN", { path: "/" });
+				setUser(null);
+				navigate("/", { replace: true });
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		console.log("Account deactivated");
+	};
+	// ----------------------------
+
+	// BLOCK/UNBLOCK USER FUNCTION
+	const isAdmin = JSON.parse(localStorage.getItem("user")).role === "admin";
+	const token = cookies.get("TOKEN");
+	// const handleLockAccount = () => {
+	// 	const userId = basicInfo.userId;
+	// 	const adminId = JSON.parse(localStorage.getItem("user")).id;
+	// 	const action = basicInfo.isLocked ? "unlock" : "lock";
+	// 	// console.log("Lock/Unlock user");
+	// 	const configuration = {
+	// 		method: "put",
+	// 		url: `http://localhost:3001/api/user/${adminId}/${userId}/${action}`,
+	// 		headers: {
+	// 			"Content-Type": "application/json",
+	// 			Authorization: `Bearer ${token}`,
+	// 		},
+	// 	};
+	// 	axios(configuration)
+	// 		.then((result) => {
+	// 			console.log(result.data);
+	// 			const newBasicInfo = {
+	// 				...basicInfo,
+	// 				isLocked: !basicInfo.isLocked,
+	// 			};
+	// 			setBasicInfo(newBasicInfo);
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error);
+	// 		});
+	// };
 
 	return (
 		<div className="my-5 col-12 col-lg-3">
@@ -26,9 +87,9 @@ const LeftSidePart = (props) => {
 					<div className="d-flex flex-column align-items-center">
 						<div className="d-flex flex-column align-items-center text-center rounded-circle profile-image-container position-relative">
 							<img
-								// src={props.profileImage}
+								src={profileImage}
 								// alt={`${props.userName} Avatar`}
-								src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+								// src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
 								alt="Avatar Placeholder"
 								className="d-block w-100 rounded-circle avatar-image border-primary-yellow border-1"
 								data-bs-toggle="modal"
@@ -64,9 +125,16 @@ const LeftSidePart = (props) => {
 						<BasicInfo id={2} displayInfo={address} />
 						<BasicInfo id={3} displayInfo={gender} />
 					</div>
-					<button className="bg-danger text-white fw-semibold border-0 py-2 w-100 rounded-pill deactivate-btn">
-						Deactivate account
-					</button>
+					<PreventionPopup
+						modalTitle="Deactivate Account"
+						buttonStyle="bg-danger text-white fw-semibold border-0 py-2 w-100 rounded-pill deactivate-btn"
+						ariaLabel="Deactivate account"
+						buttonValue="Deactivate account"
+						action="deactivate your account"
+						warningMessage="If you deactivate your account, you will be automatically logged
+							out."
+						actionFunction={deactivateAccount}
+					/>
 				</div>
 			</div>
 		</div>

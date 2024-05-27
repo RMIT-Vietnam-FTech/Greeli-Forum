@@ -1,6 +1,7 @@
 import React from "react";
 import Popup from "reactjs-popup";
 import { useState, useEffect } from "react";
+import { useUserContext } from "../../../context/UserContext";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
@@ -93,6 +94,45 @@ const EditInfoModal = (props) => {
 				toast.error(error.response.data.message);
 			});
 	};
+	// ----------------------------
+
+	//UPLOAD PROFILE IMAGE
+	const [file, setFile] = useState();
+	const { user, error, setError } = useUserContext();
+	const [src, setSrc] = useState(null);
+	const [preview, setPreview] = useState("");
+	const formData = new FormData();
+	const upload = () => {
+		formData.append("image", preview);
+		const configuration = {
+			method: "post",
+			url: `http://localhost:3001/api/user/${userId}/uploadImage`,
+			headers: {
+				"Content-Type": "multipart/form-data",
+			},
+			data: formData,
+		};
+		axios(configuration)
+			.then((result) => {
+				toast.success("Successfully Uploaded!", {
+					duration: 3000,
+					position: "top-center",
+				});
+				console.log(result.data);
+			})
+			.catch((error) => {
+				// toast.error(error.response.data.error, {
+				// 	duration: 3000,
+				// 	position: "top-center",
+				// });
+				console.log(error);
+			});
+	};
+
+	const handleAvatarSubmit = (e) => {
+		// e.preventDefault();
+		upload();
+	};
 
 	return (
 		<Popup
@@ -111,11 +151,26 @@ const EditInfoModal = (props) => {
 			{(close) => (
 				<form
 					className="bg-primary-green-100 p-4 rounded-3"
-					onSubmit={handleSubmit(onSubmit)}
+					onSubmit={handleAvatarSubmit(onSubmit)}
 					aria-label="Change Profile Form"
 				>
 					<div className="mb-3">
 						<h2>Change Basic Info</h2>
+						<div className="modal-body text-center">
+							{preview && (
+								<img src={URL.createObjectURL(preview)} alt="avatar image" />
+							)}
+							<form>
+								<input
+									type="file"
+									name="image"
+									onChange={(e) => {
+										setFile(e.target.files[0]);
+										setPreview(e.target.files[0]);
+									}}
+								/>
+							</form>
+						</div>
 						<div className="row d-flex flex-row align-items-center g-1">
 							<label htmlFor="newPhoneNumber" className="col-5 px-2">
 								Phone Number
