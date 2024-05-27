@@ -29,6 +29,8 @@ const routesConfig = [
   { path: '/contact', element: <ContactPage />, name: 'Contact' },
   // { path: '/upload', element: <Upload />, name: 'Upload' },
   { path: '/sitemap', element: <Sitemap />, name: 'Sitemap' },
+  { path: '/resetPassword', element: <ResetPassword />, name: 'Reset Password' },
+  { path: '/resetPassword/:token/:userId', element: <NewPassword />, name: 'Create New Password' },
   {
     element: <RequireAuth />,
     children: [
