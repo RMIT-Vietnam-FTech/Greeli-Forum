@@ -13,6 +13,7 @@ import Homepage from "./pages/Homepage/Homepage.jsx";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Login/Register";
 import Profile from "./pages/Profile/Profile";
+import ProfileUpdate from "./pages/ProfileUpdate";
 import GeneralPage from "./pages/generalPage/generalPage";
 import Upload from "./pages/UploadImage/Upload.jsx";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
@@ -22,30 +23,38 @@ import ResetPassword from "./pages/Login/ResetPassword.jsx";
 import Cookies from "./components/Cookies/Cookie.jsx";
 
 const routesConfig = [
-  { path: '/', element: <Homepage />, name: 'Homepage' },
-  { path: '/login', element: <Login />, name: 'Login' },
-  { path: '/register', element: <Register />, name: 'Register' },
-  { path: '/general', element: <GeneralPage />, name: 'General' },
-  { path: '/contact', element: <ContactPage />, name: 'Contact' },
-  // { path: '/upload', element: <Upload />, name: 'Upload' },
-  { path: '/sitemap', element: <Sitemap />, name: 'Sitemap' },
-  { path: '/resetPassword', element: <ResetPassword />, name: 'Reset Password' },
-  { path: '/resetPassword/:token/:userId', element: <NewPassword />, name: 'Create New Password' },
-  {
-    element: <RequireAuth />,
-    children: [
-      {
-        element: <RequireActivate />,
-        children: [
-          { path: '/profile', element: <Profile />, name: 'Profile' },
-          { path: '/user/:userId', element: <Profile />, name: 'User Profile' },
-          { path: '/chat', element: <Chat />, name: 'Chat' },
-        ],
-      },
-    ],
-  },
-  { path: '/forum/*', element: <ForumPage />, name: 'Forum' },
-  { path: '*', element: <ErrorPage />, name: 'Error' },
+	{ path: "/", element: <Homepage />, name: "Homepage" },
+	{ path: "/login", element: <Login />, name: "Login" },
+	{ path: "/register", element: <Register />, name: "Register" },
+	{ path: "/general", element: <GeneralPage />, name: "General" },
+	{ path: "/contact", element: <ContactPage />, name: "Contact" },
+	// { path: '/upload', element: <Upload />, name: 'Upload' },
+	{ path: "/sitemap", element: <Sitemap />, name: "Sitemap" },
+	{
+		path: "/resetPassword",
+		element: <ResetPassword />,
+		name: "Reset Password",
+	},
+	{
+		path: "/resetPassword/:token/:userId",
+		element: <NewPassword />,
+		name: "Create New Password",
+	},
+	{
+		element: <RequireAuth />,
+		children: [
+			{
+				element: <RequireActivate />,
+				children: [
+					{ path: "/profile", element: <ProfileUpdate />, name: "Profile" },
+					{ path: "/user/:userId", element: <Profile />, name: "User Profile" },
+					{ path: "/chat", element: <Chat />, name: "Chat" },
+				],
+			},
+		],
+	},
+	{ path: "/forum/*", element: <ForumPage />, name: "Forum" },
+	{ path: "*", element: <ErrorPage />, name: "Error" },
 ];
 
 export default routesConfig;

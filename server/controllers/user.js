@@ -4,9 +4,7 @@ import User from "../models/User.js";
 import Thread from "../models/Thread.js";
 import Post from "../models/Post.js";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
-import sharp from "sharp";
 import mongoose from "mongoose";
-import { deleteFileData, uploadFileData } from "../service/awsS3.js";
 import { sendEmail } from "../service/email.js";
 import express from "express";
 import sharp from "sharp";
@@ -166,28 +164,6 @@ export const resetPassword = async (req, res) => {
 	}
 };
 
-export const uploadProfileImage = async (req, res) => {
-	try {
-		const uploadFile = req.file;
-		const userId = req.params.id;
-		if (uploadFile) {
-			const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-			const imageName = uniqueSuffix + "-" + uploadFile.originalname;
-			const fileBuffer = await sharp(uploadFile.buffer)
-				.jpeg({ quality: 100 })
-				.toBuffer();
-			await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
-			const user = await User.findByIdAndUpdate(userId, {
-				profileImage: `https://d46o92zk7g554.cloudfront.net/${imageName}`,
-			});
-			res.status(201).json("File uploaded succesfully!");
-		}
-	} catch (error) {
-		res.status(500).json(error);
-		console.log(error);
-	}
-};
-
 export const logout = async (req, res) => {
 	try {
 		res.cookie("JWT", "", { maxAge: 0 });
@@ -197,114 +173,6 @@ export const logout = async (req, res) => {
 	}
 };
 
-export const requestResetPassword = async (req, res) => {
-	try {
-		const email = req.body.email;
-		const user = await User.findOne({ email: email });
-
-		if (!user) return res.status(400).json({ error: "User doesn't exist" });
-		if (user.isLocked)
-			return res
-				.status(400)
-				.json({ error: "Your account is locked, cannot log in!" });
-		const resetToken = crypto.randomBytes(32).toString("hex");
-		const salt = await bcrypt.genSalt(10);
-		const hashResetToken = await bcrypt.hash(resetToken, salt);
-		user.resetPasswordToken = hashResetToken;
-		await user.save();
-		const link = `${process.env.BASE_URL}/resetPassword/${resetToken}/${user._id}`;
-
-		const emailContent = `Hi ${user.username}
-Click the link to reset your password: ${link}`;
-		sendEmail(email, "Reset Password", emailContent);
-
-		res.status(200).json({ message: "Check your email to reset the password" });
-	} catch (error) {
-		res.status(500).json(error);
-		console.log(error);
-	}
-};
-
-export const resetPassword = async (req, res) => {
-	try {
-		// const {id, token} = req.params;
-		const { token, userId } = await req.params;
-		const password = req.body.password;
-		const user = await User.findById({ _id: userId });
-		const resetPasswordToken = user.resetPasswordToken;
-		if (!resetPasswordToken)
-			return res
-				.status(403)
-				.json({ error: "Invalid or expired password reset token" });
-		const isValid = await bcrypt.compare(token, resetPasswordToken);
-		if (!isValid)
-			return res
-				.status(403)
-				.json({ error: "Invalid or expired password reset token" });
-		const salt = await bcrypt.genSalt(10);
-		const hashPassword = await bcrypt.hash(password, salt);
-		user.password = hashPassword;
-		user.resetToken = "";
-		await user.save();
-		res.status(200).json({ message: "Password created successfully!" });
-	} catch (error) {
-		res.status(500).json(error);
-		console.log(error);
-	}
-};
-
-export const uploadProfileImage = async (req, res) => {
-	try {
-		const uploadFile = req.file;
-		const userId = req.params.id;
-		if (uploadFile) {
-			const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-			const imageName = uniqueSuffix + "-" + uploadFile.originalname;
-			const fileBuffer = await sharp(uploadFile.buffer)
-				.jpeg({ quality: 100 })
-				.toBuffer();
-			await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
-			const user = await User.findByIdAndUpdate(userId, {
-				profileImage: `https://d46o92zk7g554.cloudfront.net/${imageName}`,
-			});
-			res.status(201).json("File uploaded succesfully!");
-		}
-	} catch (error) {
-		res.status(500).json(error);
-		console.log(error);
-	}
-};
-
-export const logout = async (req, res) => {
-	try {
-		res.cookie("JWT", "", { maxAge: 0 });
-		res.status(200).json({ message: "Logged out successfully" });
-	} catch (error) {
-		res.status(500).json({ error: "Internal Server Error" });
-	}
-};
-
-export const uploadProfileImage = async (req, res) => {
-	try {
-		const uploadFile = req.file;
-		const userId = req.params.id;
-		if (uploadFile) {
-			const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-			const imageName = uniqueSuffix + "-" + uploadFile.originalname;
-			const fileBuffer = await sharp(uploadFile.buffer)
-				.jpeg({ quality: 100 })
-				.toBuffer();
-			await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
-			const user = await User.findByIdAndUpdate(userId, {
-				profileImage: `https://d46o92zk7g554.cloudfront.net/${imageName}`,
-			});
-			res.status(201).json("File uploaded succesfully!");
-		}
-	} catch (error) {
-		res.status(500).json(error);
-		console.log(error);
-	}
-};
 export const lock = async (req, res) => {
 	try {
 		const userId = req.params.userId;
