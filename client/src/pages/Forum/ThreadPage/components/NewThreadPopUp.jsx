@@ -9,28 +9,31 @@ import Slider from "react-slick";
 import DropZoneFile from "./DropZoneFile";
 import PopupEditor from "./PopupEditor/PopupEditor";
 import { useNavigate } from "react-router-dom";
+import { IoEllipseSharp } from "react-icons/io5";
 
-export default function NewThreadPopUp({ isOpen, setIsOpen }) {
+export default function NewThreadPopUp({ isOpen, setIsOpen, belongToThread }) {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState([]);
+  const [plainTextDescription, setPlainTextDescription] = useState();
   const [addedTopics, setAddedTopics] = useState([]);
   const [isNext, setIsNext] = useState(false);
   const [isDisable, setIsDisable] = useState(true);
   const [defaultTopics, setDefaultTopics] = useState([]);
   const [inputTitle, setInputTitle] = useState("");
   const errorTexts = [
-    "atleast 5 and maxium 20 characters",
+    "atleast 5 and maxium 50 characters",
     "title is already existed!",
   ];
-
-  const prop = {};
-
+  const errorTopic = ["* Add at least 1 topic", "Add maximum 3 topics only"];
   const navigate = useNavigate();
 
   useEffect(() => {
     axios.get("http://localhost:3001/api/v1/topics").then((res) => {
       const topics = res.data.map((topic) => {
-        return topic.title;
+        return {
+          title: topic.title,
+          _id: topic._id,
+        };
       });
       setDefaultTopics([...topics]);
     });
@@ -41,6 +44,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
     if (addedTopics.length > 0) {
       chooseTopic.classList.add("d-none");
     }
+    console.log(`check addded Topic: ${JSON.stringify(addedTopics)}`);
   }, [addedTopics]);
 
   async function handleData() {
@@ -48,8 +52,12 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
       //clear text, clear file, clear input
       const threadTitleInput = document.querySelector(".thread-title");
       const chooseTopic = document.querySelector("#choose-topic-warning");
-      if (addedTopics.length === 0) {
+      if (addedTopics.length <= 0) {
         chooseTopic.classList.remove("d-none");
+        chooseTopic.innerText = errorTopic[0];
+      } else if (addedTopics.length > 3) {
+        chooseTopic.classList.remove("d-none");
+        chooseTopic.innerText = errorTopic[1];
       } else if (
         threadTitleInput.value.length >= 5 &&
         threadTitleInput.value.length <= 50
@@ -68,12 +76,17 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
           formData.append("uploadFile", null);
         }
         formData.append("content", JSON.stringify(description));
+        formData.append("plainTextContent", plainTextDescription);
+        formData.append("belongToThread", belongToThread);
         for (let i = 0; i < addedTopics.length; ++i) {
-          formData.append("topics[]", addedTopics[i]);
+          formData.append("belongToTopics[]", addedTopics[i]._id);
         }
-
+        for (let [key, value] of formData) {
+          console.log(`${key}: ${value}`)
+        }
+        
         const res = await axios.post(
-          "http://localhost:3001/api/v1/threads",
+          "http://localhost:3001/api/v1/posts",
           formData,
           {
             headers: {
@@ -83,7 +96,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
             },
           }
         );
-        navigate(`/forum/threads/${res.data}`);
+        navigate(`/forum/communities/${res.data}`);
       }
     } catch (e) {
       console.error(e.message);
@@ -117,14 +130,14 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
   return ReactDom.createPortal(
     <section tabIndex="0" className="modal-wrapper">
       <section
+        style={{ backgroundColor: "white" }}
         id="post-modal"
-        className="bg-primary-green-900 w-75 p-2 d-flex flex-column align-items-end position-relative"
+        className="shadow-lg p-3 d-flex flex-column  align-items-end "
       >
-
-          {/*-----------Close Button ----------------------------*/}
+        {/*-----------Close Button ----------------------------*/}
         <button
-          className="bg-transparent border-0 text-white position-absolute z-3"
-          style={{right:"10px", top:"10px"}}
+          className="bg-transparent border-0 text-dark position-absolute z-3"
+          style={{}}
           onClick={() => {
             setFile(null);
             setIsNext(false);
@@ -137,11 +150,11 @@ export default function NewThreadPopUp({ isOpen, setIsOpen }) {
           <RiCloseLargeLine />
         </button>
         <Slider tabIndex="0" className="w-100" {...settings}>
-
           <FirstSlide
             file={file}
             setFile={setFile}
             setDescription={setDescription}
+            setPlainTextDescription={setPlainTextDescription}
             setIsDisable={setIsDisable}
             inputTitle={inputTitle}
             setInputTitle={setInputTitle}
@@ -163,6 +176,7 @@ function FirstSlide({
   file,
   setFile,
   setDescription,
+  setPlainTextDescription,
   setIsDisable,
   inputTitle,
   setInputTitle,
@@ -172,35 +186,14 @@ function FirstSlide({
   async function displayError(setIsDisable) {
     try {
       const inputThreadTitle = document.querySelector("#inputThreadTitle");
-      if (inputTitle.length < 5 || inputTitle.length > 20) {
+      if (inputTitle.length < 5 || inputTitle.length > 50) {
         inputThreadTitle.classList.remove("d-none");
         inputThreadTitle.innerHTML = errorTexts[0];
         setIsDisable(true);
       } else {
-        await axios
-          .post(
-            "http://localhost:3001/api/v1/threads/validation",
-            { title: inputTitle },
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  JSON.parse(localStorage.getItem("user")).token
-                }`,
-              },
-            }
-          )
-          .then((res) => {
-            console.log(res.data);
-          });
         setIsDisable(false);
       }
     } catch (error) {
-      if (error.response.status === 403) {
-        const inputThreadTitle = document.querySelector("#inputThreadTitle");
-        inputThreadTitle.classList.remove("d-none");
-        inputThreadTitle.innerHTML = errorTexts[1];
-        setIsDisable(true);
-      }
       console.error(error.status);
     }
   }
@@ -214,23 +207,23 @@ function FirstSlide({
     <div tabIndex="0">
       {/*---------------- Create Thread header----------------------*/}
       <div className="w-100 d-flex justify-content-between">
-        <h2 className="text-white">Create Thread</h2>
+        <h2 className="text-dark">Create Thread</h2>
       </div>
       {/*---------------- Upload File ---------------------------------------------*/}
       <DropZoneFile setFile={setFile} file={file} isReset={!isOpen} />
       {/*---------------- Thread Input TItle ---------------------------------------------*/}
       <div className="w-100 d-flex mt-3 position-relative">
-        <label className="text-white d-flex align-items-center me-1 ">
+        <label className="text-dark d-flex align-items-center me-1 ">
           <h4>
             Title<span className="text-danger">*</span>
           </h4>
         </label>
         <input
-          className="thread-title w-100 rounded-3 bg-transparent  py-2 text-white border-solid border border-white shadow-none"
+          className="thread-title w-100 rounded-3 bg-transparent  py-2 text-dark border-solid border border-dark shadow-none"
           type="text"
           name="title"
           minLength={5}
-          maxLength={20}
+          maxLength={50}
           aria-label="input thread title"
           onFocus={removeError}
           onChange={(e) => {
@@ -241,10 +234,10 @@ function FirstSlide({
           }}
         />
         <div
-          className="text-white position-absolute"
+          className="text-dark position-absolute"
           style={{ right: "10px", top: "10px" }}
         >
-          {inputTitle.length}/20
+          {inputTitle.length}/50
         </div>
       </div>
       {/*------------------Errow Dispaly, don't display by default--------------*/}
@@ -252,25 +245,21 @@ function FirstSlide({
         className="w-100 text-end text-danger d-none"
         id="inputThreadTitle"
       ></p>
-      ``
       <PopupEditor
         componentType="post"
         setDescription={setDescription}
+        setPlainTextDescription={setPlainTextDescription}
         isReset={!isOpen}
       />
     </div>
   );
 }
 
-function SecondSlide({
-  addedTopics,
-  setAddedTopics,
-  defaultTopics,
-}) {
+function SecondSlide({ addedTopics, setAddedTopics, defaultTopics }) {
   return (
     <div>
       <div className="w-100 d-flex justify-content-between">
-        <h2 className="text-white">Add topic</h2>
+        <h2 className="text-dark ">Add topic</h2>
       </div>
       <p className="text-secondary">
         Add atleast 1 and maximum 3 topics to help people find your thread
@@ -279,15 +268,14 @@ function SecondSlide({
         className="border-bottom border-secondary"
         style={{ height: "100px" }}
       >
-        <div className="text-danger d-none" id="choose-topic-warning">
-          * Add atleast 1 topic
-        </div>
+        <div className="text-danger d-none" id="choose-topic-warning"></div>
         <div className="w-100  d-flex flex-wrap gap-1 gap-col-1">
           {/*Added topics*/}
           {addedTopics.map((addedTopic) => {
             return (
               <RemovedButton
-                topicName={addedTopic}
+                topicName={addedTopic.title}
+                topicId={addedTopic._id}
                 addedTopics={addedTopics}
                 setAddedTopics={setAddedTopics}
               />
@@ -301,7 +289,8 @@ function SecondSlide({
         {defaultTopics.map((defaultTopic) => {
           return (
             <AddedButton
-              topicName={defaultTopic}
+              topicName={defaultTopic.title}
+              topicId={defaultTopic._id}
               addedTopics={addedTopics}
               setAddedTopics={setAddedTopics}
             />
@@ -312,41 +301,50 @@ function SecondSlide({
   );
 }
 
-function AddedButton({ topicName, addedTopics, setAddedTopics }) {
-  function handleAddBtn(topic) {
-    setAddedTopics([...addedTopics, topic]);
+function AddedButton({ topicName, topicId, addedTopics, setAddedTopics }) {
+  function handleAddBtn(topicObject) {
+    const topicIndex = addedTopics.findIndex((topic) => topic.title === topicName);
+    if (topicIndex < 0) {
+      setAddedTopics([...addedTopics, topicObject]);
+    }
   }
-  function handleRemoveBtn(topic) {
+  function handleRemoveBtn(topicName) {
     const copyTopics = [...addedTopics];
-    copyTopics.splice([...copyTopics].indexOf(topic), 1);
+    copyTopics.splice(
+      [...copyTopics].findIndex((topic) => topic.title === topicName),
+      1
+    );
     setAddedTopics([...copyTopics]);
   }
   return (
     <button
-      className="m-1 py-1 px-2 btn border border-none text-white d-flex align-items-center  gap-2"
-      style={{ borderRadius: "30px" }}
+      className="m-1 py-1 px-2 btn border border-primary-green-900 text-primary-green-900 d-flex align-items-center  gap-2"
+      style={{ borderRadius: "20px" }}
       onClick={
         addedTopics.includes(topicName)
           ? () => {
               handleRemoveBtn(topicName);
             }
           : () => {
-              handleAddBtn(topicName);
+              handleAddBtn({ title: topicName, _id: topicId });
             }
       }
-      value={topicName}
     >
       <p className="m-0">{topicName}</p>
-      {addedTopics.includes(topicName) ? <p className="m-0">-</p> : null}
+      {!addedTopics.findIndex((topic) => topic.title === topicName) ? (
+        <p className="m-0">-</p>
+      ) : null}
     </button>
   );
 }
 
-function RemovedButton({ topicName, addedTopics, setAddedTopics }) {
-  function handleRemoveBtn(topic) {
+function RemovedButton({ topicName, topicId, addedTopics, setAddedTopics }) {
+  function handleRemoveBtn(topicName) {
     const copyTopics = [...addedTopics];
-    console.log("copy topic in remove button:" + copyTopics);
-    copyTopics.splice([...copyTopics].indexOf(topic), 1);
+    copyTopics.splice(
+      [...copyTopics].findIndex((topic) => topic.title === topicName),
+      1
+    );
     setAddedTopics([...copyTopics]);
   }
   return (
@@ -356,7 +354,6 @@ function RemovedButton({ topicName, addedTopics, setAddedTopics }) {
       onClick={() => {
         handleRemoveBtn(topicName);
       }}
-      value={topicName}
     >
       <p className="m-0">{topicName}</p>
       <p className="m-0">-</p>

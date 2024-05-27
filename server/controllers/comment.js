@@ -56,7 +56,23 @@ export const createComment = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
+export const uploadCommentFile = async (req, res) => {
+  try {
+    const uploadFile = req.file;
+    let result;
+    if (!uploadFile) return res.status(400).json({ message: "Bad Request" });
+    const imageName = createRandomName();
+    const fileBuffer = await sharp(uploadFile.buffer)
+      .jpeg({ quality: 100 })
+      .resize(2000)
+      .toBuffer();
+    uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
+    result = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
+    res.status(201).json(result);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
 export const getComments = async (req, res) => {
   try {
     let { postId, parentId, page, limit } = req.query;
@@ -68,7 +84,7 @@ export const getComments = async (req, res) => {
       page = "1";
     }
     if (!limit) {
-      limit = "10";
+      limit = "20";
     }
     const queryCommand = {};
 
@@ -88,40 +104,38 @@ export const getComments = async (req, res) => {
       queryCommand._id = { $in: post.comments };
     }
     console.log(` check query command: ${JSON.stringify(queryCommand)}`);
-    const comments = await Comment.aggregate([{ $match: queryCommand }])
-      .facet({
-        metadata: [
-          {
-            $project: {
-              _id: 1,
-            },
+    const comments = await Comment.aggregate([{ $match: queryCommand }]).facet({
+      metadata: [
+        {
+          $project: {
+            _id: 1,
           },
-          { $count: "total" },
-          {
-            $addFields: {
-              page: parseInt(page),
-              limit: parseInt(limit),
-            },
+        },
+        { $count: "total" },
+        {
+          $addFields: {
+            page: parseInt(page),
+            limit: parseInt(limit),
           },
-        ],
+        },
+      ],
 
-        data: [
-          {
-            $sort: {
-              createdAt: -1,
-            },
+      data: [
+        {
+          $sort: {
+            createdAt: -1,
           },
-          { $skip: (Number.parseInt(page) - 1) * limit },
-          { $limit: Number.parseInt(limit) },
-        ],
-      })
-     
+        },
+        { $skip: (Number.parseInt(page) - 1) * limit },
+        { $limit: Number.parseInt(limit) },
+      ],
+    });
+
     if (!comments) return res.status(400).json("cannot found items");
-    res.status(200).json(
-        // metadata: comments[0].metadata[0],
-        // data: 
-        comments[0].data,
-    );
+    res.status(200).json({
+      metadata: comments[0].metadata[0],
+      data: comments[0].data,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

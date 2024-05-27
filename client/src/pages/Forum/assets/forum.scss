@@ -323,8 +323,8 @@
   justify-content: center;
 }
 #post-modal {
-  width: 50%;
-  height: 90%;
+  width: 90%;
+  height: 80%;
   max-height: 800px;
   overflow-y: scroll;
   border-radius: 0.75rem;
@@ -394,7 +394,6 @@ video {
   color: #9ccdad;
 }
 .container-wrapper {
-  width: 100vw;
   margin: 0 auto;
 }
 .main-container {
@@ -520,6 +519,9 @@ video {
 }
 
 @media only screen and (min-width: 1200px) {
+  #post-modal{
+    width: 60%;
+  }
   .main-container {
     width: 73%;
   }

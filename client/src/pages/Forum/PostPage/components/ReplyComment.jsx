@@ -12,16 +12,20 @@ import ReplyEditor from "./ReplyEditor/ReplyEditor";
 import EditTextEditor from "../../../../components/Forum/EditTextEditor/EditTextEditor";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+
+import { CiCirclePlus } from "react-icons/ci";
+
 dayjs.extend(relativeTime);
 
-const fetcher = (url) => axios.get(url).then((res) => {
-  console.log(res.data);
-  return (res.data);
-});
+const fetcher = (url) =>
+  axios.get(url).then((res) => {
+    return res.data.data;
+  });
 
 export default function ReplyComment({ commentData, isLastIndex, isNew }) {
   const { postId } = useParams();
   const [newReply, setNewReply] = useState([]);
+  const [expand, setExpand] = useState(false);
   const [isReply, setIsReply] = useState(false);
   // console.log("\ncheck Comment data: ");
   // console.log("content: "+commentData.content);
@@ -30,10 +34,10 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
   // console.log("username: " + commentData.createBy.username);
   // console.log("profileImage: " + commentData.createBy.profileImage);
   const { data, error, isLoading } = useSWRImmutable(
-    commentData.replies.length > 0
+    commentData.replies.length > 0 && expand
       ? `http://localhost:3001/api/v1/comments?postsId=${postId}&parentId=${commentData._id}`
       : null,
-    fetcher,
+    fetcher
   );
   if (error) {
     return "error";
@@ -41,19 +45,7 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
   if (isLoading) {
     return "is loading";
   }
-
-  // const reply = data
-  //   ? data.map((commentData, index, data) => {
-  //       return (
-  //         <ReplyComment
-  //           key={commentData._id}
-  //           commentData={commentData}
-  //           isLastIndex={index === data.length - 1}
-  //         />
-  //       );
-  //     })
-  //   : [];
-    console.log(`check input: isLastIndex: ${isLastIndex}`)
+console.log(data);
   return (
     <>
       <ReplyContext.Provider
@@ -62,7 +54,7 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
         <div
           tabIndex="0"
           aria-label="comment section"
-          className="my-4 position-relative"
+          className="my-3 position-relative"
         >
           {commentData.parentId !== null && (
             <div
@@ -137,9 +129,35 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
               {isReply ? <ReplyEditor parentId={commentData._id} /> : null}
             </EditContextProvider>
           </div>
+          {/*expand reply buttons*/}
+          {commentData.replies.length > 0 && !expand && (
+            <a
+              onClick={() => {
+                setExpand(true);
+              }}
+              className="px-1 pb-3 position-relative cursor-pointer text-secondary  bg-greeli-subtle z-2"
+              style={{ borderRadius: "20px", left: "-5px" }}
+            >
+              <div className="d-inline-block fs-4">
+                <CiCirclePlus />{" "}
+              </div>
+              {commentData.replies.length} more replies
+            </a>
+          )}
+
           <div style={{ marginLeft: "23px" }}>
             {newReply}
-            {/* {reply} */}
+            {data
+              ? data.map((commentData, index, data) => {
+                  return (
+                    <ReplyComment
+                      key={commentData._id}
+                      commentData={commentData}
+                      isLastIndex={index === data.length - 1}
+                    />
+                  );
+                })
+              : []}
           </div>
         </div>
       </ReplyContext.Provider>

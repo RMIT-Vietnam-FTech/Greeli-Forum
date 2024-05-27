@@ -31,7 +31,7 @@ const rejectStyle = {
 	borderColor: "red",
 	color: "red",
 };
-export default function DropZoneFile({ file, setFile, isReset }) {
+export default function CreateCommunityDropZone({ file, setFile, isReset }) {
 	const {
 		getRootProps,
 		getInputProps,
@@ -44,13 +44,10 @@ export default function DropZoneFile({ file, setFile, isReset }) {
 		accept: {
 			"image/jpeg": [],
 			"image/png": [],
-			"image/gif": [],
 			"image/webp": [],
-			"video/mp4": [],
-			"video/webm": [],
 		},
 		maxFiles: 1,
-		maxSize: 1024 * 1024 * 20,
+		maxSize: 1024 * 1024 * 5,
 		onDropAccepted: (file) => {
 			setFile(file);
 		},
@@ -79,23 +76,9 @@ export default function DropZoneFile({ file, setFile, isReset }) {
 
 	return (
 		<>
-			<div tabIndex="0" className="w-100" {...getRootProps({ style })}>
+			<div tabIndex="0" className="w-100 h-100 rounded-circle" {...getRootProps({ style })}>
+                <p>upload</p>
 				<input {...getInputProps()} name="uploadFile" />
-				{!file ? (
-					<h4>Drop or Drag or click to Upload</h4>
-				) : (
-					<h4>Drop or Drag or Click to Replace</h4>
-				)}
-				{fileRejections.length > 0 ? (
-					<p className="mt-2">
-						{" "}
-						Rejected (video or image only, maximum upload file is
-						one)
-					</p>
-				) : null}
-				{acceptedFiles.length > 0 ? (
-					<p className="mt-2">Accepted: {acceptedFileItem}</p>
-				) : null}
 			</div>
 		</>
 	);

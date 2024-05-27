@@ -8,7 +8,7 @@ router
   .route("/")
   .get(commentController.getComments)
   .post(verifyToken,commentController.createComment);
-
+router.post("/upload", verifyToken, commentController.uploadCommentFile);
 router.route("/:commentId/upvote")
 .post(verifyToken, commentController.postUpVote)
 .delete(verifyToken, commentController.deleteUpvote);

@@ -72,6 +72,7 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 $custom-colors-text: (
   "forum": #365949,
   "greeli": #03100f,
+  "greeli-reverse":#f9fafb,
   "login": #365949,
   "general": #03100f,
   "profile": #0a2a28,
@@ -101,6 +102,7 @@ $custom-colors: (
 $custom-colors-text-dark: (
   "forum": #ffffff,
   "greeli": #ffffff,
+  "greeli-reverse":#03100f,
   "login": #dcb968,
   "general": #dcb968,
   "profile": #ffffff,
@@ -245,7 +247,9 @@ a {
 .text-greeli-emphasis {
   color: var(--bs-greeli-text-emphasis) !important;
 }
-
+.text-greeli-reverse-emphasis{
+  color: var(--bs-greeli-reverse-text-emphasis) !important;
+}
 .text-general-emphasis {
   color: var(--bs-general-text-emphasis) !important;
 }

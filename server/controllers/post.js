@@ -2,35 +2,40 @@ import * as crypto from "crypto";
 import Post from "../models/Post.js";
 import Thread from "../models/Thread.js";
 import User from "../models/User.js";
+import Topic from "../models/Topic.js";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
 import mongoose from "mongoose";
 import sharp from "sharp";
-import { response } from "express";
 const createRandomName = (bytes = 32) =>
   crypto.randomBytes(bytes).toString("hex");
 
 export const createPost = async (req, res) => {
   //req.body -> title, content, createBy{}
   try {
-    const title = req.body.title;
-    const content = req.body.content;
-    const uploadFile = req.file;
-    const belongToThread = req.body.belongToThread;
+    // console.log("runn create post");
+  let uploadFile;
+    if (req.file) {
+      uploadFile = req.file;
+    }
     const user = req.user;
-    // console.log(
-    //   `title: ${title}\n content: ${content}\n uploadFile: ${uploadFile}\n parentThread: ${belongToThread}\n user: ${user}`
-    // );
+    const { title, content, plainTextContent, belongToThread, belongToTopics } =
+      req.body;
+
+  // console.log(`check input:\n req.user: ${req.user}\n req.body: ${JSON.stringify(req.body)}\n file: ${req.file}`);
     if (req.user) {
       const user = await User.findById(req.user.id);
       // console.log(user);
-      const uploadObject = {};
+      const uploadObject = {
+        belongToTopics:[]
+      };
       uploadObject.title = title;
       uploadObject.content = content;
+      uploadObject.plainTextContent = plainTextContent;
       uploadObject.createdBy = {
         userId: user._id,
         username: user.username,
       };
-
+console.log("check1");
       if (user.profileImage) {
         uploadObject.createdBy.profileImage = user.profileImage;
       }
@@ -42,19 +47,33 @@ export const createPost = async (req, res) => {
       } else {
         res.status(404).json({ message: "thread id is not found or invalid" });
       }
-
+console.log("check2");
+      if (!belongToTopics)
+        return res
+          .status(400)
+          .json({ message: "Bad Request, must include topic" });
+console.log("check2.5");
+      for (let i = 0; i < belongToTopics.length; ++i) {
+        const topic = await Topic.findById(belongToTopics[i]);
+console.log("check2.8");
+        uploadObject.belongToTopics.push(topic._id);
+      }
+console.log("check3");
       if (uploadFile) {
+console.log("check3.1");
         const imageName = createRandomName();
         const fileBuffer = await sharp(uploadFile.buffer)
           .jpeg({ quality: 100 })
-          .resize({ width: 730, height: 400 })
+          .resize(2000)
           .toBuffer();
         console.log(fileBuffer);
         await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
+console.log("check3.5");
         uploadObject.uploadFile = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
       }
-
+console.log("check4");
       const post = new Post(uploadObject);
+      console.log(`check post: ${post}`);
       await post.save();
 
       user.createdPost.push(post._id);
@@ -76,7 +95,8 @@ export const getPosts = async (req, res) => {
   try {
     //filter -> threadId
     //sorting
-    let { sort, filter, belongToThread, page, limit, search } = req.query;
+    let { sort, filter, belongToThread, belongToTopic, page, limit, search } =
+      req.query;
 
     let response;
 
@@ -109,10 +129,15 @@ export const getPosts = async (req, res) => {
     if (filter == "unverified") {
       filterCommand.isApproved = false;
     }
-    if (belongToThread) {
+    if (belongToTopic) {
+      filterCommand.belongToTopics = {
+        $in: [mongoose.Types.ObjectId.createFromHexString(belongToTopic)],
+      };
+    } else if (belongToThread) {
       filterCommand.belongToThread =
         mongoose.Types.ObjectId.createFromHexString(belongToThread);
     }
+    console.log(`check filterCommand: ${JSON.stringify(filterCommand)}`);
     if (search) {
       response = await Post.aggregate()
         .search({
@@ -121,14 +146,16 @@ export const getPosts = async (req, res) => {
         })
         .project({ content: 0, comments: 0, upvote: 0 })
         .limit(10)
-        .match({ isApproved: true});
+        .match({ isApproved: true });
     } else {
       //sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
       const result = await Post.aggregate([{ $match: filterCommand }]).facet({
         metadata: [
-          {$project:{
-            _id: 1
-          }},
+          {
+            $project: {
+              _id: 1,
+            },
+          },
           { $count: "total" },
           {
             $addFields: {

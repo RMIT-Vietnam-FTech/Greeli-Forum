@@ -135,8 +135,8 @@ const RecommendPost = ({ postData }) => {
             </div>
           </div>
 
-          <Link
-            to={`http://localhost:3000/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
+          <a
+            href={`http://localhost:3000/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
             className="line-clamp-2-line"
           >
             <h4
@@ -148,7 +148,7 @@ const RecommendPost = ({ postData }) => {
             >
               {postData.title}
             </h4>
-          </Link>
+          </a>
         </div>
         <div className="w-25 ratio ratio-1x1  overflow-hidden text-white bg-primary-green-600"
         style={{borderRadius:"0.75rem"}}

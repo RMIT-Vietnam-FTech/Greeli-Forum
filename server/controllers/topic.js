@@ -19,7 +19,7 @@ export const createTopic = async (req, res) => {
 // GET all Topics
 export const getTopics = async (req, res) => {
   try {
-    const topics = await Topic.find({}).populate({path:'threads', select:'title'}).exec();
+    const topics = await Topic.find({});
     res.status(200).json(topics);
   } catch (error) {
     res.status(500).json({ message: error.message });

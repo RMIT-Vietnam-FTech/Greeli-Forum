@@ -13,6 +13,7 @@ import { useContext } from "react";
 import { PopupContextProvider } from "../../../context/PopupContext";
 import LoginPopup from "../../../components/Popup/LoginPopup";
 import PostList from "../ThreadPage/PostList";
+import TopicPage from "../TopicPage";
 export default function ForumPage() {
   const { isDarkMode } = useContext(ThemeContext);
   return (
@@ -32,7 +33,10 @@ export default function ForumPage() {
               <SearchBar />
               <Routes path="/">
                 <Route index element={<PostList />} />
-                <Route path="threads/:threadId">
+                <Route path="topics/:topicId">
+                  <Route index element={<TopicPage/>}/>
+                </Route>
+                <Route path="communities/:threadId">
                   <Route index element={<ThreadPage />} />
                   <Route path="posts/:postId" element={<PostPage />} />
                 </Route>
@@ -42,7 +46,7 @@ export default function ForumPage() {
               <Routes path="/">
                 <Route index element={<RightSideBarForum />} />
                 <Route
-                  path="/threads/:threadId"
+                  path="/communities/:threadId"
                   element={<RightSideBarThread />}
                 >
                   <Route

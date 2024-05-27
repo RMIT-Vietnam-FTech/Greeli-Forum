@@ -6,12 +6,7 @@ const topicSchema = new mongoose.Schema({
     unique: true,
     immutable: true,
   },
-  threads: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Thread",
-    },
-  ],
+ 
 });
 
 const Topic = mongoose.model("Topic", topicSchema);

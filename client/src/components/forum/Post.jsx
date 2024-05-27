@@ -111,7 +111,7 @@ export default function Post({ postData, isThreadAdmin }) {
         {/*post body*/}
         <div className=" mt-3 w-100">
           <Link
-            to={`/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
+            to={`/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
           >
             <div
               tabIndex="0"
@@ -134,8 +134,8 @@ export default function Post({ postData, isThreadAdmin }) {
               />
             </div>
           ) : null}
-          <Link
-            to={`/forum/threads/${postData.belongToThread}/posts/${postData._id}`}
+          <a
+            href={`/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
             className="post-content-wrapper d-block w-100 cursor-pointer overflow-hidden"
           >
             <EditTextEditor
@@ -144,7 +144,7 @@ export default function Post({ postData, isThreadAdmin }) {
               isOverFlow={true}
               content={JSON.parse(postData.content)}
             />
-          </Link>
+          </a>
         </div>
       </EditContextProvider>
 

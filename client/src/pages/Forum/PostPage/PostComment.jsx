@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import useSWRInfinite from 'swr/infinite';
+import useSWRInfinite from "swr/infinite";
 
 import { Button } from "react-bootstrap";
 import { CommentContext } from "../../../context/CommentContext";
@@ -20,17 +20,37 @@ import { useLogin } from "../../../hooks/useLogin";
 
 import { PopupContext } from "../../../context/PopupContext";
 import ReplyComment from "../PostPage/components/ReplyComment";
+import { useEditor } from "@tiptap/react";
 
 const fetcher = (url) =>
   axios.get(url).then((res) => {
-    return res.data;
+    return res.data.data;
   });
+  const getMetadata = (url)=>{
+   return axios.get(url).then((res)=>{
+      return res.data.metadata;
+    })
+  }
 export default function PostComment({ postData, threadAdminId }) {
   const isLogin = useLogin();
   const [newComment, setNewComment] = useState([]);
   const [isApproved, setIsApproved] = useState(postData.isApproved);
+  const [metadata, setMetadata] = useState();
+  let limit = 20, total = 19;
   const navigate = useNavigate();
 
+  useEffect(()=>{
+   getMetadata(`http://localhost:3001/api/v1/comments?postId=${
+      postData._id
+    }&parentId=null&page=1`).then((res)=>{
+      setMetadata(res)
+    });
+    }, [])
+
+    if(metadata){
+      limit = metadata.limit;
+      total = metadata.total;
+    }
   async function handleApproved() {
     setIsApproved(true);
     const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
@@ -76,7 +96,7 @@ export default function PostComment({ postData, threadAdminId }) {
       if (prevData && !prevData.length) return null;
       return `http://localhost:3001/api/v1/comments?postId=${
         postData._id
-      }&parentId=null&$page=${index + 1}`;
+      }&parentId=null&page=${index + 1}`;
     },
     fetcher
   );
@@ -85,6 +105,7 @@ export default function PostComment({ postData, threadAdminId }) {
     return "is loading";
   }
   const issues = data ? [].concat(...data) : [];
+  console.log(`issues length: ${issues.length}`);
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-3">
@@ -154,7 +175,17 @@ export default function PostComment({ postData, threadAdminId }) {
           })}
         </section>
       </CommentContext.Provider>
-      <button className="px-4 py-2 bg-forum-subtle text-white border border-0" style={{borderRadius:"20px"}}>Load more comments</button>
+      {issues.length > 0 && (size * limit < total) && 
+      <button
+        onClick={() => {
+          setSize(size + 1);
+        }}
+        className="px-4 py-2 bg-forum-subtle text-white border border-0"
+        style={{ borderRadius: "20px" }}
+      >
+        Load more comments
+      </button>
+      }
     </>
   );
 }

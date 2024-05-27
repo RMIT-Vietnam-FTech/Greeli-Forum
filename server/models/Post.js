@@ -4,8 +4,13 @@ const postSchema = new mongoose.Schema(
   {
     belongToThread: {
       type: mongoose.Schema.Types.ObjectId,
+      ref:"Thread",
       require: true,
     },
+    belongToTopics:[{
+      type: mongoose.Schema.Types.ObjectId,
+      ref:"Topic",
+    }],
     title: {
       type: String,
       required: true,
@@ -18,8 +23,12 @@ const postSchema = new mongoose.Schema(
       default: null,
     },
     content: {
-      type: String,
+      type:JSON,
       required: false,
+    },
+    plainTextContent:{
+      type: String,
+      required: false
     },
     comments: [
       {

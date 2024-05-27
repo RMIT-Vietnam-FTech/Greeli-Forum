@@ -41,7 +41,7 @@ const fetcher = async (prop) => {
   return await axios.get(url).then((res) => res.data.data);
 };
 
-export default function PostList({ threadData }) {
+export default function PostList({ threadData, topicData}) {
   const { searchTerm } = useUserContext();
   const [searchResult, setSearchResult] = useState([]);
   const [sortOption, setSortOption] = useState("Hot");
@@ -55,6 +55,10 @@ export default function PostList({ threadData }) {
       return `http://localhost:3001/api/v1/admin/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
     } else if (threadData) {
       return `http://localhost:3001/api/v1/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
+    }
+    else if(topicData){
+      return `http://localhost:3001/api/v1/posts?page=${page}&belongToTopic=${topicData._id}&sort=${sort}`;
+
     }
     return `http://localhost:3001/api/v1/posts?page=${page}&sort=${sort}`;
   };
@@ -152,7 +156,7 @@ const Sorting = ({ sortOption, setSortOption }) => {
     <div className="dropdown ms-3">
       <button
         className={
-          "btn  d-flex gap-1 bg-forum-subtle text-white d-flex rounded-5 px-4 "
+          "btn  d-flex gap-1 bg-login-subtle text-greeli-reverse-emphasis d-flex rounded-5 px-4 "
         }
         data-bs-toggle="dropdown"
       >
