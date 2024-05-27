@@ -53,7 +53,7 @@ export default function EditTextEditor({ content, componentType }) {
 
 	return (
 		<div
-		tabIndex="0"
+			tabIndex="0"
 			className={
 				editContext.isEdit
 					? "text-editor text-greeli-emphasis show-border"
@@ -63,7 +63,7 @@ export default function EditTextEditor({ content, componentType }) {
 			<EditorProvider
 				editorProps={{
 					attributes: {
-						class: "cursor-text",
+						// class: "cursor-text",
 					},
 				}}
 				slotBefore={

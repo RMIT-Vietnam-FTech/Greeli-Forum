@@ -1,29 +1,42 @@
 import axios from "axios";
-import { useContext, useEffect, useInsertionEffect, useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-import useSwr from "swr";
+import useSWRImmutable from "swr/immutable";
+
 import { Button } from "react-bootstrap";
 import { CommentContext } from "../../../context/CommentContext";
 import { EditContextProvider } from "../../../context/EditContext";
-import Comment from "./components/Comment";
 import CreateCommentEditor from "./components/CreateCommentEditor/CreateCommentEditor";
-import ButtonUpvote from "../../../components/forum/ButtonUpvote";
+import ButtonUpvote from "../../../components/Forum/ButtonUpvote";
 
 import { FaCommentAlt } from "react-icons/fa";
+import { FaShareFromSquare } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 import { IoMdCheckmark } from "react-icons/io";
 import { BsShieldFillX } from "react-icons/bs";
 import { BsShieldFillCheck } from "react-icons/bs";
-
-import { useNavigate } from "react-router-dom";
-import LoginPopup, { useLogin } from "../../../components/Popup/LoginPopup";
+// import share icon
 import {
-  PopupContext,
-  PopupContextProvider,
-} from "../../../context/PopupContext";
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+  RedditShareButton,
+  RedditIcon,
+} from "react-share";
+
+import { useLogin } from "../../../hooks/useLogin";
+
+import { PopupContext } from "../../../context/PopupContext";
+import ReplyComment from "../PostPage/components/ReplyComment";
+
+axios.defaults.withCredentials = true;
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
-export default function Comments({ postData, threadAdminId }) {
+export default function PostComment({ postData, threadAdminId }) {
   const isLogin = useLogin();
   const [newComment, setNewComment] = useState([]);
   const [isApproved, setIsApproved] = useState(postData.isApproved);
@@ -37,9 +50,9 @@ export default function Comments({ postData, threadAdminId }) {
       { threadId: postData.belongToThread },
       {
         headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("user")).token
-          }`,
+          //   Authorization: `Bearer ${
+          //     JSON.parse(localStorage.getItem("user")).token
+          //   }`,
         },
       }
     );
@@ -52,24 +65,24 @@ export default function Comments({ postData, threadAdminId }) {
       await axios.delete(
         path,
 
-				{
-					data: {
-						threadId: postData.belongToThread,
-					},
-					headers: {
-						Authorization: `Bearer ${
-							JSON.parse(localStorage.getItem("user")).token
-						}`,
-					},
-				},
-			);
+        {
+          data: {
+            threadId: postData.belongToThread,
+          },
+          headers: {
+            // Authorization: `Bearer ${
+            //   JSON.parse(localStorage.getItem("user")).token
+            // }`,
+          },
+        }
+      );
 
-      navigate(`/forum/${postData.belongToThread}`);
+      navigate(`/forum/threads/${postData.belongToThread}`);
     } catch (error) {
       console.error(error.message);
     }
   }
-  const { data, error, isLoading } = useSwr(
+  const { data, error, isLoading } = useSWRImmutable(
     `http://localhost:3001/api/v1/comments?postId=${postData._id}&parentId=null`,
     fetcher
   );
@@ -85,6 +98,7 @@ export default function Comments({ postData, threadAdminId }) {
         <div className="d-flex gap-2">
           <ButtonUpvote upvote={postData.upvote} postId={postData._id} />
           <ButtonComment commentLength={postData.comments.length} />
+          <ButtonShare />
         </div>
 
         {/*show verify status */}
@@ -138,14 +152,16 @@ export default function Comments({ postData, threadAdminId }) {
         <section id="comment-section" className="mt-3 w-100">
           {newComment}
           {data.map((commentData) => {
-            return <Comment key={commentData._id} commentData={commentData} />;
+            return (
+              <ReplyComment key={commentData._id} commentData={commentData} />
+            );
           })}
         </section>
       </CommentContext.Provider>
     </>
   );
 }
-function ButtonComment({ commentLength }) {
+export function ButtonComment({ commentLength }) {
   const popupContext = useContext(PopupContext);
   const isLogin = useLogin();
   function handlePopup() {
@@ -160,5 +176,44 @@ function ButtonComment({ commentLength }) {
     >
       {commentLength} <FaCommentAlt className="me-2" />
     </button>
+  );
+}
+export function ButtonShare() {
+  const [showShareList, setShowShareList] = useState(false);
+  const link = window.location.href;
+  function handlePopup() {
+    setShowShareList(!showShareList);
+  }
+
+  return (
+    <div>
+      <button
+        onClick={handlePopup}
+        className="px-1 rounded-5 border border-primary-green bg-transparent text-forum-emphasis"
+        style={{ fontSize: "14px" }}
+      >
+        <FaShareFromSquare />
+      </button>
+      {showShareList && <ShareList url={link} title="Check out this post!" />}
+    </div>
+  );
+}
+
+export function ShareList({ url, title }) {
+  return (
+    <div className="container position-absolute">
+      <FacebookShareButton url={url} quote={title} hashtag="#Greeli">
+        <FacebookIcon size={32} round />
+      </FacebookShareButton>
+      <TwitterShareButton url={url} title={title}>
+        <TwitterIcon size={32} round />
+      </TwitterShareButton>
+      <LinkedinShareButton url={url} title={title}>
+        <LinkedinIcon size={32} round />
+      </LinkedinShareButton>
+      <RedditShareButton url={url} title={title}>
+        <RedditIcon size={32} round />
+      </RedditShareButton>
+    </div>
   );
 }

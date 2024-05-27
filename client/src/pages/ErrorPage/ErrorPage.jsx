@@ -12,7 +12,7 @@ const ErrorPage = () => {
 
 	const handleHomeClick = () => {
 		navigate("/");
-	}
+	};
 
 	const handleContactClick = () => {
 		navigate("/contact");
@@ -29,7 +29,12 @@ const ErrorPage = () => {
 					We are sorry but the page you requested was not found
 				</p>
 				<div className="d-flex flex-row gap-3 justify-content-center">
-					<Button className="error-button rounded-pill" onClick={handleHomeClick}>GO HOME</Button>{" "}
+					<Button
+						className="error-button rounded-pill"
+						onClick={handleHomeClick}
+					>
+						GO HOME
+					</Button>{" "}
 					<Button
 						className="text-error-emphasis error-button rounded-pill border-error"
 						variant="outline-primary-green"

@@ -28,13 +28,23 @@ main {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-[data-bs-theme='dark'] .read-more {
+[data-bs-theme='dark'] .read-more-btn {
   border: 2px solid #ffffff;
   /* Dark mode border color */
 }
 
-[data-bs-theme='light'] .read-more {
+[data-bs-theme='light'] .read-more-btn {
   border: 2px solid #ffffff;
+  /* Light mode border color */
+}
+
+[data-bs-theme='dark'] .highlight-text {
+  color: #ead08d;
+  /* Dark mode border color */
+}
+
+[data-bs-theme='light'] .highlight-text {
+  color: #9e7734;
   /* Light mode border color */
 }
 
@@ -60,24 +70,22 @@ main {
 
 .feature:hover,
 .feature:focus {
-  transform: translateY(-10px);
+  transform: translateY(-5px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.read-more {
-  transition: 0.3s ease-in-out;
+.read-more-btn {
+  transition: 0.3s ease-in-out !important;
+  font-size: 1.2rem;
 }
 
-.read-more:hover,
-.read-more:focus {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border: 2px solid #DCB968;
+.read-more-btn:hover {
+  background-color: #fff !important;
+  color: #365949 !important;
+  position: relative;
+  border: 2px solid #365949 !important;
 }
 
-.introduction:hover,
-.introduction:focus {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
 
 /* Animations */
 @keyframes fadeInUp {
@@ -93,13 +101,13 @@ main {
 }
 
 .section {
-  animation: fadeInUp 0.5s ease-in-out;
+  animation: fadeInUp 0.3s ease-in-out;
 }
 
 .feature {
   animation: fadeInUp 0.5s ease-in-out 0.2s;
 }
 
-.read-more {
+/* .read-more {
   animation: fadeInUp 0.5s ease-in-out 0.4s;
-}
+} */

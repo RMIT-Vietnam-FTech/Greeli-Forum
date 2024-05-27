@@ -65,9 +65,11 @@ const BasicInfo = (props) => {
 	if (isEditing) {
 		return (
 			<div className="container-fluid text-white info-item py-2">
-				<Toaster />
 				<div className="row d-flex flex-row align-items-center g-1">
-					<div className="col-1 text-greeli-emphasis" aria-hidden="true">
+					<div
+						className="col-1 text-greeli-emphasis"
+						aria-hidden="true"
+					>
 						{iconArray[id]}
 					</div>
 					{/* <label htmlFor={`info-input-${id}`} className="sr-only">
@@ -105,6 +107,7 @@ const BasicInfo = (props) => {
 	} else {
 		return (
 			<div className="container w-100 text-greeli-emphasis info-item">
+				<Toaster />
 				<div className="row w-100">
 					<div className="col-1" aria-hidden="true">
 						{id === 0 ? iconArray[id][0] : iconArray[id]}

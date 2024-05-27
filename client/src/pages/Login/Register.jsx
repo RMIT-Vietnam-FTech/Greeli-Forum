@@ -11,12 +11,14 @@ import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import "../../scss/custom.css";
+
+axios.defaults.withCredentials = true;
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
 };
 
 const Register = () => {
-	const backgroundImage = 'url("LoginBackground.png")';
+	const backgroundImage = 'url("/LoginBackground.png")';
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -139,7 +141,7 @@ const Register = () => {
 						The guide to sustainable life
 					</h1>
 					<Image
-						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+						src={isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"}
 						width={120}
 						className="my-2"
 						alt="Greeli Forum Logo"

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import PostItem from "./PostItem";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const PostGallery = (props) => {
 	const isMe = props.isMe;
 	const userId = props.userId;
-	const token = JSON.parse(localStorage.getItem("user")).token;
 	const [createdPosts, setCreatedPosts] = useState(null);
 	const [archivedPosts, setArchivedPosts] = useState(null);
 	const [renderPostList, setRenderPostList] = useState(null);
@@ -55,8 +55,13 @@ const PostGallery = (props) => {
 			await axios(configuration)
 				.then(async (response) => {
 					const data = response.data;
-					const processedData = await data.map((post) => processPosts(post));
-					newRenderPostList = [...newRenderPostList, ...processedData];
+					const processedData = await data.map((post) =>
+						processPosts(post),
+					);
+					newRenderPostList = [
+						...newRenderPostList,
+						...processedData,
+					];
 				})
 				.catch((error) => {
 					console.log(error);
@@ -72,14 +77,19 @@ const PostGallery = (props) => {
 				url: `http://localhost:3001/api/user/${userId}/archived_posts`,
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
+					// Authorization: `Bearer ${token}`,
 				},
 			};
 			await axios(configuration)
 				.then(async (response) => {
 					const data = response.data;
-					const processedData = await data.map((post) => processPosts(post));
-					newRenderPostList = [...newRenderPostList, ...processedData];
+					const processedData = await data.map((post) =>
+						processPosts(post),
+					);
+					newRenderPostList = [
+						...newRenderPostList,
+						...processedData,
+					];
 				})
 				.catch((error) => {
 					console.log(error);
@@ -122,7 +132,10 @@ const PostGallery = (props) => {
 					User's posts
 				</p>
 				{isMe && (
-					<p className="post-tab text-center col" onClick={changeTabHandler}>
+					<p
+						className="post-tab text-center col"
+						onClick={changeTabHandler}
+					>
 						Saved posts
 					</p>
 				)}

@@ -2,9 +2,11 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import useSwr from "swr";
 import "../assets/forum.scss";
-import Comments from "./Comments";
-import InitialPost from "./IntialPost";
+import PostContent from "./PostContent";
+import PostComment from "./PostComment";
+
 const fetcher = (url) => axios.get(url).then((res) => res.data);
+axios.defaults.withCredentials = true;
 
 export default function PostPage() {
 	const { postId } = useParams();
@@ -22,6 +24,7 @@ export default function PostPage() {
 }
 function PostPageStructure({ postData }) {
 	const navigate = useNavigate();
+	const user = localStorage.getItem("user");
 	const { data, error, isLoading } = useSwr(
 		`http://localhost:3001/api/v1/threads/${postData.belongToThread}`,
 		fetcher,
@@ -34,16 +37,14 @@ function PostPageStructure({ postData }) {
 	}
 	if (
 		postData.isApproved ||
-		(localStorage.getItem("user") !== "null" &&
-			(data.createdBy.userId ==
-				JSON.parse(localStorage.getItem("user")).id ||
-				postData.createdBy.userId ==
-					JSON.parse(localStorage.getItem("user")).id))
+		(user &&
+			(data.createdBy.userId == JSON.parse(user).id ||
+				postData.createdBy.userId == JSON.parse(user).id))
 	) {
 		return (
 			<>
-				<InitialPost postData={postData} />
-				<Comments
+				<PostContent postData={postData} />
+				<PostComment
 					postData={postData}
 					threadAdminId={data.createdBy.userId}
 				/>

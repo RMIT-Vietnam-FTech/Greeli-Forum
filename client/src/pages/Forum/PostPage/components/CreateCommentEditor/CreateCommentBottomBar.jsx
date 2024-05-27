@@ -1,10 +1,12 @@
 import { useCurrentEditor } from "@tiptap/react";
 import { useContext, useId } from "react";
 import { useParams } from "react-router-dom";
+
 import { CommentContext } from "../../../../../context/CommentContext";
 import { EditContext } from "../../../../../context/EditContext";
-import Comment from "../Comment";
+import Comment from "../ReplyComment";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 export default function CreateCommentBottomBar({ content }) {
 	const editContext = useContext(EditContext);
 	const commentContext = useContext(CommentContext);
@@ -42,17 +44,21 @@ export default function CreateCommentBottomBar({ content }) {
 			const newCommentData = await axios
 				.post("http://localhost:3001/api/v1/comments", storeObject, {
 					headers: {
-						Authorization: `Bearer ${
-							JSON.parse(localStorage.getItem("user")).token
-						}`,
+						// Authorization: `Bearer ${
+						// 	JSON.parse(localStorage.getItem("user")).token
+						// }`,
 					},
 				})
 				.then((res) => res.data);
 
 			commentContext.setNewComment([
-				<Comment key={commentId} commentData={newCommentData} />,
+				<Comment
+					key={newCommentData._id}
+					commentData={newCommentData}
+				/>,
 				...commentContext.newComment,
 			]);
+
 			//set content
 			editor.commands.setContent("");
 		} else {
