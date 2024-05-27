@@ -10,7 +10,7 @@ import SignIn from "../../components/Popup/SignIn";
 axios.defaults.withCredentials = true;
 const Chat = () => {
 	const socket = useRef();
-	const { user, error, setError } = useUserContext();
+	const { user, error, setError, chatNoti, setChatNoti } = useUserContext();
 	const [chats, setChats] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
 	const [onlineUsers, setOnlineUsers] = useState([]);
@@ -25,6 +25,8 @@ const Chat = () => {
 	const [userInChatId, setUserInChatId] = useState([]);
 	const [userNotInChat, setUserNotInChat] = useState([]);
 	const [query, setQuery] = useState("");
+
+	console.log("notification", chatNoti)
 
 	useEffect(() => {
 		socket.current = io("http://localhost:3001");
@@ -83,10 +85,19 @@ const Chat = () => {
 			setReceiveMessage(data);
 			console.log(data)
 		});
+		socket.current.on("get-notification", (data) =>{
+			const isChatOpen = currentChat?.members.some(id => id === data.senderId)
+			if (isChatOpen) {
+				setChatNoti(prev => [{...data, isRead: true}, ...prev])
+			} else {
+				setChatNoti(prev => [data, ...prev])
+			}
+		})
 		return () => {
 			socket.current.off("receive-message");
+			socket.current.off("get-notification");
 		};
-	}, [socket.current]);
+	}, [socket.current, currentChat]);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -147,6 +158,7 @@ const Chat = () => {
 
 	const handleChatClick = (chat) => {
 		setCurrentChat(chat);
+		chatNoti.filter((noti) => noti.chatId === chat._id).map((noti) => noti.isRead = true);
 		if (isMobileView) {
 			setShowChatBox(true);
 		}
@@ -235,6 +247,7 @@ const Chat = () => {
 									currentUserId={userId}
 									online={checkOnlineStatus(chat)}
 									isActive={currentChat === chat}
+									chatNoti={chatNoti.filter((noti) => noti.chatId === chat._id)}
 								/>
 							</div>
 						))}

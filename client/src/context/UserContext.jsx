@@ -11,7 +11,7 @@ export const UserContextProvider = ({ children }) => {
 	const [success, setSuccess] = useState("");
 	const [error, setError] = useState("");
 	const [searchTerm, setSearchTerm] = useState();
-	const [chatNoti, setChatNoti] = useState();
+	const [chatNoti, setChatNoti] = useState([]);
 	useEffect(() => {
 		localStorage.setItem("user", user);
 	}, [user]);
@@ -32,6 +32,8 @@ export const UserContextProvider = ({ children }) => {
 				setSearchTerm,
 				success,
 				setSuccess,
+				chatNoti,
+				setChatNoti
 			}}
 		>
 			{children}

@@ -24,7 +24,7 @@ import {
 	logout,
 	uploadProfileImage,
 	requestResetPassword,
-	resetPassword
+	resetPassword,
 } from "../controllers/user.js";
 // import { getProfile } from "../controllers/userProfile.js";
 import { verifyToken, verifyAdmin } from "../middleware/auth.js";

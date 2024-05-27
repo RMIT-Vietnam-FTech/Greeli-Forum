@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import Thread from "./Thread.js";
+import Post from "./Post.js";
+
 const userSchema = new mongoose.Schema(
 	{
 		username: {
@@ -81,8 +84,13 @@ const userSchema = new mongoose.Schema(
 		},
 		resetPasswordToken: {
 			type: String,
-
-		}
+		},
+		// reportedBy: [
+		// 	{
+		// 		type: mongoose.Schema.Types.ObjectId,
+		// 		ref: "User",
+		// 	},
+		// ]
 	},
 	{ timestamps: true },
 );
