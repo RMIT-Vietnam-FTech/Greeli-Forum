@@ -24,7 +24,7 @@ import {
 	logout,
 	uploadProfileImage,
 	requestResetPassword,
-	resetPassword
+	resetPassword,
 } from "../controllers/user.js";
 // import { getProfile } from "../controllers/userProfile.js";
 import { verifyToken, verifyAdmin } from "../middleware/auth.js";
@@ -75,6 +75,8 @@ router.put("/:adminId/:userId/lock", verifyToken, verifyAdmin, lock);
 router.put("/:adminId/:userId/unlock", verifyToken, verifyAdmin, unlock);
 
 router.route("/:userId/created_threads").get(verifyToken, getCreatedThread);
+
+
 
 router
 	.route("/:userId/follow_threads")

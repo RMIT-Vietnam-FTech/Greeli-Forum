@@ -22,7 +22,7 @@ export default function DropDown({
 	}, []);
 	async function checkSavingStatus() {
 		if (localStorage.getItem("user") !== "null") {
-			const path = `http://localhost:3001/api/user/${
+			const path = `/api/user/${
 				JSON.parse(localStorage.getItem("user")).id
 			}/archived_posts`;
 			const archivedPosts = await axios
@@ -47,7 +47,7 @@ export default function DropDown({
 
 	async function handleSave() {
 		try {
-			const path = `http://localhost:3001/api/user/${
+			const path = `/api/user/${
 				JSON.parse(localStorage.getItem("user")).id
 			}/archived_posts`;
 			await axios.post(
@@ -71,7 +71,7 @@ export default function DropDown({
 
 	async function handleUnSave() {
 		try {
-			const path = `http://localhost:3001/api/user/${
+			const path = `/api/user/${
 				JSON.parse(localStorage.getItem("user")).id
 			}/archived_posts`;
 			await axios.delete(
@@ -97,7 +97,7 @@ export default function DropDown({
 	async function handleDelete() {
 		try {
 			//delete and redirect
-			const path = `http://localhost:3001/api/v1/posts/${postId}`;
+			const path = `/api/v1/posts/${postId}`;
 			await axios.delete(
 				path,
 

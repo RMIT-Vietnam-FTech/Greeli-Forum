@@ -24,7 +24,7 @@ const Navbar = ({ isForum }) => {
 		// toggleUserInfo()
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/logout",
+			url: "/api/user/logout",
 		};
 		axios(configuration)
 			.then((result) => {

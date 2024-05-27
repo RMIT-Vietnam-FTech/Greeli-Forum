@@ -6,6 +6,8 @@ import { useInView } from "react-intersection-observer";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useUserContext } from "../../../context/UserContext";
 
+axios.defaults.withCredentials = true;
+
 const fetcher = async (prop) => {
 	const [url, isThreadAdmin, isMetaData] = prop;
 	console.log(
