@@ -21,7 +21,6 @@ import NewPassword from "./pages/Login/NewPassword.jsx";
 import ResetPassword from "./pages/Login/ResetPassword.jsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import Cookies from "./components/Cookies/Cookie.jsx";
-import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 
 const routesConfig = [
 	{ path: "/", element: <Homepage />, name: "Homepage" },
