@@ -10,7 +10,7 @@ const Header = () => {
 
 				{/* This is video for the background. */}
 				<video className="w-100 position-relative" autoPlay muted loop>
-					<source src="Forest.mp4" />
+					<source src="/Forest.mp4" />
 				</video>
 
 				{/* Text content */}

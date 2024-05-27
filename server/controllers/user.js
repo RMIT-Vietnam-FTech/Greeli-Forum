@@ -216,6 +216,20 @@ export const activateAccount = async (req, res) => {
 	}
 };
 
+// export const reportAccount = async (req, res) => {
+// 	try {
+// 		const reportedUser = req.params.reportedId;
+// 		const reportUser = req.params.reportId;
+// 		const user = await User.findByIdAndUpdate(userId, {
+// 			$push: {reportedBy: reportedUser},
+// 		}, {new: true});
+// 		if (!user) return res.status(404).json({ message: "User not found" });
+// 		res.status(200).json({ message: "Reported successfully!" });
+// 	} catch (error) {
+// 		res.status(500).json({ error: error.message });
+// 	}
+// }
+
 export const getUser = async (req, res) => {
   const id = req.params.id;
   try {
