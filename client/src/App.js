@@ -45,8 +45,8 @@ function App() {
     <div className="App w-100">
       <ThemeProvider>
         <UserContextProvider>
-          <div className="h-100" style={{ marginTop: "80px" }}>
           <Navbar isForum={isForum} />
+          <div className="h-100" style={{ marginTop: "80px" }}>
             <ScrollToTop />
             <Routes>
               <Route path="/" element={<Homepage />} />
@@ -66,33 +66,14 @@ function App() {
                   <Route path="/chat" element={<Chat />} />
                 </Route>
               </Route>
-              <Route path="/forum/*" element={<ForumPage/>}></Route>
+              <Route path="/forum/*" element={<ForumPage />}></Route>
               <Route path="*" element={<ErrorPage />} />
             </Routes>
           </div>
           <Footer />
           <ChatBubble />
+          <Cookies />
           <div id="popup-root"></div>
-          <CookiesConsent
-            debug={true}
-            location="bottom"
-            buttonText="Accept all cookies"
-            style={{ background: "#2B373B" }}
-            buttonClasses="bg-primary-green text-light rounded-4 m-2 py-2 px-3"
-            overlay={true}
-            containerClasses="text-start bg-primary-yellow-300 rounded-4 m-2 p-2 w-25"
-            contentClasses="text-primary-green d-block h-auto m-2"
-          >
-            <img
-              className="m-2 d-block"
-              src="LightLogo.svg"
-              width={60}
-              alt="Greeli Logo"
-            />
-            By clicking “Accept all cookies”, you agree Greeli can store cookies
-            on your device and disclose information in accordance with our
-            Cookie Policy.
-          </CookiesConsent>
         </UserContextProvider>
       </ThemeProvider>
     </div>

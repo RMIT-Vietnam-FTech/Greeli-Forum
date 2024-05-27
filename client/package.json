@@ -63,6 +63,7 @@
 		"react-router": "^6.23.1",
 		"react-router-dom": "^6.23.0",
 		"react-scripts": "5.0.1",
+		"react-share": "^5.1.0",
 		"react-slick": "^0.30.2",
 		"reactjs-popup": "^2.0.6",
 		"reaptcha": "^1.12.1",

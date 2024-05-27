@@ -13,10 +13,10 @@ function Posts() {
 				<div className="news-card card-item rounded-4">
 					<img
 						src={props.img}
-						alt="News"
+						alt="Recommended Post"
 						className="card-img-top h-50 object-fit-cover rounded-top-4"
 					/>
-					<div className="cards-body h-auto">
+					<div className="cards-body">
 						<p className="card-date">
 							<small>{props.date}</small>
 						</p>
@@ -130,7 +130,7 @@ function Posts() {
 
 	return (
 		<div onWheel={handleWheel}>
-			<Slider {...settings} className="slider-container" ref={sliderRef}>
+			<Slider {...settings} className="slider-container p-3" ref={sliderRef}>
 				{data.map((item) => (
 					<Post
 						key={item._id} // Use _id from MongoDB

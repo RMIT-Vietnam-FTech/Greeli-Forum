@@ -2,34 +2,34 @@ import axios from "axios";
 import { useContext, useState } from "react";
 import { BsArrowUpSquareFill } from "react-icons/bs";
 
-import {  PopupContext  } from "../../context/PopupContext";
+import { PopupContext } from "../../context/PopupContext";
 import { useLogin } from "../../hooks/useLogin";
 
 axios.defaults.withCredentials = true;
 
 export default function ButtonUpvote({ upvote, postId, commentId }) {
-  const isLogin = useLogin();
-  const popupContext = useContext(PopupContext);
-  async function handleUpvote() {
-    try {
-      if (!isLogin) {
-        popupContext.setIsPopup(true);
-      } else {
-        // const token = JSON.parse(localStorage.getItem("user")).token;
-        if (isVoted) {
-          const index = upvote.indexOf(user.id);
-          if (index > -1) {
-            console.log("desc upvote length");
-            if (postId) {
-              await axios.delete(
-                `/api/v1/posts/${postId}/upvote`,
-                {
-                //   headers: {
-                //     Authorization: `Bearer ${token}`,
-                //   },
-                }
-              );
-            }
+	const isLogin = useLogin();
+	const popupContext = useContext(PopupContext);
+	async function handleUpvote() {
+		try {
+			if (!isLogin) {
+				popupContext.setIsPopup(true);
+			} else {
+				const token = JSON.parse(localStorage.getItem("user")).token;
+				if (isVoted) {
+					const index = upvote.indexOf(user.id);
+					if (index > -1) {
+						console.log("desc upvote length");
+						if (postId) {
+							await axios.delete(
+								`http://localhost:3001/api/v1/posts/${postId}/upvote`,
+								{
+									//   headers: {
+									//     Authorization: `Bearer ${token}`,
+									//   },
+								},
+							);
+						}
 
 						if (commentId) {
 							await axios.delete(

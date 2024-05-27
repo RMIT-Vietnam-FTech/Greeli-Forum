@@ -65,7 +65,7 @@ const Chat = () => {
 				});
 		};
 		getChats();
-	}, [userId, updateChat, error]);
+	}, [userId, updateChat, error, receiveMessage]);
 
 	useEffect(() => {
 		if (socket.current === null) return;
@@ -81,6 +81,7 @@ const Chat = () => {
 		if (socket.current === null) return;
 		socket.current.on("receive-message", (data) => {
 			setReceiveMessage(data);
+			console.log(data)
 		});
 		return () => {
 			socket.current.off("receive-message");

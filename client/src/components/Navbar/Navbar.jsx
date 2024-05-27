@@ -70,7 +70,9 @@ const Navbar = ({ isForum }) => {
 					<Link className="brand d-flex" to="/">
 						<Image
 							className="me-0 me-md-3"
-							src={isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"}
+							src={
+								isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"
+							}
 							width={40}
 							alt="Greeli Logo"
 						/>
@@ -162,7 +164,7 @@ const Navbar = ({ isForum }) => {
 						id="offcanvasForum"
 						aria-labelledby="offcanvasForumLabel"
 					>
-						<div className="offcanvas-header border-bottom border-white bg-greeli-subtle" >
+						<div className="offcanvas-header border-bottom border-white bg-greeli-subtle">
 							<h5
 								className="offcanvas-title text-greeli-emphasis"
 								id="offcanvasNavbarLabel"
@@ -175,7 +177,7 @@ const Navbar = ({ isForum }) => {
 							/>
 						</div>
 						<div className="offcanvas-body h-100 bg-greeli-subtle">
-							<LeftSideBar/>
+							<LeftSideBar />
 						</div>
 					</div>
 				)}

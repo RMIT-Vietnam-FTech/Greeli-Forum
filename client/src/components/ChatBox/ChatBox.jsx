@@ -5,6 +5,8 @@ import data from "@emoji-mart/data";
 import "./ChatBox.css";
 import moment from "moment";
 import { ThemeContext } from "../../context/ThemeContext";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 axios.defaults.withCredentials = true;
 
 const ChatBox = ({
@@ -58,36 +60,38 @@ const ChatBox = ({
 
 	const handleSend = async (e) => {
 		e.preventDefault();
-		const message = {
-			chatId: chat._id,
-			senderId: currentUserId,
-			text: newMessage,
-		};
-		const configuration = {
-			method: "post",
-			url: "/api/message/create",
-			data: message,
-			headers: {
-				"Content-Type": "application/json",
-				// Authorization: `Bearer ${token}`,
-			},
-		};
+		if (newMessage.trim() !== "") {
+			const message = {
+				chatId: chat._id,
+				senderId: currentUserId,
+				text: newMessage,
+			};
+			const configuration = {
+				method: "post",
+				url: "http://localhost:3001/api/message/create",
+				data: message,
+				headers: {
+					"Content-Type": "application/json",
+					// Authorization: `Bearer ${token}`,
+				},
+			};
 
-		const receiverId = chat.members.find((id) => id !== currentUserId);
-		setSendMessage({ ...message, receiverId });
-		axios(configuration)
-			.then((result) => {
-				console.log(result);
-				setMessages([...messages, result.data]);
-				setNewMessage("");
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+			const receiverId = chat.members.find((id) => id !== currentUserId);
+			setSendMessage({ ...message, receiverId });
+			axios(configuration)
+				.then((result) => {
+					console.log(result);
+					setMessages([...messages, result.data]);
+					setNewMessage("");
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	};
 	useEffect(() => {
 		console.log("Message Arrived: ", receiveMessage);
-		if (receiveMessage !== null && receiveMessage?.chatId === chat._id) {
+		if (receiveMessage !== null && receiveMessage?.chatId === chat?._id) {
 			console.log("Data receive");
 			setMessages([...messages, receiveMessage]);
 		}
@@ -145,7 +149,7 @@ const ChatBox = ({
 							<>
 								<img
 									src={
-										userData.profilePicture ||
+										userData.profileImage ||
 										"https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg"
 									}
 									alt={userData.username}
@@ -223,6 +227,7 @@ const ChatBox = ({
 									? "form-control-dark"
 									: "form-control-light"
 							} form-control`}
+							required
 						/>
 						<div
 							className="emoji-picker-container"

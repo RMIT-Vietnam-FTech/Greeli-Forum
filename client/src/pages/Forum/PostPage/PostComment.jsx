@@ -1,20 +1,32 @@
 import axios from "axios";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-import useSWRImmutable from 'swr/immutable'
+import useSWRImmutable from "swr/immutable";
 
 import { Button } from "react-bootstrap";
 import { CommentContext } from "../../../context/CommentContext";
-import { EditContextProvider} from "../../../context/EditContext";
+import { EditContextProvider } from "../../../context/EditContext";
 import CreateCommentEditor from "./components/CreateCommentEditor/CreateCommentEditor";
 import ButtonUpvote from "../../../components/Forum/ButtonUpvote";
 
 import { FaCommentAlt } from "react-icons/fa";
+import { FaShareFromSquare } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 import { IoMdCheckmark } from "react-icons/io";
 import { BsShieldFillX } from "react-icons/bs";
 import { BsShieldFillCheck } from "react-icons/bs";
+// import share icon
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+  RedditShareButton,
+  RedditIcon,
+} from "react-share";
 
 import { useLogin } from "../../../hooks/useLogin";
 
@@ -38,9 +50,9 @@ export default function PostComment({ postData, threadAdminId }) {
       { threadId: postData.belongToThread },
       {
         headers: {
-        //   Authorization: `Bearer ${
-        //     JSON.parse(localStorage.getItem("user")).token
-        //   }`,
+          //   Authorization: `Bearer ${
+          //     JSON.parse(localStorage.getItem("user")).token
+          //   }`,
         },
       }
     );
@@ -86,6 +98,7 @@ export default function PostComment({ postData, threadAdminId }) {
         <div className="d-flex gap-2">
           <ButtonUpvote upvote={postData.upvote} postId={postData._id} />
           <ButtonComment commentLength={postData.comments.length} />
+          <ButtonShare />
         </div>
 
         {/*show verify status */}
@@ -161,8 +174,46 @@ export function ButtonComment({ commentLength }) {
       className=" px-1 rounded-5 border border-primary-green bg-transparent text-forum-emphasis d-flex align-items-center gap-2"
       style={{ fontSize: "14px" }}
     >
-
       {commentLength} <FaCommentAlt className="me-2" />
     </button>
+  );
+}
+export function ButtonShare() {
+  const [showShareList, setShowShareList] = useState(false);
+  const link = window.location.href;
+  function handlePopup() {
+    setShowShareList(!showShareList);
+  }
+
+  return (
+    <div>
+      <button
+        onClick={handlePopup}
+        className="px-1 rounded-5 border border-primary-green bg-transparent text-forum-emphasis"
+        style={{ fontSize: "14px" }}
+      >
+        <FaShareFromSquare />
+      </button>
+      {showShareList && <ShareList url={link} title="Check out this post!" />}
+    </div>
+  );
+}
+
+export function ShareList({ url, title }) {
+  return (
+    <div className="container position-absolute">
+      <FacebookShareButton url={url} quote={title} hashtag="#Greeli">
+        <FacebookIcon size={32} round />
+      </FacebookShareButton>
+      <TwitterShareButton url={url} title={title}>
+        <TwitterIcon size={32} round />
+      </TwitterShareButton>
+      <LinkedinShareButton url={url} title={title}>
+        <LinkedinIcon size={32} round />
+      </LinkedinShareButton>
+      <RedditShareButton url={url} title={title}>
+        <RedditIcon size={32} round />
+      </RedditShareButton>
+    </div>
   );
 }

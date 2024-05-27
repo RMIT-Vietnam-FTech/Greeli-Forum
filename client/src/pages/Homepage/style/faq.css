@@ -1,0 +1,24 @@
+
+.accordion-button:focus {
+    box-shadow: none !important;
+}
+
+[data-bs-theme='light'] .accordion-button:not(.collapsed) {
+    color: #fff !important;
+    background-color: #365949 !important;
+}
+
+[data-bs-theme='dark'] .accordion-button:not(.collapsed) {
+    color: #fff !important;
+    background-color: transparent;
+}
+
+[data-bs-theme='light'] .accordion-button {
+    background-color: #eaeaea !important;
+}
+
+[data-bs-theme='light'] .accordion-collapse, .accordion-item {
+    background-color:  #f5f5f5!important;
+}
+
+/* #eaeaea */
