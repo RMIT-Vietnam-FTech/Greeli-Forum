@@ -24,6 +24,8 @@ import { BsShieldFillCheck } from "react-icons/bs";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+axios.defaults.withCredentials = true;
+
 dayjs.extend(relativeTime);
 
 export default function Post({ postData, isThreadAdmin }) {

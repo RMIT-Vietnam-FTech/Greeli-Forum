@@ -16,7 +16,7 @@ const Conversation = ({ data, currentUserId, online, isActive }) => {
 			const userId = data.members.find((id) => id !== currentUserId);
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/user/find/${userId}`,
+				url: `/api/user/find/${userId}`,
 				headers: {
 					"Content-Type": "application/json",
 					// Authorization: `Bearer ${token}`,

@@ -21,7 +21,7 @@ const ProfileShow = (props) => {
 		formData.append("image", preview);
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/user/${userId}/uploadImage`,
+			url: `/api/user/${userId}/uploadImage`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
@@ -29,7 +29,6 @@ const ProfileShow = (props) => {
 		};
 		axios(configuration)
 			.then((result) => {
-				setSuccess("Successfully Uploaded!");
 				setSuccess("Successfully Uploaded!");
 				toast.success("Successfully Uploaded!", {
 					duration: 3000,

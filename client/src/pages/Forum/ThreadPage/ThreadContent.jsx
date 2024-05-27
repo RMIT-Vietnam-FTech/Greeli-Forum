@@ -14,6 +14,8 @@ import { EditContextProvider } from "../../../context/EditContext";
 
 import { useLogin } from "../../../hooks/useLogin";
 
+axios.defaults.withCredentials = true;
+
 export default function ThreadContent({ ...prop }) {
 	const { title, uploadFile, content, objectId, createdBy } = prop;
 

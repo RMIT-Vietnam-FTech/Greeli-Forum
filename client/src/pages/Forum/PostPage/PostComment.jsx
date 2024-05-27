@@ -44,7 +44,7 @@ export default function PostComment({ postData, threadAdminId }) {
 
   async function handleApproved() {
     setIsApproved(true);
-    const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
+    const path = `/api/v1/admin/posts/${postData._id}`;
     await axios.put(
       path,
       { threadId: postData.belongToThread },
@@ -61,7 +61,7 @@ export default function PostComment({ postData, threadAdminId }) {
   async function handleUnApproved() {
     try {
       //delete and redirect
-      const path = `http://localhost:3001/api/v1/posts/${postData._id}`;
+      const path = `/api/v1/posts/${postData._id}`;
       await axios.delete(
         path,
 
@@ -83,7 +83,7 @@ export default function PostComment({ postData, threadAdminId }) {
     }
   }
   const { data, error, isLoading } = useSWRImmutable(
-    `http://localhost:3001/api/v1/comments?postId=${postData._id}&parentId=null`,
+    `/api/v1/comments?postId=${postData._id}&parentId=null`,
     fetcher
   );
   if (error) {

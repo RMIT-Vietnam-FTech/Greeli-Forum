@@ -18,6 +18,7 @@ import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 import Cookies from "./components/Cookies/Cookie.jsx";
 // import { useUserContext } from "./context/UserContext.jsx";
 import routesConfig from "./routesConfig.jsx";
+
 function App() {
 	let location = useLocation();
 	const [isForum, setIsForum] = useState(false);

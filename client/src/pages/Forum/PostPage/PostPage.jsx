@@ -5,6 +5,8 @@ import "../assets/forum.scss";
 import PostContent from "./PostContent";
 import PostComment from "./PostComment";
 
+axios.defaults.withCredentials = true;
+
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 axios.defaults.withCredentials = true;
 

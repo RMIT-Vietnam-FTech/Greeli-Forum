@@ -7,6 +7,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import multer from "multer";
 import cookieParser from "cookie-parser";
+import path from "path";
 
 import chatRoutes from "./routes/chat.js";
 import messageRoutes from "./routes/message.js";
@@ -25,6 +26,8 @@ import User from "./models/User.js";
 
 /* CONFIGURATION */
 dotenv.config();
+const __dirname = path.resolve();
+
 // const app = express();
 app.use(express.static("public"));
 app.use(express.json());
@@ -64,7 +67,7 @@ mongoose
 	.connect(process.env.MONGO_URL)
 	.then(() => {
 		server.listen(PORT, () => {
-			console.log(`SERVER IS RUNNING ON ${PORT}`);
+			console.log(`SERVER IS RUNNING ON http://localhost:${PORT}`);
 		});
 	})
 	.catch((error) => console.log(`${error}. SERVER IS NOT CONNECTING`));

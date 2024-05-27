@@ -20,6 +20,7 @@ import Sitemap from "./pages/Sitemap/Sitemap.jsx";
 import ForumPage from "./pages/Forum/ForumPage/ForumPage.jsx";
 import NewPassword from "./pages/Login/NewPassword.jsx";
 import ResetPassword from "./pages/Login/ResetPassword.jsx";
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import Cookies from "./components/Cookies/Cookie.jsx";
 
 const routesConfig = [
@@ -40,13 +41,14 @@ const routesConfig = [
 		element: <NewPassword />,
 		name: "Create New Password",
 	},
+	{ path: "/admin", element: <AdminDashboard />, name: "Admin Dashboard" },
 	{
 		element: <RequireAuth />,
 		children: [
 			{
 				element: <RequireActivate />,
 				children: [
-					{ path: "/profile", element: <ProfileUpdate />, name: "Profile" },
+					{ path: "/profile", element: <Profile />, name: "Profile" },
 					{ path: "/user/:userId", element: <Profile />, name: "User Profile" },
 					{ path: "/chat", element: <Chat />, name: "Chat" },
 				],
