@@ -20,22 +20,22 @@ const PostItem = (props) => {
 		uploadFile,
 	} = props.post;
 
-	// useEffect(() => {
-	// 	const getPostThreadAsync = async (threadId) => {
-	// 		const configuration = {
-	// 			method: "get",
-	// 			url: `http://localhost:3001/api/v1/threads/${threadId}`,
-	// 		};
-	// 		await axios(configuration)
-	// 			.then((response) => {
-	// 				setThreadTitle(response.data.title);
-	// 			})
-	// 			.catch((error) => {
-	// 				console.log(error);
-	// 			});
-	// 	};
-	// 	getPostThreadAsync(threadId);
-	// }, [threadId]);
+	useEffect(() => {
+		const getPostThreadAsync = async (threadId) => {
+			const configuration = {
+				method: "get",
+				url: `http://localhost:3001/api/v1/threads/${threadId}`,
+			};
+			await axios(configuration)
+				.then((response) => {
+					setThreadTitle(response.data.title);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		};
+		getPostThreadAsync(threadId);
+	}, [threadId]);
 
 	//REDIRECT TO POST PAGE
 	const handlePostClick = () => {
