@@ -558,7 +558,7 @@ export default function News() {
 						</section> */}
 					</>
 				) : error ? (
-					<p className="news-spinner">{error}</p>
+					<p className={`${isDarkMode ? "news-spinner-dark" : "news-spinner-light"} news-spinner`}>{error}</p>
 				) : (
 					<section className="newsContainer">
 						<div

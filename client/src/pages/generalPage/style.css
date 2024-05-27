@@ -261,6 +261,14 @@
     margin-top: 20px;
 }
 
+.news-spinner-dark {
+    color: #DCB968;
+}
+
+.news-spinner-light {
+    color: #0A2A28;
+}
+
 @media (max-width: 768px) {
 
     /* Mobile */
