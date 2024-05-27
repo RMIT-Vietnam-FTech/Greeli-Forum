@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 import { ThemeContext } from "../../../context/ThemeContext";
 
 const Middle = ({ users, onLockUser }) => {
@@ -26,6 +27,12 @@ const Middle = ({ users, onLockUser }) => {
 
     const handleCloseModal = () => {
         setSelectedUser(null);
+    };
+
+    const handleLockUnlockUser = (user, isLocked) => {
+        onLockUser(user._id, isLocked);
+        const action = isLocked ? 'unlocked' : 'locked';
+        toast.success(`${user.username} has been ${action} successfully`, { position: 'bottom-right'});
     };
 
     return (
@@ -60,7 +67,7 @@ const Middle = ({ users, onLockUser }) => {
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            onLockUser(user._id, user.isLocked);
+                                            handleLockUnlockUser(user, user.isLocked);
                                         }}
                                         className={user.isLocked ? 'btn btn-danger' : 'btn btn-warning'}
                                     >
@@ -73,7 +80,7 @@ const Middle = ({ users, onLockUser }) => {
                 </table>
             )}
             {selectedUser && (
-                <div id="userModal" className="dashboard-modal" onClick={handleCloseModal} style={{ display: 'block' }}>
+                <div id="userModal" className="dashboard-modal" onClick={handleCloseModal} style={{ display: 'flex' }}>
                     <div className="dashboard-modal-content" onClick={(e) => e.stopPropagation()}>
                         <span className="dashboard-close" onClick={handleCloseModal}>&times;</span>
                         <h2>{selectedUser.username}</h2>
@@ -81,7 +88,7 @@ const Middle = ({ users, onLockUser }) => {
                         <p>Status: {selectedUser.isLocked ? 'Locked' : selectedUser.isActivated ? 'Active' : 'Deactivated'}</p>
                         <button
                             onClick={() => {
-                                onLockUser(selectedUser._id, selectedUser.isLocked);
+                                handleLockUnlockUser(selectedUser, selectedUser.isLocked);
                                 handleCloseModal();
                             }}
                             className={selectedUser.isLocked ? 'btn btn-danger' : 'btn btn-warning'}

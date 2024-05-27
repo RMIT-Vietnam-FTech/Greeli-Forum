@@ -20,6 +20,7 @@ import ForumPage from "./pages/Forum/ForumPage/ForumPage.jsx";
 import NewPassword from "./pages/Login/NewPassword.jsx";
 import ResetPassword from "./pages/Login/ResetPassword.jsx";
 import Cookies from "./components/Cookies/Cookie.jsx";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 
 const routesConfig = [
   { path: '/', element: <Homepage />, name: 'Homepage' },
@@ -40,6 +41,7 @@ const routesConfig = [
           { path: '/profile', element: <Profile />, name: 'Profile' },
           { path: '/user/:userId', element: <Profile />, name: 'User Profile' },
           { path: '/chat', element: <Chat />, name: 'Chat' },
+          { path: '/admin', element : <AdminDashboard />, name: 'Admin Dashboard'}
         ],
       },
     ],

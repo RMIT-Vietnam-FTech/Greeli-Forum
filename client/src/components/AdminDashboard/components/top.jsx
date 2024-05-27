@@ -41,10 +41,10 @@ const Top = ({ memberCount, sortText, onSortChange, onSearchChange }) => {
                         {sortText}
                     </button>
                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a className="dropdown-item" href="#" onClick={() => handleSort('newest', 'Newest')}>Newest</a></li>
-                        <li><a className="dropdown-item" href="#" onClick={() => handleSort('oldest', 'Oldest')}>Oldest</a></li>
-                        <li><a className="dropdown-item" href="#" onClick={() => handleSort('most-posts', 'Most Posts Created')}>Most Posts Created</a></li>
-                        <li><a className="dropdown-item" href="#" onClick={() => handleSort('least-posts', 'Least Posts Created')}>Least Posts Created</a></li>
+                        <li className="dashboard-dropdown-item"><a className="a-dashboard-dropdown-item" href="#" onClick={() => handleSort('newest', 'Newest')}>Newest</a></li>
+                        <li className="dashboard-dropdown-item"><a className="a-dashboard-dropdown-item" href="#" onClick={() => handleSort('oldest', 'Oldest')}>Oldest</a></li>
+                        <li className="dashboard-dropdown-item"><a className="a-dashboard-dropdown-item" href="#" onClick={() => handleSort('most-posts', 'Most Posts Created')}>Most Posts Created</a></li>
+                        <li className="dashboard-dropdown-item"><a className="a-dashboard-dropdown-item" href="#" onClick={() => handleSort('least-posts', 'Least Posts Created')}>Least Posts Created</a></li>
                     </ul>
                 </div>
             </div>

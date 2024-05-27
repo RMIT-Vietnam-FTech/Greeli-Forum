@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import axios from "axios";
 import Image from "react-bootstrap/Image";
 import { FaUser } from "react-icons/fa";
@@ -20,8 +20,16 @@ const Navbar = ({ isForum }) => {
 	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
 	const { user, setUser, toggleUserInfo } = useUserContext();
 	const userId = JSON.parse(user)?.id || null;
+
+	const closeBtnRef = useRef(null);
+
+	const handleNavLinkClick = () => {
+		if (closeBtnRef.current) {
+			closeBtnRef.current.click();
+		}
+	};
+
 	const logout = () => {
-		// toggleUserInfo()
 		const configuration = {
 			method: "post",
 			url: "/api/user/logout",
@@ -45,6 +53,7 @@ const Navbar = ({ isForum }) => {
 				console.log(error.response.data.error);
 			});
 	};
+
 	return (
 		<nav
 			className="navbar navbar-expand-xl fixed-top bg-navbar-subtle"
@@ -102,53 +111,52 @@ const Navbar = ({ isForum }) => {
 							className="btn-close"
 							data-bs-dismiss="offcanvas"
 							aria-label="Close"
+							ref={closeBtnRef}
 						/>
 					</div>
 					<div className="offcanvas-body">
 						<ul className="navbar-nav justify-content-end flex-grow-1 pe-3 gap-3">
 							<li className="nav-item">
 								<NavLink
-									activeclassname="active"
-									className="nav-link text-greeli-emphasis"
-									aria-current="page"
 									to="/"
+									className="nav-link text-greeli-emphasis"
+									onClick={handleNavLinkClick}
 								>
 									Home
 								</NavLink>
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeclassname="active"
-									className="nav-link text-greeli-emphasis"
-									aria-current="page"
 									to="/general"
+									className="nav-link text-greeli-emphasis"
+									onClick={handleNavLinkClick}
 								>
 									General
 								</NavLink>
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeclassname="active"
-									className="nav-link text-greeli-emphasis"
 									to="/forum"
+									className="nav-link text-greeli-emphasis"
+									onClick={handleNavLinkClick}
 								>
 									Forum
 								</NavLink>
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeclassname="active"
-									className="nav-link text-greeli-emphasis"
 									to="/about"
+									className="nav-link text-greeli-emphasis"
+									onClick={handleNavLinkClick}
 								>
 									About
 								</NavLink>
 							</li>
 							<li className="nav-item">
 								<NavLink
-									activeclassname="active"
-									className="nav-link text-greeli-emphasis"
 									to="/contact"
+									className="nav-link text-greeli-emphasis"
+									onClick={handleNavLinkClick}
 								>
 									Contact
 								</NavLink>
@@ -184,10 +192,11 @@ const Navbar = ({ isForum }) => {
 
 				<div className="d-flex flex-row align-items-center gap-3">
 					<NavLink
-						className=""
+						className="nav-link text-greeli-emphasis"
 						to="/profile"
 						role="user profile page"
 						aria-label="link to user profile page"
+						onClick={handleNavLinkClick}
 					>
 						<FaUser
 							className="icon text-greeli-emphasis"
@@ -215,6 +224,7 @@ const Navbar = ({ isForum }) => {
 							to="/login"
 							className="login-button theme-button"
 							style={{ textDecoration: "none" }}
+							onClick={handleNavLinkClick}
 						>
 							Login
 						</Link>
@@ -222,7 +232,10 @@ const Navbar = ({ isForum }) => {
 						user !== null && (
 							<button
 								className="login-button theme-button"
-								onClick={logout}
+								onClick={() => {
+									handleNavLinkClick();
+									logout();
+								}}
 								type="button"
 							>
 								Logout
