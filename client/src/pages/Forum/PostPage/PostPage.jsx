@@ -5,7 +5,8 @@ import "../assets/forum.scss";
 import PostComment from "./PostComment";
 import PostContent from "./PostContent";
 
-axios.defaults.withCredentials = true;
+
+import PostPageSkeleton from "../../../components/Forum/Skeleton/PostPageSkeleton";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 axios.defaults.withCredentials = true;
@@ -25,34 +26,34 @@ export default function PostPage() {
 	return <PostPageStructure postData={data} />;
 }
 function PostPageStructure({ postData }) {
-	const navigate = useNavigate();
-	const user = localStorage.getItem("user");
-	const { data, error, isLoading } = useSwr(
-		`http://localhost:3001/api/v1/threads/${postData.belongToThread}`,
-		fetcher,
-	);
-	if (error) {
-		return 0;
-	}
-	if (isLoading) {
-		return 0;
-	}
-	if (
-		postData.isApproved ||
-		(user &&
-			(data.createdBy.userId == JSON.parse(user).id ||
-				postData.createdBy.userId == JSON.parse(user).id))
-	) {
-		return (
-			<>
-				<PostContent postData={postData} />
-				<PostComment
-					postData={postData}
-					threadAdminId={data.createdBy.userId}
-				/>
-			</>
-		);
-	} else {
-		navigate("/forum");
-	}
+  const navigate = useNavigate();
+  const user = localStorage.getItem("user");
+  const { data, error, isLoading } = useSwr(
+    `http://localhost:3001/api/v1/threads/${postData.belongToThread}`,
+    fetcher
+  );
+  if (error) {
+    return 0;
+  }
+  if (isLoading) {
+    return <PostPageSkeleton />;
+  }
+  if (
+    postData.isApproved ||
+    (user &&
+      (data.createdBy.userId == JSON.parse(user).id ||
+        postData.createdBy.userId == JSON.parse(user).id))
+  ) {
+    return (
+      <>
+        <PostContent postData={postData} />
+        <PostComment
+          postData={postData}
+          threadAdminId={data.createdBy.userId}
+        />
+      </>
+    );
+  } else {
+    navigate("/forum");
+  }
 }

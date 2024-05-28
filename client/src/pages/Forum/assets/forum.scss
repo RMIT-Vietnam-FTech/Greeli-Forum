@@ -456,7 +456,13 @@ video {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.search-image{
+  height: 150px;
+}
 @media only screen and (min-width: 800px) {
+.search-image{
+  height: 200px;
+}
   .line-clamp.tiptap {
     -webkit-line-clamp: 6;
   }

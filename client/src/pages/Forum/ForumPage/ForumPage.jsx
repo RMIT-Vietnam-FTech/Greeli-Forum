@@ -34,7 +34,7 @@ export default function ForumPage() {
               <Routes path="/">
                 <Route index element={<PostList />} />
                 <Route path="topics/:topicId">
-                  <Route index element={<TopicPage/>}/>
+                  <Route index element={<TopicPage />} />
                 </Route>
                 <Route path="communities/:threadId">
                   <Route index element={<ThreadPage />} />
@@ -44,6 +44,9 @@ export default function ForumPage() {
             </section>
             <section className="right-sidebar">
               <Routes path="/">
+                <Route path="topics/:topicId">
+                  <Route index element={<RightSideBarForum />} />
+                </Route>
                 <Route index element={<RightSideBarForum />} />
                 <Route
                   path="/communities/:threadId"

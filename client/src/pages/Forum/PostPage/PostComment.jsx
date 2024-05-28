@@ -34,6 +34,7 @@ import { useLogin } from "../../../hooks/useLogin";
 import { PopupContext } from "../../../context/PopupContext";
 import ReplyComment from "../PostPage/components/ReplyComment";
 import { useEditor } from "@tiptap/react";
+import CommentSkeleton from "../../../components/Forum/Skeleton/CommentSkeleton";
 
 axios.defaults.withCredentials = true;
 
@@ -41,32 +42,33 @@ const fetcher = (url) =>
   axios.get(url).then((res) => {
     return res.data.data;
   });
-  const getMetadata = (url)=>{
-   return axios.get(url).then((res)=>{
-      return res.data.metadata;
-    })
-  }
+const getMetadata = (url) => {
+  return axios.get(url).then((res) => {
+    return res.data.metadata;
+  });
+};
 export default function PostComment({ postData, threadAdminId }) {
   const isLogin = useLogin();
   const [newComment, setNewComment] = useState([]);
   const [file, setFile] = useState([]);
   const [isApproved, setIsApproved] = useState(postData.isApproved);
   const [metadata, setMetadata] = useState();
-  let limit = 20, total = 19;
+  let limit = 20,
+    total = 19;
   const navigate = useNavigate();
 
-  useEffect(()=>{
-   getMetadata(`http://localhost:3001/api/v1/comments?postId=${
-      postData._id
-    }&parentId=null&page=1`).then((res)=>{
-      setMetadata(res)
+  useEffect(() => {
+    getMetadata(
+      `http://localhost:3001/api/v1/comments?postId=${postData._id}&parentId=null&page=1`
+    ).then((res) => {
+      setMetadata(res);
     });
-    }, [])
+  }, []);
 
-    if(metadata){
-      limit = metadata.limit;
-      total = metadata.total;
-    }
+  if (metadata) {
+    limit = metadata.limit;
+    total = metadata.total;
+  }
   async function handleApproved() {
     setIsApproved(true);
     const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
@@ -114,11 +116,16 @@ export default function PostComment({ postData, threadAdminId }) {
         postData._id
       }&parentId=null&page=${index + 1}`;
     },
-    fetcher
+    fetcher,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
   );
 
   if (isLoading) {
-    return "is loading";
+    return(<CommentSkeleton nOfCard={3}/>);
   }
   const issues = data ? [].concat(...data) : [];
   console.log(`issues length: ${issues.length}`);
@@ -174,11 +181,17 @@ export default function PostComment({ postData, threadAdminId }) {
           </>
         )}
       </div>
-      <CommentContext.Provider value={{ newComment, setNewComment, file, setFile }}>
+      <CommentContext.Provider
+        value={{ newComment, setNewComment, file, setFile }}
+      >
         <EditContextProvider>
           <CreateCommentEditor />
         </EditContextProvider>
-        <section id="comment-section" className="mt-3 w-100">
+        <section
+          style={{ minHeight: "450px" }}
+          id="comment-section"
+          className="mt-3 w-100"
+        >
           {newComment}
           {issues.map((commentData, index, data) => {
             return (
@@ -191,17 +204,17 @@ export default function PostComment({ postData, threadAdminId }) {
           })}
         </section>
       </CommentContext.Provider>
-      {issues.length > 0 && (size * limit < total) && 
-      <button
-        onClick={() => {
-          setSize(size + 1);
-        }}
-        className="px-4 py-2 bg-forum-subtle text-white border border-0"
-        style={{ borderRadius: "20px" }}
-      >
-        Load more comments
-      </button>
-      }
+      {issues.length > 0 && size * limit < total && (
+        <button
+          onClick={() => {
+            setSize(size + 1);
+          }}
+          className="px-4 py-2 bg-forum-subtle text-white border border-0"
+          style={{ borderRadius: "20px" }}
+        >
+          Load more comments
+        </button>
+      )}
     </>
   );
 }

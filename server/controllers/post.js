@@ -14,7 +14,6 @@ const createRandomName = (bytes = 32) =>
 export const createPost = async (req, res) => {
   //req.body -> title, content, createBy{}
   try {
-    // console.log("runn create post");
     let uploadFile;
     if (req.file) {
       uploadFile = req.file;
@@ -74,16 +73,16 @@ export const createPost = async (req, res) => {
             .toBuffer();
           await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
           uploadObject.uploadFile.type = uploadFileMime;
-        console.log("check 4");
+          console.log("check 4");
         } else {
-        console.log("check 5");
+          console.log("check 5");
           await uploadFileData(
             uploadFile.buffer,
             imageName,
             uploadFile.mimetype
           );
           uploadObject.uploadFile.type = uploadFileMime;
-        console.log("check 6");
+          console.log("check 6");
         }
         uploadObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
         console.log("check 7");
@@ -157,9 +156,24 @@ export const getPosts = async (req, res) => {
       response = await Post.aggregate()
         .search({
           index: "postIndex",
-          autocomplete: { query: search, path: "title" },
+          compound: {
+            should: [
+              {
+                autocomplete: {
+                  query: search,
+                  path: "plainTextContent",
+                },
+              },
+              {
+                autocomplete: {
+                  query: search,
+                  path: "title",
+                },
+              },
+            ],
+          },
         })
-        .project({ content: 0, comments: 0, upvote: 0 })
+        .project({ plainTextContent: 0, comments: 0, upvote: 0 })
         .limit(10)
         .match({ isApproved: true });
     } else {

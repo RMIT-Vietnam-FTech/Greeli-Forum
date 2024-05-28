@@ -79,21 +79,21 @@ router.route("/:userId/created_threads").get(verifyToken, getCreatedThread);
 
 
 router
-	.route("/:userId/follow_threads")
-	.get(verifyToken, getFollowThread)
-	.post(verifyToken, postFollowThread)
-	.delete(verifyToken, deleteFollowThread);
+  .route("/:userId/follow_threads")
+  .get(verifyToken, getFollowThread)
+  .post(verifyToken, postFollowThread)
+  .delete(verifyToken, deleteFollowThread);
 
 router
-	.route("/:userId/archived_posts")
-	.get(verifyToken, getArchivedPost)
-	.post(verifyToken, postArchivedPost)
-	.delete(verifyToken, deleteArchivedPost);
+  .route("/:userId/saved_posts")
+  .get(verifyToken, getArchivedPost)
+  .post(verifyToken, postArchivedPost)
+  .delete(verifyToken, deleteArchivedPost);
 
 router
-	.route("/:userId/created_posts")
-	.get(getCreatedPost)
-	.post(verifyToken, postCreatedPost)
-	.delete(verifyToken, deleteCreatedPost);
+  .route("/:userId/created_posts")
+  .get(getCreatedPost)
+  .post(verifyToken, postCreatedPost)
+  .delete(verifyToken, deleteCreatedPost);
 
 export default router;

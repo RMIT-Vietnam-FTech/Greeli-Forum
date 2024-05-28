@@ -64,7 +64,7 @@ app.use("/api/email", emailRoutes);
 /* CONNECT DATABASE AND RUN SERVER */
 const PORT = process.env.PORT || 8001;
 mongoose
-	.connect(process.env.MONGO_URL)
+	.connect(process.env.MONGO_URL_TEST)
 	.then(() => {
 		server.listen(PORT, () => {
 			console.log(`SERVER IS RUNNING ON http://localhost:${PORT}`);
