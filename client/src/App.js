@@ -14,10 +14,8 @@ import Navbar from "./components/Navbar/Navbar";
 import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
-import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 
 // import { ForumRouter } from "./pages/Forum/ForumRouter.jsx";
-import Cookies from "./components/Cookies/Cookie.jsx";
 // import { useUserContext } from "./context/UserContext.jsx";
 import routesConfig from "./routesConfig.jsx";
 
