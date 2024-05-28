@@ -314,7 +314,7 @@
     padding: 20px;
 }
 
-.btn-warning {
+.dashboard-btn-warning {
     background-color: #DCB968;
     color: white;
     border: none;
@@ -326,16 +326,16 @@
     font-weight: bold;
 }
 
-.btn-warning:hover {
+.dashboard-btn-warning:hover {
     background-color: #BD974C;
     color: #fff;
 }
 
-.btn-warning:active {
+.dashboard-btn-warning:active {
     color: #fff;
 }
 
-.btn-danger {
+.dashboard-btn-danger {
     background-color: #C11946;
     color: white;
     box-sizing: border-box;
@@ -348,7 +348,7 @@
     transition: 0.3s ease-in-out;
 }
 
-.btn-danger:hover {
+.dashboard-btn-danger:hover {
     background-color: #C11946;
     opacity: 0.8;
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import {forumFaq} from "../data/forumFaq.jsx";
+import {forumFaq} from "../data/forumFAQ.jsx";
 import "../style/faq.css";
 
 const FAQ = () => {
