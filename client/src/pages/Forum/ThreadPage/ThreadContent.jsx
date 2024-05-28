@@ -42,9 +42,9 @@ export default function ThreadContent({ ...prop }) {
 			const followThreads = await axios
 				.get(path, {
 					headers: {
-						Authorization: `Bearer ${
-							JSON.parse(localStorage.getItem("user")).token
-						}`,
+						// Authorization: `Bearer ${
+						// 	JSON.parse(localStorage.getItem("user")).token
+						// }`,
 					},
 				})
 				.then((res) => res.data);
@@ -67,9 +67,9 @@ export default function ThreadContent({ ...prop }) {
 				},
 				{
 					headers: {
-						Authorization: `Bearer ${
-							JSON.parse(localStorage.getItem("user")).token
-						}`,
+						// Authorization: `Bearer ${
+						// 	JSON.parse(localStorage.getItem("user")).token
+						// }`,
 					},
 				},
 			);
@@ -92,9 +92,9 @@ export default function ThreadContent({ ...prop }) {
 						threadId: objectId,
 					},
 					headers: {
-						Authorization: `Bearer ${
-							JSON.parse(localStorage.getItem("user")).token
-						}`,
+						// Authorization: `Bearer ${
+						// 	JSON.parse(localStorage.getItem("user")).token
+						// }`,
 					},
 				},
 			);

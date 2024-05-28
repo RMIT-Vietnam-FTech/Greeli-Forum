@@ -21,9 +21,9 @@ const fetcher = async (prop) => {
 			return await axios
 				.get(url, {
 					headers: {
-						Authorization: `Bearer ${
-							JSON.parse(localStorage.getItem("user")).token
-						}`,
+						// Authorization: `Bearer ${
+						// 	JSON.parse(localStorage.getItem("user")).token
+						// }`,
 					},
 				})
 				.then((res) => res.data.metadata);
@@ -33,9 +33,9 @@ const fetcher = async (prop) => {
 		return await axios
 			.get(url, {
 				headers: {
-					Authorization: `Bearer ${
-						JSON.parse(localStorage.getItem("user")).token
-					}`,
+					// Authorization: `Bearer ${
+					// 	JSON.parse(localStorage.getItem("user")).token
+					// }`,
 				},
 			})
 			.then((res) => res.data.data);

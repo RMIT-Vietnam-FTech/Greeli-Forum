@@ -38,9 +38,9 @@ export default function CreateCommentBottomBar({ content }) {
         const newCommentData = await axios
           .post("http://localhost:3001/api/v1/comments", formData, {
             headers: {
-              Authorization: `Bearer ${
-                JSON.parse(localStorage.getItem("user")).token
-              }`,
+              // Authorization: `Bearer ${
+              //   JSON.parse(localStorage.getItem("user")).token
+              // }`,
             },
           })
           .then((res) => res.data);

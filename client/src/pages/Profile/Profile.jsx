@@ -46,7 +46,7 @@ const Profile = () => {
 		async function fetchUser() {
 			const configuration = {
 				method: "get",
-				url: `/api/user/${userId}`,
+				url: `http://localhost:3001/api/user/${userId}`,
 			};
 			await axios(configuration)
 				.then((result) => {
@@ -124,7 +124,7 @@ const Profile = () => {
 	const updateUserData = (basicInfo) => {
 		const configuration = {
 			method: "post",
-			url: `/api/user/${basicInfo.userId}/update`,
+			url: `http://localhost:3001/api/user/${basicInfo.userId}/update`,
 			data: basicInfo,
 		};
 		axios(configuration)
@@ -149,7 +149,7 @@ const Profile = () => {
 	const deactivateAccount = () => {
 		const configuration = {
 			method: "post",
-			url: `/api/user/${userId}/deactivate`,
+			url: `http://localhost:3001/api/user/${userId}/deactivate`,
 		};
 		axios(configuration)
 			.then((result) => {
@@ -174,7 +174,7 @@ const Profile = () => {
 		// console.log("Lock/Unlock user");
 		const configuration = {
 			method: "put",
-			url: `/api/user/${adminId}/${userId}/${action}`,
+			url: `http://localhost:3001/api/user/${adminId}/${userId}/${action}`,
 			headers: {
 				"Content-Type": "application/json",
 				// Authorization: `Bearer ${token}`,
@@ -199,7 +199,7 @@ const Profile = () => {
 	const createChat = (user) => {
 		const configuration = {
 			method: "post",
-			url: "/api/chat/create",
+			url: "http://localhost:3001/api/chat/create",
 			headers: {
 				"Content-Type": "application/json",
 			},
