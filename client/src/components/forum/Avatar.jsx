@@ -2,7 +2,7 @@ import { TbBorderRadius } from "react-icons/tb";
 
 export default function Avatar({ src, username, size }) {
   let isNull;
-  if (src == null) {
+  if (!src) {
     isNull = true;
   } else {
     isNull = false;
@@ -14,6 +14,10 @@ export default function Avatar({ src, username, size }) {
   if(size==="sm"){
 	style.width="20px";
 	style.height= "20px"
+  }
+  if(size==="lg"){
+	style.width="60px";
+	style.height= "60px"
   }
   return (
     <div

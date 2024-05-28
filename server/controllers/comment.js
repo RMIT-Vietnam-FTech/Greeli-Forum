@@ -18,16 +18,16 @@ export const createComment = async (req, res) => {
 
     const user = await User.findById(req.user.id);
     if (!user) {
-      res.status(404).json("userId not found or invalid");
+      res.status(404).json({ message: "userId not found or invalid" });
     }
 
     if (!postId) {
-      res.status(400).json("Bad Request");
+      res.status(400).json({ message: "Bad Request" });
     }
 
     const post = await Post.findById(postId);
     if (!post) {
-      res.status(404).json("postId is not found or invalid");
+      res.status(404).json({ message: "postId is not found or invalid" });
     }
 
     const commentObject = {
@@ -41,10 +41,7 @@ export const createComment = async (req, res) => {
     if (user.profileImage) {
       commentObject.createdBy.profileImage = user.profileImage;
     }
-    console.log("check 1");
     if (uploadFile) {
-      console.log("check 2");
-
       commentObject.uploadFile = {
         src: null,
         type: null,
@@ -52,24 +49,18 @@ export const createComment = async (req, res) => {
       const imageName = createRandomName();
       const uploadFileMetaData = await fileTypeFromBuffer(uploadFile.buffer);
       const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
-      console.log("check 3");
       if (uploadFileMime === "image") {
         const fileBuffer = await sharp(uploadFile.buffer)
           .jpeg({ quality: 100 })
           .resize(1000)
           .toBuffer();
-        console.log("check 4");
         await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
         commentObject.uploadFile.type = "image";
-        console.log("check 5");
       } else {
-        console.log("check 6");
         await uploadFileData(uploadFile.buffer, imageName, uploadFile.mimetype);
         commentObject.uploadFile.type = "video";
-        console.log("check 7");
       }
       commentObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
-      console.log("check 8");
     }
 
     const comment = new Comment(commentObject);

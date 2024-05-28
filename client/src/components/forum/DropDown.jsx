@@ -23,7 +23,7 @@ export default function DropDown({
     if (localStorage.getItem("user") !== "null") {
       const path = `http://localhost:3001/api/user/${
         JSON.parse(localStorage.getItem("user")).id
-      }/archived_posts`;
+      }/saved_posts`;
       const archivedPosts = await axios
         .get(path, {
           headers: {
@@ -48,7 +48,7 @@ export default function DropDown({
     try {
       const path = `http://localhost:3001/api/user/${
         JSON.parse(localStorage.getItem("user")).id
-      }/archived_posts`;
+      }/saved_posts`;
       await axios.post(
         path,
         {
@@ -72,7 +72,7 @@ export default function DropDown({
     try {
       const path = `http://localhost:3001/api/user/${
         JSON.parse(localStorage.getItem("user")).id
-      }/archived_posts`;
+      }/saved_posts`;
       await axios.delete(
         path,
 

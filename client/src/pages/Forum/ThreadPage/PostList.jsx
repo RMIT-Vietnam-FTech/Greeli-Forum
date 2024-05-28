@@ -42,8 +42,6 @@ const fetcher = async (prop) => {
 };
 
 export default function PostList({ threadData, topicData}) {
-  const { searchTerm } = useUserContext();
-  const [searchResult, setSearchResult] = useState([]);
   const [sortOption, setSortOption] = useState("Hot");
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -107,11 +105,7 @@ export default function PostList({ threadData, topicData}) {
   {
     /*------------------------------------------------------------------------------------------------------*/
   }
-  useEffect(() => {
-    setSearchResult(
-      issues.filter((issue) => issue.title.toLowerCase().includes(searchTerm))
-    );
-  }, [searchTerm]);
+
   if (isLoading) {
     return <PostSkeleton nOfCard={5}/>;
   }
@@ -122,18 +116,7 @@ export default function PostList({ threadData, topicData}) {
         <Sorting sortOption={sortOption} setSortOption={setSortOption} />
         {/*Post items*/}
         <div className="pt-4">
-          {searchResult.length > 0
-            ? searchResult.map((postData) => {
-                return (
-                  <Post
-                    key={postData._id}
-                    postData={postData}
-                    threadId={threadData._id}
-                    isThreadAdmin={isThreadAdmin}
-                  />
-                );
-              })
-            : issues.map((postData) => {
+        {  issues.map((postData) => {
                 return (
                   <div className="post-list-item">
                     <Post

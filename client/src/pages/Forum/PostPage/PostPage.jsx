@@ -4,6 +4,7 @@ import useSwr from "swr";
 import "../assets/forum.scss";
 import PostContent from "./PostContent";
 import PostComment from "./PostComment";
+import PostPageSkeleton from "../../../components/Forum/Skeleton/PostPageSkeleton";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 
@@ -32,7 +33,7 @@ function PostPageStructure({ postData }) {
     return 0;
   }
   if (isLoading) {
-    return 0;
+    return <PostPageSkeleton />;
   }
   if (
     postData.isApproved ||
