@@ -14,7 +14,7 @@ header {
     height: 100%;
 }
 
-video {
+#video {
     display: block;
     /* This removes the space in the bottom of the video */
     position: absolute;

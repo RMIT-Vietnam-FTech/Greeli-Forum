@@ -32,7 +32,7 @@
 [data-bs-theme='dark'] .accordion-item {
     color: #000;
     background-color: #6d9b81 !important;
-    border-color: transparent
+    border-color: transparent;
 }
 
 [data-bs-theme='light'] .FAQs {
