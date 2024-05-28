@@ -26,4 +26,3 @@ export const forumFAQ = [
 	},
 ];
 
-export default forumFaq;
