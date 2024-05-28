@@ -99,8 +99,8 @@ const Middle = ({ users, onLockUser }) => {
 										}}
 										className={
 											user.isLocked
-												? "btn btn-danger"
-												: "btn btn-warning"
+												? "dashboard-btn-danger"
+												: "dashboard-btn-warning"
 										}
 									>
 										{user.isLocked ? "Unlock" : "Lock"}
