@@ -63,6 +63,7 @@ const ThreadItem = (props) => {
 							className="rounded-circle"
 							src={author.profileImage}
 							alt={`Author: ${author.username}`}
+							style={{ aspectRatio: "1/1" }}
 						/>
 						<div className="d-flex flex-md-column flex-row-reverse justify-content-center">
 							<div className="w-100 d-flex flex-row flex-sm-nowrap flex-wrap justify-content-start justify-content-sm-around">

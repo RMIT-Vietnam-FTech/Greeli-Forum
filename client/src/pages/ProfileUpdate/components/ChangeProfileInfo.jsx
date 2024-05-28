@@ -71,7 +71,7 @@ const ChangeProfileInfo = (props) => {
 			onSubmit={handleSubmit(onSubmit)}
 			aria-label="Change Profile Form"
 		>
-			<h2>Change Basic Info</h2>
+			<h2>Change Profile Info</h2>
 			<div
 				className={
 					errors.newPhoneNumber

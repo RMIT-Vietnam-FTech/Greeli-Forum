@@ -4,12 +4,16 @@ import BasicInfo from "./BasicInfo";
 import EditInfoModal from "./EditInfoModal";
 import PreventionPopup from "../../../components/Popup/PreventionPopup";
 import { useUserContext } from "../../../context/UserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import { useProfileContext } from "../../../context/ProfileContext";
 
-const LeftSidePart = () => {
+const LeftSidePart = (props) => {
+	//GET ID FROM LOCAL STORAGE AND PARAM
+	const currentUserId = JSON.parse(localStorage.getItem("user")).id;
+	const requiredId = useParams().userId || currentUserId;
+
 	const navigate = useNavigate();
 	const data = useProfileContext();
 	const {
@@ -26,6 +30,7 @@ const LeftSidePart = () => {
 		profileImage,
 	} = data;
 	const [basicInfo, setBasicInfo] = useState(data);
+	const { isMe } = props;
 
 	// DEACTIVATE ACCOUNT FUNCTION
 	const { user, setUser, toggleUserInfo } = useUserContext();
@@ -55,7 +60,7 @@ const LeftSidePart = () => {
 	const isAdmin = JSON.parse(localStorage.getItem("user")).role === "admin";
 	const token = cookies.get("TOKEN");
 	const handleLockAccount = () => {
-		const userId = basicInfo.userId;
+		const userId = basicInfo?.userId;
 		const adminId = JSON.parse(localStorage.getItem("user")).id;
 		const action = basicInfo.isLocked ? "unlock" : "lock";
 		// console.log("Lock/Unlock user");
@@ -80,6 +85,31 @@ const LeftSidePart = () => {
 				console.log(error);
 			});
 	};
+
+	// CREATE CHAT
+	const createChat = () => {
+		const configuration = {
+			method: "post",
+			url: "/api/chat/create",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			data: {
+				senderId: currentUserId,
+				receiverId: requiredId,
+			},
+		};
+		axios(configuration)
+			.then((result) => {
+				// console.log(result.data);
+				navigate("/chat");
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	console.log(isMe, isAdmin);
 
 	return (
 		<div className="my-5 col-12 col-lg-3">
@@ -129,16 +159,56 @@ const LeftSidePart = () => {
 						<BasicInfo id={2} displayInfo={address} />
 						<BasicInfo id={3} displayInfo={gender} />
 					</div>
-					<PreventionPopup
-						modalTitle="Deactivate Account"
-						buttonStyle="bg-danger text-white fw-semibold border-0 py-2 w-100 rounded-pill deactivate-btn"
-						ariaLabel="Deactivate account"
-						buttonValue="Deactivate account"
-						action="deactivate your account"
-						warningMessage="If you deactivate your account, you will be automatically logged
+					<div className="d-flex flex-column gap-1">
+						{/* DEACTIVATE BUTTON */}
+						{isMe && (
+							<PreventionPopup
+								modalTitle="Deactivate Account"
+								buttonStyle="bg-danger text-white fw-semibold border-0 py-2 px-4 w-100 rounded-pill deactivate-btn "
+								ariaLabel="Deactivate account"
+								buttonValue="Deactivate account"
+								action="deactivate your account"
+								warningMessage="If you deactivate your account, you will be automatically logged
 							out."
-						actionFunction={deactivateAccount}
-					/>
+								actionFunction={deactivateAccount}
+							/>
+						)}
+
+						{/* CHAT BUTTON */}
+						{!isMe && (
+							<button
+								className="bg-primary-yellow text-black rounded-pill mt-5 py-2 px-4 border-0"
+								aria-label="Chat with this user"
+								onClick={() => {
+									// navigate(`/chat`, { root: true });
+									createChat();
+								}}
+							>
+								Chat with this user
+							</button>
+						)}
+
+						{/* LOCK/UNLOCK BUTTON */}
+						{!isMe && isAdmin && (
+							<PreventionPopup
+								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
+								buttonStyle="bg-danger text-white rounded-pill mt-2 py-2 border-0"
+								ariaLabel={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} this user`}
+								buttonValue={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} this user`}
+								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
+								warningMessage={`If you ${
+									basicInfo.isLocked ? "unlock" : "lock"
+								} this account, the user will be ${
+									basicInfo.isLocked ? "unlocked" : "locked"
+								} from all of their activities.`}
+								actionFunction={handleLockAccount}
+							/>
+						)}
+					</div>
 				</div>
 			</div>
 		</div>

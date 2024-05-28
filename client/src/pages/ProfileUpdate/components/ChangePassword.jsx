@@ -13,7 +13,6 @@ const ChangePassword = (props) => {
 	const { isDarkMode } = useContext(ThemeContext);
 	const data = useProfileContext();
 	const { userId } = data;
-	const [isChangingPassword, setIsChangingPassword] = useState(false);
 	const [oldPassword, setOldPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 
@@ -25,10 +24,6 @@ const ChangePassword = (props) => {
 	} = useForm({
 		criteriaMode: "all",
 	});
-
-	const onSubmit = (event) => {
-		isChangingPassword && sendOldPassword(oldPassword, newPassword, userId);
-	};
 
 	useEffect(() => {
 		if (isSubmitSuccessful) {
@@ -57,6 +52,11 @@ const ChangePassword = (props) => {
 				console.log("Error", error);
 				toast.error(error.response.data.message);
 			});
+	};
+
+	const onSubmit = (event) => {
+		sendOldPassword(oldPassword, newPassword, userId);
+		close();
 	};
 
 	return (

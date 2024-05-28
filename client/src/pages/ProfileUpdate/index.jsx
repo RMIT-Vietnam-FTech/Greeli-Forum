@@ -94,7 +94,7 @@ const ProfileUpdate = (props) => {
 		}
 
 		fetchUser();
-	}, [userId, isMe, basicInfo]);
+	}, [userId, isMe]);
 	// ----------------------------
 
 	//EDIT PROFILE - PUSH DATA TO DB
@@ -106,7 +106,7 @@ const ProfileUpdate = (props) => {
 			<div className="container-fluid profile-page-container">
 				<Toaster />
 				<div className="row row-cols-12 h-100">
-					<LeftSidePart />
+					<LeftSidePart isMe={isMe} />
 					<RightSidePart isMe={isMe} />
 				</div>
 			</div>
