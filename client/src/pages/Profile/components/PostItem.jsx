@@ -1,9 +1,9 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { MdInsertComment, MdShare } from "react-icons/md";
 import { TbArrowBigUp } from "react-icons/tb";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 axios.defaults.withCredentials = true;
 const PostItem = (props) => {
 	const [threadTitle, setThreadTitle] = useState("");

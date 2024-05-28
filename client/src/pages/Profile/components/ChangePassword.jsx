@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import Button from "react-bootstrap/Button";
-import axios from "axios";
 axios.defaults.withCredentials = true;
 const ChangePassword = (props) => {
 	const { userId } = props;

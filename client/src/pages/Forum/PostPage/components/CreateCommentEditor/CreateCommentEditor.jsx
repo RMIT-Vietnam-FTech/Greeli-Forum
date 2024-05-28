@@ -1,10 +1,12 @@
 import { EditorProvider } from "@tiptap/react";
 import React, { createContext, useContext, useState } from "react";
-import { useEffect } from "react";
+import axios from "axios";
 
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
 import { lowlight } from "lowlight";
+import Dropcursor from "@tiptap/extension-dropcursor";
+import Image from "@tiptap/extension-image";
 
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import css from "highlight.js/lib/languages/css";
@@ -14,10 +16,13 @@ import html from "highlight.js/lib/languages/xml";
 
 import MenuBar from "../../../../../components/Forum/EditTextEditor/MenuBar";
 import { EditContext } from "../../../../../context/EditContext";
-import CreateCommentBottomBar from "./CreateCommentBottomBar";
 import { PopupContext } from "../../../../../context/PopupContext";
+import CreateCommentBottomBar from "./CreateCommentBottomBar";
 
 import { useLogin } from "../../../../../hooks/useLogin";
+
+import { extensions } from "../../../../../components/Forum/EditTextEditor/EditTextEditor";
+import CreateCommentMenuBar from "./CreateCommentMenuBar";
 //Utilities in tiptap
 lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);
@@ -30,59 +35,45 @@ export default function CreateCommentEditor() {
 
 	const placeholder = "Comment ...";
 
-	const extensions = [
-		StarterKit.configure({
-			bulletList: {
-				keepMarks: true,
-				keepAttributes: false,
-			},
-			orderedList: {
-				keepMarks: true,
-				keepAttributes: false,
-			},
-		}),
-		Placeholder.configure({
-			placeholder: placeholder,
-			showOnlyWhenEditable: false,
-		}),
-		CodeBlockLowlight.configure({
-			lowlight,
-			languageClassPrefix: "language-",
-		}),
-	];
-	function handleDisplay() {
-		if (isLogin) {
-			if (!editContext.isEdit) {
-				editContext.setIsEdit(true);
-			}
-		} else {
-			popupContext.setIsPopup(true);
-		}
-	}
-	return (
-		<div
-			tabIndex="0"
-			aria-label="create comment"
-			onKeyDown={handleDisplay}
-			onClick={handleDisplay}
-			className={"text-editor text-greeli-emphasis show-border"}
-		>
-			<EditorProvider
-				editorProps={{
-					attributes: {
-						class: "cursor-text",
-					},
-				}}
-				slotBefore={
-					editContext.isEdit ? <MenuBar className="" /> : null
-				}
-				slotAfter={
-					editContext.isEdit ? <CreateCommentBottomBar /> : null
-				}
-				extensions={extensions}
-				editable={editContext.isEdit}
-				content=""
-			></EditorProvider>
-		</div>
-	);
+  const editorProps = {
+    attributes: {
+      class: "cursor-text",
+    },
+  };
+  function handleDisplay() {
+    if (isLogin) {
+      if (!editContext.isEdit) {
+        editContext.setIsEdit(true);
+      }
+    } else {
+      popupContext.setIsPopup(true);
+    }
+  }
+  return (
+    <div
+      tabIndex="0"
+      aria-label="create comment"
+      onKeyDown={handleDisplay}
+      onClick={handleDisplay}
+      className={"text-editor text-greeli-emphasis show-border"}
+    >
+      <EditorProvider
+        slotBefore={
+          editContext.isEdit ? <CreateCommentMenuBar /> : null
+        }
+        slotAfter={editContext.isEdit ? <CreateCommentBottomBar /> : null}
+        extensions={[
+          Placeholder.configure({
+            placeholder: placeholder,
+            showOnlyWhenEditable: false,
+          }),
+          ,
+          ...extensions,
+        ]}
+        editorProps={editorProps}
+        editable={true}
+        content=""
+      ></EditorProvider>
+    </div>
+  );
 }

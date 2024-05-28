@@ -1,7 +1,7 @@
-import { useContext, useId, useRef } from "react";
-import axios from "axios";
-import { useParams } from "react-router-dom";
 import { useCurrentEditor } from "@tiptap/react";
+import axios from "axios";
+import { useContext, useId, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { EditContext } from "../../../../../context/EditContext";
 import { ReplyContext } from "../../../../../context/ReplyContext";
 import ReplyComment from "../ReplyComment";
@@ -38,29 +38,32 @@ export default function ReplyBottomBar({ parentId }) {
 				)
 				.then((res) => res.data);
 
-			// store data in database
-			const storeObject = {
-				content: JSON.stringify(editor.getJSON()),
-				postId: postId,
-				parentId: parentId,
-			};
-			const newReplyData = await axios
-				.post("/api/v1/comments", storeObject, {
-					headers: {
-						// Authorization: `Bearer ${
-						// 	JSON.parse(localStorage.getItem("user")).token
-						// }`,
-					},
-				})
-				.then((res) => res.data);
+      const formData = new FormData();
+      formData.append("uploadFile", replyContext.file);
+      formData.append("content", JSON.stringify(editor.getJSON()));
+      formData.append("postId", postId);
+      formData.append("parentId", parentId);
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
 
-			replyContext.setNewReply([
-				<ReplyComment
-					key={newReplyData._id}
-					commentData={newReplyData}
-				/>,
-				...replyContext.newReply,
-			]);
+      const newReplyData = await axios
+        .post("http://localhost:3001/api/v1/comments", formData, {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).token
+            }`,
+          },
+        })
+        .then((res) => res.data);
+
+      replyContext.setNewReply([
+        <ReplyComment
+          key={newReplyData._id}
+          commentData={newReplyData}
+          isNew={true}
+        />,
+      ]);
 
 			//set content
 			editor.commands.setContent("");

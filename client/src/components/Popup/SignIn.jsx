@@ -1,14 +1,14 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
-import toast, { Toaster } from "react-hot-toast";
 axios.defaults.withCredentials = true;
 const SignIn = ({ isShow }) => {
 	const { isDarkMode } = useContext(ThemeContext);
@@ -86,6 +86,33 @@ const SignIn = ({ isShow }) => {
 			setShowPassword(true);
 		}
 	};
+	//fix biome by Bread, you can delete if it causes error
+	//fix biome start
+	const handleKeyUp = (event) => {
+		if (event.key === "Enter" || event.key === " ") {
+			showPasswordButton();
+		}
+	};
+
+	function useEnterKeySubmit(onSubmit) {
+		const handleKeyDown = (event) => {
+			if (event.key === "Enter") {
+				onSubmit();
+			}
+		};
+
+		useEffect(() => {
+			document.addEventListener("keydown", handleKeyDown);
+
+			return () => document.removeEventListener("keydown", handleKeyDown);
+		}, [handleKeyDown]);
+
+		return handleKeyDown;
+	}
+
+	const handleKeyDown = useEnterKeySubmit(handleSubmit(onSubmit));
+
+	// fix biome end
 	return (
 		<div data-bs-theme={isDarkMode ? "dark" : "light"}>
 			<Toaster position="top-center" />
@@ -116,6 +143,7 @@ const SignIn = ({ isShow }) => {
 							<form
 								className="mt-4 mx-3 px-md-5"
 								onSubmit={handleSubmit(onSubmit)}
+								onKeyDown={handleKeyDown}
 								aria-label="login form"
 							>
 								<div
@@ -207,8 +235,10 @@ const SignIn = ({ isShow }) => {
 									<span
 										className="input-group-text text-login-emphasis"
 										onClick={showPasswordButton}
+										onKeyUp={handleKeyUp} // fix biome by Bread, you can delete if it cause some error
 										aria-label="show password button"
 										role="button"
+										tabIndex={0}
 									>
 										{showPassword ? (
 											<FaEye />

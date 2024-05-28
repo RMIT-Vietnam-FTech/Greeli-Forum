@@ -1,14 +1,14 @@
+import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
 import React, { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import { FaMap } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa6";
 import { IoIosMail } from "react-icons/io";
+import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import "../../scss/custom.css";
-import { useForm } from "react-hook-form";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
 import "./Contact.css";
 const Contact = () => {
 	const { isDarkMode } = useContext(ThemeContext);

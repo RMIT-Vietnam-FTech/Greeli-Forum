@@ -1,19 +1,21 @@
 import axios from "axios";
-import React, { useState, useEffect, useContext } from "react";
 import moment from "moment";
-import "./Conversation.css";
+import React, { useState, useEffect, useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
+import "./Conversation.css";
 axios.defaults.withCredentials = true;
 
-const Conversation = ({ data, currentUserId, online, isActive }) => {
+const Conversation = ({ data, currentUserId, online, isActive, chatNoti }) => {
 	const [userData, setUserData] = useState(null);
 	const { isDarkMode } = useContext(ThemeContext);
+	const [unseenMessages, setUnseenMessages] = useState([]);
+	// const {user, chatNoti} = useUserContext();
 	const { error, setError } = useUserContext();
-
+	let userId = "";
 	useEffect(() => {
 		const getUserData = async () => {
-			const userId = data.members.find((id) => id !== currentUserId);
+			userId = data.members.find((id) => id !== currentUserId);
 			const configuration = {
 				method: "get",
 				url: `/api/user/find/${userId}`,
@@ -34,6 +36,11 @@ const Conversation = ({ data, currentUserId, online, isActive }) => {
 		};
 		getUserData();
 	}, [data, currentUserId, error]);
+	useEffect(() => {
+		setUnseenMessages(chatNoti.filter((chat) => chat.isRead !== true));
+		// setUnseenMessages((unseenMessages?.filter((message) => message.isRead !== false)))
+		// console.log(unseenMessages)
+	}, [chatNoti]);
 
 	return (
 		<div
@@ -79,7 +86,17 @@ const Conversation = ({ data, currentUserId, online, isActive }) => {
 										).fromNow()}`}
 							</div>
 						</div>
-						{online && <div className="online-dot" />}
+						{online && (
+							<div className="online-dot position-absolute top-0 end-0" />
+						)}
+						{unseenMessages.length > 0 && (
+							<p
+								className="rounded-circle text-greeli-emphasis position-absolute bottom-0 end-0 unseen"
+								style={{ backgroundColor: "#B80000" }}
+							>
+								{unseenMessages?.length}
+							</p>
+						)}
 					</>
 				) : (
 					<div className="no-user-data">

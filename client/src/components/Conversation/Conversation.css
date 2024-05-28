@@ -90,12 +90,15 @@
     color: #BD974C;
 }
 .online-dot {
-    position: relative;
-    top: 80%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
+
     background-color: #DCB968;
+    border-radius: 50%;
+}
+
+.unseen {
+    text-align: center;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
 }
 

@@ -7,9 +7,11 @@ import {
 	useRoutes,
 } from "react-router-dom";
 import "./App.css";
+import ChatBubble from "./components/ChatBubble/ChatBubble.jsx";
+import Cookies from "./components/Cookies/Cookie.jsx";
 import Footer from "./components/Footer/footer";
 import Navbar from "./components/Navbar/Navbar";
-import ChatBubble from "./components/ChatBubble/ChatBubble.jsx";
+import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
 import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
@@ -20,11 +22,9 @@ import Cookies from "./components/Cookies/Cookie.jsx";
 import routesConfig from "./routesConfig.jsx";
 
 function App() {
-	let location = useLocation();
+	const location = useLocation();
 	const [isForum, setIsForum] = useState(false);
 	const routes = useRoutes(routesConfig);
-	// const { user } = useUserContext();
-	// const isActivated = JSON.parse(user)?.isActivated;
 	useEffect(() => {
 		console.log(
 			`check location pathname: ${location.pathname}\n check isForum: ${isForum}`
@@ -48,7 +48,7 @@ function App() {
 					<Footer />
 					<ChatBubble />
 					<Cookies />
-					<div id="popup-root"></div>
+					<div id="popup-root" />
 				</UserContextProvider>
 			</ThemeProvider>
 		</div>

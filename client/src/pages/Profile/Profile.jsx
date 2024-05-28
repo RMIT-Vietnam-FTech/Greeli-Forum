@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useContext } from "react";
-import { ThemeContext } from "../../context/ThemeContext";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
+import Cookies from "universal-cookie";
+import PreventionPopup from "../../components/Popup/PreventionPopup";
+import { ThemeContext } from "../../context/ThemeContext";
+import { UserContext, useUserContext } from "../../context/UserContext";
 import "../../scss/custom.scss";
 import BasicInfo from "./components/BasicInfo";
+import BasicInfoAddress from "./components/BasicInfoAddress";
+import BasicInfoEmail from "./components/BasicInfoEmail";
+import BasicInfoGender from "./components/BasicInfoGender";
+import BasicInfoTel from "./components/BasicInfoTel";
+import ChangePassword from "./components/ChangePassword";
 import PostsGallery from "./components/PostsGallery";
 import ProfileShow from "./components/ProfileShow";
-import ChangePassword from "./components/ChangePassword";
-import PreventionPopup from "../../components/Popup/PreventionPopup";
 import demoUserInfo from "./data";
 import "./styles.css";
-import { UserContext, useUserContext } from "../../context/UserContext";
-import Cookies from "universal-cookie";
-import BasicInfoEmail from "./components/BasicInfoEmail";
-import BasicInfoTel from "./components/BasicInfoTel";
-import BasicInfoAddress from "./components/BasicInfoAddress";
-import BasicInfoGender from "./components/BasicInfoGender";
 axios.defaults.withCredentials = true;
 
 const Profile = () => {

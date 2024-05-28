@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
-import axios from "axios";
-import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
-import "./ChatBox.css";
-import moment from "moment";
-import { ThemeContext } from "../../context/ThemeContext";
-import * as Yup from "yup";
+import Picker from "@emoji-mart/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
+import moment from "moment";
+import React, { useState, useEffect, useContext, useRef } from "react";
+import * as Yup from "yup";
+import { ThemeContext } from "../../context/ThemeContext";
+import "./ChatBox.css";
 axios.defaults.withCredentials = true;
 
 const ChatBox = ({

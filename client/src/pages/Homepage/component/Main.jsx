@@ -1,13 +1,13 @@
 import React, { useState, useContext } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaNewspaper } from "react-icons/fa";
 import { HiMiniUserGroup } from "react-icons/hi2";
 import { IoChatbubbles } from "react-icons/io5";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext.jsx";
 import { useUserContext } from "../../../context/UserContext.jsx";
 import "../style/main.css";
+import FAQ from "./FAQ.jsx";
 import Posts from "./RecommendPost.jsx";
-import FAQ from "./FaQ.jsx"; 
 import TeamMember from "./TeamMember.jsx";
 const Main = () => {
 	const { isDarkMode } = useContext(ThemeContext);
@@ -119,7 +119,7 @@ const Main = () => {
       {/* FQA */}
       <section className="mx-md-5 mx-4 px-5 py-0 bg-greeli-subtle rounded-5 section">
         <h1 className="display-5 fw-semibold text-center text-greeli-emphasis w-100 mb-3">
-          Greeli FAQs
+          Greeli <span className="FAQs">FAQs</span>
         </h1>
         <FAQ />
       </section>

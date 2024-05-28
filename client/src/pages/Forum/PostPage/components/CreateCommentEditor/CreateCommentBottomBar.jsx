@@ -2,10 +2,10 @@ import { useCurrentEditor } from "@tiptap/react";
 import { useContext, useId } from "react";
 import { useParams } from "react-router-dom";
 
+import axios from "axios";
 import { CommentContext } from "../../../../../context/CommentContext";
 import { EditContext } from "../../../../../context/EditContext";
 import Comment from "../ReplyComment";
-import axios from "axios";
 axios.defaults.withCredentials = true;
 
 export default function CreateCommentBottomBar({ content }) {
@@ -14,51 +14,52 @@ export default function CreateCommentBottomBar({ content }) {
 	const commentId = useId();
 	const { postId } = useParams();
 
-	const { editor } = useCurrentEditor();
-	if (!editor.isEditable) {
-		editor.setEditable(true);
-	}
-	function handleOnCancel() {
-		editor.setEditable(false);
-		editContext.setIsEdit(false);
-		editor.commands.setContent("");
-	}
-	async function handleOnDone() {
-		if (editor.getText()) {
-			editor.setEditable(false);
-			editContext.setIsEdit(false);
-			const user = await axios
-				.get(
-					`http://localhost:3001/api/user/${
-						JSON.parse(localStorage.getItem("user")).id
-					}`,
-				)
-				.then((res) => res.data);
+  const { editor } = useCurrentEditor();
+  if (!editor.isEditable) {
+    editor.setEditable(true);
+  }
+  function handleOnCancel() {
+    editor.setEditable(false);
+    editContext.setIsEdit(false);
+    editor.commands.setContent("");
+    commentContext.setFile(undefined);
+  }
+  async function handleOnDone() {
+    if (editor.getText()) {
+      editor.setEditable(false);
+      editContext.setIsEdit(false);
+      commentContext.setFile(undefined);
+      const user = await axios
+        .get(
+          `http://localhost:3001/api/user/${
+            JSON.parse(localStorage.getItem("user")).id
+          }`
+        )
+        .then((res) => res.data);
 
-			// store data in database
-			const storeObject = {
-				content: JSON.stringify(editor.getJSON()),
-				postId: postId,
-				parentId: null,
-			};
+    
+      const formData = new FormData();
+      formData.append("uploadFile", commentContext.file);
+      formData.append("content", JSON.stringify(editor.getJSON()));
+      formData.append("postId", postId);
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
 
-			const newCommentData = await axios
-				.post("/api/v1/comments", storeObject, {
-					headers: {
-						// Authorization: `Bearer ${
-						// 	JSON.parse(localStorage.getItem("user")).token
-						// }`,
-					},
-				})
-				.then((res) => res.data);
+      const newCommentData = await axios
+        .post("http://localhost:3001/api/v1/comments", formData, {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("user")).token
+            }`,
+          },
+        })
+        .then((res) => res.data);
 
-			commentContext.setNewComment([
-				<Comment
-					key={newCommentData._id}
-					commentData={newCommentData}
-				/>,
-				...commentContext.newComment,
-			]);
+      // commentContext.setNewComment([
+      //   <Comment key={newCommentData._id} commentData={newCommentData} />,
+      //   ...commentContext.newComment,
+      // ]);
 
 			//set content
 			editor.commands.setContent("");

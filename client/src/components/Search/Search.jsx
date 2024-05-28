@@ -1,26 +1,121 @@
-import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState, useEffect } from "react";
+import {Link} from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./SearchBar.css";
-import { useUserContext } from "../../context/UserContext";
 
-function SearchBar() {
-	const { searchTerm, setSearchTerm } = useUserContext();
-	// const [searchResult, setSearchResult] = useState([]);
-	return (
-		// <div className="search-wrapper d-flex align-items-center justify-content-between w-50 rounded-pill border border-3 ">
-		//   <input
-		//       className="search-input w-100 my-1 mx-2 ps-2 border-0 bg-transparent"
-		//       type="text"
-		//       placeholder="Search here..."
-		//       onChange={(e)=> setSearchTerm(e.target.value)}
-		//       />
-		//     <FaSearch size="35" className="btn btn-lg bg-primary-green text-light rounded-circle m-1 p-1 float-end"/>
-		// </div>
-		<></>
-	);
+import Avatar from "../Forum/Avatar";
+import ImageOrVideo from "../Forum/ImageOrVideo";
+import { IoDocumentTextOutline } from "react-icons/io5";
+export default function SearchBar() {
+  const [result, setResult] = useState([]);
+  async function handleOnInput(e) {
+    const searchOutput = document.querySelector(".search-output");
+    const searchNotFound = document.querySelector(".search-not-found");
+    if (e.target.value.length > 0) {
+      searchOutput.classList.remove("d-none");
+      let searchTerm = await axios
+        .get(`http://localhost:3001/api/v1/posts?search=${e.target.value}`)
+        .then((res) => res.data);
+      setResult([...searchTerm]);
+      console.log(result);
+      if (result.length === 0) {
+        searchNotFound.classList.remove("d-none");
+      } else {
+        searchNotFound.classList.add("d-none");
+      }
+    } else {
+      searchOutput.classList.add("d-none");
+    }
+  }
+  return (
+    <section className="z-3 sticky-top" style={{top:"80px"}}>
+      <div className="search-wrapper bg-greeli-subtle mb-4 position-relative d-flex align-items-center justify-content-between w-100 rounded-pill border border-3 ">
+        <input
+          className="search-input w-100 my-1 mx-2 ps-2 border-0 bg-transparent"
+          type="text"
+          placeholder="Search here..."
+          onChange={handleOnInput}
+        />
+        <FaSearch
+          size="35"
+          className="btn btn-lg bg-primary-green text-light rounded-circle m-1 p-1 float-end"
+        />
+
+        <div
+          className="search-output py-2 overflow-scroll-y scrollbar-thumb-show w-100 position-absolute shadow-lg bg-navbar-subtle z-3  d-none d-flex flex-column gap-3 align-items-center"
+          style={{
+            height: "300px",
+            borderRadius: "0.75rem",
+            top: "60px",
+            left: "0px",
+          }}
+        >
+          {result.map((searchData) => {
+            if (result.length < 1) {
+              return null;
+            } else {
+              return (
+                <SearchItem key={searchData._id} searchData={searchData} />
+              );
+            }
+          })}
+
+          <h3 className="search-not-found text-secondary fw-normal d-none">
+            {" "}
+            No result was found
+          </h3>
+        </div>
+      </div>
+    </section>
+  );
 }
 
-export default SearchBar;
+export function SearchItem({ searchData, searchBar }) {
+  return (
+    <Link
+      onClick={() => {
+        const searchBar = document.querySelector(".search-input");
+        const searchOutput = document.querySelector(".search-output");
+        searchOutput.classList.add("d-none");
+        searchBar.value = "";
+      }}
+      className=" py-4 border-bottom border-primary-green-900"
+      style={{ width: "90%" }}
+      to={`/forum/threads/${searchData.belongToThread}/posts/${searchData._id}`}
+    >
+      <div className="d-flex justify-content-between gap-2">
+        {/*-----------left sidebar --------------*/}
+        <div className="overflow-hidden" style={{ width: "85%" }}>
+          {/*-----------user info --------------*/}
+          <div className="d-flex gap-2">
+            <Avatar size="sm" src={searchData.createdBy.profileImage} />
+            <p className="text-secondary" style={{ fontSize: "12px" }}>
+              {searchData.createdBy.username}
+            </p>
+          </div>
+          {/*-----------title and content--------------*/}
+          <div className="w-100">
+            <h2 className="text-greeli-emphasis" style={{ fontSize: "18px" }}>
+              {searchData.title}
+            </h2>
+          </div>
+        </div>
+
+        {/*-----------right sidebar --------------*/}
+        <div
+          className=" ratio ratio-1x1 overflow-hidden text-white bg-primary-green-600"
+          style={{ borderRadius: "0.75rem", width: "80px" }}
+        >
+          {searchData.uploadFile ? (
+            <ImageOrVideo src={searchData.uploadFile} />
+          ) : (
+            <IoDocumentTextOutline />
+          )}
+        </div>
+      </div>
+    </Link>
+  );
+}

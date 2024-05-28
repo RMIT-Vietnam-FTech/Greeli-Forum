@@ -2,62 +2,92 @@ import * as crypto from "crypto";
 import Post from "../models/Post.js";
 import Thread from "../models/Thread.js";
 import User from "../models/User.js";
+import Topic from "../models/Topic.js";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
 import mongoose from "mongoose";
 import sharp from "sharp";
+import { fileTypeFromBuffer } from "file-type";
+
 const createRandomName = (bytes = 32) =>
 	crypto.randomBytes(bytes).toString("hex");
 
 export const createPost = async (req, res) => {
-	//req.body -> title, content, createBy{}
-	try {
-		const title = req.body.title;
-		const content = req.body.content;
-		const uploadFile = req.file;
-		const belongToThread = req.body.belongToThread;
-		const user = req.user;
-		// console.log(
-		//   `title: ${title}\n content: ${content}\n uploadFile: ${uploadFile}\n parentThread: ${belongToThread}\n user: ${user}`
-		// );
-		if (req.user) {
-			const user = await User.findById(req.user.id);
-			// console.log(user);
-			const uploadObject = {};
-			uploadObject.title = title;
-			uploadObject.content = content;
-			uploadObject.createdBy = {
-				userId: user._id,
-				username: user.username,
-			};
+  //req.body -> title, content, createBy{}
+  try {
+    // console.log("runn create post");
+    let uploadFile;
+    if (req.file) {
+      uploadFile = req.file;
+    }
+    const user = req.user;
+    const { title, content, plainTextContent, belongToThread, belongToTopics } =
+      req.body;
 
-			if (user.profileImage) {
-				uploadObject.createdBy.profileImage = user.profileImage;
-			}
-			const thread = await Thread.findById(belongToThread);
+    // console.log(`check input:\n req.user: ${req.user}\n req.body: ${JSON.stringify(req.body)}\n file: ${req.file}`);
+    if (req.user) {
+      const user = await User.findById(req.user.id);
+      // console.log(user);
+      const uploadObject = {
+        belongToTopics: [],
+      };
+      uploadObject.title = title;
+      uploadObject.content = content;
+      uploadObject.plainTextContent = plainTextContent;
+      uploadObject.createdBy = {
+        userId: user._id,
+        username: user.username,
+      };
+      if (user.profileImage) {
+        uploadObject.createdBy.profileImage = user.profileImage;
+      }
+      const thread = await Thread.findById(belongToThread);
 
-			//   console.log(`check thread: ${thread}`);
-			if (thread) {
-				uploadObject.belongToThread = belongToThread;
-			} else {
-				res.status(404).json({
-					message: "thread id is not found or invalid",
-				});
-			}
-
-			if (uploadFile) {
-				const imageName = createRandomName();
-				const fileBuffer = await sharp(uploadFile.buffer)
-					.jpeg({ quality: 100 })
-					.resize({ width: 730, height: 400 })
-					.toBuffer();
-				console.log(fileBuffer);
-				await uploadFileData(
-					fileBuffer,
-					imageName,
-					uploadFile.mimetype,
-				);
-				uploadObject.uploadFile = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
-			}
+      //   console.log(`check thread: ${thread}`);
+      if (thread) {
+        uploadObject.belongToThread = belongToThread;
+      } else {
+        res.status(404).json({ message: "thread id is not found or invalid" });
+      }
+      if (!belongToTopics)
+        return res
+          .status(400)
+          .json({ message: "Bad Request, must include topic" });
+      for (let i = 0; i < belongToTopics.length; ++i) {
+        const topic = await Topic.findById(belongToTopics[i]);
+        uploadObject.belongToTopics.push(topic._id);
+      }
+      if (uploadFile) {
+        console.log("check 1");
+        uploadObject.uploadFile = {
+          src: null,
+          type: null,
+        };
+        console.log("check 2");
+        const imageName = createRandomName();
+        const uploadFileMetaData = await fileTypeFromBuffer(uploadFile.buffer);
+        const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
+        console.log("check 3");
+        if (uploadFileMime === "image") {
+          const fileBuffer = await sharp(uploadFile.buffer)
+            .jpeg({ quality: 100 })
+            .resize(1000)
+            .toBuffer();
+          await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
+          uploadObject.uploadFile.type = uploadFileMime;
+        console.log("check 4");
+        } else {
+        console.log("check 5");
+          await uploadFileData(
+            uploadFile.buffer,
+            imageName,
+            uploadFile.mimetype
+          );
+          uploadObject.uploadFile.type = uploadFileMime;
+        console.log("check 6");
+        }
+        uploadObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
+        console.log("check 7");
+      }
 
 			const post = new Post(uploadObject);
 			await post.save();
@@ -77,108 +107,131 @@ export const createPost = async (req, res) => {
 	}
 };
 export const getPosts = async (req, res) => {
-	//pagination
-	try {
-		//filter -> threadId
-		//sorting
-		let { sort, filter, belongToThread, page, limit } = req.query;
-		if (belongToThread) {
-			const thread = await Thread.findById(belongToThread);
-			if (!thread)
-				res.status(404).json({
-					message: "threadId not found or invalid",
-				});
-		}
+  //pagination
+  try {
+    //filter -> threadId
+    //sorting
+    let { sort, filter, belongToThread, belongToTopic, page, limit, search } =
+      req.query;
+
+    let response;
+
+    if (belongToThread) {
+      const thread = await Thread.findById(belongToThread);
+      if (!thread)
+        res.status(404).json({ message: "threadId not found or invalid" });
+    }
 
 		const filterCommand = {
 			isApproved: true,
 		};
 
-		if (!page) {
-			page = "1";
-		}
-		if (!limit) {
-			limit = "10";
-		}
-		let sortObject = { time: -1 };
-		if (sort === "Hot") {
-			sortObject = { time: -1 };
-		}
-		if (sort === "New") {
-			sortObject = { verifiedAt: -1 };
-		}
-		if (sort === "Top") {
-			sortObject = { upvoteLength: -1 };
-		}
-		if (filter == "unverified") {
-			filterCommand.isApproved = false;
-		}
-		if (belongToThread) {
-			filterCommand.belongToThread =
-				mongoose.Types.ObjectId.createFromHexString(belongToThread);
-		}
-		//sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
-		const result = await Post.aggregate([{ $match: filterCommand }]).facet({
-			metadata: [
-				{ $count: "total" },
-				{
-					$addFields: {
-						page: parseInt(page),
-						limit: parseInt(limit),
-					},
-				},
-			],
-			data: [
-				{
-					$addFields: {
-						upvoteLength: { $size: "$upvote" },
-						commentLength: { $size: "$comments" },
-						time: {
-							$divide: [
-								{
-									$multiply: [
-										{
-											$add: [
-												{
-													$add: [
-														{ $size: "$upvote" },
-														{ $size: "$comments" },
-													],
-												},
-												1,
-											],
-										},
-										144000000,
-									],
-								},
-								{
-									$add: [
-										{
-											$dateDiff: {
-												startDate: "$verifiedAt",
-												endDate: new Date(),
-												unit: "minute",
-											},
-										},
-										60000,
-									],
-								},
-							],
-						},
-					},
-				},
-				{ $sort: sortObject },
-				{ $skip: (Number.parseInt(page) - 1) * limit },
-				{ $limit: Number.parseInt(limit) },
-			],
-		});
-		res.status(200).json({
-			metadata: result[0].metadata[0],
-			data: result[0].data,
-		});
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+    if (!page) {
+      page = "1";
+    }
+    if (!limit) {
+      limit = "10";
+    }
+    let sortObject = { time: -1 };
+    if (sort === "Hot") {
+      sortObject = { time: -1 };
+    }
+    if (sort === "New") {
+      sortObject = { verifiedAt: -1 };
+    }
+    if (sort === "Top") {
+      sortObject = { upvoteLength: -1 };
+    }
+    if (filter == "unverified") {
+      filterCommand.isApproved = false;
+    }
+    if (belongToTopic) {
+      filterCommand.belongToTopics = {
+        $in: [mongoose.Types.ObjectId.createFromHexString(belongToTopic)],
+      };
+    } else if (belongToThread) {
+      filterCommand.belongToThread =
+        mongoose.Types.ObjectId.createFromHexString(belongToThread);
+    }
+    if (search) {
+      response = await Post.aggregate()
+        .search({
+          index: "postIndex",
+          autocomplete: { query: search, path: "title" },
+        })
+        .project({ content: 0, comments: 0, upvote: 0 })
+        .limit(10)
+        .match({ isApproved: true });
+    } else {
+      //sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
+      const result = await Post.aggregate([{ $match: filterCommand }]).facet({
+        metadata: [
+          {
+            $project: {
+              _id: 1,
+            },
+          },
+          { $count: "total" },
+          {
+            $addFields: {
+              page: parseInt(page),
+              limit: parseInt(limit),
+            },
+          },
+        ],
+        data: [
+          {
+            $addFields: {
+              upvoteLength: { $size: "$upvote" },
+              commentLength: { $size: "$comments" },
+              time: {
+                $divide: [
+                  {
+                    $multiply: [
+                      {
+                        $add: [
+                          {
+                            $add: [
+                              { $size: "$upvote" },
+                              { $size: "$comments" },
+                            ],
+                          },
+                          1,
+                        ],
+                      },
+                      144000000,
+                    ],
+                  },
+                  {
+                    $add: [
+                      {
+                        $dateDiff: {
+                          startDate: "$verifiedAt",
+                          endDate: new Date(),
+                          unit: "minute",
+                        },
+                      },
+                      60000,
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+          { $sort: sortObject },
+          { $skip: (Number.parseInt(page) - 1) * limit },
+          { $limit: Number.parseInt(limit) },
+        ],
+      });
+      response = {
+        metadata: result[0].metadata[0],
+        data: result[0].data,
+      };
+    }
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 export const getPost = async (req, res) => {
@@ -481,4 +534,30 @@ export const deleteUpvote = async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
+};
+
+export const searchPost = async (req, res) => {
+  try {
+    const searchQuery = req.query.search;
+
+    console.log(res);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const archivePost = async (req, res) => {
+  try {
+    const postId = req.params.postId;
+    if (!postId) return res.status(400).json({ message: "Bad Request" });
+
+    const post = await Post.findById(postId);
+    if (!post)
+      return res.status(404).json({ message: "post id not found or invalid" });
+    post.isHidden = true;
+    await post.save();
+    res.status(200).json({ message: "Archived successfully!" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

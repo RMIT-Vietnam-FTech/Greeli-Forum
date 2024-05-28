@@ -277,7 +277,9 @@ export default function News() {
 				setNewsData(data);
 				setLoading(false);
 			} catch (error) {
-				setError("Failed to fetch news. Please try again later.");
+				setError(
+					"Sorry my love ❤️, we trying to fix the issue. Please try again later.",
+				);
 				setLoading(false);
 			}
 		};
@@ -470,7 +472,7 @@ export default function News() {
 				{loading ? (
 					<>
 						<button
-							className="btn btn-primary"
+							className="btn btn-primary news-spinner"
 							type="button"
 							disabled
 						>
@@ -558,7 +560,15 @@ export default function News() {
 						</section> */}
 					</>
 				) : error ? (
-					<p>{error}</p>
+					<p
+						className={`${
+							isDarkMode
+								? "news-spinner-dark"
+								: "news-spinner-light"
+						} news-spinner`}
+					>
+						{error}
+					</p>
 				) : (
 					<section className="newsContainer">
 						<div

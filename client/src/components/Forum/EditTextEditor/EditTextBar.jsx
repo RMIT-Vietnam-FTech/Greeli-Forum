@@ -1,8 +1,8 @@
-import { useContext, useId, useRef } from "react";
 import { useCurrentEditor } from "@tiptap/react";
-import { EditContext } from "../../../context/EditContext";
 import axios from "axios";
+import { useContext, useId, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { EditContext } from "../../../context/EditContext";
 axios.defaults.withCredentials = true;
 
 export default function EditTextBar({ content, componentType }) {

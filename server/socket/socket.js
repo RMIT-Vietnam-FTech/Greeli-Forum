@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: ["https://group-project-cosc3060-2024a-ftech.onrender.com"],
+		origin: ["http://localhost:3000"],
 		methods: ["GET", "POST"],
 	},
 	connectionStateRecovery: {},
@@ -36,7 +36,14 @@ io.on("connection", (socket) => {
 		console.log("Data: ", data);
 		if (user) {
 			io.to(user.socketId).emit("receive-message", data);
+			io.to(user.socketId).emit("get-notification", {
+				chatId: data.chatId,
+				senderId: data.senderId,
+				isRead: false,
+				date: new Date(),
+			});
 			console.log("send successfully");
+
 		}
 	});
 

@@ -1,5 +1,5 @@
-import useSWR from "swr";
 import axios from "axios";
+import useSwr from "swr";
 import Avatar from "../Avatar";
 axios.defaults.withCredentials = true;
 
@@ -18,7 +18,7 @@ export default function RightSideBarForum() {
 
 function ForumStatistic() {
 	const path = `http://localhost:3001/api/v1/forums/statistic`;
-	const { data, error, isLoading } = useSWR(path, fetcher);
+	const { data, error, isLoading } = useSwr(path, fetcher);
 	if (isLoading) {
 		return 0;
 	}
@@ -54,7 +54,7 @@ function ForumStatistic() {
 
 function ForumLeaderBoard() {
 	const path = `http://localhost:3001/api/v1/forums/leaderboard`;
-	const { data, error, isLoading } = useSWR(path, fetcher);
+	const { data, error, isLoading } = useSwr(path, fetcher);
 	if (isLoading) {
 		return 0;
 	}

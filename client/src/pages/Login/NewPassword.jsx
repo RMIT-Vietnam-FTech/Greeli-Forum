@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import React, { useState, useContext } from "react";
 import Image from "react-bootstrap/Image";
@@ -9,7 +10,6 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 const NewPassword = () => {
 	const { user, setUser } = useUserContext();

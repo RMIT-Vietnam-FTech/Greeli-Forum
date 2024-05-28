@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import Slider from "react-slick";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import axios from "axios";
+import React, { useState, useEffect, useRef } from "react";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
+import Slider from "react-slick";
 
 function Posts() {
 	const Post = (props) => {
@@ -27,6 +27,12 @@ function Posts() {
 		);
 	};
 
+	const handleKeyUp = (event, onClick) => {
+		if (event.key === "Enter" || event.key === " ") {
+			onClick(event);
+		}
+	};
+
 	const NextArrow = (props) => {
 		const { style, onClick } = props;
 		return (
@@ -42,6 +48,9 @@ function Posts() {
 					cursor: "pointer",
 				}}
 				onClick={onClick}
+				onKeyUp={(event) => handleKeyUp(event, onClick)}
+				role="button"
+				tabIndex="0"
 			>
 				<IoIosArrowForward className="text-greeli-emphasis" size={30} />
 			</div>
@@ -63,6 +72,9 @@ function Posts() {
 					cursor: "pointer",
 				}}
 				onClick={onClick}
+				onKeyUp={(event) => handleKeyUp(event, onClick)}
+				role="button"
+				tabIndex="0"
 			>
 				<IoIosArrowBack className="text-greeli-emphasis" size={30} />
 			</div>
@@ -76,7 +88,6 @@ function Posts() {
 		speed: 500,
 		slidesToShow: 4,
 		slidesToScroll: 1,
-		// swipeToSlide: true,
 		initialSlide: 0,
 		lazyLoad: true,
 		nextArrow: <NextArrow />,
@@ -130,7 +141,11 @@ function Posts() {
 
 	return (
 		<div onWheel={handleWheel}>
-			<Slider {...settings} className="slider-container p-3" ref={sliderRef}>
+			<Slider
+				{...settings}
+				className="slider-container p-3"
+				ref={sliderRef}
+			>
 				{data.map((item) => (
 					<Post
 						key={item._id} // Use _id from MongoDB
