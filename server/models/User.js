@@ -1,4 +1,7 @@
 import mongoose from "mongoose";
+import Thread from "./Thread.js";
+import Post from "./Post.js";
+
 const userSchema = new mongoose.Schema(
 	{
 		username: {
@@ -56,7 +59,8 @@ const userSchema = new mongoose.Schema(
 		},
 		profileImage: {
 			type: String,
-			default: "/image/avatar/1715931727316_user.png",
+			default:
+				"https://d46o92zk7g554.cloudfront.net/1716350848246-965924355-Frame%201361%20(2).png",
 		},
 		lastActive: {
 			type: Date,
@@ -78,8 +82,17 @@ const userSchema = new mongoose.Schema(
 			type: String,
 			default: null,
 		},
+		resetPasswordToken: {
+			type: String,
+		},
+		// reportedBy: [
+		// 	{
+		// 		type: mongoose.Schema.Types.ObjectId,
+		// 		ref: "User",
+		// 	},
+		// ]
 	},
-	{ timestamps: true }
+	{ timestamps: true },
 );
 
 const User = mongoose.model("User", userSchema);

@@ -11,12 +11,15 @@ import Reaptcha from "reaptcha";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import "../../scss/custom.css";
+
+axios.defaults.withCredentials = true;
+
 const getCharacterValidationError = (str) => {
 	return `Your password must have at least 1 ${str} character`;
 };
 
 const Register = () => {
-	const backgroundImage = 'url("LoginBackground.png")';
+	const backgroundImage = 'url("/LoginBackground.png")';
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -36,7 +39,7 @@ const Register = () => {
 			.email("Email is invalid"),
 		password: Yup.string()
 			.required("Password is required")
-			.min(8, "Password must have at least 8 characters")
+			.min(6, "Password must have at least 6 characters")
 			// different error messages for different requirements
 			.matches(/[0-9]/, getCharacterValidationError("digit"))
 			.matches(/[a-z]/, getCharacterValidationError("lowercase"))
@@ -59,7 +62,7 @@ const Register = () => {
 	const registerAccount = () => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/register",
+			url: "/api/user/register",
 			data: {
 				username,
 				email,
@@ -96,15 +99,6 @@ const Register = () => {
 	const onLoadCaptcha = () => {};
 
 	const onSubmit = (e) => {
-		// e.preventDefault();
-		// toast.promise(
-		// 	registerAccount(),
-		// 	 {
-		// 	   loading: 'Saving...',
-		// 	   success: <b>Settings saved!</b>,
-		// 	   error: <b>Could not save.</b>,
-		// 	 }
-		//    );
 		registerAccount();
 		setUsername("");
 		setEmail("");
@@ -119,6 +113,26 @@ const Register = () => {
 			setShowPassword(true);
 		}
 	};
+	// fix biome by Bread, you can delete if it cause error
+	// fix bio me start
+	function useEnterKeySubmit(onSubmit) {
+		const handleKeyDown = (event) => {
+			if (event.key === "Enter") {
+				onSubmit();
+			}
+		};
+
+		useEffect(() => {
+			document.addEventListener("keydown", handleKeyDown);
+
+			return () => document.removeEventListener("keydown", handleKeyDown);
+		}, [handleKeyDown]);
+
+		return handleKeyDown;
+	}
+
+	const handleKeyDown = useEnterKeySubmit(handleSubmit(onSubmit));
+	// fix biome end
 
 	const { isDarkMode } = useContext(ThemeContext);
 
@@ -139,7 +153,7 @@ const Register = () => {
 						The guide to sustainable life
 					</h1>
 					<Image
-						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+						src={isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"}
 						width={120}
 						className="my-2"
 						alt="Greeli Forum Logo"
@@ -147,6 +161,7 @@ const Register = () => {
 					<form
 						className="mt-4 mx-3 px-md-5"
 						onSubmit={handleSubmit(onSubmit)}
+						onKeyDown={handleKeyDown}
 						aria-label="register form"
 					>
 						<div
@@ -253,6 +268,7 @@ const Register = () => {
 							<span
 								className="input-group-text text-login-emphasis"
 								onClick={showPasswordButton}
+								onKeyUp={handleKeyUp} // fix biome by Bread, you can delete if it causes error
 								aria-label="show password button"
 								role="button"
 							>
@@ -298,6 +314,7 @@ const Register = () => {
 							<span
 								className="input-group-text text-login-emphasis"
 								onClick={showPasswordButton}
+								onKeyUp={handleKeyUp} // fix biome by Bread, you can delete if it causes error
 								aria-label="show password button"
 								role="button"
 							>
@@ -305,13 +322,13 @@ const Register = () => {
 							</span>
 						</div>
 						{errors.confirmPassword && (
-							<p className="error" tabIndex={0}>
+							<p className="error">
 								{errors.confirmPassword.message}
 							</p>
 						)}
 						<Reaptcha
 							className=" mb-4"
-							sitekey="6LeZuswpAAAAAJsWzzaLYK_ZmUoPAhJO0Sns-qlx"
+							sitekey="6Ld2nt8pAAAAANB0gjy0_G2vdBy80t8NO5E_tv0E"
 							ref={captchaRef}
 							onVerify={verifyCaptcha}
 							onLoad={onLoadCaptcha}

@@ -7,6 +7,7 @@ import useSwr from "swr";
 import SearchBar from "../../../components/Search/Search";
 import PostList from "./PostList";
 import ThreadContent from "./ThreadContent";
+axios.defaults.withCredentials = true;
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function ThreadPage() {

@@ -8,8 +8,10 @@ export const useUserContext = () => {
 
 export const UserContextProvider = ({ children }) => {
 	const [user, setUser] = useState(localStorage.getItem("user") || null);
+	const [success, setSuccess] = useState("");
 	const [error, setError] = useState("");
 	const [searchTerm, setSearchTerm] = useState();
+	const [chatNoti, setChatNoti] = useState([]);
 	useEffect(() => {
 		localStorage.setItem("user", user);
 	}, [user]);
@@ -20,7 +22,19 @@ export const UserContextProvider = ({ children }) => {
 
 	return (
 		<UserContext.Provider
-			value={{ user, setUser, error, setError, toggleUserInfo, searchTerm, setSearchTerm }}
+			value={{
+				user,
+				setUser,
+				error,
+				setError,
+				toggleUserInfo,
+				searchTerm,
+				setSearchTerm,
+				success,
+				setSuccess,
+				chatNoti,
+				setChatNoti,
+			}}
 		>
 			{children}
 		</UserContext.Provider>

@@ -16,8 +16,8 @@ import html from "highlight.js/lib/languages/xml";
 
 import MenuBar from "../../../../../components/Forum/EditTextEditor/MenuBar";
 import { EditContext } from "../../../../../context/EditContext";
-import CreateCommentBottomBar from "./CreateCommentBottomBar";
 import { PopupContext } from "../../../../../context/PopupContext";
+import CreateCommentBottomBar from "./CreateCommentBottomBar";
 
 import { useLogin } from "../../../../../hooks/useLogin";
 
@@ -29,11 +29,11 @@ lowlight.registerLanguage("css", css);
 lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
 export default function CreateCommentEditor() {
-  const editContext = useContext(EditContext);
-  const popupContext = useContext(PopupContext);
-  const isLogin = useLogin();
+	const editContext = useContext(EditContext);
+	const popupContext = useContext(PopupContext);
+	const isLogin = useLogin();
 
-  const placeholder = "Comment ...";
+	const placeholder = "Comment ...";
 
   const editorProps = {
     attributes: {

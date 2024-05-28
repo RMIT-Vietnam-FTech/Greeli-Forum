@@ -2,9 +2,9 @@ import React from "react";
 import { AiFillInstagram, AiOutlineTikTok } from "react-icons/ai";
 import { FaFacebook } from "react-icons/fa";
 import { GrMail } from "react-icons/gr";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../../scss/custom.css";
 import "../Footer/footer.css";
-import { Link, NavLink, useNavigate } from "react-router-dom";
 export default function Footer() {
 	return (
 		<>
@@ -22,7 +22,7 @@ export default function Footer() {
 							officiis odit ullam aut delectus ea magnam.
 						</p>
 						<img
-							src="logo.svg"
+							src="/logo.svg"
 							alt="greeli logo"
 							width={100}
 							className="pt-5"

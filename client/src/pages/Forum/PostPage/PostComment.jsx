@@ -5,22 +5,37 @@ import { useNavigate } from "react-router-dom";
 import useSWRInfinite from "swr/infinite";
 
 import { Button } from "react-bootstrap";
+import ButtonUpvote from "../../../components/Forum/ButtonUpvote";
 import { CommentContext } from "../../../context/CommentContext";
 import { EditContextProvider } from "../../../context/EditContext";
+import { EditContextProvider } from "../../../context/EditContext";
 import CreateCommentEditor from "./components/CreateCommentEditor/CreateCommentEditor";
-import ButtonUpvote from "../../../components/Forum/ButtonUpvote";
 
-import { FaCommentAlt } from "react-icons/fa";
-import { IoMdClose } from "react-icons/io";
-import { IoMdCheckmark } from "react-icons/io";
 import { BsShieldFillX } from "react-icons/bs";
 import { BsShieldFillCheck } from "react-icons/bs";
+import { FaCommentAlt } from "react-icons/fa";
+import { FaShareFromSquare } from "react-icons/fa6";
+import { IoMdClose } from "react-icons/io";
+import { IoMdCheckmark } from "react-icons/io";
+// import share icon
+import {
+	FacebookIcon,
+	FacebookShareButton,
+	LinkedinIcon,
+	LinkedinShareButton,
+	RedditIcon,
+	RedditShareButton,
+	TwitterIcon,
+	TwitterShareButton,
+} from "react-share";
 
 import { useLogin } from "../../../hooks/useLogin";
 
 import { PopupContext } from "../../../context/PopupContext";
 import ReplyComment from "../PostPage/components/ReplyComment";
 import { useEditor } from "@tiptap/react";
+
+axios.defaults.withCredentials = true;
 
 const fetcher = (url) =>
   axios.get(url).then((res) => {
@@ -68,24 +83,24 @@ export default function PostComment({ postData, threadAdminId }) {
     );
   }
 
-  async function handleUnApproved() {
-    try {
-      //delete and redirect
-      const path = `http://localhost:3001/api/v1/posts/${postData._id}`;
-      await axios.delete(
-        path,
+	async function handleUnApproved() {
+		try {
+			//delete and redirect
+			const path = `/api/v1/posts/${postData._id}`;
+			await axios.delete(
+				path,
 
-        {
-          data: {
-            threadId: postData.belongToThread,
-          },
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
-          },
-        }
-      );
+				{
+					data: {
+						threadId: postData.belongToThread,
+					},
+					headers: {
+						// Authorization: `Bearer ${
+						//   JSON.parse(localStorage.getItem("user")).token
+						// }`,
+					},
+				},
+			);
 
       navigate(`/forum/threads/${postData.belongToThread}`);
     } catch (error) {
@@ -115,17 +130,17 @@ export default function PostComment({ postData, threadAdminId }) {
           <ButtonComment commentLength={postData.comments.length} />
         </div>
 
-        {/*show verify status */}
-        {isLogin &&
-        threadAdminId === JSON.parse(localStorage.getItem("user")).id &&
-        !isApproved ? (
-          <div className="d-flex gap-2 me-2">
-            <Button
-              onClick={handleApproved}
-              className="border-greeli rounded-circle bg-transparent text-forum-emphasis"
-            >
-              <IoMdCheckmark />
-            </Button>
+				{/*show verify status */}
+				{isLogin &&
+				threadAdminId === JSON.parse(localStorage.getItem("user")).id &&
+				!isApproved ? (
+					<div className="d-flex gap-2 me-2">
+						<Button
+							onClick={handleApproved}
+							className="border-greeli rounded-circle bg-transparent text-forum-emphasis"
+						>
+							<IoMdCheckmark />
+						</Button>
 
             <Button
               onClick={handleUnApproved}
@@ -203,6 +218,7 @@ export function ButtonComment({ commentLength }) {
       className=" px-1 rounded-5 border border-primary-green bg-transparent text-forum-emphasis d-flex align-items-center gap-2"
       style={{ fontSize: "14px" }}
     >
+
       {commentLength} <FaCommentAlt className="me-2" />
     </button>
   );

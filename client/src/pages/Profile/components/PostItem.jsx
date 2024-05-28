@@ -1,10 +1,10 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { MdInsertComment, MdShare } from "react-icons/md";
 import { TbArrowBigUp } from "react-icons/tb";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
+axios.defaults.withCredentials = true;
 const PostItem = (props) => {
 	const [threadTitle, setThreadTitle] = useState("");
 	const navigate = useNavigate();
@@ -24,7 +24,7 @@ const PostItem = (props) => {
 		const getPostThreadAsync = async (threadId) => {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/v1/threads/${threadId}`,
+				url: `/api/v1/threads/${threadId}`,
 			};
 			await axios(configuration)
 				.then((response) => {
@@ -39,7 +39,9 @@ const PostItem = (props) => {
 
 	//REDIRECT TO POST PAGE
 	const handlePostClick = () => {
-		navigate(`/forum/threads/${threadId}/posts/${postId}`, { replace: true });
+		navigate(`/forum/threads/${threadId}/posts/${postId}`, {
+			replace: true,
+		});
 	};
 
 	return (
@@ -71,7 +73,9 @@ const PostItem = (props) => {
 								</p>
 								<p className="text-white m-0">{createdDate}</p>
 							</div>
-							<p className="text-white p-0 m-0">{author.username}</p>
+							<p className="text-white p-0 m-0">
+								{author.username}
+							</p>
 						</div>
 					</div>
 					<p className="w-100 text-white mt-3">{content}</p>

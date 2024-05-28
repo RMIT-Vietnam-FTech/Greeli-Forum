@@ -2,15 +2,17 @@ import { useCurrentEditor } from "@tiptap/react";
 import { useContext, useId } from "react";
 import { useParams } from "react-router-dom";
 
+import axios from "axios";
 import { CommentContext } from "../../../../../context/CommentContext";
 import { EditContext } from "../../../../../context/EditContext";
 import Comment from "../ReplyComment";
-import axios from "axios";
+axios.defaults.withCredentials = true;
+
 export default function CreateCommentBottomBar({ content }) {
-  const editContext = useContext(EditContext);
-  const commentContext = useContext(CommentContext);
-  const commentId = useId();
-  const { postId } = useParams();
+	const editContext = useContext(EditContext);
+	const commentContext = useContext(CommentContext);
+	const commentId = useId();
+	const { postId } = useParams();
 
   const { editor } = useCurrentEditor();
   if (!editor.isEditable) {
@@ -59,26 +61,26 @@ export default function CreateCommentBottomBar({ content }) {
       //   ...commentContext.newComment,
       // ]);
 
-      //set content
-      editor.commands.setContent("");
-    } else {
-      // toggle error text editor
-    }
-  }
-  return (
-    <div className="d-flex justify-content-end gap-3 w-80 my-2 px-3">
-      <button
-        onClick={handleOnCancel}
-        className="btn border-primary-green btn-primary-green"
-      >
-        Cancel
-      </button>
-      <button
-        onClick={() => handleOnDone()}
-        className="btn border-primary-green btn-primary-green"
-      >
-        Done
-      </button>
-    </div>
-  );
+			//set content
+			editor.commands.setContent("");
+		} else {
+			// toggle error text editor
+		}
+	}
+	return (
+		<div className="d-flex justify-content-end gap-3 w-80 my-2 px-3">
+			<button
+				onClick={handleOnCancel}
+				className="btn border-primary-green btn-primary-green"
+			>
+				Cancel
+			</button>
+			<button
+				onClick={() => handleOnDone()}
+				className="btn border-primary-green btn-primary-green"
+			>
+				Done
+			</button>
+		</div>
+	);
 }

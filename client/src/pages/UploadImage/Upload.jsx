@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
 const Upload = () => {
 	const [file, setFile] = useState();
 	const formData = new FormData();
@@ -7,7 +7,7 @@ const Upload = () => {
 		formData.append("image", file);
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/upload",
+			url: "/api/upload",
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},

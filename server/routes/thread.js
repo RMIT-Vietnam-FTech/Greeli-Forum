@@ -26,27 +26,33 @@ const upload = multer({
 const router = express.Router();
 
 router
-  .route("/")
-  .get(threadController.getThreads)
-  .post(verifyToken, upload.single("uploadFile"), threadController.createThread)
-  .delete(verifyToken, threadController.reset);
+	.route("/")
+	.get(threadController.getThreads)
+	.post(
+		verifyToken,
+		upload.single("uploadFile"),
+		threadController.createThread,
+	)
+	.delete(verifyToken, threadController.reset);
 
-router.post("/validation",verifyToken,threadController.validateThread);
+router.post("/validation", verifyToken, threadController.validateThread);
 
 router
-  .route("/:threadId")
-  .get(threadController.getThread)
-  .put(verifyToken, threadController.modifyThreadContent);
+	.route("/:threadId")
+	.get(threadController.getThread)
+	.put(verifyToken, threadController.modifyThreadContent);
+
+router.put("/:threadId/archive", verifyToken, verifyAdmin, threadController.archiveThread);
 
 router
-  .route("/:threadId/rule")
-  .post(verifyToken, threadController.createThreadRule)
-  .put(verifyToken, threadController.deleteThreadRule);
+	.route("/:threadId/rule")
+	.post(verifyToken, threadController.createThreadRule)
+	.put(verifyToken, threadController.deleteThreadRule);
 
 router.get("/:threadId/statistic", threadController.getThreadStatistic);
 
 router
-  .route("/:threadId/rule/:ruleIndex")
-  .put(verifyToken, threadController.modifyThreadRule)
-  .delete(verifyToken, threadController.deleteThreadRule);
+	.route("/:threadId/rule/:ruleIndex")
+	.put(verifyToken, threadController.modifyThreadRule)
+	.delete(verifyToken, threadController.deleteThreadRule);
 export default router;

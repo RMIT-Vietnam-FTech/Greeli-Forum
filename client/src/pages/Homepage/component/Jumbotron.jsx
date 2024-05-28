@@ -9,10 +9,7 @@ export default function Jumbotron() {
 					Wanna be a part of our community builder team?
 				</h1>
 				<div className="d-block">
-					<button
-						className="join-us"
-						type="button"
-					>
+					<button className="join-us px-5 py-3" type="button">
 						Join Us Here
 					</button>
 				</div>

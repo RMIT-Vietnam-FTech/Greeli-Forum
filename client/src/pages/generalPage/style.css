@@ -81,6 +81,7 @@
 .selection {
     display: flex;
     justify-content: center;
+    gap: 10px;
 }
 
 .popularNews {
@@ -254,6 +255,18 @@
 .dropdown-item-light {
     background-color: #fff;
     color: #000;
+}
+
+.news-spinner {
+    margin-top: 20px;
+}
+
+.news-spinner-dark {
+    color: #DCB968;
+}
+
+.news-spinner-light {
+    color: #0A2A28;
 }
 
 @media (max-width: 768px) {

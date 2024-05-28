@@ -18,13 +18,13 @@ const newsSchema = new mongoose.Schema(
 			required: true,
 		},
 		date: {
-     		type: Date,
-      		default: Date.now,
-    	},
+			type: Date,
+			default: Date.now,
+		},
 		image: {
 			type: String,
 			required: true,
-		}
+		},
 	},
 	{ timestamps: true },
 );

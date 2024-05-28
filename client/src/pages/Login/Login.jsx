@@ -1,16 +1,15 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 const Login = () => {
 	const { user, setUser } = useUserContext();
@@ -18,8 +17,7 @@ const Login = () => {
 	const location = useLocation();
 	const { isDarkMode } = useContext(ThemeContext);
 	const from = location.state?.from?.pathname || "/";
-	const cookies = new Cookies();
-	const backgroundImage = 'url("LoginBackground.png")';
+	const backgroundImage = 'url("/LoginBackground.png")';
 	const [email, setEmail] = useState("");
 	const [isLogin, setIsLogin] = useState(false);
 	const [password, setPassword] = useState("");
@@ -44,25 +42,22 @@ const Login = () => {
 	const login = async () => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/login",
+			url: "/api/user/login",
 			data: {
 				email,
 				password,
 			},
+			withCredentials: true,
 		};
 		axios(configuration)
 			.then((result) => {
 				if (result.data) {
-					toast.success("Successfully Login!", {
-						duration: 3000,
+					toast.success(result.data.message, {
+						duration: 2000,
 						position: "top-center",
 					});
 					setIsLogin(true);
 				}
-				cookies.set("TOKEN", result.data.token, {
-					path: "/",
-					maxAge: 60 * 60 * 24 * 3,
-				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
 				// set user context
@@ -70,11 +65,11 @@ const Login = () => {
 				// navigate(from, { replace: true });
 				setTimeout(() => {
 					navigate(from, { replace: true });
-				}, 2000);
+				}, 1500);
 			})
 			.catch((error) => {
 				toast.error(error.response.data.error, {
-					duration: 3000,
+					duration: 2000,
 					position: "top-center",
 				});
 				console.log(error.response.data.error);
@@ -95,12 +90,30 @@ const Login = () => {
 		}
 	};
 
-	const handleKeyDown = (e) => {
-		if (e.key === "Enter") {
-			e.preventDefault();
-			onSubmit(handleSubmit(onSubmit));
-		}
+	function useEnterKeySubmit(onSubmit) {
+		const handleKeyDown = (event) => {
+			if (event.key === "Enter") {
+				onSubmit();
+			}
+		};
+
+		useEffect(() => {
+			document.addEventListener("keydown", handleKeyDown);
+
+			return () => document.removeEventListener("keydown", handleKeyDown);
+		}, [handleKeyDown]);
+
+		return handleKeyDown;
 	}
+
+	const handleKeyDown = useEnterKeySubmit(handleSubmit(onSubmit));
+
+	// const handleKeyDown = (e) => {
+	// 	if (e.key === "Enter") {
+	// 		e.preventDefault();
+	// 		onSubmit(handleSubmit(onSubmit));
+	// 	}
+	// };
 
 	return (
 		<main
@@ -109,7 +122,7 @@ const Login = () => {
 		>
 			{/* <div>{JSON.parse(user).id}</div> */}
 			<div className="row">
-				<Toaster position="top-center" />
+				{/* <Toaster position="top-center" /> */}
 				{/* {(isLogin === true) && (toast.success("success"))} */}
 				<div
 					className=" col-sm-12 col-lg-6 bg-image"
@@ -122,7 +135,7 @@ const Login = () => {
 						The guide to sustainable life
 					</h1>
 					<Image
-						src={isDarkMode ? "DarkLogo.svg" : "LightLogo.svg"}
+						src={isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"}
 						width={120}
 						className="my-2"
 						alt="Greeli Forum Logo"
@@ -242,7 +255,7 @@ const Login = () => {
 						>
 							Sign in
 						</button>
-						<p className="mt-1 mb-3 text-center text-greeli-emphasis">
+						<p className="mt-2 mb-1 text-center text-greeli-emphasis">
 							Don't have an account?{" "}
 							<Link
 								to="/register"
@@ -250,6 +263,16 @@ const Login = () => {
 								style={{ textDecoration: "none" }}
 							>
 								Register
+							</Link>
+						</p>
+						<p className="mb-3 text-center text-greeli-emphasis">
+							Forgot password?{" "}
+							<Link
+								to="/resetPassword"
+								className="text-primary-yellow"
+								style={{ textDecoration: "none" }}
+							>
+								Reset here
 							</Link>
 						</p>
 					</form>

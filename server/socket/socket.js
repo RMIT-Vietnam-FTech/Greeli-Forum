@@ -36,7 +36,14 @@ io.on("connection", (socket) => {
 		console.log("Data: ", data);
 		if (user) {
 			io.to(user.socketId).emit("receive-message", data);
+			io.to(user.socketId).emit("get-notification", {
+				chatId: data.chatId,
+				senderId: data.senderId,
+				isRead: false,
+				date: new Date(),
+			});
 			console.log("send successfully");
+
 		}
 	});
 

@@ -1,13 +1,18 @@
 import axios from "axios";
 
 const WeatherApi = async (city) => {
-	const API_KEY = "0668f45ab38ff90535c60b49113558cd";
-	const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
-	const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`;
+	const apiKey = "0c44c252ca37f03dce72864824992126";
+	const currentWeatherUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+	const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
 
 	try {
-		const currentWeatherResponse = await axios.get(currentWeatherUrl);
-		const forecastResponse = await axios.get(forecastUrl);
+		const currentWeatherResponse = await axios.get(currentWeatherUrl, {
+			withCredentials: false,
+		});
+		const forecastResponse = await axios.get(forecastUrl, {
+			withCredentials: false,
+		});
+		console.log(currentWeatherResponse);
 		return {
 			currentWeather: currentWeatherResponse.data,
 			forecast: forecastResponse.data,
