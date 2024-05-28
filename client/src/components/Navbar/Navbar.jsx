@@ -212,7 +212,7 @@ const Navbar = ({ isForum }) => {
 						<ul class="dropdown-menu" style={{ right: "0px", top: "120%" }}>
 							<li>
 								<NavLink
-									class="dropdown-item ps-3"
+									class="dropdown-item ps-3 text-decoration-none"
 									to="/profile"
 									role="user profile page"
 									aria-label="link to user profile page"
@@ -222,7 +222,7 @@ const Navbar = ({ isForum }) => {
 							</li>
 							<li>
 								<NavLink
-									class="dropdown-item ps-3"
+									class="dropdown-item ps-3 text-decoration-none"
 									to="/admin"
 									role="dashboard page"
 									aria-label="link to user dashboard page"
