@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 import ButtonUpvote from "../../../components/Forum/ButtonUpvote";
 import { CommentContext } from "../../../context/CommentContext";
 import { EditContextProvider } from "../../../context/EditContext";
-import { EditContextProvider } from "../../../context/EditContext";
+
 import CreateCommentEditor from "./components/CreateCommentEditor/CreateCommentEditor";
 
 import { BsShieldFillX } from "react-icons/bs";

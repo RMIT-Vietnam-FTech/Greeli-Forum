@@ -8,9 +8,6 @@ import NewCommunityPopUp from "./components/NewCommunityPopup";
 import Button from "react-bootstrap/Button";
 import DropDown from "../../../components/Forum/DropDown";
 import EditTextEditor from "../../../components/Forum/EditTextEditor/EditTextEditor";
-import ImageOrVideo from "../../../components/Forum/ImageOrVideo";
-import { PopupContext } from "../../../context/PopupContext";
-import NewPostPopUp from "./components/NewPostPopUp";
 
 import { AuthorizationContextProvider } from "../../../context/AuthorizationContext";
 import { EditContextProvider } from "../../../context/EditContext";

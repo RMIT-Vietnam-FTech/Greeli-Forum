@@ -9,8 +9,9 @@ import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import DropZoneFile from "./DropZoneFile";
 import PopupEditor from "./PopupEditor/PopupEditor";
-axios.defaults.withCredentials = true;
 import { IoEllipseSharp } from "react-icons/io5";
+
+axios.defaults.withCredentials = true;
 
 export default function NewThreadPopUp({ isOpen, setIsOpen, belongToThread }) {
   const [file, setFile] = useState(null);
