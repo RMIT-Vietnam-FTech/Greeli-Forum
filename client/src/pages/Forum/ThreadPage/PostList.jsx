@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import useSwrInfinite from "swr/infinite";
 import Post from "../../../components/Forum/Post";
 import { useUserContext } from "../../../context/UserContext";
+import PostSkeleton from "../../../components/Forum/Skeleton/PostSkeleton";
 
 axios.defaults.withCredentials = true;
 
@@ -42,23 +43,27 @@ const fetcher = async (prop) => {
 	return await axios.get(url).then((res) => res.data.data);
 };
 
-export default function PostList({ threadData }) {
-	const { searchTerm } = useUserContext();
-	const [searchResult, setSearchResult] = useState([]);
-	const [sortOption, setSortOption] = useState("Hot");
+export default function PostList({ threadData, topicData}) {
+  const { searchTerm } = useUserContext();
+  const [searchResult, setSearchResult] = useState([]);
+  const [sortOption, setSortOption] = useState("Hot");
 
 	const user = JSON.parse(localStorage.getItem("user"));
 	const isThreadAdmin =
 		user && threadData && threadData.createdBy.userId == user.id;
 
-	const validatedPath = (isThreadAdmin, threadData, sort, page) => {
-		if (isThreadAdmin) {
-			return `http://localhost:3001/api/v1/admin/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
-		} else if (threadData) {
-			return `http://localhost:3001/api/v1/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
-		}
-		return `http://localhost:3001/api/v1/posts?page=${page}&sort=${sort}`;
-	};
+  const validatedPath = (isThreadAdmin, threadData, sort, page) => {
+    if (isThreadAdmin) {
+      return `http://localhost:3001/api/v1/admin/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
+    } else if (threadData) {
+      return `http://localhost:3001/api/v1/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
+    }
+    else if(topicData){
+      return `http://localhost:3001/api/v1/posts?page=${page}&belongToTopic=${topicData._id}&sort=${sort}`;
+
+    }
+    return `http://localhost:3001/api/v1/posts?page=${page}&sort=${sort}`;
+  };
 
 	const { data, size, setSize, isLoading } = useSwrInfinite(
 		(index, prevData) => {
@@ -72,8 +77,11 @@ export default function PostList({ threadData }) {
 		fetcher,
 	);
 
-	const issues = data ? [].concat(...data) : [];
-	const path = validatedPath(isThreadAdmin, threadData, sortOption, 1);
+  const issues = data ? [].concat(...data) : [];
+  {
+    /*------define component to get metdata and use intersection observer to achieve lazyload-------------*/
+  }
+  const path = validatedPath(isThreadAdmin, threadData, sortOption, 1);
 
 	const [metaData, setMetaData] = useState();
 	useEffect(() => {
@@ -83,32 +91,32 @@ export default function PostList({ threadData }) {
 	}, []);
 	let limit, total;
 
-	const { ref, inView, entry } = useInView({
-		threshold: 0,
-		onChange: (inView, entry) => {
-			if (metaData) {
-				limit = metaData.limit;
-				total = metaData.total;
-			} else {
-				limit = 10;
-				total = 10;
-			}
-			if (inView && size * limit <= total) {
-				setSize(size + 1);
-			}
-		},
-	});
-	useEffect(() => {
-		setSearchResult(
-			issues.filter((issue) =>
-				issue.title.toLowerCase().includes(searchTerm),
-			),
-		);
-	}, [searchTerm]);
-
-	if (isLoading) {
-		return 0;
-	}
+  const { ref, inView, entry } = useInView({
+    threshold: 0,
+    onChange: (inView, entry) => {
+      if (metaData) {
+        limit = metaData.limit;
+        total = metaData.total;
+      } else {
+        limit = 10;
+        total = 10;
+      }
+      if (inView && size * limit <= total) {
+        setSize(size + 1);
+      }
+    },
+  });
+  {
+    /*------------------------------------------------------------------------------------------------------*/
+  }
+  useEffect(() => {
+    setSearchResult(
+      issues.filter((issue) => issue.title.toLowerCase().includes(searchTerm))
+    );
+  }, [searchTerm]);
+  if (isLoading) {
+    return <PostSkeleton nOfCard={5}/>;
+  }
 
 	return (
 		<>
@@ -149,57 +157,57 @@ export default function PostList({ threadData }) {
 }
 
 const Sorting = ({ sortOption, setSortOption }) => {
-	return (
-		<div className="dropdown ms-3">
-			<button
-				className={
-					"btn  d-flex gap-1 bg-forum-subtle text-white d-flex rounded-5 px-4 "
-				}
-				data-bs-toggle="dropdown"
-			>
-				<p className="m-0 p-0">{sortOption}</p>
-				<div>
-					<IoMdArrowDropdown />
-				</div>
-			</button>
+  return (
+    <div className="dropdown ms-3">
+      <button
+        className={
+          "btn  d-flex gap-1 bg-login-subtle text-greeli-reverse-emphasis d-flex rounded-5 px-4 "
+        }
+        data-bs-toggle="dropdown"
+      >
+        <p className="m-0 p-0">{sortOption}</p>
+        <div>
+          <IoMdArrowDropdown />
+        </div>
+      </button>
 
-			<ul className="dropdown-menu bg-forum-subtle">
-				<li>
-					<a
-						tabIndex="0"
-						className={"dropdown-item"}
-						onClick={() => {
-							setSortOption("Hot");
-						}}
-					>
-						Hot
-					</a>
-				</li>
+      <ul className="dropdown-menu bg-forum-subtle ">
+        <li>
+          <a
+            tabIndex="0"
+            className="dropdown-item text-white"
+            onClick={() => {
+              setSortOption("Hot");
+            }}
+          >
+            Hot
+          </a>
+        </li>
 
-				<li>
-					<a
-						tabIndex="0"
-						className={"dropdown-item"}
-						onClick={() => {
-							setSortOption("New");
-						}}
-					>
-						New
-					</a>
-				</li>
+        <li>
+          <a
+            tabIndex="0"
+            className="dropdown-item text-white"
+            onClick={() => {
+              setSortOption("New");
+            }}
+          >
+            New
+          </a>
+        </li>
 
-				<li>
-					<a
-						tabIndex="0"
-						className={"dropdown-item"}
-						onClick={() => {
-							setSortOption("Top");
-						}}
-					>
-						Top
-					</a>
-				</li>
-			</ul>
-		</div>
-	);
+        <li>
+          <a
+            tabIndex="0"
+            className="dropdown-item text-white"
+            onClick={() => {
+              setSortOption("Top");
+            }}
+          >
+            Top
+          </a>
+        </li>
+      </ul>
+    </div>
+  );
 };

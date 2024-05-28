@@ -221,7 +221,7 @@ export default function LoginPopup() {
 									<span
 										className="input-group-text text-login-emphasis"
 										onClick={showPasswordButton}
-										onKeyUp={handleKeyUp} // Just add to fix biome
+										// onKeyUp={handleKeyUp} // Just add to fix biome
 										aria-label="show password button"
 										role="button"
 									>

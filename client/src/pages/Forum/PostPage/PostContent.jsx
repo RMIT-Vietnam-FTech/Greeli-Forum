@@ -59,24 +59,20 @@ export default function PostContent({ postData }) {
 						{postData.title}
 					</div>
 
-					{postData.uploadFile ? (
-						<div
-							className="w-100 my-4 bg-forum-subtle rounded-3 d-flex justify-content-center overflow-hidden"
-							style={{ height: "400px" }}
-						>
-							<ImageOrVideo
-								alt={postData.createdBy.username}
-								src={postData.uploadFile}
-								isPost={false}
-							/>
-						</div>
-					) : null}
-					<EditTextEditor
-						componentType="post"
-						content={JSON.parse(postData.content)}
-					/>
-				</div>
-			</EditContextProvider>
-		</section>
-	);
+          {postData.uploadFile ? (
+            <div
+              className="w-100 my-4 bg-forum-subtle rounded-3 d-flex justify-content-center overflow-hidden"
+              style={{ height: "400px" }}
+            >
+              <ImageOrVideo alt={postData.createdBy.username} uploadFile={postData.uploadFile} h100={true} />
+            </div>
+          ) : null}
+          <EditTextEditor
+            componentType="post"
+            content={JSON.parse(postData.content)}
+          />
+        </div>
+      </EditContextProvider>
+    </section>
+  );
 }

@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
-import { TbAccessPointOff } from "react-icons/tb";
 const baseStyle = {
   flex: 1,
   display: "flex",
@@ -35,7 +34,7 @@ const rejectStyle = {
   borderColor: "red",
   color: "red",
 };
-export default function DropZoneFile({ file, setFile, isReset }) {
+export default function CreateCommunityDropZone({ file, setFile, isReset }) {
   const {
     getRootProps,
     getInputProps,
@@ -48,13 +47,10 @@ export default function DropZoneFile({ file, setFile, isReset }) {
     accept: {
       "image/jpeg": [],
       "image/png": [],
-      "image/gif": [],
       "image/webp": [],
-      "video/mp4": [],
-      "video/webm": [],
     },
     maxFiles: 1,
-    maxSize: 1024 * 1024 * 10,
+    maxSize: 1024 * 1024 * 5,
     onDropAccepted: (file) => {
       setFile(file);
     },
@@ -83,36 +79,23 @@ export default function DropZoneFile({ file, setFile, isReset }) {
   let _URL = window.URL || window.webkitURL;
 
   let url;
-  let type;
   if (acceptedFiles.length > 0) {
     url = _URL.createObjectURL(acceptedFiles[0]);
-    type = acceptedFiles[0].type.split("/")[0];
   }
+
   return (
     <>
       <div
         tabIndex="0"
-        className="w-100 h-100 overflow-hidden position-relative "
+        className="w-100 h-100 rounded-circle overflow-hidden position-relative "
         {...getRootProps({ style })}
       >
-        <input {...getInputProps()} name="uploadFile" />
-        {!file ? (
-          <h4>Drop or Drag or click to Upload</h4>
-        ) : (
-          <>
-            <div
-              className="h-100 overflow-hidden"
-              style={{ borderRadius: "20px" }}
-            >
-              {type === "image" ? (
-                <img className="mx-auto h-100" src={url} />
-              ) : (
-                <video className="mx-auto h-100" src={url}></video>
-              )}
-            </div>
-            <h4>Drop or Drag or Click to Replace</h4>
-          </>
-        )}
+		{acceptedFiles.length === 0 && <div>Upload</div>}
+        <img
+          className="w-100 h-100 position-absolute"
+          style={{ top: "0", left: "0" }}
+          src={url}
+        />
       </div>
     </>
   );
