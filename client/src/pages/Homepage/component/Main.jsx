@@ -6,7 +6,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext.jsx";
 import { useUserContext } from "../../../context/UserContext.jsx";
 import "../style/main.css";
-import FaQ from "./FaQ.jsx";
+import FAQ from "./FaQ.jsx";
 import Posts from "./RecommendPost.jsx";
 import TeamMember from "./TeamMember.jsx";
 const Main = () => {
