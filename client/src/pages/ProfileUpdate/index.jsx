@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useUserContext } from "../../context/UserContext";
 import { ThemeContext } from "../../context/ThemeContext";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,10 +8,8 @@ import { FaCamera } from "react-icons/fa";
 import LeftSidePart from "./components/LeftSidePart";
 import RightSidePart from "./components/RightSidePart";
 import "./styles.css";
-import PreventionPopup from "../../components/Popup/PreventionPopup";
 // import demoUserInfo from "./data";
-import { UserContext } from "../../context/UserContext";
-import Cookies from "universal-cookie";
+import { ProfileContext } from "../../context/ProfileContext";
 
 const ProfileUpdate = (props) => {
 	const { isDarkMode } = useContext(ThemeContext);
@@ -97,18 +94,23 @@ const ProfileUpdate = (props) => {
 		}
 
 		fetchUser();
-	}, [userId, isMe]);
+	}, [userId, isMe, basicInfo]);
+	// ----------------------------
+
+	//EDIT PROFILE - PUSH DATA TO DB
+
 	// ----------------------------
 
 	return (
-		<div className="container-fluid profile-page-container">
-			<Toaster />
-			{/* <h1>Profile Update</h1> */}
-			<div className="row row-cols-12 h-100">
-				<LeftSidePart userInfo={basicInfo} />
-				<RightSidePart userInfo={basicInfo} />
+		<ProfileContext.Provider value={basicInfo}>
+			<div className="container-fluid profile-page-container">
+				<Toaster />
+				<div className="row row-cols-12 h-100">
+					<LeftSidePart />
+					<RightSidePart isMe={isMe} />
+				</div>
 			</div>
-		</div>
+		</ProfileContext.Provider>
 	);
 };
 

@@ -48,7 +48,7 @@ const routesConfig = [
 			{
 				element: <RequireActivate />,
 				children: [
-					{ path: "/profile", element: <Profile />, name: "Profile" },
+					{ path: "/profile", element: <ProfileUpdate />, name: "Profile" },
 					{ path: "/user/:userId", element: <Profile />, name: "User Profile" },
 					{ path: "/chat", element: <Chat />, name: "Chat" },
 				],

@@ -90,6 +90,7 @@ export const uploadProfileImage = async (req, res) => {
 	try {
 		const uploadFile = req.file;
 		const userId = req.params.id;
+		console.log(userId);
 		if (uploadFile) {
 			const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
 			const imageName = uniqueSuffix + "-" + uploadFile.originalname;

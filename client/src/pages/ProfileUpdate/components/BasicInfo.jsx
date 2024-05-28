@@ -1,6 +1,3 @@
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { Toaster } from "react-hot-toast";
 import {
 	MdEmail,
 	MdLocationOn,

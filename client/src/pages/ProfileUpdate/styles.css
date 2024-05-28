@@ -114,6 +114,18 @@
 	background: #365949;
 }
 
+/* EDIT PROFILE MODAL */
+.edit-tab-active {
+	font-weight: 600;
+	color: black !important;
+	border-bottom: 2px solid black !important;
+}
+
+.edit-tab {
+	color: gray;
+	border-bottom: 2px solid white;
+	cursor: pointer;
+}
 /* Responsiveness */
 @media (max-width: 992px) {
 	.profile-page-container {

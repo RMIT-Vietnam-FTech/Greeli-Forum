@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import { FaCamera } from "react-icons/fa";
 import BasicInfo from "./BasicInfo";
 import EditInfoModal from "./EditInfoModal";
@@ -7,10 +7,11 @@ import { useUserContext } from "../../../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import axios from "axios";
+import { useProfileContext } from "../../../context/ProfileContext";
 
-const LeftSidePart = (props) => {
+const LeftSidePart = () => {
 	const navigate = useNavigate();
-	const basicInfo = props.userInfo;
+	const data = useProfileContext();
 	const {
 		userId,
 		username,
@@ -23,7 +24,8 @@ const LeftSidePart = (props) => {
 		createdPost,
 		createdThread,
 		profileImage,
-	} = props.userInfo;
+	} = data;
+	const [basicInfo, setBasicInfo] = useState(data);
 
 	// DEACTIVATE ACCOUNT FUNCTION
 	const { user, setUser, toggleUserInfo } = useUserContext();
@@ -52,32 +54,32 @@ const LeftSidePart = (props) => {
 	// BLOCK/UNBLOCK USER FUNCTION
 	const isAdmin = JSON.parse(localStorage.getItem("user")).role === "admin";
 	const token = cookies.get("TOKEN");
-	// const handleLockAccount = () => {
-	// 	const userId = basicInfo.userId;
-	// 	const adminId = JSON.parse(localStorage.getItem("user")).id;
-	// 	const action = basicInfo.isLocked ? "unlock" : "lock";
-	// 	// console.log("Lock/Unlock user");
-	// 	const configuration = {
-	// 		method: "put",
-	// 		url: `http://localhost:3001/api/user/${adminId}/${userId}/${action}`,
-	// 		headers: {
-	// 			"Content-Type": "application/json",
-	// 			Authorization: `Bearer ${token}`,
-	// 		},
-	// 	};
-	// 	axios(configuration)
-	// 		.then((result) => {
-	// 			console.log(result.data);
-	// 			const newBasicInfo = {
-	// 				...basicInfo,
-	// 				isLocked: !basicInfo.isLocked,
-	// 			};
-	// 			setBasicInfo(newBasicInfo);
-	// 		})
-	// 		.catch((error) => {
-	// 			console.log(error);
-	// 		});
-	// };
+	const handleLockAccount = () => {
+		const userId = basicInfo.userId;
+		const adminId = JSON.parse(localStorage.getItem("user")).id;
+		const action = basicInfo.isLocked ? "unlock" : "lock";
+		// console.log("Lock/Unlock user");
+		const configuration = {
+			method: "put",
+			url: `http://localhost:3001/api/user/${adminId}/${userId}/${action}`,
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${token}`,
+			},
+		};
+		axios(configuration)
+			.then((result) => {
+				console.log(result.data);
+				const newBasicInfo = {
+					...basicInfo,
+					isLocked: !basicInfo.isLocked,
+				};
+				setBasicInfo(newBasicInfo);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	return (
 		<div className="my-5 col-12 col-lg-3">
@@ -87,11 +89,16 @@ const LeftSidePart = (props) => {
 					<div className="d-flex flex-column align-items-center">
 						<div className="d-flex flex-column align-items-center text-center rounded-circle profile-image-container position-relative">
 							<img
-								src={profileImage}
-								// alt={`${props.userName} Avatar`}
-								// src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
-								alt="Avatar Placeholder"
-								className="d-block w-100 rounded-circle avatar-image border-primary-yellow border-1"
+								src={
+									profileImage === "" ||
+									profileImage === null ||
+									profileImage === undefined
+										? "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541"
+										: profileImage
+								}
+								alt={`${username} Avatar`}
+								className="d-block w-100 p-0 rounded-circle avatar-image object-fit-cover border border-5 border-primary-yellow"
+								style={{ aspectRatio: "1/1" }}
 								data-bs-toggle="modal"
 								data-bs-target="#exampleModal"
 							/>
@@ -100,10 +107,7 @@ const LeftSidePart = (props) => {
 							</div>
 						</div>
 						<h1 className="mt-5 username-container">{username}</h1>
-						<EditInfoModal
-							userInfo={{ userId, username, tel, address, gender }}
-							basicInfo={basicInfo}
-						/>
+						<EditInfoModal />
 					</div>
 					<div className="w-100 d-flex flex-row align-items-center justify-content-between profile-figures">
 						<div className="d-flex flex-column align-items-center">

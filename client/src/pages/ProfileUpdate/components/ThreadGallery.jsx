@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PostItem from "./PostItem";
+import ThreadItem from "./ThreadItem";
 import axios from "axios";
 
 const ThreadGallery = (props) => {
@@ -29,7 +29,7 @@ const ThreadGallery = (props) => {
 				<div className="text-greeli-emphasis text-center">No posts to show</div>
 			) : (
 				renderPostList?.map((post, index) => {
-					return <PostItem key={index} post={post} />;
+					return <ThreadItem key={index} post={post} />;
 					// <>
 					// 	<PostItem post={demoPost} />
 					// 	<PostItem post={demoPost} />

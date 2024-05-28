@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ThreadGallery from "./ThreadGallery";
-import PostItem from "./PostItem";
+import { useProfileContext } from "../../../context/ProfileContext";
 
 const RightSidePart = (props) => {
-	const isMe = true;
+	const { isMe } = props;
 	const [tab, setTab] = useState("Created Threads");
-	const { createdPost, archivedPost, userId } = props.userInfo;
-	console.log(createdPost, archivedPost);
-	// const isMe = props.isMe;
+	const data = useProfileContext();
+	const { createdPost, archivedPost, userId } = data;
+	// console.log(createdPost, archivedPost);
 	const token = JSON.parse(localStorage.getItem("user")).token;
 	const [createdPosts, setCreatedPosts] = useState(null);
 	const [archivedPosts, setArchivedPosts] = useState(null);
