@@ -66,26 +66,26 @@ export const createComment = async (req, res) => {
     const comment = new Comment(commentObject);
     console.log("check 9");
 
-    if (parentId) {
-      const parentComment = await Comment.findById(parentId);
-      if (!parentComment) {
-        res.status(404).json("parenId comment is not found or invalid");
-      }
+		if (parentId) {
+			const parentComment = await Comment.findById(parentId);
+			if (!parentComment) {
+				res.status(404).json("parenId comment is not found or invalid");
+			}
 
-      comment.parentId = parentComment._id;
+			comment.parentId = parentComment._id;
 
-      parentComment.replies.push(comment._id);
-      await parentComment.save();
-    }
+			parentComment.replies.push(comment._id);
+			await parentComment.save();
+		}
 
     post.comments.push(comment._id);
     await post.save();
     await comment.save();
 
-    res.status(201).json(comment);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+		res.status(201).json(comment);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
 };
 export const uploadCommentFile = async (req, res) => {
   try {
@@ -162,32 +162,34 @@ export const getComments = async (req, res) => {
 };
 
 export const postUpVote = async (req, res) => {
-  try {
-    const commentId = req.params.commentId;
-    if (!commentId) return res.status(400).json("Bad Request");
+	try {
+		const commentId = req.params.commentId;
+		if (!commentId) return res.status(400).json("Bad Request");
 
-    const comment = await Comment.findById(commentId);
-    if (!comment) return res.status(400).json("post id not found or invalid");
+		const comment = await Comment.findById(commentId);
+		if (!comment)
+			return res.status(400).json("post id not found or invalid");
 
-    comment.upvote.push(req.user.id);
-    await comment.save();
-    res.status(204).json("Success");
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+		comment.upvote.push(req.user.id);
+		await comment.save();
+		res.status(204).json("Success");
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
 };
 export const deleteUpvote = async (req, res) => {
-  try {
-    const commentId = req.params.commentId;
-    if (!commentId) return res.status(400).json("Bad Request");
+	try {
+		const commentId = req.params.commentId;
+		if (!commentId) return res.status(400).json("Bad Request");
 
-    const comment = await Comment.findById(commentId);
-    if (!comment) return res.status(400).json("post id not found or invalid");
+		const comment = await Comment.findById(commentId);
+		if (!comment)
+			return res.status(400).json("post id not found or invalid");
 
-    comment.upvote.remove(req.user.id);
-    await comment.save();
-    res.status(204).json("Success");
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+		comment.upvote.remove(req.user.id);
+		await comment.save();
+		res.status(204).json("Success");
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
 };

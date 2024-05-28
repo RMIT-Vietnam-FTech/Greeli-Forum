@@ -5,11 +5,13 @@ import ReactDom from "react-dom";
 import { GrLinkPrevious } from "react-icons/gr";
 import { GrLinkNext } from "react-icons/gr";
 import { RiCloseLargeLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import DropZoneFile from "./DropZoneFile";
 import PopupEditor from "./PopupEditor/PopupEditor";
-import { useNavigate } from "react-router-dom";
 import { IoEllipseSharp } from "react-icons/io5";
+
+axios.defaults.withCredentials = true;
 
 export default function NewThreadPopUp({ isOpen, setIsOpen, belongToThread }) {
   const [file, setFile] = useState(null);
@@ -198,10 +200,10 @@ function FirstSlide({
     }
   }
 
-  function removeError() {
-    const inputThreadTitle = document.querySelector("#inputThreadTitle");
-    inputThreadTitle.classList.add("d-none");
-  }
+	function removeError() {
+		const inputThreadTitle = document.querySelector("#inputThreadTitle");
+		inputThreadTitle.classList.add("d-none");
+	}
 
   return (
     <div style={{height:"550px"}} className=" overflow-scroll-y" tabIndex="0">
@@ -363,41 +365,41 @@ function RemovedButton({ topicName, topicId, addedTopics, setAddedTopics }) {
   );
 }
 function NextArrow(props) {
-  const { onClick, isNext, setIsNext, handleData, isDisable } = props;
-  return (
-    <div onClick={onClick}>
-      <button
-        disabled={isDisable}
-        className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 border-none position-absolute"
-        style={{ bottom: "-50px", left: "100px" }}
-        onClick={
-          isNext
-            ? handleData
-            : () => {
-                setIsNext(true);
-              }
-        }
-      >
-        {isNext ? "Submit" : "Next"}
-      </button>
-    </div>
-  );
+	const { onClick, isNext, setIsNext, handleData, isDisable } = props;
+	return (
+		<div onClick={onClick}>
+			<button
+				disabled={isDisable}
+				className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 border-none position-absolute"
+				style={{ bottom: "-50px", left: "100px" }}
+				onClick={
+					isNext
+						? handleData
+						: () => {
+								setIsNext(true);
+							}
+				}
+			>
+				{isNext ? "Submit" : "Next"}
+			</button>
+		</div>
+	);
 }
 
 function PrevArrow(props) {
-  const { onClick, isNext, setIsNext } = props;
-  return (
-    <div onClick={onClick}>
-      <button
-        disabled={!isNext}
-        className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 text-dark  border-none position-absolute"
-        style={{ bottom: "-50px", left: "0" }}
-        onClick={() => {
-          setIsNext(false);
-        }}
-      >
-        Left
-      </button>
-    </div>
-  );
+	const { onClick, isNext, setIsNext } = props;
+	return (
+		<div onClick={onClick}>
+			<button
+				disabled={!isNext}
+				className="m-1 py-1 px-4 btn btn-primary-yellow-600 text-primary-green-900 text-dark  border-none position-absolute"
+				style={{ bottom: "-50px", left: "0" }}
+				onClick={() => {
+					setIsNext(false);
+				}}
+			>
+				Left
+			</button>
+		</div>
+	);
 }

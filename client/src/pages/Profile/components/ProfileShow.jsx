@@ -1,25 +1,27 @@
-import React, { useState, useContext } from "react";
 import axios from "axios";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { FaCamera } from "react-icons/fa";
-import toast, { Toaster } from "react-hot-toast";
-import { useUserContext } from "../../../context/UserContext";
-import { ThemeContext } from "../../../context/ThemeContext";
+import React, { useState, useContext } from "react";
 import Avatar from "react-avatar-edit";
+import toast, { Toaster } from "react-hot-toast";
+import { FaCamera } from "react-icons/fa";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { ThemeContext } from "../../../context/ThemeContext";
+import { useUserContext } from "../../../context/UserContext";
+axios.defaults.withCredentials = true;
+
 const ProfileShow = (props) => {
 	const [file, setFile] = useState();
-	const { user, error, setError } = useUserContext();
+	const { user, error, setError, setSuccess } = useUserContext();
 	const [src, setSrc] = useState(null);
 	const [preview, setPreview] = useState("");
 	const { isDarkMode } = useContext(ThemeContext);
-
+	const isMe = props.isMe;
 	const formData = new FormData();
 	const userId = JSON.parse(user).id;
 	const upload = () => {
 		formData.append("image", preview);
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/upload/${userId}`,
+			url: `/api/user/${userId}/uploadImage`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},
@@ -27,6 +29,7 @@ const ProfileShow = (props) => {
 		};
 		axios(configuration)
 			.then((result) => {
+				setSuccess("Successfully Uploaded!");
 				toast.success("Successfully Uploaded!", {
 					duration: 3000,
 					position: "top-center",
@@ -53,22 +56,42 @@ const ProfileShow = (props) => {
 			aria-label="Profile Information"
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
-			<div className="w-70 text-center profile-image-container position-relative">
-				<img
-					// src={props.imgURL}
-					src={props.profileImage}
-					alt={`${props.userName} Avatar`}
-					className="rounded-circle w-70 avatar-image"
-					style={{ width: "50%" }}
-					data-bs-toggle="modal"
-					data-bs-target="#exampleModal"
-				/>
-				<div class=".overlay-profile position-absolute bottom-0 start-50 translate-middle-x d-flex justify-content-center bg-greeli-subtle">
-					<div class="text-greeli-emphasis avatar-icon">
-						<FaCamera data-bs-toggle="modal" data-bs-target="#exampleModal" />
+			{/* <Toaster /> */}
+			{isMe ? (
+				<div className="w-70 text-center profile-image-container position-relative">
+					<img
+						// src={props.imgURL}
+						src={props.profileImage}
+						alt={`${props.userName} Avatar`}
+						className="rounded-circle avatar-image"
+						style={{ width: "70%" }}
+						data-bs-toggle="modal"
+						data-bs-target="#exampleModal"
+					/>
+					<div
+						className=".overlay-profile position-absolute start-50 translate-middle-x d-flex justify-content-center .bg-transparente"
+						style={{ bottom: "8px" }}
+					>
+						<div className="text-greeli-emphasis avatar-icon">
+							<FaCamera
+								data-bs-toggle="modal"
+								data-bs-target="#exampleModal"
+								color={"white"}
+							/>
+						</div>
 					</div>
 				</div>
-			</div>
+			) : (
+				<div className="w-70 text-center profile-image-container position-relative">
+					<img
+						// src={props.imgURL}
+						src={props.profileImage}
+						alt={`${props.userName} Avatar`}
+						className="rounded-circle avatar-image"
+						style={{ width: "70%" }}
+					/>
+				</div>
+			)}
 
 			<div className="d-flex flex-column gap-3">
 				<h2 className="text-greeli-emphasis">{props.userName}</h2>
@@ -119,7 +142,7 @@ const ProfileShow = (props) => {
 			<div
 				className="modal fade position-absolute top-50 start-50 translate-middle"
 				id="exampleModal"
-				tabindex="-1"
+				tabIndex="-1"
 				aria-labelledby="exampleModalLabel"
 				aria-hidden="true"
 			>
@@ -142,7 +165,10 @@ const ProfileShow = (props) => {
 						</div>
 						<div className="modal-body text-center">
 							{preview && (
-								<img src={URL.createObjectURL(preview)} alt="avatar image" />
+								<img
+									src={URL.createObjectURL(preview)}
+									alt="avatar image"
+								/>
 							)}
 							<form>
 								<input

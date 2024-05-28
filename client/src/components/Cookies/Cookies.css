@@ -1,0 +1,17 @@
+.cookie-btn-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+    padding: 1rem;
+    margin: 0 auto;
+}
+.cookie-btn-container {
+    padding: 0 1rem !important;
+}
+
+@media screen and (min-width: 575px) {
+    .cookie-btn {
+        width: 400px !important;
+    }
+}

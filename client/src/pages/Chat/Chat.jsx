@@ -1,18 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { io } from "socket.io-client";
-import Cookies from "universal-cookie";
 import ChatBox from "../../components/ChatBox/ChatBox";
 import Conversation from "../../components/Conversation/Conversation";
-import { useUserContext } from "../../context/UserContext";
-import "./chat.css";
-import { ThemeContext } from '../../context/ThemeContext';
 import SignIn from "../../components/Popup/SignIn";
-
+import { ThemeContext } from "../../context/ThemeContext";
+import { useUserContext } from "../../context/UserContext";
+import toast from "react-hot-toast";
+import "./chat.css";
+axios.defaults.withCredentials = true;
 const Chat = () => {
 	const socket = useRef();
-	const cookies = new Cookies();
-	const { user, error, setError} = useUserContext();
+	const { user, error, setError, chatNoti, setChatNoti } = useUserContext();
 	const [chats, setChats] = useState([]);
 	const [currentChat, setCurrentChat] = useState(null);
 	const [onlineUsers, setOnlineUsers] = useState([]);
@@ -21,7 +20,6 @@ const Chat = () => {
 	const [userList, setUserList] = useState([]);
 	const [updateChat, setUpdateChat] = useState(0);
 	const userId = JSON.parse(user).id;
-	const token = cookies.get("TOKEN") || null;
 	const [isMobileView, setIsMobileView] = useState(window.innerWidth <= 768);
 	const [showChatBox, setShowChatBox] = useState(false);
 	const { isDarkMode } = useContext(ThemeContext);
@@ -29,8 +27,10 @@ const Chat = () => {
 	const [userNotInChat, setUserNotInChat] = useState([]);
 	const [query, setQuery] = useState("");
 
+	console.log("notification", chatNoti);
+
 	useEffect(() => {
-		socket.current = io("http://localhost:3001");
+		socket.current = io("http://localhost:3000");
 		socket.current.connect();
 		return () => {
 			socket.current.disconnect();
@@ -50,11 +50,12 @@ const Chat = () => {
 		const getChats = async () => {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/chat/find/${userId}`,
+				url: `/api/chat/find/${userId}`,
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
+					// Authorization: `Bearer ${token}`,
 				},
+				withCredentials: true,
 			};
 			axios(configuration)
 				.then((result) => {
@@ -67,7 +68,7 @@ const Chat = () => {
 				});
 		};
 		getChats();
-	}, [userId, updateChat, error]);
+	}, [userId, updateChat, error, receiveMessage]);
 
 	useEffect(() => {
 		if (socket.current === null) return;
@@ -83,11 +84,23 @@ const Chat = () => {
 		if (socket.current === null) return;
 		socket.current.on("receive-message", (data) => {
 			setReceiveMessage(data);
+			console.log(data);
+		});
+		socket.current.on("get-notification", (data) => {
+			const isChatOpen = currentChat?.members.some(
+				(id) => id === data.senderId,
+			);
+			if (isChatOpen) {
+				setChatNoti((prev) => [{ ...data, isRead: true }, ...prev]);
+			} else {
+				setChatNoti((prev) => [data, ...prev]);
+			}
 		});
 		return () => {
 			socket.current.off("receive-message");
+			socket.current.off("get-notification");
 		};
-	}, [socket.current]);
+	}, [socket.current, currentChat]);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -102,11 +115,12 @@ const Chat = () => {
 		const getAllUsers = async () => {
 			const configuration = {
 				method: "get",
-				url: "http://localhost:3001/api/user/getAll",
+				url: "/api/user/getAll",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
+					// Authorization: `Bearer ${token}`,
 				},
+				withCredentials: true,
 			};
 			axios(configuration)
 				.then((result) => {
@@ -126,14 +140,14 @@ const Chat = () => {
 		setUserInChatId((prev) => [...prev, userId]);
 		// userInChatId
 		setUserNotInChat(
-			userList?.filter((user) => !userInChatId?.includes(user._id)),
+			userList.filter((user) => !userInChatId.includes(user._id)),
 		);
 
-		console.log(
-			userList.filter((user) => !userInChatId?.includes(user._id)),
-		);
-		console.log(userNotInChat);
-	}, [chats, userList]);
+		// console.log(
+		// 	userList.filter((user) => !userInChatId?.includes(user._id)),
+		// );
+		// console.log(userInChatId);
+	}, [chats, userList, updateChat]);
 
 	// useEffect(() => {
 	// 	set
@@ -147,6 +161,9 @@ const Chat = () => {
 
 	const handleChatClick = (chat) => {
 		setCurrentChat(chat);
+		chatNoti
+			.filter((noti) => noti.chatId === chat._id)
+			.map((noti) => (noti.isRead = true));
 		if (isMobileView) {
 			setShowChatBox(true);
 		}
@@ -161,19 +178,24 @@ const Chat = () => {
 
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/chat/create",
+			url: "/api/chat/create",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
+				// Authorization: `Bearer ${token}`,
 			},
 			data: {
 				senderId: userId,
 				receiverId: receiverId,
 			},
+			withCredentials: true,
 		};
 		axios(configuration)
 			.then((result) => {
 				// console.log(result.data);
+				toast.success("Create chat successfully!", {
+					duration: 2000,
+					position: "top-center",
+				});
 				setUpdateChat((prev) => prev + 1);
 			})
 			.catch((error) => {
@@ -215,9 +237,14 @@ const Chat = () => {
 								fill="currentColor"
 								className="bi bi-person-add"
 								viewBox="0 0 16 16"
+								// fix biome by Bread, you can delete if it causes error
+								// fix start
+								role="button"
+								aria-label="creat chat button"
+								// fix end
 							>
-								<path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"></path>
-								<path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"></path>
+								<path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0m-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+								<path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
 							</svg>
 						</button>
 					</div>
@@ -234,6 +261,9 @@ const Chat = () => {
 									currentUserId={userId}
 									online={checkOnlineStatus(chat)}
 									isActive={currentChat === chat}
+									chatNoti={chatNoti.filter(
+										(noti) => noti.chatId === chat._id,
+									)}
 								/>
 							</div>
 						))}
@@ -298,6 +328,7 @@ const Chat = () => {
 										className="follower conversation"
 										onClick={() => createChat(user)}
 										key={user?._id}
+										data-bs-dismiss="modal"
 									>
 										<div>
 											<img

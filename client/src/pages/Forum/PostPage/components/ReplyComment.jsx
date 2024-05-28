@@ -7,16 +7,18 @@ import ButtonUpvote from "../../../../components/Forum/ButtonUpvote";
 import { EditContextProvider } from "../../../../context/EditContext";
 import { ReplyContext } from "../../../../context/ReplyContext";
 
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import ReplyButton from "./ReplyButton";
 import ReplyEditor from "./ReplyEditor/ReplyEditor";
 import EditTextEditor from "../../../../components/Forum/EditTextEditor/EditTextEditor";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 
 import { CiCirclePlus } from "react-icons/ci";
 import ImageOrVideo from "../../../../components/Forum/ImageOrVideo";
 
 dayjs.extend(relativeTime);
+
+axios.defaults.withCredentials = true;
 
 const fetcher = (url) =>
   axios.get(url).then((res) => {
@@ -122,11 +124,11 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
               <EditTextEditor content={JSON.parse(commentData.content)} />
             </EditContextProvider>
 
-            {/*upvote*/}
-            <ButtonUpvote
-              upvote={commentData.upvote}
-              commentId={commentData._id}
-            />
+						{/*upvote*/}
+						<ButtonUpvote
+							upvote={commentData.upvote}
+							commentId={commentData._id}
+						/>
 
             {/*reply*/}
             <EditContextProvider>

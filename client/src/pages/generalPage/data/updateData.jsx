@@ -1,45 +1,31 @@
 const UpdateData = [
 	{
 		id: 1,
-		title: "New Update",
+		title: "Greeli Forum Launch",
 		description:
-			"Lorem ipsum dolor sit amet consectetur. Auctor praesent lectus consequat etiam venenatis sapien turpis nisi et. Amet aenean porta interdum elementum quis accumsan. Massa mauris egestas tortor duis id nisi lorem. Pharetra at adipiscing ipsum nisl sed at at in ultrices. Pharetra diam urna eleifend malesuada pulvinar feugiat sit amet.",
-		image: "https://wallpapers.com/images/featured/4k-forest-7sfd6znw2ry6hnlt.jpg",
+			"We are excited to announce the launch of the Greeli Forum, a platform dedicated to sustainable living. This forum allows members to access reliable information, share their experiences, and ask questions about sustainable practices. Join us in fostering a community committed to improving the health of our planet. Your participation is key to inspiring others to adopt a sustainable lifestyle.",
+		image: "./generalPage/Greeli-update.jpg",
 	},
 	{
 		id: 2,
-		title: "New Update",
+		title: "Real-Time Chat Feature",
 		description:
-			"Lorem ipsum dolor sit amet consectetur. Auctor praesent lectus consequat etiam venenatis sapien turpis nisi et. Amet aenean porta interdum elementum quis accumsan. Massa mauris egestas tortor duis id nisi lorem. Pharetra at adipiscing ipsum nisl sed at at in ultrices. Pharetra diam urna eleifend malesuada pulvinar feugiat sit amet.",
-		image: "https://wallpapers.com/images/featured/4k-forest-7sfd6znw2ry6hnlt.jpg",
+			"Connect instantly with other members using our new real-time chat feature. This addition allows for live discussions, providing immediate answers to your questions and facilitating dynamic exchanges of ideas. Whether you're seeking advice or offering tips, the real-time chat enhances our community engagement. Dive into conversations that matter and build meaningful connections.",
+		image: "./generalPage/chat.webp",
 	},
 	{
 		id: 3,
-		title: "Banana",
+		title: "Admin Registration Now Open",
 		description:
-			"Lorem ipsum dolor sit amet consectetur. Auctor praesent lectus consequat etiam venenatis sapien turpis nisi et. Amet aenean porta interdum elementum quis accumsan. Massa mauris egestas tortor duis id nisi lorem. Pharetra at adipiscing ipsum nisl sed at at in ultrices. Pharetra diam urna eleifend malesuada pulvinar feugiat sit amet.",
-		image: "https://www.pixel4k.com/wp-content/uploads/2018/10/yellow-tree-in-yellow-field-4k_1540141102.jpg.webp",
+			"Register now to become an admin on Greeli and help us manage and grow our community. As an admin, you will play a crucial role in maintaining the quality and relevance of our discussions. Your support is vital for our mission to promote sustainable living and ensure a positive experience for all members. Join us in shaping the future of the Greeli forum.",
+		image: "./generalPage/admin.jpg",
 	},
 	{
 		id: 4,
-		title: "Banana",
+		title: "Greetings from the Development Team",
 		description:
-			"Lorem ipsum dolor sit amet consectetur. Auctor praesent lectus consequat etiam venenatis sapien turpis nisi et. Amet aenean porta interdum elementum quis accumsan. Massa mauris egestas tortor duis id nisi lorem. Pharetra at adipiscing ipsum nisl sed at at in ultrices. Pharetra diam urna eleifend malesuada pulvinar feugiat sit amet.",
-		image: "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg",
-	},
-	{
-		id: 5,
-		title: "Banana",
-		description:
-			"Lorem ipsum dolor sit amet consectetur. Auctor praesent lectus consequat etiam venenatis sapien turpis nisi et. Amet aenean porta interdum elementum quis accumsan. Massa mauris egestas tortor duis id nisi lorem. Pharetra at adipiscing ipsum nisl sed at at in ultrices. Pharetra diam urna eleifend malesuada pulvinar feugiat sit amet.",
-		image: "https://www.solidbackgrounds.com/images/3840x2160/3840x2160-light-gray-solid-color-background.jpg",
-	},
-	{
-		id: 6,
-		title: "Bao Ho",
-		description:
-			"Lorem ipsum dolor sit amet consectetur. Auctor praesent lectus consequat etiam venenatis sapien turpis nisi et. Amet aenean porta interdum elementum quis accumsan. Massa mauris egestas tortor duis id nisi lorem. Pharetra at adipiscing ipsum nisl sed at at in ultrices. Pharetra diam urna eleifend malesuada pulvinar feugiat sit amet.",
-		image: "https://images3.alphacoders.com/113/thumb-1920-1135880.png",
+			"Our team is thrilled to bring you Greeli. We have worked tirelessly to create a platform that inspires you to embrace a sustainable lifestyle and connect with like-minded individuals. We hope Greeli becomes a valuable resource in your journey towards sustainability. Thank you for being part of our community, and we look forward to growing together.",
+		image: "./generalPage/greeting.webp",
 	},
 ];
 

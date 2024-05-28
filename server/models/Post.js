@@ -4,13 +4,15 @@ const postSchema = new mongoose.Schema(
   {
     belongToThread: {
       type: mongoose.Schema.Types.ObjectId,
-      ref:"Thread",
+      ref: "Thread",
       require: true,
     },
-    belongToTopics:[{
-      type: mongoose.Schema.Types.ObjectId,
-      ref:"Topic",
-    }],
+    belongToTopics: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Topic",
+      },
+    ],
     title: {
       type: String,
       required: true,
@@ -26,12 +28,12 @@ const postSchema = new mongoose.Schema(
       },
     },
     content: {
-      type:JSON,
+      type: JSON,
       required: false,
     },
-    plainTextContent:{
+    plainTextContent: {
       type: String,
-      required: false
+      required: false,
     },
     comments: [
       {
@@ -64,6 +66,11 @@ const postSchema = new mongoose.Schema(
     verifiedAt: {
       type: Date,
       default: () => new Date(),
+    },
+    isHidden: {
+      type: Boolean,
+      default: false,
+      require: true,
     },
   },
   { timestamps: true }

@@ -1,15 +1,15 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaKey, FaUser } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import Cookies from "universal-cookie";
 import * as Yup from "yup";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
-import toast, { Toaster } from "react-hot-toast";
+axios.defaults.withCredentials = true;
 const SignIn = ({ isShow }) => {
 	const { isDarkMode } = useContext(ThemeContext);
 	const [showModal, setShowModal] = useState(isShow);
@@ -17,7 +17,6 @@ const SignIn = ({ isShow }) => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const from = location.state?.from?.pathname || "/";
-	const cookies = new Cookies();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
@@ -41,7 +40,7 @@ const SignIn = ({ isShow }) => {
 	const login = () => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/login",
+			url: "/api/user/login",
 			data: {
 				email,
 				password,
@@ -52,15 +51,11 @@ const SignIn = ({ isShow }) => {
 				console.log(result.data);
 				if (result.data) {
 					toast.success("Successfully Login!", {
-						duration: 3000,
+						duration: 2000,
 						position: "top-center",
 					});
 					// setIsLogin(true);
 				}
-				cookies.set("TOKEN", result.data.token, {
-					path: "/",
-					maxAge: 60 * 60 * 24 * 3,
-				});
 				// store user data in local storage
 				localStorage.setItem("user", JSON.stringify(result.data));
 				// set user context
@@ -91,6 +86,33 @@ const SignIn = ({ isShow }) => {
 			setShowPassword(true);
 		}
 	};
+	//fix biome by Bread, you can delete if it causes error
+	//fix biome start
+	const handleKeyUp = (event) => {
+		if (event.key === "Enter" || event.key === " ") {
+			showPasswordButton();
+		}
+	};
+
+	function useEnterKeySubmit(onSubmit) {
+		const handleKeyDown = (event) => {
+			if (event.key === "Enter") {
+				onSubmit();
+			}
+		};
+
+		useEffect(() => {
+			document.addEventListener("keydown", handleKeyDown);
+
+			return () => document.removeEventListener("keydown", handleKeyDown);
+		}, [handleKeyDown]);
+
+		return handleKeyDown;
+	}
+
+	const handleKeyDown = useEnterKeySubmit(handleSubmit(onSubmit));
+
+	// fix biome end
 	return (
 		<div data-bs-theme={isDarkMode ? "dark" : "light"}>
 			<Toaster position="top-center" />
@@ -121,6 +143,7 @@ const SignIn = ({ isShow }) => {
 							<form
 								className="mt-4 mx-3 px-md-5"
 								onSubmit={handleSubmit(onSubmit)}
+								onKeyDown={handleKeyDown}
 								aria-label="login form"
 							>
 								<div
@@ -212,8 +235,10 @@ const SignIn = ({ isShow }) => {
 									<span
 										className="input-group-text text-login-emphasis"
 										onClick={showPasswordButton}
+										onKeyUp={handleKeyUp} // fix biome by Bread, you can delete if it cause some error
 										aria-label="show password button"
 										role="button"
+										tabIndex={0}
 									>
 										{showPassword ? (
 											<FaEye />

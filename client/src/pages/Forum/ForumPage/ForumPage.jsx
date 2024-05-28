@@ -1,17 +1,17 @@
 import { Route, Routes } from "react-router-dom";
 
+import LeftSideBar from "../../../components/Forum/LeftSideBar/LeftSideBar";
 import RightSideBarForum from "../../../components/Forum/RightSideBar/RightSideBarForum";
 import RightSideBarThread from "../../../components/Forum/RightSideBar/RightSideBarThread";
-import LeftSideBar from "../../../components/Forum/LeftSideBar/LeftSideBar";
 
 import SearchBar from "../../../components/Search/Search";
-import ThreadPage from "../ThreadPage/ThreadPage";
 import PostPage from "../PostPage/PostPage";
+import ThreadPage from "../ThreadPage/ThreadPage";
 
-import { ThemeContext } from "../../../context/ThemeContext";
 import { useContext } from "react";
-import { PopupContextProvider } from "../../../context/PopupContext";
 import LoginPopup from "../../../components/Popup/LoginPopup";
+import { PopupContextProvider } from "../../../context/PopupContext";
+import { ThemeContext } from "../../../context/ThemeContext";
 import PostList from "../ThreadPage/PostList";
 import TopicPage from "../TopicPage";
 export default function ForumPage() {

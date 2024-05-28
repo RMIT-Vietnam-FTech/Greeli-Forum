@@ -2,25 +2,28 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import useSwr from "swr";
 import "../assets/forum.scss";
-import PostContent from "./PostContent";
 import PostComment from "./PostComment";
+import PostContent from "./PostContent";
+
+
 import PostPageSkeleton from "../../../components/Forum/Skeleton/PostPageSkeleton";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
+axios.defaults.withCredentials = true;
 
 export default function PostPage() {
-  const { postId } = useParams();
-  const { data, error, isLoading } = useSwr(
-    `http://localhost:3001/api/v1/posts/${postId}`,
-    fetcher
-  );
-  if (error) {
-    return <div>is error</div>;
-  }
-  if (isLoading) {
-    return <div>is loading</div>;
-  }
-  return <PostPageStructure postData={data} />;
+	const { postId } = useParams();
+	const { data, error, isLoading } = useSwr(
+		`http://localhost:3001/api/v1/posts/${postId}`,
+		fetcher,
+	);
+	if (error) {
+		return <div>is error</div>;
+	}
+	if (isLoading) {
+		return <div>is loading</div>;
+	}
+	return <PostPageStructure postData={data} />;
 }
 function PostPageStructure({ postData }) {
   const navigate = useNavigate();
