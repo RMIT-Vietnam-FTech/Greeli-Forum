@@ -5,9 +5,6 @@ import "../assets/forum.scss";
 import PostComment from "./PostComment";
 import PostContent from "./PostContent";
 
-
-
-
 import PostPageSkeleton from "../../../components/Forum/Skeleton/PostPageSkeleton";
 
 
