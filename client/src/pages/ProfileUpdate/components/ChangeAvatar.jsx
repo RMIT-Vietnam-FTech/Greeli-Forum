@@ -54,7 +54,7 @@ const ChangeAvatar = (props) => {
 
 	return (
 		<div className="modal-content bg-transparent">
-			<h2 id="exampleModalLabel">Change profile image</h2>
+			<h2 id="exampleModalLabel">Change Profile Image</h2>
 			<div className="text-center">
 				<form onSubmit={handleSubmit}>
 					<div
@@ -95,7 +95,7 @@ const ChangeAvatar = (props) => {
 							type="submit"
 							className="btn btn-primary col-4 mx-3 p-2 bg-primary-green-400 text-white rounded-pill border-0 theme-button"
 						>
-							Save avatar
+							Save Avatar
 						</button>
 					</div>
 				</form>

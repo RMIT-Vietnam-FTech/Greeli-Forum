@@ -167,7 +167,7 @@ const ChangePassword = (props) => {
 				<div className="row d-flex flex-row justify-content-between g-1 mt-3">
 					<button
 						// type="submit"
-						className="btn btn-primary col-4 mx-3 p-2 bg-danger text-white rounded-pill border-none theme-button"
+						className="btn btn-primary col-4 mx-3 p-2 bg-danger text-white rounded-pill border-0"
 						onClick={() => {
 							close();
 						}}
@@ -176,7 +176,7 @@ const ChangePassword = (props) => {
 					</button>
 					<button
 						type="submit"
-						className="btn btn-primary col-4 mx-3 p-2 bg-primary-green-400 text-white rounded-pill border-none theme-button"
+						className="btn btn-primary col-4 mx-3 p-2 bg-primary-green-400 text-white rounded-pill border-0"
 					>
 						Change Password
 					</button>

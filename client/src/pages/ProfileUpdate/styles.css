@@ -130,6 +130,16 @@
 .editing-input-wrapper {
 	height: 320px;
 }
+
+[data-bs-theme="dark"] .edit-tab {
+	border-bottom: 2px solid #0a2a28;
+}
+
+[data-bs-theme="dark"] .edit-tab-active {
+	color: white !important;
+	border-bottom: 2px solid white !important;
+}
+
 /* Responsiveness */
 @media (max-width: 992px) {
 	.profile-page-container {

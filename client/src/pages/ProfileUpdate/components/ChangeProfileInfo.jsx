@@ -231,7 +231,7 @@ const ChangeProfileInfo = (props) => {
 					type="submit"
 					className="btn btn-primary col-4 mx-3 p-2 bg-primary-green-400 text-white rounded-pill border-0 theme-button"
 				>
-					Save changes
+					Save Changes
 				</button>
 			</div>
 		</form>
