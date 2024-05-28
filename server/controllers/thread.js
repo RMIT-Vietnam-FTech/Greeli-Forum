@@ -6,6 +6,8 @@ import Comment from "../models/Comment.js";
 import * as crypto from "crypto";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
 import sharp from "sharp";
+import { fileTypeFromBuffer } from "file-type";
+
 import dotenv from "dotenv";
 import { error } from "console";
 dotenv.config();
@@ -13,12 +15,12 @@ dotenv.config();
 const createRandomName = (bytes = 32) => crypto.randomBytes(32).toString("hex");
 
 export const createThread = async (req, res) => {
-  //req.body -> title, content, createBy{}
   try {
-    const { title, content} = req.body;
+    const { title, content } = req.body;
     const uploadFile = req.file;
-   
+
     if (req.user) {
+      console.log(`check 2`);
       const user = await User.findById(req.user.id);
       const uploadObject = {};
       uploadObject.title = title;
@@ -37,14 +39,33 @@ export const createThread = async (req, res) => {
       }
 
       if (uploadFile) {
+        uploadObject.uploadFile = {
+          src: null,
+          type: null,
+        };
         const imageName = createRandomName();
-        const fileBuffer = await sharp(uploadFile.buffer)
-          .jpeg({ quality: 100})
-          .resize(2000)
-          .toBuffer();
-        uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
-        uploadObject.uploadFile = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
+        const uploadFileMetaData = await fileTypeFromBuffer(uploadFile.buffer);
+        const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
+
+        if (uploadFileMime === "image") {
+          const fileBuffer = await sharp(uploadFile.buffer)
+            .jpeg({ quality: 100 })
+            .resize(1000)
+            .toBuffer();
+          await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
+          console.log(uploadFileMime);
+          uploadObject.uploadFile.type = uploadFileMime;
+        } else {
+          await uploadFileData(
+            uploadFile.buffer,
+            imageName,
+            uploadFile.mimetype
+          );
+          uploadObject.uploadFile.type = uploadFileMime;
+        }
+        uploadObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
       }
+
 
       const thread = await Thread.create(uploadObject);
 

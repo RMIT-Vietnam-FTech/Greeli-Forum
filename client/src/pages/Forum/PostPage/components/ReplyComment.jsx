@@ -14,6 +14,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import { CiCirclePlus } from "react-icons/ci";
+import ImageOrVideo from "../../../../components/Forum/ImageOrVideo";
 
 dayjs.extend(relativeTime);
 
@@ -27,12 +28,8 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
   const [newReply, setNewReply] = useState([]);
   const [expand, setExpand] = useState(false);
   const [isReply, setIsReply] = useState(false);
-  // console.log("\ncheck Comment data: ");
-  // console.log("content: "+commentData.content);
-  // console.log("upvote: "+commentData.upvote);
-  // console.log("replies: " + commentData.replies);
-  // console.log("username: " + commentData.createBy.username);
-  // console.log("profileImage: " + commentData.createBy.profileImage);
+  const [file, setFile] = useState();
+
   const { data, error, isLoading } = useSWRImmutable(
     commentData.replies.length > 0 && expand
       ? `http://localhost:3001/api/v1/comments?postsId=${postId}&parentId=${commentData._id}`
@@ -45,11 +42,11 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
   if (isLoading) {
     return "is loading";
   }
-console.log(data);
+  console.log(JSON.stringify(commentData));
   return (
     <>
       <ReplyContext.Provider
-        value={{ newReply, setNewReply, isReply, setIsReply }}
+        value={{ newReply, setNewReply, isReply, setIsReply, file, setFile }}
       >
         <div
           tabIndex="0"
@@ -112,6 +109,14 @@ console.log(data);
           </div>
 
           {/*content*/}
+          <div
+            style={{ width: "250px", borderRadius: "20px" }}
+            className="ms-4 my-2 position-relative overflow-hidden bg-black"
+          >
+            {commentData.uploadFile && (
+              <ImageOrVideo uploadFile={commentData.uploadFile} w100={true} h100={true} />
+            )}
+          </div>
           <div className="ms-4">
             <EditContextProvider>
               <EditTextEditor content={JSON.parse(commentData.content)} />

@@ -96,7 +96,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen, belongToThread }) {
             },
           }
         );
-        navigate(`/forum/communities/${res.data}`);
+        navigate(`/forum/communities/${belongToThread}/posts/${res.data}`);
       }
     } catch (e) {
       console.error(e.message);
@@ -204,13 +204,15 @@ function FirstSlide({
   }
 
   return (
-    <div tabIndex="0">
+    <div style={{height:"550px"}} className=" overflow-scroll-y" tabIndex="0">
       {/*---------------- Create Thread header----------------------*/}
       <div className="w-100 d-flex justify-content-between">
         <h2 className="text-dark">Create Thread</h2>
       </div>
       {/*---------------- Upload File ---------------------------------------------*/}
+      <div style={{height:"300px"}}>
       <DropZoneFile setFile={setFile} file={file} isReset={!isOpen} />
+      </div>
       {/*---------------- Thread Input TItle ---------------------------------------------*/}
       <div className="w-100 d-flex mt-3 position-relative">
         <label className="text-dark d-flex align-items-center me-1 ">
@@ -257,7 +259,7 @@ function FirstSlide({
 
 function SecondSlide({ addedTopics, setAddedTopics, defaultTopics }) {
   return (
-    <div>
+    <div >
       <div className="w-100 d-flex justify-content-between">
         <h2 className="text-dark ">Add topic</h2>
       </div>

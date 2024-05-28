@@ -154,7 +154,7 @@ const RecommendPost = ({ postData }) => {
         style={{borderRadius:"0.75rem"}}
         >
          { postData.uploadFile?
-        <ImageOrVideo src={postData.uploadFile}/> :<IoDocumentTextOutline/>
+        <ImageOrVideo uploadFile={postData.uploadFile} isPost={true} h100={true} w100={true}/> :<IoDocumentTextOutline/>
         }
         </div>
       </div>

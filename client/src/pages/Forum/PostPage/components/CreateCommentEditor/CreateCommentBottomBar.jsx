@@ -20,11 +20,13 @@ export default function CreateCommentBottomBar({ content }) {
     editor.setEditable(false);
     editContext.setIsEdit(false);
     editor.commands.setContent("");
+    commentContext.setFile(undefined);
   }
   async function handleOnDone() {
     if (editor.getText()) {
       editor.setEditable(false);
       editContext.setIsEdit(false);
+      commentContext.setFile(undefined);
       const user = await axios
         .get(
           `http://localhost:3001/api/user/${
@@ -33,15 +35,17 @@ export default function CreateCommentBottomBar({ content }) {
         )
         .then((res) => res.data);
 
-      // store data in database
-      const storeObject = {
-        content: JSON.stringify(editor.getJSON()),
-        postId: postId,
-        parentId: null,
-      };
+    
+      const formData = new FormData();
+      formData.append("uploadFile", commentContext.file);
+      formData.append("content", JSON.stringify(editor.getJSON()));
+      formData.append("postId", postId);
+      for (var pair of formData.entries()) {
+        console.log(pair[0] + ", " + pair[1]);
+      }
 
       const newCommentData = await axios
-        .post("http://localhost:3001/api/v1/comments", storeObject, {
+        .post("http://localhost:3001/api/v1/comments", formData, {
           headers: {
             Authorization: `Bearer ${
               JSON.parse(localStorage.getItem("user")).token
@@ -50,10 +54,10 @@ export default function CreateCommentBottomBar({ content }) {
         })
         .then((res) => res.data);
 
-      commentContext.setNewComment([
-      	<Comment key={newCommentData._id} commentData={newCommentData} />,
-      	...commentContext.newComment,
-      ]);
+      // commentContext.setNewComment([
+      //   <Comment key={newCommentData._id} commentData={newCommentData} />,
+      //   ...commentContext.newComment,
+      // ]);
 
       //set content
       editor.commands.setContent("");

@@ -68,6 +68,7 @@
 		"sass": "^1.76.0",
 		"socket.io-client": "^4.7.5",
 		"swr": "^2.2.5",
+		"tiptap-extension-resize-image": "^1.1.5",
 		"universal-cookie": "^7.1.4",
 		"web-vitals": "^2.1.4",
 		"yup": "^1.4.0"

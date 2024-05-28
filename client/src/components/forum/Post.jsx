@@ -129,8 +129,9 @@ export default function Post({ postData, isThreadAdmin }) {
             >
               <ImageOrVideo
                 alt={postData.createdBy.username}
-                src={postData.uploadFile}
-                isPost={false}
+                uploadFile={postData.uploadFile}
+                h100={true}
+                w100={false}
               />
             </div>
           ) : null}

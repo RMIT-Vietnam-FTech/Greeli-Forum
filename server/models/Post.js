@@ -18,9 +18,12 @@ const postSchema = new mongoose.Schema(
       max: 100,
     },
     uploadFile: {
-      type: String,
-      required: false,
-      default: null,
+      src: {
+        type: String,
+      },
+      type: {
+        type: String,
+      },
     },
     content: {
       type:JSON,

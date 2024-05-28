@@ -92,7 +92,10 @@ export default function NewCommunityPopUp({ isOpen, setIsOpen }) {
         className="shadow-lg p-3 d-flex flex-column  align-items-end "
       >
         {/*------- Title Create Post and close button--------------------------------------------------------*/}
-        <div style={{borderRadius:"20px"}} className="w-100 h-100 border border-2 border-primary-green-900 p-3">
+        <div
+          style={{ borderRadius: "20px" }}
+          className="w-100 h-100 border border-2 border-primary-green-900 p-3"
+        >
           <div className="w-100 d-flex justify-content-between">
             <h2 className="text-dark">Create Community</h2>
             <button

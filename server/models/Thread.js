@@ -16,9 +16,12 @@ const threadSchema = new mongoose.Schema(
       default: null,
     },
     uploadFile: {
-      type: String,
-      required: false,
-      default: null,
+      src: {
+        type: String,
+      },
+      type: {
+        type: String,
+      },
     },
     posts: [
       {

@@ -2,24 +2,34 @@ import Post from "../models/Post.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
 import mongoose from "mongoose";
+import { uploadFileData } from "../service/awsS3.js";
+import * as crypto from "crypto";
+import sharp from "sharp";
+import { fileTypeFromBuffer } from "file-type";
+
+const createRandomName = (bytes = 32) =>
+  crypto.randomBytes(bytes).toString("hex");
+
 export const createComment = async (req, res) => {
   try {
     const { content, parentId, postId } = req.body;
-    console
-      .log
-      //   `check input: \n content: ${content}\n parentId: ${parentId}\n postId: ${postId}`
-      ();
+
+    const uploadFile = req.file;
+
     const user = await User.findById(req.user.id);
     if (!user) {
       res.status(404).json("userId not found or invalid");
     }
+
     if (!postId) {
       res.status(400).json("Bad Request");
     }
+
     const post = await Post.findById(postId);
     if (!post) {
       res.status(404).json("postId is not found or invalid");
     }
+
     const commentObject = {
       content: content,
       createdBy: {
@@ -27,12 +37,43 @@ export const createComment = async (req, res) => {
         username: user.username,
       },
     };
+
     if (user.profileImage) {
       commentObject.createdBy.profileImage = user.profileImage;
     }
+    console.log("check 1");
+    if (uploadFile) {
+      console.log("check 2");
 
-    // console.log("check commentObject: " + JSON.stringify(commentObject));
+      commentObject.uploadFile = {
+        src: null,
+        type: null,
+      };
+      const imageName = createRandomName();
+      const uploadFileMetaData = await fileTypeFromBuffer(uploadFile.buffer);
+      const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
+      console.log("check 3");
+      if (uploadFileMime === "image") {
+        const fileBuffer = await sharp(uploadFile.buffer)
+          .jpeg({ quality: 100 })
+          .resize(1000)
+          .toBuffer();
+        console.log("check 4");
+        await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
+        commentObject.uploadFile.type = "image";
+        console.log("check 5");
+      } else {
+        console.log("check 6");
+        await uploadFileData(uploadFile.buffer, imageName, uploadFile.mimetype);
+        commentObject.uploadFile.type = "video";
+        console.log("check 7");
+      }
+      commentObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
+      console.log("check 8");
+    }
+
     const comment = new Comment(commentObject);
+    console.log("check 9");
 
     if (parentId) {
       const parentComment = await Comment.findById(parentId);
@@ -48,8 +89,7 @@ export const createComment = async (req, res) => {
 
     post.comments.push(comment._id);
     await post.save();
-    const savedComment = await comment.save();
-    console.log("check comment after save:  " + savedComment);
+    await comment.save();
 
     res.status(201).json(comment);
   } catch (error) {
@@ -58,16 +98,6 @@ export const createComment = async (req, res) => {
 };
 export const uploadCommentFile = async (req, res) => {
   try {
-    const uploadFile = req.file;
-    let result;
-    if (!uploadFile) return res.status(400).json({ message: "Bad Request" });
-    const imageName = createRandomName();
-    const fileBuffer = await sharp(uploadFile.buffer)
-      .jpeg({ quality: 100 })
-      .resize(2000)
-      .toBuffer();
-    uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
-    result = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
     res.status(201).json(result);
   } catch (e) {
     res.status(500).json({ message: e.message });
@@ -103,7 +133,6 @@ export const getComments = async (req, res) => {
       }
       queryCommand._id = { $in: post.comments };
     }
-    console.log(` check query command: ${JSON.stringify(queryCommand)}`);
     const comments = await Comment.aggregate([{ $match: queryCommand }]).facet({
       metadata: [
         {

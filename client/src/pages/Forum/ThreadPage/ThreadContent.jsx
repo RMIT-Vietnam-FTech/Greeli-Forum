@@ -122,12 +122,19 @@ export default function ThreadContent({ ...prop }) {
 
           {/*---------Display image or video if have and content----------------------------------------------------------*/}
           <div className="d-flex gap-3">
-              <div
-                className="  bg-primary-green-600 rounded-circle rounded-3 d-flex justify-content-center overflow-hidden"
-                style={{ height: "400px", width: "150px", height: "150px" }}
-              >
-                {uploadFile?<ImageOrVideo alt={title} src={uploadFile} isThread={true} />: null}
-              </div>
+            <div
+              className="  bg-primary-green-600 rounded-circle rounded-3 d-flex justify-content-center overflow-hidden"
+              style={{ height: "400px", width: "150px", height: "150px" }}
+            >
+              {uploadFile ? (
+                <ImageOrVideo
+                  alt={title}
+                  uploadFile={uploadFile}
+                  isThread={true}
+                />
+              ) : null}
+            </div>
+
             <div
               className="d-flex flex-column justify-content-start align-items-start gap-2"
               style={{ width: "85%" }}
@@ -139,10 +146,15 @@ export default function ThreadContent({ ...prop }) {
               >
                 {isFollowed ? "joined" : "join community"}
               </button>
+
               <h1 tabIndex="0" className="title text-greeli-emphasis fs-4">
                 {title}
               </h1>
-              <div className="w-100 mt-2 ">
+
+              <div
+                style={{ maxHeight: "300px" }}
+                className="w-100 mt-2 overflow-scroll-y scrollbar-thumb-show "
+              >
                 <EditTextEditor
                   componentType="thread"
                   content={JSON.parse(content)}

@@ -34,6 +34,7 @@ const fetcher = (url) =>
 export default function PostComment({ postData, threadAdminId }) {
   const isLogin = useLogin();
   const [newComment, setNewComment] = useState([]);
+  const [file, setFile] = useState([]);
   const [isApproved, setIsApproved] = useState(postData.isApproved);
   const [metadata, setMetadata] = useState();
   let limit = 20, total = 19;
@@ -158,7 +159,7 @@ export default function PostComment({ postData, threadAdminId }) {
           </>
         )}
       </div>
-      <CommentContext.Provider value={{ newComment, setNewComment }}>
+      <CommentContext.Provider value={{ newComment, setNewComment, file, setFile }}>
         <EditContextProvider>
           <CreateCommentEditor />
         </EditContextProvider>

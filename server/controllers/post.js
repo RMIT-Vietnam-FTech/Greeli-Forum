@@ -6,6 +6,8 @@ import Topic from "../models/Topic.js";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
 import mongoose from "mongoose";
 import sharp from "sharp";
+import { fileTypeFromBuffer } from "file-type";
+
 const createRandomName = (bytes = 32) =>
   crypto.randomBytes(bytes).toString("hex");
 
@@ -13,7 +15,7 @@ export const createPost = async (req, res) => {
   //req.body -> title, content, createBy{}
   try {
     // console.log("runn create post");
-  let uploadFile;
+    let uploadFile;
     if (req.file) {
       uploadFile = req.file;
     }
@@ -21,12 +23,12 @@ export const createPost = async (req, res) => {
     const { title, content, plainTextContent, belongToThread, belongToTopics } =
       req.body;
 
-  // console.log(`check input:\n req.user: ${req.user}\n req.body: ${JSON.stringify(req.body)}\n file: ${req.file}`);
+    // console.log(`check input:\n req.user: ${req.user}\n req.body: ${JSON.stringify(req.body)}\n file: ${req.file}`);
     if (req.user) {
       const user = await User.findById(req.user.id);
       // console.log(user);
       const uploadObject = {
-        belongToTopics:[]
+        belongToTopics: [],
       };
       uploadObject.title = title;
       uploadObject.content = content;
@@ -35,7 +37,6 @@ export const createPost = async (req, res) => {
         userId: user._id,
         username: user.username,
       };
-console.log("check1");
       if (user.profileImage) {
         uploadObject.createdBy.profileImage = user.profileImage;
       }
@@ -47,33 +48,48 @@ console.log("check1");
       } else {
         res.status(404).json({ message: "thread id is not found or invalid" });
       }
-console.log("check2");
       if (!belongToTopics)
         return res
           .status(400)
           .json({ message: "Bad Request, must include topic" });
-console.log("check2.5");
       for (let i = 0; i < belongToTopics.length; ++i) {
         const topic = await Topic.findById(belongToTopics[i]);
-console.log("check2.8");
         uploadObject.belongToTopics.push(topic._id);
       }
-console.log("check3");
       if (uploadFile) {
-console.log("check3.1");
+        console.log("check 1");
+        uploadObject.uploadFile = {
+          src: null,
+          type: null,
+        };
+        console.log("check 2");
         const imageName = createRandomName();
-        const fileBuffer = await sharp(uploadFile.buffer)
-          .jpeg({ quality: 100 })
-          .resize(2000)
-          .toBuffer();
-        console.log(fileBuffer);
-        await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
-console.log("check3.5");
-        uploadObject.uploadFile = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
+        const uploadFileMetaData = await fileTypeFromBuffer(uploadFile.buffer);
+        const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
+        console.log("check 3");
+        if (uploadFileMime === "image") {
+          const fileBuffer = await sharp(uploadFile.buffer)
+            .jpeg({ quality: 100 })
+            .resize(1000)
+            .toBuffer();
+          await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
+          uploadObject.uploadFile.type = uploadFileMime;
+        console.log("check 4");
+        } else {
+        console.log("check 5");
+          await uploadFileData(
+            uploadFile.buffer,
+            imageName,
+            uploadFile.mimetype
+          );
+          uploadObject.uploadFile.type = uploadFileMime;
+        console.log("check 6");
+        }
+        uploadObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
+        console.log("check 7");
       }
-console.log("check4");
+
       const post = new Post(uploadObject);
-      console.log(`check post: ${post}`);
       await post.save();
 
       user.createdPost.push(post._id);
@@ -137,7 +153,6 @@ export const getPosts = async (req, res) => {
       filterCommand.belongToThread =
         mongoose.Types.ObjectId.createFromHexString(belongToThread);
     }
-    console.log(`check filterCommand: ${JSON.stringify(filterCommand)}`);
     if (search) {
       response = await Post.aggregate()
         .search({

@@ -26,9 +26,8 @@
   overflow-y: scroll;
 }
 .scrollbar-thumb-show {
-  ::-webkit-scrollbar-thumb {
-    border-radius: 30px;
-    background-color: #0a2a28;
+  &::-webkit-scrollbar-thumb {
+    background-color: #000000;
   }
 }
 .border-left-gray {
@@ -70,6 +69,14 @@
   outline: none !important;
 }
 .tiptap {
+  img {
+    // min-width: none;
+    max-width: 100%;
+    border-radius: 20px;
+  }
+  iframe {
+    border-radius: 20px;
+  }
   p {
     font-size: 14px;
   }
@@ -519,7 +526,7 @@ video {
 }
 
 @media only screen and (min-width: 1200px) {
-  #post-modal{
+  #post-modal {
     width: 60%;
   }
   .main-container {
