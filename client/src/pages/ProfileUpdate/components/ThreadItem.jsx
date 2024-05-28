@@ -2,6 +2,7 @@ import { IoIosMore } from "react-icons/io";
 import { MdInsertComment } from "react-icons/md";
 import { TbArrowBigUp } from "react-icons/tb";
 import { useEffect, useState } from "react";
+import { useProfileContext } from "../../../context/ProfileContext";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -19,6 +20,8 @@ const ThreadItem = (props) => {
 		upvote,
 		uploadFile,
 	} = props.post;
+	const data = useProfileContext();
+	const { profileImage } = data;
 
 	useEffect(() => {
 		const getPostThreadAsync = async (threadId) => {
@@ -61,7 +64,7 @@ const ThreadItem = (props) => {
 					<div className="d-flex flex-row post-author">
 						<img
 							className="rounded-circle"
-							src={author.profileImage}
+							src={profileImage}
 							alt={`Author: ${author.username}`}
 							style={{ aspectRatio: "1/1" }}
 						/>

@@ -13,6 +13,7 @@ const ChangeProfileInfo = (props) => {
 	const data = useProfileContext();
 	const { userId, username, tel, address, gender } = data;
 	const { close } = props;
+	const { user, error, setError, setSuccess } = useUserContext();
 
 	var currentGender = "";
 	if (gender !== "Please update your  gender") {
@@ -53,6 +54,7 @@ const ChangeProfileInfo = (props) => {
 		await axios(configuration)
 			.then((result) => {
 				toast.success(result.data.message);
+				setSuccess("Successfully Uploaded!");
 			})
 			.catch((error) => {
 				console.log("Error", error);
@@ -67,7 +69,7 @@ const ChangeProfileInfo = (props) => {
 	};
 	return (
 		<form
-			className="p-4"
+			className="p-4 text-greeli-emphasis"
 			onSubmit={handleSubmit(onSubmit)}
 			aria-label="Change Profile Form"
 		>
@@ -80,9 +82,9 @@ const ChangeProfileInfo = (props) => {
 				}
 			>
 				<span className="input-group-text">
-					<FaUser className="text-dark" />
+					<FaUser />
 				</span>
-				<div className="form-floating">
+				<div className="form-floating text-greeli-emphasis">
 					<input
 						type="text"
 						name="newUsername"
@@ -101,9 +103,7 @@ const ChangeProfileInfo = (props) => {
 						}}
 						aria-invalid={errors.newUsername ? "true" : "false"}
 					/>
-					<label htmlFor="floatingNewUsername" className="text-dark">
-						Username
-					</label>
+					<label htmlFor="floatingNewUsername">Username</label>
 				</div>
 			</div>
 			{errors.newUsername && (
@@ -120,9 +120,9 @@ const ChangeProfileInfo = (props) => {
 				}
 			>
 				<span className="input-group-text">
-					<MdPhone className="text-dark" />
+					<MdPhone />
 				</span>
-				<div className="form-floating">
+				<div className="form-floating text-greeli-emphasis">
 					<input
 						type="text"
 						name="newPhoneNumber"
@@ -142,9 +142,7 @@ const ChangeProfileInfo = (props) => {
 						}}
 						aria-invalid={errors.newPhoneNumber ? "true" : "false"}
 					/>
-					<label htmlFor="floatingNewPhoneNumber" className="text-dark">
-						Phone Number
-					</label>
+					<label htmlFor="floatingNewPhoneNumber">Phone Number</label>
 				</div>
 			</div>
 			{errors.newPhoneNumber && (
@@ -161,9 +159,9 @@ const ChangeProfileInfo = (props) => {
 				}
 			>
 				<span className="input-group-text">
-					<MdLocationOn className="text-dark" />
+					<MdLocationOn />
 				</span>
-				<div className="form-floating">
+				<div className="form-floating text-greeli-emphasis">
 					<input
 						type="text"
 						{...register("newAddress", {
@@ -181,9 +179,7 @@ const ChangeProfileInfo = (props) => {
 						}}
 						aria-invalid={errors.newAddress ? "true" : "false"}
 					/>
-					<label htmlFor="newAddress" className="text-dark">
-						Address
-					</label>
+					<label htmlFor="newAddress">Address</label>
 				</div>
 			</div>
 			{errors.newAddress && (
@@ -198,9 +194,9 @@ const ChangeProfileInfo = (props) => {
 				}
 			>
 				<span className="input-group-text">
-					<MdOutlineTransgender className="text-dark" />
+					<MdOutlineTransgender />
 				</span>
-				<div className="form-floating">
+				<div className="form-floating text-greeli-emphasis">
 					<select
 						name="cars"
 						id="cars"
@@ -217,16 +213,14 @@ const ChangeProfileInfo = (props) => {
 						<option value="Female">Female</option>
 						<option value="Other">Other</option>
 					</select>
-					<label htmlFor="newGender" className="text-dark">
-						Gender
-					</label>
+					<label htmlFor="newGender">Gender</label>
 				</div>
 			</div>
 
 			<div className="row d-flex flex-row justify-content-between g-1 mt-3">
 				<button
 					// type="submit"
-					className="btn btn-primary col-4 mx-3 p-2 bg-danger text-white rounded-pill border-none theme-button"
+					className="btn btn-primary col-4 mx-3 p-2 bg-danger text-white rounded-pill border-0 theme-button"
 					onClick={() => {
 						close();
 					}}
@@ -235,7 +229,7 @@ const ChangeProfileInfo = (props) => {
 				</button>
 				<button
 					type="submit"
-					className="btn btn-primary col-4 mx-3 p-2 bg-primary-green-400 text-white rounded-pill border-none theme-button"
+					className="btn btn-primary col-4 mx-3 p-2 bg-primary-green-400 text-white rounded-pill border-0 theme-button"
 				>
 					Save changes
 				</button>

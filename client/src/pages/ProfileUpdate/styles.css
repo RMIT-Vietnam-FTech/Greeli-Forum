@@ -126,6 +126,10 @@
 	border-bottom: 2px solid white;
 	cursor: pointer;
 }
+
+.editing-input-wrapper {
+	height: 320px;
+}
 /* Responsiveness */
 @media (max-width: 992px) {
 	.profile-page-container {
@@ -195,5 +199,9 @@
 	/* Post Item styling */
 	.post-main-content {
 		font-size: 1.25rem;
+	}
+
+	.editing-input-wrapper {
+		height: 280px;
 	}
 }

@@ -55,9 +55,12 @@ const ChangeAvatar = (props) => {
 	return (
 		<div className="modal-content bg-transparent">
 			<h2 id="exampleModalLabel">Change profile image</h2>
-			<div className="modal-body text-center">
+			<div className="text-center">
 				<form onSubmit={handleSubmit}>
-					<div className="p-0 m-0" style={{ height: "320px" }}>
+					<div
+						className="p-0 m-0 editing-input-wrapper"
+						// style={{ height: "320px" }}
+					>
 						{preview && (
 							<img
 								src={URL.createObjectURL(preview)}
@@ -81,7 +84,7 @@ const ChangeAvatar = (props) => {
 					<div className="row d-flex flex-row justify-content-between g-1 mt-3">
 						<button
 							// type="submit"
-							className="btn btn-primary col-4 mx-3 p-2 bg-danger text-white rounded-pill border-none theme-button"
+							className="btn btn-primary col-4 mx-3 p-2 bg-danger text-white rounded-pill border-0 theme-button"
 							onClick={() => {
 								close();
 							}}
@@ -90,7 +93,7 @@ const ChangeAvatar = (props) => {
 						</button>
 						<button
 							type="submit"
-							className="btn btn-primary col-4 mx-3 p-2 bg-primary-green-400 text-white rounded-pill border-none theme-button"
+							className="btn btn-primary col-4 mx-3 p-2 bg-primary-green-400 text-white rounded-pill border-0 theme-button"
 						>
 							Save avatar
 						</button>

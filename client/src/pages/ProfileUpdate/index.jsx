@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { useUserContext } from "../../context/UserContext";
 import { Toaster } from "react-hot-toast";
 import "../../scss/custom.scss";
 import { FaCamera } from "react-icons/fa";
@@ -12,6 +13,8 @@ import "./styles.css";
 import { ProfileContext } from "../../context/ProfileContext";
 
 const ProfileUpdate = (props) => {
+	const { user, setUser, toggleUserInfo, success, setSuccess } =
+		useUserContext();
 	const { isDarkMode } = useContext(ThemeContext);
 	// const userData = demoUserInfo[0];
 	const navigate = useNavigate();
@@ -94,7 +97,7 @@ const ProfileUpdate = (props) => {
 		}
 
 		fetchUser();
-	}, [userId, isMe]);
+	}, [userId, isMe, success]);
 	// ----------------------------
 
 	//EDIT PROFILE - PUSH DATA TO DB
@@ -103,7 +106,10 @@ const ProfileUpdate = (props) => {
 
 	return (
 		<ProfileContext.Provider value={basicInfo}>
-			<div className="container-fluid profile-page-container">
+			<div
+				className="container-fluid profile-page-container bg-greeli-subtle"
+				data-bs-theme={isDarkMode ? "dark" : "light"}
+			>
 				<Toaster />
 				<div className="row row-cols-12 h-100">
 					<LeftSidePart isMe={isMe} />

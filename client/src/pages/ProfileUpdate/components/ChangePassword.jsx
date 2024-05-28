@@ -5,6 +5,7 @@ import { toast, Toaster } from "react-hot-toast";
 import { useProfileContext } from "../../../context/ProfileContext";
 import { ThemeContext } from "../../../context/ThemeContext";
 import { useContext } from "react";
+import { useUserContext } from "../../../context/UserContext";
 import { PiPasswordBold } from "react-icons/pi";
 import { FaKey } from "react-icons/fa";
 
@@ -15,6 +16,7 @@ const ChangePassword = (props) => {
 	const { userId } = data;
 	const [oldPassword, setOldPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
+	const { user, error, setError, setSuccess } = useUserContext();
 
 	const {
 		register,
@@ -45,6 +47,7 @@ const ChangePassword = (props) => {
 		await axios(configuration)
 			.then((result) => {
 				toast.success(result.data.message);
+				setSuccess("Successfully Uploaded!");
 				setNewPassword("");
 				setOldPassword("");
 			})
@@ -61,12 +64,12 @@ const ChangePassword = (props) => {
 
 	return (
 		<div
-			className="container-fluid text-dark p-4"
+			className="container-fluid text-greeli-emphasis p-4"
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<h2>Change Password</h2>
 			<form onSubmit={handleSubmit(onSubmit)} aria-label="Change Password Form">
-				<div className="p-0 m-0" style={{ height: "320px" }}>
+				<div className="p-0 m-0 editing-input-wrapper">
 					{/* OLD PASS INPUT */}
 					<div
 						className={
@@ -76,9 +79,9 @@ const ChangePassword = (props) => {
 						}
 					>
 						<span className="input-group-text">
-							<FaKey className="text-dark" />
+							<FaKey />
 						</span>
-						<div className="form-floating">
+						<div className="form-floating text-greeli-emphasis">
 							<input
 								name="oldPassword"
 								type="password"
@@ -94,9 +97,7 @@ const ChangePassword = (props) => {
 								}}
 								aria-invalid={errors.oldPassword ? "true" : "false"}
 							/>
-							<label htmlFor="floatingOldPassword" className="text-dark">
-								Old password
-							</label>
+							<label htmlFor="floatingOldPassword">Old password</label>
 						</div>
 					</div>
 					{errors.oldPassword && (
@@ -114,9 +115,9 @@ const ChangePassword = (props) => {
 						}
 					>
 						<span className="input-group-text">
-							<PiPasswordBold className="text-dark" />
+							<PiPasswordBold />
 						</span>
-						<div className="form-floating">
+						<div className="form-floating text-greeli-emphasis">
 							<input
 								name="newPassword"
 								type="password"
@@ -153,9 +154,7 @@ const ChangePassword = (props) => {
 								// }}
 								aria-invalid={errors.newPassword ? "true" : "false"}
 							/>
-							<label htmlFor="newPassword" className="text-dark">
-								New password
-							</label>
+							<label htmlFor="newPassword">New password</label>
 						</div>
 					</div>
 					{errors.newPassword && (

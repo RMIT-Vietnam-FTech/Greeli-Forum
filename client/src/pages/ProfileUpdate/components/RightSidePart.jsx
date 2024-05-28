@@ -104,24 +104,26 @@ const RightSidePart = (props) => {
 		<div className="col-12 col-lg-9 h-lg-50 h-100 px-lg-5 px-0">
 			<div className="d-flex flex-column ms-5 ms-lg-0 me-5 me-lg-0 h-lg-50 h-100">
 				<div>
-					<h1 className="mt-5 profile-title">Thread Gallery</h1>
+					<h1 className="mt-5 profile-title text-greeli-emphasis">
+						Thread Gallery
+					</h1>
 
 					{/* DROPDOWN */}
 					<div className="dropdown position-static d-flex flex-row justify-content-end">
 						<button
-							className="btn btn-primary-green dropdown-toggle"
+							className="btn btn-primary-green dropdown-toggle theme-button"
 							type="button"
 							id="dropdownMenuButton1"
 							data-bs-toggle="dropdown"
 							aria-expanded="false"
-							style={{ width: "160px" }}
+							style={{ width: "200px" }}
 						>
 							{tab}{" "}
 						</button>
 						<ul
 							className="dropdown-menu"
 							aria-labelledby="dropdownMenuButton1"
-							style={{ width: "160px" }}
+							style={{ width: "200px" }}
 						>
 							<li>
 								<Link

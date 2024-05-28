@@ -13,6 +13,7 @@ const LeftSidePart = (props) => {
 	//GET ID FROM LOCAL STORAGE AND PARAM
 	const currentUserId = JSON.parse(localStorage.getItem("user")).id;
 	const requiredId = useParams().userId || currentUserId;
+	// console.log(requiredId);
 
 	const navigate = useNavigate();
 	const data = useProfileContext();
@@ -60,13 +61,12 @@ const LeftSidePart = (props) => {
 	const isAdmin = JSON.parse(localStorage.getItem("user")).role === "admin";
 	const token = cookies.get("TOKEN");
 	const handleLockAccount = () => {
-		const userId = basicInfo?.userId;
 		const adminId = JSON.parse(localStorage.getItem("user")).id;
 		const action = basicInfo.isLocked ? "unlock" : "lock";
 		// console.log("Lock/Unlock user");
 		const configuration = {
 			method: "put",
-			url: `http://localhost:3001/api/user/${adminId}/${userId}/${action}`,
+			url: `http://localhost:3001/api/user/${adminId}/${requiredId}/${action}`,
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${token}`,
@@ -109,10 +109,10 @@ const LeftSidePart = (props) => {
 			});
 	};
 
-	console.log(isMe, isAdmin);
+	// console.log(isMe, isAdmin);
 
 	return (
-		<div className="my-5 col-12 col-lg-3">
+		<div className="my-5 col-12 col-lg-3 text-greeli-emphasis">
 			<div className="ms-4 me-4 me-lg-0 h-lg-50 h-100">
 				{/* <p>Left side part</p> */}
 				<div className="d-flex flex-column align-items-center justify-content-between h-100 left-part-container position-relative">
@@ -137,7 +137,7 @@ const LeftSidePart = (props) => {
 							</div>
 						</div>
 						<h1 className="mt-5 username-container">{username}</h1>
-						<EditInfoModal />
+						{isMe && <EditInfoModal />}
 					</div>
 					<div className="w-100 d-flex flex-row align-items-center justify-content-between profile-figures">
 						<div className="d-flex flex-column align-items-center">
