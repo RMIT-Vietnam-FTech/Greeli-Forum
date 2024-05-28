@@ -172,7 +172,6 @@
 // export default NewsData;
 
 import axios from "axios";
-
 const API_KEY = "ccdf2d576ae44d91b7ea44c94bccb8ed";
 const BASE_URL = "https://newsapi.org/v2";
 const categories = ["business", "health", "sports"];

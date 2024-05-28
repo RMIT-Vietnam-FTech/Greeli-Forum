@@ -1,5 +1,5 @@
 import React from "react";
-import { forumFAQ } from "../data/forumFAQ.jsx";
+import { forumFaq } from "../data/forumFAQ.jsx";
 import "../style/faq.css";
 
 const FAQ = () => {
@@ -8,7 +8,7 @@ const FAQ = () => {
 			className="accordion accordion-flush p-3"
 			id="accordionFlushExample"
 		>
-			{forumFAQ.map((item) => (
+			{forumFaq.map((item) => (
 				<div className="accordion-item rounded-3 mb-2" key={item.id}>
 					<h1
 						className="accordion-header"
