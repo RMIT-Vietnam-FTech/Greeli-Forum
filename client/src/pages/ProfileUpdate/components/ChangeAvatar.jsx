@@ -87,6 +87,7 @@ const ChangeAvatar = (props) => {
 							className="btn btn-primary col-4 mx-3 p-2 bg-danger text-white rounded-pill border-0 theme-button"
 							onClick={() => {
 								close();
+								props.setEditTab("Profile");
 							}}
 						>
 							Cancel

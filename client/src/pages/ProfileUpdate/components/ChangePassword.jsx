@@ -170,6 +170,7 @@ const ChangePassword = (props) => {
 						className="btn btn-primary col-4 mx-3 p-2 bg-danger text-white rounded-pill border-0"
 						onClick={() => {
 							close();
+							props.setEditTab("Profile");
 						}}
 					>
 						Cancel
