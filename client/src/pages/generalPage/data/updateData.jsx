@@ -1,7 +1,7 @@
 const UpdateData = [
 	{
 		id: 1,
-		title: "New Update",
+		title: "New Greeli Forum",
 		description:
 			"Lorem ipsum dolor sit amet consectetur. Auctor praesent lectus consequat etiam venenatis sapien turpis nisi et. Amet aenean porta interdum elementum quis accumsan. Massa mauris egestas tortor duis id nisi lorem. Pharetra at adipiscing ipsum nisl sed at at in ultrices. Pharetra diam urna eleifend malesuada pulvinar feugiat sit amet.",
 		image: "https://wallpapers.com/images/featured/4k-forest-7sfd6znw2ry6hnlt.jpg",
