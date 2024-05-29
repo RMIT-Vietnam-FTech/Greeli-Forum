@@ -43,6 +43,27 @@ const commentSchema = new mongoose.Schema(
         ref: "Comment",
       },
     ],
+    archived: {
+      isArchived: {
+        type: Boolean,
+        default: false,
+        require: true,
+      },
+      archivedBy: {
+        userId: {
+          type: String,
+          default: null,
+        },
+        username: {
+          type: String,
+          default: null,
+        },
+        profileImage: {
+          type: String,
+          default: null,
+        },
+      },
+    },
   },
   {
     timestamps: true,

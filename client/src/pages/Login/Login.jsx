@@ -42,7 +42,7 @@ const Login = () => {
 	const login = async () => {
 		const configuration = {
 			method: "post",
-			url: "/api/user/login",
+			url: "http://localhost:3001/api/user/login",
 			data: {
 				email,
 				password,
@@ -72,7 +72,7 @@ const Login = () => {
 					duration: 2000,
 					position: "top-center",
 				});
-				console.log(error.response.data.error);
+				console.log(error);
 			});
 	};
 

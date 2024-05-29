@@ -2,9 +2,17 @@ import mongoose from "mongoose";
 
 const threadSchema = new mongoose.Schema(
 	{
-		parentId: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "Comment",
+		title: {
+			type: String,
+			unique: true,
+			// immutable: true,
+			required: true,
+			min: 5,
+			max: 20,
+		},
+		content: {
+			type: String,
+			required: false,
 			default: null,
 		},
 		uploadFile: {
@@ -15,10 +23,18 @@ const threadSchema = new mongoose.Schema(
 				type: String,
 			},
 		},
-		content: {
-			type: String,
-			required: true,
-		},
+		posts: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "Post",
+			},
+		],
+		rule: [
+			{
+				title: String,
+				description: String,
+			},
+		],
 		createdBy: {
 			userId: {
 				type: String,
@@ -30,48 +46,36 @@ const threadSchema = new mongoose.Schema(
 			},
 			profileImage: {
 				type: String,
+				required: false,
 				default: null,
 			},
 		},
-		upvote: {
-			type: Array,
-			default: [],
-		},
-		replies: [
+		followedBy: [
 			{
 				type: mongoose.Schema.Types.ObjectId,
-				ref: "Comment",
+				ref: "User",
 			},
 		],
-		archived: {
-			isArchived: {
+		archivedBy: {
+			userId: {
+				type: String,
+				default: null,
+			},
+			username: {
+				type: String,
+				default: null,
+			},
+			isDeactivated: {
 				type: Boolean,
 				default: false,
-				require: true,
 			},
-			archivedBy: {
-				userId: {
-					type: String,
-					default: null,
-				},
-				username: {
-					type: String,
-					default: null,
-				},
-				isDeactivated: {
-					type: Boolean,
-					default: false,
-				},
-				profileImage: {
-					type: String,
-					default: null,
-				},
+			profileImage: {
+				type: String,
+				default: null,
 			},
 		},
 	},
-	{
-		timestamps: true,
-	}
+	{ timestamps: true }
 );
 
 const Thread = mongoose.model("Thread", threadSchema);

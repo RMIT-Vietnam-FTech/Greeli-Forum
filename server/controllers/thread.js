@@ -18,7 +18,15 @@ export const createThread = async (req, res) => {
 	try {
 		const { title, content } = req.body;
 		const uploadFile = req.file;
+	try {
+		const { title, content } = req.body;
+		const uploadFile = req.file;
 
+		if (req.user) {
+			console.log(`check 2`);
+			const user = await User.findById(req.user.id);
+			const uploadObject = {};
+			uploadObject.title = title;
 		if (req.user) {
 			console.log(`check 2`);
 			const user = await User.findById(req.user.id);
@@ -44,7 +52,9 @@ export const createThread = async (req, res) => {
 					type: null,
 				};
 				const imageName = createRandomName();
-				const uploadFileMetaData = await fileTypeFromBuffer(uploadFile.buffer);
+				const uploadFileMetaData = await fileTypeFromBuffer(
+					uploadFile.buffer,
+				);
 				const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
 
 				if (uploadFileMime === "image") {
@@ -52,14 +62,18 @@ export const createThread = async (req, res) => {
 						.jpeg({ quality: 100 })
 						.resize(1000)
 						.toBuffer();
-					await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
+					await uploadFileData(
+						fileBuffer,
+						imageName,
+						uploadFile.mimetype,
+					);
 					console.log(uploadFileMime);
 					uploadObject.uploadFile.type = uploadFileMime;
 				} else {
 					await uploadFileData(
 						uploadFile.buffer,
 						imageName,
-						uploadFile.mimetype
+						uploadFile.mimetype,
 					);
 					uploadObject.uploadFile.type = uploadFileMime;
 				}
@@ -321,6 +335,11 @@ export const archiveThread = async (req, res) => {
 		if (!threadId) return res.status(400).json({ message: "Bad Request" });
 
 		const thread = await Thread.findById(threadId);
+		if (!thread)
+			return res
+				.status(404)
+				.json({ message: "Thread id not found or invalid" });
+		thread.isHidden = true;
 		if (!thread)
 			return res
 				.status(404)

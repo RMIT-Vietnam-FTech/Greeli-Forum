@@ -14,6 +14,7 @@ import { PopupContextProvider } from "../../../context/PopupContext";
 import { ThemeContext } from "../../../context/ThemeContext";
 import PostList from "../ThreadPage/PostList";
 import TopicPage from "../TopicPage";
+import ErrorPage from "../../ErrorPage/ErrorPage";
 export default function ForumPage() {
   const { isDarkMode } = useContext(ThemeContext);
   return (
@@ -33,8 +34,9 @@ export default function ForumPage() {
               <SearchBar />
               <Routes path="/">
                 <Route index element={<PostList />} />
+                {/* <Route path="*" element={<ErrorPage />} /> */}
                 <Route path="topics/:topicId">
-                  <Route index element={<TopicPage/>}/>
+                  <Route index element={<TopicPage />} />
                 </Route>
                 <Route path="communities/:threadId">
                   <Route index element={<ThreadPage />} />
@@ -44,7 +46,7 @@ export default function ForumPage() {
             </section>
             <section className="right-sidebar">
               <Routes path="/">
-                <Route index element={<RightSideBarForum />} />
+                <Route path="*" element={<RightSideBarForum/>}/>
                 <Route
                   path="/communities/:threadId"
                   element={<RightSideBarThread />}

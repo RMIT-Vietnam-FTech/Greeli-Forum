@@ -4,8 +4,8 @@ import User from "../models/User.js";
 export const verifyToken = async (req, res, next) => {
 	try {
 		const token = await req.cookies.JWT;
-		// console.log(token)
 		if (!token) {
+			console.log("token is not provided");
 			// res.redirect("/")
 			return res.status(403).json({ message: "Access Denied" });
 		}

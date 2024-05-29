@@ -62,7 +62,7 @@ const Register = () => {
 	const registerAccount = () => {
 		const configuration = {
 			method: "post",
-			url: "/api/user/register",
+			url: "http://localhost:3001/api/user/register",
 			data: {
 				username,
 				email,

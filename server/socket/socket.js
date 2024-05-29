@@ -43,7 +43,6 @@ io.on("connection", (socket) => {
 				date: new Date(),
 			});
 			console.log("send successfully");
-
 		}
 	});
 

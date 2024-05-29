@@ -4,24 +4,24 @@ import * as commentController from "../controllers/comment.js";
 import { verifyToken } from "../middleware/auth.js";
 const storage = multer.memoryStorage();
 const upload = multer({
-  storage: storage,
-  fileFilter: function fileFilter(req, file, callback) {
-    if (
-      file.mimetype === "image/jpeg" ||
-      file.mimetype === "image/png" ||
-      file.mimetype === "image/gif" ||
-      file.mimetype === "image/webp" ||
-      file.mimetype === "video/mp4" ||
-      file.mimetype === "video/webm"
-    ) {
-      callback(null, true);
-    } else {
-      callback(null, false);
-    }
-  },
-  limits: {
-    fileSize: 1024 * 1024 * 10, //10MB
-  },
+	storage: storage,
+	fileFilter: function fileFilter(req, file, callback) {
+		if (
+			file.mimetype === "image/jpeg" ||
+			file.mimetype === "image/png" ||
+			file.mimetype === "image/gif" ||
+			file.mimetype === "image/webp" ||
+			file.mimetype === "video/mp4" ||
+			file.mimetype === "video/webm"
+		) {
+			callback(null, true);
+		} else {
+			callback(null, false);
+		}
+	},
+	limits: {
+		fileSize: 1024 * 1024 * 10, //10MB
+	},
 });
 const router = express.Router();
 
@@ -33,9 +33,12 @@ router
     upload.single("uploadFile"),
     commentController.createComment
   );
+  router.route("/:commentId/archive")
+  .post(verifyToken, commentController.archiveComment)
+  .delete(verifyToken, commentController.unArchiveComment)
 router
-  .route("/:commentId/upvote")
-  .post(verifyToken, commentController.postUpVote)
-  .delete(verifyToken, commentController.deleteUpvote);
+	.route("/:commentId/upvote")
+	.post(verifyToken, commentController.postUpVote)
+	.delete(verifyToken, commentController.deleteUpvote);
 
 export default router;

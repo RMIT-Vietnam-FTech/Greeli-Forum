@@ -67,9 +67,9 @@ export default function NewCommunityPopUp({ isOpen, setIsOpen }) {
           { title: e.target.value },
           {
             headers: {
-              Authorization: `Bearer ${
-                JSON.parse(localStorage.getItem("user")).token
-              }`,
+              // Authorization: `Bearer ${
+              //   JSON.parse(localStorage.getItem("user")).token
+              // }`,
             },
           }
         );

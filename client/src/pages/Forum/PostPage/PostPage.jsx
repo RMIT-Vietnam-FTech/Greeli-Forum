@@ -5,54 +5,60 @@ import "../assets/forum.scss";
 import PostComment from "./PostComment";
 import PostContent from "./PostContent";
 
-axios.defaults.withCredentials = true;
+import PostPageSkeleton from "../../../components/Forum/Skeleton/PostPageSkeleton";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 axios.defaults.withCredentials = true;
 
 export default function PostPage() {
-	const { postId } = useParams();
-	const { data, error, isLoading } = useSwr(
-		`http://localhost:3001/api/v1/posts/${postId}`,
-		fetcher,
-	);
-	if (error) {
-		return <div>is error</div>;
-	}
-	if (isLoading) {
-		return <div>is loading</div>;
-	}
-	return <PostPageStructure postData={data} />;
+  const { postId } = useParams();
+  const navigate = useNavigate();
+  const { data, error, isLoading } = useSwr(
+    `http://localhost:3001/api/v1/posts/${postId}`,
+    fetcher
+  );
+  if (error) {
+    navigate("/404");
+  }
+  if (isLoading) {
+    return <div>is loading</div>;
+  }
+  return <PostPageStructure postData={data} />;
 }
 function PostPageStructure({ postData }) {
-	const navigate = useNavigate();
-	const user = localStorage.getItem("user");
-	const { data, error, isLoading } = useSwr(
-		`http://localhost:3001/api/v1/threads/${postData.belongToThread}`,
-		fetcher,
-	);
-	if (error) {
-		return 0;
-	}
-	if (isLoading) {
-		return 0;
-	}
-	if (
-		postData.isApproved ||
-		(user &&
-			(data.createdBy.userId == JSON.parse(user).id ||
-				postData.createdBy.userId == JSON.parse(user).id))
-	) {
-		return (
-			<>
-				<PostContent postData={postData} />
-				<PostComment
-					postData={postData}
-					threadAdminId={data.createdBy.userId}
-				/>
-			</>
-		);
-	} else {
-		navigate("/forum");
-	}
+  const navigate = useNavigate();
+  const user = localStorage.getItem("user");
+  const { data, error, isLoading } = useSwr(
+    postData
+      ? `http://localhost:3001/api/v1/threads/${postData.belongToThread}`
+      : null,
+    fetcher
+  );
+  if (error) {
+    navigate("/404");
+  }
+  if (isLoading) {
+    return <PostPageSkeleton />;
+  }
+  if (
+    postData &&
+    (postData.isApproved ||
+      (user &&
+        (data.createdBy.userId == JSON.parse(user).id ||
+          postData.createdBy.userId == JSON.parse(user).id)))
+  ) {
+    return (
+      <>
+        {postData && <PostContent postData={postData} />}
+        {postData && (
+          <PostComment
+            postData={postData}
+            threadAdminId={data.createdBy.userId}
+          />
+        )}
+      </>
+    );
+  } else {
+    navigate("/forum");
+  }
 }

@@ -15,7 +15,6 @@ const createRandomName = (bytes = 32) =>
 export const createPost = async (req, res) => {
 	//req.body -> title, content, createBy{}
 	try {
-		// console.log("runn create post");
 		let uploadFile;
 		if (req.file) {
 			uploadFile = req.file;
@@ -47,7 +46,9 @@ export const createPost = async (req, res) => {
 			if (thread) {
 				uploadObject.belongToThread = belongToThread;
 			} else {
-				res.status(404).json({ message: "thread id is not found or invalid" });
+				res.status(404).json({
+					message: "thread id is not found or invalid",
+				});
 			}
 			if (!belongToTopics)
 				return res
@@ -120,7 +121,9 @@ export const getPosts = async (req, res) => {
 		if (belongToThread) {
 			const thread = await Thread.findById(belongToThread);
 			if (!thread)
-				res.status(404).json({ message: "threadId not found or invalid" });
+				res.status(404).json({
+					message: "threadId not found or invalid",
+				});
 		}
 
 		const filterCommand = {
@@ -158,9 +161,24 @@ export const getPosts = async (req, res) => {
 			response = await Post.aggregate()
 				.search({
 					index: "postIndex",
-					autocomplete: { query: search, path: "title" },
+					compound: {
+						should: [
+							{
+								autocomplete: {
+									query: search,
+									path: "plainTextContent",
+								},
+							},
+							{
+								autocomplete: {
+									query: search,
+									path: "title",
+								},
+							},
+						],
+					},
 				})
-				.project({ content: 0, comments: 0, upvote: 0 })
+				.project({ plainTextContent: 0, comments: 0, upvote: 0 })
 				.limit(10)
 				.match({ isApproved: true });
 		} else {
@@ -193,8 +211,12 @@ export const getPosts = async (req, res) => {
 												$add: [
 													{
 														$add: [
-															{ $size: "$upvote" },
-															{ $size: "$comments" },
+															{
+																$size: "$upvote",
+															},
+															{
+																$size: "$comments",
+															},
 														],
 													},
 													1,
@@ -239,6 +261,10 @@ export const getPost = async (req, res) => {
 	try {
 		const { postId } = req.params;
 		const post = await Post.findById(postId);
+		if (post.archived.isArchived)
+			return res
+				.status(404)
+				.json({ message: "Post is archived, user cannot access" });
 		res.status(200).json(post);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
@@ -565,7 +591,13 @@ export const deleteUpvote = async (req, res) => {
 export const searchPost = async (req, res) => {
 	try {
 		const searchQuery = req.query.search;
+		try {
+			const searchQuery = req.query.search;
 
+			console.log(res);
+		} catch (error) {
+			res.status(500).json({ message: error.message });
+		}
 		console.log(res);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
@@ -580,13 +612,67 @@ export const archivePost = async (req, res) => {
 		const post = await Post.findById(postId);
 		if (!post)
 			return res.status(404).json({ message: "post id not found or invalid" });
+
+		{
+			/*check who can able to archived post*/
+		}
+		const user = await User.findById(req.user.id);
+		if (!user)
+			return res
+				.status(404)
+				.json({ message: "userId is invalid or not found" });
+
+		if (!(req.user.role === "admin" || user._id === post.createdBy.userId))
+			return res.status(403).json({ message: "Forbidden" });
+
 		post.archived.isArchived = true;
+		post.archived.archivedBy = {
+			userId: user._id,
+			username: user.username,
+			profileImage: user.profileImage,
+		};
 		await post.save();
+
 		res.status(200).json({ message: "Archived successfully!" });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
 };
+
+// export const unArchivePost = async (req, res) => {
+// 	try {
+// 		const postId = req.params.postId;
+// 		if (!postId) return res.status(400).json({ message: "Bad Request" });
+
+// 		const post = await Post.findById(postId);
+// 		if (!post)
+// 			return res.status(404).json({ message: "post id not found or invalid" });
+
+// 		{
+// 			/*check who can able to archived post*/
+// 		}
+// 		const user = await User.findById(req.user.id);
+// 		if (!user)
+// 			return res
+// 				.status(404)
+// 				.json({ message: "userId is invalid or not found" });
+
+// 		if (!(req.user.role === "admin" || user._id === post.createdBy.userId))
+// 			return res.status(403).json({ message: "Forbidden" });
+
+// 		post.archived.isArchived = false;
+// 		post.archived.archivedBy = {
+// 			userId: null,
+// 			username: null,
+// 			profileImage: null,
+// 		};
+// 		await post.save();
+
+// 		res.status(200).json({ message: "Archived successfully!" });
+// 	} catch (error) {
+// 		res.status(500).json({ message: error.message });
+// 	}
+// };
 
 export const unarchivePost = async (req, res) => {
 	try {

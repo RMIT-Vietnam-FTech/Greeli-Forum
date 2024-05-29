@@ -4,7 +4,11 @@ import { useParams } from "react-router-dom";
 import useSWRImmutable from "swr/immutable";
 
 import ButtonUpvote from "../../../../components/Forum/ButtonUpvote";
+import Avatar from "../../../../components/Forum/Avatar";
+import DropDown from "../../../../components/Forum/DropDown";
+
 import { EditContextProvider } from "../../../../context/EditContext";
+import { AuthorizationContextProvider } from "../../../../context/AuthorizationContext";
 import { ReplyContext } from "../../../../context/ReplyContext";
 
 import dayjs from "dayjs";
@@ -44,7 +48,6 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
   if (isLoading) {
     return "is loading";
   }
-  console.log(JSON.stringify(commentData));
   return (
     <>
       <ReplyContext.Provider
@@ -84,18 +87,7 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
           )}
           <div className="d-flex align-items-center gap-1">
             {/* avatar */}
-            <div
-              className="rounded-circle overflow-hidden bg-secondary"
-              style={{ width: "30px", height: "30px" }}
-            >
-              {commentData.createdBy.profileImage ? (
-                <img
-                  alt={commentData.createdBy.username}
-                  className="w-100 h-100"
-                  src={commentData.createdBy.profileImage}
-                />
-              ) : null}
-            </div>
+            <Avatar size="sm" src={commentData.createdBy.profileImage} />
 
             {/* username */}
             <p
@@ -108,6 +100,16 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
             <li className="text-greeli-emphasis" style={{ fontSize: "12px" }}>
               {dayjs().to(dayjs(commentData.createdAt))}
             </li>
+            <div className="position-relative bg-transparent " style={{left:"55px", height:"35px"}}>
+              <AuthorizationContextProvider>
+                <DropDown
+                  componentType="comment"
+                  data={commentData}
+                  postId={commentData._id}
+                  threadId={commentData.belongToThread}
+                />
+              </AuthorizationContextProvider>
+            </div>
           </div>
 
           {/*content*/}
@@ -116,7 +118,11 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
             className="ms-4 my-2 position-relative overflow-hidden bg-black"
           >
             {commentData.uploadFile && (
-              <ImageOrVideo uploadFile={commentData.uploadFile} w100={true} h100={true} />
+              <ImageOrVideo
+                uploadFile={commentData.uploadFile}
+                w100={true}
+                h100={true}
+              />
             )}
           </div>
           <div className="ms-4">
@@ -124,11 +130,11 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
               <EditTextEditor content={JSON.parse(commentData.content)} />
             </EditContextProvider>
 
-						{/*upvote*/}
-						<ButtonUpvote
-							upvote={commentData.upvote}
-							commentId={commentData._id}
-						/>
+            {/*upvote*/}
+            <ButtonUpvote
+              upvote={commentData.upvote}
+              commentId={commentData._id}
+            />
 
             {/*reply*/}
             <EditContextProvider>

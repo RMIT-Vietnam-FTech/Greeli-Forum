@@ -50,7 +50,7 @@ const PostGallery = (props) => {
 		const fetchCreatedPosts = async () => {
 			const configuration = {
 				method: "get",
-				url: `/api/user/${userId}/created_posts`,
+				url: `http://localhost:3001/api/user/${userId}/created_posts`,
 			};
 			await axios(configuration)
 				.then(async (response) => {

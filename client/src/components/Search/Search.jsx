@@ -5,16 +5,20 @@ import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./SearchBar.css";
-
+import EditTextEditor from "../Forum/EditTextEditor/EditTextEditor";
 import Avatar from "../Forum/Avatar";
 import ImageOrVideo from "../Forum/ImageOrVideo";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { EditContext, EditContextProvider } from "../../context/EditContext";
 export default function SearchBar() {
 	const [result, setResult] = useState([]);
 	async function handleOnInput(e) {
 		const searchOutput = document.querySelector(".search-output");
 		const searchNotFound = document.querySelector(".search-not-found");
-		if (e.target.value.length > 0) {
+		if (
+			e.target.value.length > 0 &&
+			e.target.value.replace(/ /g, "").length > 0
+		) {
 			searchOutput.classList.remove("d-none");
 			let searchTerm = await axios
 				.get(`http://localhost:3001/api/v1/posts?search=${e.target.value}`)
@@ -54,7 +58,7 @@ export default function SearchBar() {
 					}}
 				>
 					{result.map((searchData) => {
-						if (result.length < 1) {
+						if (result.length < 1 || searchData.archived.isArchived) {
 							return null;
 						} else {
 							return (
@@ -83,8 +87,8 @@ export function SearchItem({ searchData, searchBar }) {
 				searchBar.value = "";
 			}}
 			className=" py-4 border-bottom border-primary-green-900"
-			style={{ width: "90%" }}
-			to={`/forum/threads/${searchData.belongToThread}/posts/${searchData._id}`}
+			style={{ width: "95%" }}
+			to={`/forum/communities/${searchData.belongToThread}/posts/${searchData._id}`}
 		>
 			<div className="d-flex justify-content-between gap-2">
 				{/*-----------left sidebar --------------*/}
@@ -97,20 +101,33 @@ export function SearchItem({ searchData, searchBar }) {
 						</p>
 					</div>
 					{/*-----------title and content--------------*/}
-					<div className="w-100">
+					<div className="w-75">
 						<h2 className="text-greeli-emphasis" style={{ fontSize: "18px" }}>
 							{searchData.title}
 						</h2>
+						<EditContextProvider>
+							<EditTextEditor
+								className="post-content"
+								componentType="post"
+								isOverFlow={true}
+								content={JSON.parse(searchData.content)}
+							/>
+						</EditContextProvider>
 					</div>
 				</div>
 
 				{/*-----------right sidebar --------------*/}
 				<div
-					className=" ratio ratio-1x1 overflow-hidden text-white bg-primary-green-600"
-					style={{ borderRadius: "0.75rem", width: "80px" }}
+					className="search-image overflow-hidden d-flex align-items-center justify-content-center text-white bg-primary-green-600"
+					style={{ borderRadius: "0.75rem", width: "200px" }}
 				>
 					{searchData.uploadFile ? (
-						<ImageOrVideo src={searchData.uploadFile} />
+						<ImageOrVideo
+							w100={false}
+							h100={true}
+							uploadFile={searchData.uploadFile}
+							isPost={true}
+						/>
 					) : (
 						<IoDocumentTextOutline />
 					)}

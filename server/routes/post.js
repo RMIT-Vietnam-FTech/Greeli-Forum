@@ -42,14 +42,14 @@ router
 router.put(
 	"/:postId/archive",
 	verifyToken,
-	verifyAdmin,
+	// verifyAdmin,
 	PostController.archivePost
 );
 
 router.put(
 	"/:postId/unarchive",
 	verifyToken,
-	verifyAdmin,
+	// verifyAdmin,
 	PostController.unarchivePost
 );
 
