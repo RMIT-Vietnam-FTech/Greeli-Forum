@@ -1,0 +1,54 @@
+[
+	{
+		"_id": { "$oid": "60d21b5a67d0d8992e610c89" },
+		"title": "This is the title of the thread 1",
+		"parentId": null,
+		"uploadFile": {
+			"src": "path/to/threadfile",
+			"type": "image/gif"
+		},
+		"content": "This is the content of the thread.",
+		"createdBy": {
+			"userId": "60d21b4667d0d8992e610c85",
+			"username": "john_doe",
+			"profileImage": "https://d46o92zk7g554.cloudfront.net/1716350848246-965924355-Frame%201361%20(2).png"
+		},
+		"upvote": [],
+		"replies": [{ "$oid": "60d21b5f67d0d8992e610c8a" }],
+		"archived": {
+			"isArchived": true,
+			"archivedBy": {
+				"userId": "60d21b4967d0d8992e610c86",
+				"username": "jane_smith",
+				"isDeactivated": false,
+				"profileImage": "https://d46o92zk7g554.cloudfront.net/1716350848246-965924355-Frame%201361%20(2).png"
+			}
+		}
+	},
+	{
+		"_id": { "$oid": "60d21b5f67d0d8992e610c8a" },
+		"title": "This is the title of the thread 2",
+		"parentId": { "$oid": "60d21b5a67d0d8992e610c89" },
+		"uploadFile": {
+			"src": "path/to/anotherthreadfile",
+			"type": "application/pdf"
+		},
+		"content": "This is a reply to the original thread.",
+		"createdBy": {
+			"userId": "60d21b4967d0d8992e610c86",
+			"username": "jane_smith",
+			"profileImage": "https://d46o92zk7g554.cloudfront.net/1716350848246-965924355-Frame%201361%20(2).png"
+		},
+		"upvote": [],
+		"replies": [],
+		"archived": {
+			"isArchived": false,
+			"archivedBy": {
+				"userId": null,
+				"username": null,
+				"isDeactivated": false,
+				"profileImage": null
+			}
+		}
+	}
+]

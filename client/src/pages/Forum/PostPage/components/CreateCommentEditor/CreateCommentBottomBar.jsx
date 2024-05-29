@@ -27,13 +27,14 @@ export default function CreateCommentBottomBar({ content }) {
       if (editor.getText()) {
         editor.setEditable(false);
         editContext.setIsEdit(false);
-        editor.commands.setContent("");
 
         // store data in database
         const formData = new FormData();
         formData.append("uploadFile", commentContext.file);
         formData.append("content", JSON.stringify(editor.getJSON()));
         formData.append("postId", postId);
+
+        editor.commands.setContent("");
 
         const newCommentData = await axios
           .post("http://localhost:3001/api/v1/comments", formData, {
@@ -44,7 +45,7 @@ export default function CreateCommentBottomBar({ content }) {
             },
           })
           .then((res) => res.data);
-
+        console.log(`check new comment data: ${newCommentData}`);
         commentContext.setNewComment([
           <Comment key={newCommentData._id} commentData={newCommentData} />,
           ...commentContext.newComment,

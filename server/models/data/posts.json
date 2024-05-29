@@ -1,0 +1,62 @@
+[
+	{
+		"_id": { "$oid": "60d21b4f67d0d8992e610c87" },
+		"belongToThread": { "$oid": "60d21b5a67d0d8992e610c89" },
+		"belongToTopics": [],
+		"title": "My First Post",
+		"uploadFile": {
+			"src": "path/to/file",
+			"type": "image/png"
+		},
+		"content": { "text": "This is my first post content." },
+		"plainTextContent": "This is my first post content.",
+		"comments": [],
+		"createdBy": {
+			"userId": "60d21b4667d0d8992e610c85",
+			"username": "john_doe",
+			"profileImage": "https://d46o92zk7g554.cloudfront.net/1716350848246-965924355-Frame%201361%20(2).png"
+		},
+		"isApproved": true,
+		"upvote": [],
+		"verifiedAt": { "$date": "2023-05-29T00:00:00Z" },
+		"archived": {
+			"isArchived": true,
+			"archivedBy": {
+				"userId": "60d21b4967d0d8992e610c86",
+				"username": "jane_smith",
+				"isDeactivated": false,
+				"profileImage": "https://d46o92zk7g554.cloudfront.net/1716350848246-965924355-Frame%201361%20(2).png"
+			}
+		}
+	},
+	{
+		"_id": { "$oid": "60d21b5567d0d8992e610c88" },
+		"belongToThread": { "$oid": "60d21b5a67d0d8992e610c89" },
+		"belongToTopics": [],
+		"title": "Another Interesting Post",
+		"uploadFile": {
+			"src": "path/to/anotherfile",
+			"type": "image/jpeg"
+		},
+		"content": { "text": "Here is some interesting content." },
+		"plainTextContent": "Here is some interesting content.",
+		"comments": [],
+		"createdBy": {
+			"userId": "60d21b4967d0d8992e610c86",
+			"username": "jane_smith",
+			"profileImage": "https://d46o92zk7g554.cloudfront.net/1716350848246-965924355-Frame%201361%20(2).png"
+		},
+		"isApproved": false,
+		"upvote": [],
+		"verifiedAt": { "$date": "2023-05-29T00:00:00Z" },
+		"archived": {
+			"isArchived": false,
+			"archivedBy": {
+				"userId": null,
+				"username": null,
+				"isDeactivated": null,
+				"profileImage": null
+			}
+		}
+	}
+]

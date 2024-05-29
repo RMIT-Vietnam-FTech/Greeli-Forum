@@ -5,7 +5,10 @@ import useSWRImmutable from "swr/immutable";
 
 import ButtonUpvote from "../../../../components/Forum/ButtonUpvote";
 import Avatar from "../../../../components/Forum/Avatar";
+import DropDown from "../../../../components/Forum/DropDown";
+
 import { EditContextProvider } from "../../../../context/EditContext";
+import { AuthorizationContextProvider } from "../../../../context/AuthorizationContext";
 import { ReplyContext } from "../../../../context/ReplyContext";
 
 import dayjs from "dayjs";
@@ -97,8 +100,16 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
             <li className="text-greeli-emphasis" style={{ fontSize: "12px" }}>
               {dayjs().to(dayjs(commentData.createdAt))}
             </li>
-
-            
+            <div className="position-relative bg-transparent " style={{left:"55px", height:"35px"}}>
+              <AuthorizationContextProvider>
+                <DropDown
+                  componentType="comment"
+                  data={commentData}
+                  postId={commentData._id}
+                  threadId={commentData.belongToThread}
+                />
+              </AuthorizationContextProvider>
+            </div>
           </div>
 
           {/*content*/}

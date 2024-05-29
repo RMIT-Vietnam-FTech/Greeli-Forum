@@ -39,12 +39,26 @@ router
 	.put(verifyToken, PostController.modifyPost)
 	.delete(verifyToken, PostController.deletePost);
 
-router.route("/:postId/archive")
-.post( verifyToken, PostController.archivePost)
-.delete(verifyToken, PostController.unArchivePost);
+router.put(
+	"/:postId/archive",
+	verifyToken,
+	// verifyAdmin,
+	PostController.archivePost
+);
+
+router.put(
+	"/:postId/unarchive",
+	verifyToken,
+	// verifyAdmin,
+	PostController.unarchivePost
+);
 
 router
 	.route("/:postId/upvote")
 	.post(verifyToken, PostController.postUpVote)
 	.delete(verifyToken, PostController.deleteUpvote);
+
+router
+	.route("/admin/archived")
+	.get(verifyToken, verifyAdmin, PostController.getArchivedPosts);
 export default router;

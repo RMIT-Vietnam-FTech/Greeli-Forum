@@ -1,6 +1,7 @@
 import RequireActivate from "./components/Auth/RequireActivate.jsx";
 import RequireAuth from "./components/Auth/RequireAuth.jsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
+import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat/Chat";
 import ContactPage from "./pages/ContactPage/Contact.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
@@ -12,6 +13,7 @@ import Register from "./pages/Login/Register";
 import ResetPassword from "./pages/Login/ResetPassword.jsx";
 import Profile from "./pages/Profile/Profile";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
+import ProfileUpdate from "./pages/ProfileUpdate";
 import GeneralPage from "./pages/generalPage/generalPage";
 import RequireAdmin from "./components/Auth/RequireAdmin.jsx";
 
@@ -38,10 +40,10 @@ const routesConfig = [
 			{
 				element: <RequireActivate />,
 				children: [
-					{ path: "/profile", element: <Profile />, name: "Profile" },
+					{ path: "/profile", element: <ProfileUpdate />, name: "Profile" },
 					{
 						path: "/user/:userId",
-						element: <Profile />,
+						element: <ProfileUpdate />,
 						name: "User Profile",
 					},
 					{ path: "/chat", element: <Chat />, name: "Chat" },
@@ -50,7 +52,7 @@ const routesConfig = [
 						children: [
 							{
 								path: "/admin",
-								element: <AdminDashboard />,
+								element: <Dashboard />,
 								name: "Admin Dashboard",
 							},
 						],

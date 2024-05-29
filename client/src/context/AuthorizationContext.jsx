@@ -7,32 +7,34 @@ axios.defaults.withCredentials = true;
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export const AuthorizationContextProvider = ({
-	componentType,
-	objectId,
-	children,
+  componentType,
+  objectId,
+  children,
 }) => {
-	const user = JSON.parse(localStorage.getItem("user"));
-	const isAuthor = useRef(false);
-	if (user == null) {
-		isAuthor.current = false;
-	}
-	const { data, error, isLoading } = useSwr(
-		`http://localhost:3001/api/v1/${componentType}s/${objectId}`,
-		fetcher,
-	);
-	if (error) return <div>Error </div>;
-	if (isLoading) return <div>is loading</div>;
-	if (data) {
-		if (localStorage.getItem("user") == "null") {
-			isAuthor.current = false;
-		} else if (data.createdBy.userId === user.id) {
-			isAuthor.current = true;
-		}
-	}
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isAuthor = useRef(false);
+  if (user == null) {
+    isAuthor.current = false;
+  }
+  const { data, error, isLoading } = useSwr(
+    componentType || objectId
+      ? `http://localhost:3001/api/v1/${componentType}s/${objectId}`
+      : null,
+    fetcher
+  );
+  if (error) return <div>Error </div>;
+  if (isLoading) return <div>is loading</div>;
+  if (data) {
+    if (localStorage.getItem("user") == "null") {
+      isAuthor.current = false;
+    } else if (data.createdBy.userId === user.id) {
+      isAuthor.current = true;
+    }
+  }
 
-	return (
-		<AuthorizationContext.Provider value={{ isAuthor }}>
-			{children}
-		</AuthorizationContext.Provider>
-	);
+  return (
+    <AuthorizationContext.Provider value={{ isAuthor }}>
+      {children}
+    </AuthorizationContext.Provider>
+  );
 };

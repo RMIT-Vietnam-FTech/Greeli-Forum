@@ -5,35 +5,32 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { AuthorizationContext } from "../../context/AuthorizationContext";
 import { EditContext } from "../../context/EditContext";
 import { useLogin } from "../../hooks/useLogin";
+import { MdLocalGasStation } from "react-icons/md";
 axios.defaults.withCredentials = true;
 export default function DropDown({ componentType, data, threadId, postId }) {
   const editContext = useContext(EditContext);
   const authorizationContext = useContext(AuthorizationContext);
   const [isArchived, setIsArchived] = useState(
-    data ? data.archived.isArchived : null
+    data && data.archived.isArchived
   );
-  const [isSaved, setIsSaved] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
   const isLogin = useLogin();
   const navigate = useNavigate();
   useEffect(() => {
-    checkSavingStatus().then((res) => {
-      setIsSaved(res);
-    });
+    checkSavingStatus().then((res) => res);
   }, []);
   async function checkSavingStatus() {
-    if (isLogin) {
+    if (JSON.parse(localStorage.getItem("user"))) {
       const path = `http://localhost:3001/api/user/${
         JSON.parse(localStorage.getItem("user")).id
       }/saved_posts`;
       const archivedPosts = await axios.get(path).then((res) => res.data);
-      console.log(`archivePost data: ${JSON.stringify(archivedPosts)}`);
-      archivedPosts.some((object) => {
-        if (object._id === postId) {
+      archivedPosts.map((object) => {
+        if (object._id == postId) {
           setIsSaved(true);
         }
       });
     }
-    setIsSaved(false);
   }
 
   function handleEdit() {
@@ -101,7 +98,9 @@ export default function DropDown({ componentType, data, threadId, postId }) {
         },
       });
       setIsArchived(true);
-      navigate(`/forum/communites/${threadId}`);
+      if (componentType !== "comment") {
+        navigate(`/forum/communites/${threadId}`);
+      }
     } catch (error) {
       console.error(error.message);
     }
@@ -148,7 +147,7 @@ export default function DropDown({ componentType, data, threadId, postId }) {
                 </a>
               </li>
             )}
-          {componentType == "post" && isSaved !== null && (
+          {componentType == "post" && (
             <li>
               <a
                 className="dropdown-item"
@@ -161,7 +160,7 @@ export default function DropDown({ componentType, data, threadId, postId }) {
           )}
           <li>
             {(componentType === "post" || componentType === "comment") &&
-              authorizationContext.isAuthor.current && (
+              JSON.parse(localStorage.getItem("user")).role === "admin" && (
                 <Link
                   onClick={isArchived ? handleUnArchive : handleArchive}
                   className="dropdown-item"
