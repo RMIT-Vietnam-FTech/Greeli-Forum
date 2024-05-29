@@ -17,7 +17,7 @@ lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);
 lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
-export default function EditTextEditor({ content, componentType }) {
+export default function EditTextEditor({ content, componentType, isOverflow, cursorPointer }) {
    //edit text editor for thread and post only
    const editContext = useContext(EditContext);
    let placeholder = "";
@@ -52,14 +52,13 @@ export default function EditTextEditor({ content, componentType }) {
            className={
                editContext.isEdit
                    ? "text-editor text-greeli-emphasis show-border"
-                   : "text-editor text-greeli-emphasis"
+                   :  `text-editor text-greeli-emphasis ` 
            }
        >
            <EditorProvider
                editorProps={{
                    attributes: {
-                       class: "cursor-text",
-                       // class: "cursor-text",
+                       class:( componentType === "search" || isOverflow? "cursor-text line-clamp ":"cursor-text ") + (cursorPointer && "cursor-pointer")
                    },
                }}
                slotBefore={

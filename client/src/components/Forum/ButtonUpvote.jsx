@@ -20,7 +20,6 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
                if (isVoted) {
                    const index = upvote.indexOf(user.id);
                    if (index > -1) {
-                       console.log("desc upvote length");
                        if (postId) {
                            await axios.delete(
                                `http://localhost:3001/api/v1/posts/${postId}/upvote`,
@@ -50,7 +49,6 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
                        setIsVoted(false);
                    }
                } else {
-                   console.log("asc upvote length");
                    if (postId) {
                        axios.post(
                            `http://localhost:3001/api/v1/posts/${postId}/upvote`,
@@ -91,7 +89,9 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
        <button
            tabIndex="0"
            onClick={handleUpvote}
-           className="text-decoration-none text-forum-emphasis border border-primary-green px-2 rounded-5 bg-transparent"
+           className="text-decoration-none text-forum-emphasis border border-primary-green px-2  bg-transparent"
+           style={{borderRadius:"20px", height:"25px"}}
+
        >
            {nOfUpvote}
            <BsArrowUpSquareFill className="ms-2" />

@@ -49,6 +49,7 @@ export default function ReplyEditor({ parentId }) {
   ];
   const editContext = useContext(EditContext);
   return (
+    <>
     <div className={"text-editor text-greeli-emphasis show-border mt-2"}>
       <EditorProvider
         editorProps={{
@@ -62,5 +63,12 @@ export default function ReplyEditor({ parentId }) {
         content=""
       ></EditorProvider>
     </div>
+  <div
+        id={`create-reply-section-error-${parentId}`}
+        className="text-danger w-100 text-end fw-bold d-none"
+      >
+        You need to add content to create new reply 
+      </div>
+    </>
   );
 }

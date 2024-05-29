@@ -1,7 +1,7 @@
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./SearchBar.css";
@@ -101,14 +101,14 @@ export function SearchItem({ searchData, searchBar }) {
             </p>
           </div>
           {/*-----------title and content--------------*/}
-          <div className="w-75">
+          <div className="w-75" >
             <h2 className="text-greeli-emphasis" style={{ fontSize: "18px" }}>
               {searchData.title}
             </h2>
             <EditContextProvider>
               <EditTextEditor
                 className="post-content"
-                componentType="post"
+                componentType="search"
                 isOverFlow={true}
                 content={JSON.parse(searchData.content)}
               />
@@ -121,11 +121,17 @@ export function SearchItem({ searchData, searchBar }) {
           className="search-image overflow-hidden d-flex align-items-center justify-content-center text-white bg-primary-green-600"
           style={{ borderRadius: "0.75rem", width: "200px" }}
         >
-
           {searchData.uploadFile ? (
-            <ImageOrVideo w100={false} h100={true} uploadFile={searchData.uploadFile} isPost={true}/>
+            <ImageOrVideo
+              w100={false}
+              h100={true}
+              uploadFile={searchData.uploadFile}
+              isPost={true}
+            />
           ) : (
-            <IoDocumentTextOutline />
+            <div style={{fontSize:"80px"}}> 
+              <IoDocumentTextOutline />
+            </div>
           )}
         </div>
       </div>

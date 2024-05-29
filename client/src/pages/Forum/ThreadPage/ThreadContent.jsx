@@ -26,7 +26,6 @@ export default function ThreadContent({ ...prop }) {
 	const [isFollowed, setIsFollowed] = useState(false);
 	const isLogin = useLogin();
 
-	const navigate = useNavigate();
 
 	useEffect(() => {
 		checkFollowingStatus().then((res) => {
