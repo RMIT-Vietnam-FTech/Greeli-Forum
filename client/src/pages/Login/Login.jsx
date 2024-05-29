@@ -68,10 +68,10 @@ const Login = () => {
 				}, 1500);
 			})
 			.catch((error) => {
-				// toast.error(error.response.data.error, {
-				// 	duration: 2000,
-				// 	position: "top-center",
-				// });
+				toast.error(error.response.data.error, {
+					duration: 2000,
+					position: "top-center",
+				});
 				console.log(error);
 			});
 	};

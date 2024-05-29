@@ -1,4 +1,5 @@
 import express from "express";
+import { ExpressValidator } from "express-validator";
 import {
 	getProfile,
 	updateUserProfile,
@@ -31,6 +32,7 @@ import { verifyToken, verifyAdmin } from "../middleware/auth.js";
 import { get } from "mongoose";
 import multer from "multer";
 import { RestoreRequestType } from "@aws-sdk/client-s3";
+const { body, validationResult } = new ExpressValidator();
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -62,38 +64,121 @@ router.post(
 	upload.single("image"),
 	uploadProfileImage,
 );
-router.post("/requestResetPassword", requestResetPassword);
-router.post("/resetPassword/:token/:userId", resetPassword);
+
+router.post(
+	"/requestResetPassword",
+	[[body("email").notEmpty().trim().escape()]],
+	async (req, res, next) => {
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ error: "Invalid input" });
+		}
+
+		next();
+	},
+	requestResetPassword,
+);
+
+router.post(
+	"/resetPassword/:token/:userId",
+	[
+		[
+			body("password")
+				.notEmpty()
+				.trim()
+				.escape()
+				.isLength({ min: 6 })
+				.matches("[0-9]")
+				.matches("[A-Z]")
+				.matches("[a-z]"),
+		],
+	],
+	async (req, res, next) => {
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ error: "Invalid input" });
+		}
+
+		next();
+	},
+	resetPassword,
+);
 router.post("/logout", verifyToken, logout);
 router.post("/:id/update", updateUserProfile);
 router.post("/:id/deactivate", deactivateAccount);
 router.post("/:id/activate", activateAccount);
-router.post("/login", login);
+router.post(
+	"/login",
+	[
+		[
+			body("email").isEmail().trim().escape(),
+			body("password").notEmpty().trim().escape(),
+		],
+	],
+	async (req, res, next) => {
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ error: "Invalid input" });
+		}
+
+		next();
+	},
+	login,
+);
 router.post("/change-password", changePassword);
-router.post("/register", register);
+
+router.post(
+	"/register",
+	[
+		[
+			body("username").notEmpty().trim().escape(),
+			body("email").isEmail().trim().escape(),
+			body("password")
+				.notEmpty()
+				.trim()
+				.escape()
+				.isLength({ min: 6 })
+				.matches("[0-9]")
+				.matches("[A-Z]")
+				.matches("[a-z]"),
+		],
+	],
+	async (req, res, next) => {
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+			return res.status(400).json({ error: "Invalid input" });
+		}
+
+		next();
+	},
+	register,
+);
+
 router.put("/:adminId/:userId/lock", verifyToken, verifyAdmin, lock);
 router.put("/:adminId/:userId/unlock", verifyToken, verifyAdmin, unlock);
 
 router.route("/:userId/created_threads").get(verifyToken, getCreatedThread);
 
-
+router
+	.route("/:userId/follow_threads")
+	.get(verifyToken, getFollowThread)
+	.post(verifyToken, postFollowThread)
+	.delete(verifyToken, deleteFollowThread);
 
 router
-  .route("/:userId/follow_threads")
-  .get(verifyToken, getFollowThread)
-  .post(verifyToken, postFollowThread)
-  .delete(verifyToken, deleteFollowThread);
+	.route("/:userId/saved_posts")
+	.get(verifyToken, getArchivedPost)
+	.post(verifyToken, postArchivedPost)
+	.delete(verifyToken, deleteArchivedPost);
 
 router
-  .route("/:userId/saved_posts")
-  .get(verifyToken, getArchivedPost)
-  .post(verifyToken, postArchivedPost)
-  .delete(verifyToken, deleteArchivedPost);
-
-router
-  .route("/:userId/created_posts")
-  .get(getCreatedPost)
-  .post(verifyToken, postCreatedPost)
-  .delete(verifyToken, deleteCreatedPost);
+	.route("/:userId/created_posts")
+	.get(getCreatedPost)
+	.post(verifyToken, postCreatedPost)
+	.delete(verifyToken, deleteCreatedPost);
 
 export default router;

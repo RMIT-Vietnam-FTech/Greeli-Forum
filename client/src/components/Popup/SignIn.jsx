@@ -40,7 +40,7 @@ const SignIn = ({ isShow }) => {
 	const login = () => {
 		const configuration = {
 			method: "post",
-			url: "/api/user/login",
+			url: "http://localhost:3001/api/user/login",
 			data: {
 				email,
 				password,
