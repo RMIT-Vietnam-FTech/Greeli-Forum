@@ -1,6 +1,7 @@
 import RequireActivate from "./components/Auth/RequireActivate.jsx";
 import RequireAuth from "./components/Auth/RequireAuth.jsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
+import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat/Chat";
 import ContactPage from "./pages/ContactPage/Contact.jsx";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
@@ -51,7 +52,7 @@ const routesConfig = [
 						children: [
 							{
 								path: "/admin",
-								element: <AdminDashboard />,
+								element: <Dashboard />,
 								name: "Admin Dashboard",
 							},
 						],
