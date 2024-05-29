@@ -314,7 +314,7 @@ const Register = () => {
             <button
               className="btn btn-primary w-100 py-3"
               type="submit"
-              disabled={verify}
+              // disabled={verify}
             >
               Register
             </button>
