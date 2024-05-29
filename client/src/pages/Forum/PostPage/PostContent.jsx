@@ -80,6 +80,7 @@ export default function PostContent({ postData }) {
          >
            <DropDown
              componentType="post"
+             data={postData}
              postId={postData._id}
              threadId={postData.belongToThread}
            />

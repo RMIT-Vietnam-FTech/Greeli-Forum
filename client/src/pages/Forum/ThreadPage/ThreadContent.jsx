@@ -128,7 +128,8 @@ export default function ThreadContent({ ...prop }) {
                 <ImageOrVideo
                   alt={title}
                   uploadFile={uploadFile}
-                  isThread={true}
+				  h100={true}
+				  w100={true}
                 />
               ) : null}
             </div>

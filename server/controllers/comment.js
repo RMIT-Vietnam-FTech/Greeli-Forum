@@ -76,26 +76,26 @@ export const createComment = async (req, res) => {
 		const comment = new Comment(commentObject);
 		console.log("check 9");
 
-		if (parentId) {
-			const parentComment = await Comment.findById(parentId);
-			if (!parentComment) {
-				res.status(404).json("parenId comment is not found or invalid");
-			}
+    if (parentId) {
+      const parentComment = await Comment.findById(parentId);
+      if (!parentComment) {
+        res.status(404).json("parenId comment is not found or invalid");
+      }
 
-			comment.parentId = parentComment._id;
+      comment.parentId = parentComment._id;
 
-			parentComment.replies.push(comment._id);
-			await parentComment.save();
-		}
+      parentComment.replies.push(comment._id);
+      await parentComment.save();
+    }
 
 		post.comments.push(comment._id);
 		await post.save();
 		await comment.save();
 
-		res.status(201).json(comment);
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+    res.status(201).json(comment);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 export const uploadCommentFile = async (req, res) => {
 	try {
@@ -105,18 +105,16 @@ export const uploadCommentFile = async (req, res) => {
 	}
 };
 export const getComments = async (req, res) => {
-	try {
-		let { postId, parentId, page, limit } = req.query;
-		console.log(
-			//   `check iput:\n postId: ${postId}\n parentId: ${parentId}\n check TypeOf:\n postId type: ${typeof postId}\n parenId type: ${typeof parentId}`
-		);
-		if (!page) {
-			page = "1";
-		}
-		if (!limit) {
-			limit = "20";
-		}
-		const queryCommand = {};
+  try {
+    let { postId, parentId, page, limit } = req.query;
+
+    if (!page) {
+      page = "1";
+    }
+    if (!limit) {
+      limit = "20";
+    }
+    const queryCommand = {};
 
 		if (parentId) {
 			if (parentId !== "null") {
@@ -173,34 +171,101 @@ export const getComments = async (req, res) => {
 };
 
 export const postUpVote = async (req, res) => {
-	try {
-		const commentId = req.params.commentId;
-		if (!commentId) return res.status(400).json("Bad Request");
+  try {
+    const commentId = req.params.commentId;
+    if (!commentId) return res.status(400).json("Bad Request");
 
-		const comment = await Comment.findById(commentId);
-		if (!comment)
-			return res.status(400).json("post id not found or invalid");
+    const comment = await Comment.findById(commentId);
+    if (!comment) return res.status(400).json("post id not found or invalid");
 
-		comment.upvote.push(req.user.id);
-		await comment.save();
-		res.status(204).json("Success");
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+    comment.upvote.push(req.user.id);
+    await comment.save();
+    res.status(204).json("Success");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 export const deleteUpvote = async (req, res) => {
-	try {
-		const commentId = req.params.commentId;
-		if (!commentId) return res.status(400).json("Bad Request");
+  try {
+    const commentId = req.params.commentId;
+    if (!commentId) return res.status(400).json("Bad Request");
 
-		const comment = await Comment.findById(commentId);
-		if (!comment)
-			return res.status(400).json("post id not found or invalid");
+    const comment = await Comment.findById(commentId);
+    if (!comment) return res.status(400).json("post id not found or invalid");
 
-		comment.upvote.remove(req.user.id);
-		await comment.save();
-		res.status(204).json("Success");
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
+    comment.upvote.remove(req.user.id);
+    await comment.save();
+    res.status(204).json("Success");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const archiveComment = async (req, res) => {
+  try {
+    const commentId = req.params.commentId;
+    if (!commentId) return res.status(400).json({ message: "Bad Request" });
+
+    const comment = await Post.findById(commentId);
+    if (!comment)
+      return res.status(404).json({ message: "post id not found or invalid" });
+
+    {
+      /*check who can able to archived post*/
+    }
+    const user = await User.findById(req.user.id);
+    if (!user)
+      return res
+        .status(404)
+        .json({ message: "userId is invalid or not found" });
+
+    if (!(req.user.role === "admin" || user._id === comment.createdBy.userId))
+      return res.status(403).json({ message: "Forbidden" });
+
+    comment.archived.isArchived = true;
+    comment.archived.archivedBy = {
+      userId: user._id,
+      username: user.username,
+      profileImage: user.profileImage,
+    };
+    await comment.save();
+
+    res.status(200).json({ message: "Archived successfully!" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const unArchiveComment = async (req, res) => {
+  try {
+    const commentId = req.params.commentId;
+    if (!commentId) return res.status(400).json({ message: "Bad Request" });
+
+    const comment = await Post.findById(commentId);
+    if (!comment)
+      return res.status(404).json({ message: "post id not found or invalid" });
+
+    {
+      /*check who can able to archived post*/
+    }
+    const user = await User.findById(req.user.id);
+    if (!user)
+      return res
+        .status(404)
+        .json({ message: "userId is invalid or not found" });
+
+    if (!(req.user.role === "admin" || user._id === comment.createdBy.userId))
+      return res.status(403).json({ message: "Forbidden" });
+
+    comment.archived.isArchived = false;
+    comment.archived.archivedBy = {
+      userId: null,
+      username: null,
+      profileImage: null,
+    };
+    await comment.save();
+
+    res.status(200).json({ message: "Archived successfully!" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

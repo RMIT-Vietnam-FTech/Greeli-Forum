@@ -142,7 +142,6 @@ export default function PostComment({ postData, threadAdminId }) {
    return(<CommentSkeleton nOfCard={3}/>);
  }
  const issues = data ? [].concat(...data) : [];
- console.log(`issues length: ${issues.length}`);
  return (
    <>
      <div className="d-flex justify-content-between align-items-center mb-3">
