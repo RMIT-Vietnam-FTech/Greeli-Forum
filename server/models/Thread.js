@@ -56,13 +56,26 @@ const threadSchema = new mongoose.Schema(
 				ref: "User",
 			},
 		],
-		isHidden: {
-			type: Boolean,
-			default: false,
-			required: true,
+		archivedBy: {
+			userId: {
+				type: String,
+				default: null,
+			},
+			username: {
+				type: String,
+				default: null,
+			},
+			isDeactivated: {
+				type: Boolean,
+				default: false,
+			},
+			profileImage: {
+				type: String,
+				default: null,
+			},
 		},
 	},
-	{ timestamps: true },
+	{ timestamps: true }
 );
 
 const Thread = mongoose.model("Thread", threadSchema);

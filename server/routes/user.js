@@ -62,7 +62,7 @@ router.post(
 	"/:id/uploadImage",
 	verifyToken,
 	upload.single("image"),
-	uploadProfileImage,
+	uploadProfileImage
 );
 
 router.post(

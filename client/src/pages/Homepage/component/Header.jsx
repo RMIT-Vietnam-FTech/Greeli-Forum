@@ -9,7 +9,7 @@ const Header = () => {
 				<div className="overlay" />
 
 				{/* This is video for the background. */}
-				<video className="w-100 position-relative video" autoPlay muted loop>
+				<video className="w-100 position-relative" id="video" autoPlay muted loop>
 					<source src="/Forest.mp4" />
 				</video>
 

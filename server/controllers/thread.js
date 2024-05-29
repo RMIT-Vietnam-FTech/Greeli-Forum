@@ -18,7 +18,6 @@ export const createThread = async (req, res) => {
 	try {
 		const { title, content } = req.body;
 		const uploadFile = req.file;
-
 		if (req.user) {
 			console.log(`check 2`);
 			const user = await User.findById(req.user.id);
@@ -44,9 +43,7 @@ export const createThread = async (req, res) => {
 					type: null,
 				};
 				const imageName = createRandomName();
-				const uploadFileMetaData = await fileTypeFromBuffer(
-					uploadFile.buffer,
-				);
+				const uploadFileMetaData = await fileTypeFromBuffer(uploadFile.buffer);
 				const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
 
 				if (uploadFileMime === "image") {
@@ -54,18 +51,14 @@ export const createThread = async (req, res) => {
 						.jpeg({ quality: 100 })
 						.resize(1000)
 						.toBuffer();
-					await uploadFileData(
-						fileBuffer,
-						imageName,
-						uploadFile.mimetype,
-					);
+					await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
 					console.log(uploadFileMime);
 					uploadObject.uploadFile.type = uploadFileMime;
 				} else {
 					await uploadFileData(
 						uploadFile.buffer,
 						imageName,
-						uploadFile.mimetype,
+						uploadFile.mimetype
 					);
 					uploadObject.uploadFile.type = uploadFileMime;
 				}
@@ -113,6 +106,46 @@ export const getThread = async (req, res) => {
 				.status(404)
 				.json({ message: "threadId is not found or invalid" });
 		res.status(200).json(thread);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+export const getArchivedThreads = async (req, res) => {
+	try {
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 10;
+		const skip = (page - 1) * limit;
+
+		const sort = req.query.sort || "newest";
+
+		let sortCriteria;
+		switch (sort) {
+			case "newest":
+				sortCriteria = { createdAt: -1 };
+				break;
+			case "oldest":
+				sortCriteria = { createdAt: 1 };
+				break;
+			case "most-posts":
+				sortCriteria = { createdPost: -1 };
+				break;
+			case "least-posts":
+				sortCriteria = { createdPost: 1 };
+				break;
+			default:
+				sortCriteria = { createdAt: -1 };
+		}
+		const threads = await Thread.find({ "archived.isArchived": true })
+			.select("-password")
+			.skip(skip)
+			.limit(limit)
+			.sort(sortCriteria);
+		const totalThreads = await Thread.find({
+			"archived.isArchived": true,
+		}).countDocuments();
+		res.status(200).json({ threads, totalThreads });
+		console.log(threads);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
@@ -172,9 +205,7 @@ export const validateThread = async (req, res) => {
 		const validatedTitle = title.toLowerCase().replace(/\s/g, "");
 		const thread = await Thread.findOne({ title: validatedTitle });
 		if (thread)
-			return res
-				.status(403)
-				.json({ message: `${title} is already exist` });
+			return res.status(403).json({ message: `${title} is already exist` });
 		return res.status(200).json("success");
 	} catch (e) {
 		res.status(500).json({ message: error.message });
@@ -189,19 +220,19 @@ export const reset = async (req, res) => {
 	const user = await User.findById(req.user.id);
 	await User.updateMany(
 		{ _id: req.user.id },
-		{ $pull: { createdPost: { $in: user.createdPost } } },
+		{ $pull: { createdPost: { $in: user.createdPost } } }
 	);
 	await User.updateMany(
 		{ _id: req.user.id },
-		{ $pull: { createdThread: { $in: user.createdThread } } },
+		{ $pull: { createdThread: { $in: user.createdThread } } }
 	);
 	await User.updateMany(
 		{ _id: req.user.id },
-		{ $pull: { followThread: { $in: user.followThread } } },
+		{ $pull: { followThread: { $in: user.followThread } } }
 	);
 	await User.updateMany(
 		{ _id: req.user.id },
-		{ $pull: { archivedPost: { $in: user.archivedPost } } },
+		{ $pull: { archivedPost: { $in: user.archivedPost } } }
 	);
 	await Topic.create({ title: "Transportation" });
 	await Topic.create({ title: "Environment" });
@@ -228,9 +259,7 @@ export const createThreadRule = async (req, res) => {
 		};
 		const thread = await Thread.findById(threadId);
 		if (!thread)
-			return res
-				.status(404)
-				.json({ message: "threadId not found or invalid" });
+			return res.status(404).json({ message: "threadId not found or invalid" });
 		thread.rule.push(newRule);
 		await thread.save();
 
@@ -250,9 +279,7 @@ export const modifyThreadRule = async (req, res) => {
 
 		const thread = await Thread.findById(threadId);
 		if (!thread)
-			return res
-				.status(404)
-				.json({ message: "threadId not found or invalid" });
+			return res.status(404).json({ message: "threadId not found or invalid" });
 		if (thread.createdBy.userId !== req.user.id)
 			return res.status(403).json({ message: "Unauthorized" });
 
@@ -273,8 +300,7 @@ export const deleteThreadRule = async (req, res) => {
 	const ruleIndex = req.query.ruleIndex;
 	try {
 		const thread = await Thread.findById(threadId);
-		if (!thread)
-			return res.status(404).json({ message: "Thread not found" });
+		if (!thread) return res.status(404).json({ message: "Thread not found" });
 		if (thread.createdBy.userId !== req.user.id)
 			return res.status(403).json({ message: "Unauthorized" });
 
@@ -299,6 +325,35 @@ export const archiveThread = async (req, res) => {
 				.status(404)
 				.json({ message: "Thread id not found or invalid" });
 		thread.isHidden = true;
+		if (!thread)
+			return res
+				.status(404)
+				.json({ message: "Thread id not found or invalid" });
+		thread.archived.isArchived = true;
+		await thread.save();
+		res.status(200).json({ message: "Archived successfully!" });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
+
+export const unarchiveThread = async (req, res) => {
+	try {
+		const threadId = req.params.threadId;
+		if (!threadId) return res.status(400).json({ message: "Bad Request" });
+
+		const thread = await Thread.findById(threadId);
+		if (!thread)
+			return res
+				.status(404)
+				.json({ message: "Thread id not found or invalid" });
+		thread.archived.isArchived = false;
+		thread.archived.archivedBy = {
+			userId: null,
+			username: null,
+			isDeactivated: false,
+			profileImage: null,
+		};
 		await thread.save();
 		res.status(200).json({ message: "Archived successfully!" });
 	} catch (error) {
