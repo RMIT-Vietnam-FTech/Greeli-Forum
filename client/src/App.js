@@ -14,6 +14,8 @@ import Navbar from "./components/Navbar/Navbar";
 import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
+
+// import { ForumRouter } from "./pages/Forum/ForumRouter.jsx";
 // import { useUserContext } from "./context/UserContext.jsx";
 import routesConfig from "./routesConfig.jsx";
 
@@ -23,7 +25,7 @@ function App() {
 	const routes = useRoutes(routesConfig);
 	useEffect(() => {
 		console.log(
-			`check location pathname: ${location.pathname}\n check isForum: ${isForum}`,
+			`check location pathname: ${location.pathname}\n check isForum: ${isForum}`
 		);
 		if (location.pathname.split("/")[1] === "forum") {
 			setIsForum(true);
