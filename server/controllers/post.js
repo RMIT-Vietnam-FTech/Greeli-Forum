@@ -282,6 +282,7 @@ export const getPost = async (req, res) => {
   try {
     const { postId } = req.params;
     const post = await Post.findById(postId);
+    if(post.archived.isArchived) return res.status(404).json({message:"Post is archived, user cannot access"})
     res.status(200).json(post);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -579,27 +580,22 @@ export const searchPost = async (req, res) => {
 export const archivePost = async (req, res) => {
   try {
     const postId = req.params.postId;
-    console.log("check 1");
     if (!postId) return res.status(400).json({ message: "Bad Request" });
-    console.log("check 2");
 
     const post = await Post.findById(postId);
     if (!post)
       return res.status(404).json({ message: "post id not found or invalid" });
-    console.log("check 3");
 
 
     {
       /*check who can able to archived post*/
     }
     const user = await User.findById(req.user.id);
-    console.log("check 4");
     if (!user)
       return res
         .status(404)
         .json({ message: "userId is invalid or not found" });
 
-    console.log("check 5");
     if (
       !(
         req.user.role === "admin" ||
@@ -607,7 +603,6 @@ export const archivePost = async (req, res) => {
       )
     )
       return res.status(403).json({ message: "Forbidden" });
-    console.log("check 6");
 
     post.archived.isArchived = true;
     post.archived.archivedBy = {
@@ -616,7 +611,6 @@ export const archivePost = async (req, res) => {
       profileImage: user.profileImage,
     };
     await post.save();
-    console.log("check 7");
 
     res.status(200).json({ message: "Archived successfully!" });
   } catch (error) {

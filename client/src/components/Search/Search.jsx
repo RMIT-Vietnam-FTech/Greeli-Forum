@@ -58,7 +58,7 @@ export default function SearchBar() {
           }}
         >
           {result.map((searchData) => {
-            if (result.length < 1) {
+            if (result.length < 1 || searchData.archived.isArchived) {
               return null;
             } else {
               return (
@@ -88,7 +88,7 @@ export function SearchItem({ searchData, searchBar }) {
       }}
       className=" py-4 border-bottom border-primary-green-900"
       style={{ width: "95%" }}
-      to={`/forum/threads/${searchData.belongToThread}/posts/${searchData._id}`}
+      to={`/forum/communities/${searchData.belongToThread}/posts/${searchData._id}`}
     >
       <div className="d-flex justify-content-between gap-2">
         {/*-----------left sidebar --------------*/}
@@ -123,7 +123,7 @@ export function SearchItem({ searchData, searchBar }) {
         >
 
           {searchData.uploadFile ? (
-            <ImageOrVideo w100={false} h100={true} uploadFile={searchData.uploadFile} />
+            <ImageOrVideo w100={false} h100={true} uploadFile={searchData.uploadFile} isPost={true}/>
           ) : (
             <IoDocumentTextOutline />
           )}

@@ -111,13 +111,13 @@ export function PostYouMayLike() {
      </p>
      <div ref={ref} className="">
        {/*Recommend post items*/}
-       {issues.map((postData) => {
-         return matchWindowWidth ? (
+       {issues.map((postData) => postData && !postData.archived.isArchived && (
+         matchWindowWidth ? (
            <RecommendPost key={postData._id} postData={postData} />
          ) : (
            <Post key={postData._id} postData={postData} />
-         );
-       })}
+         )
+       ))}
      </div>
    </section>
  );
