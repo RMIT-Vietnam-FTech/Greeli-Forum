@@ -17,13 +17,57 @@ const Middle = (props) => {
 		currentPage,
 		totalPages,
 		onPageChange,
-		users,
+		renderedData,
 		onLockUser,
+		onUnarchive,
 		headings,
 		tabTitle,
 		unit,
 	} = props;
+	console.log(renderedData);
 
+	const processedRenderedData = (dataItem) => {
+		var rowRenderedData = [];
+		if (tabTitle === "User List") {
+			const firstCol = dataItem.username;
+			const secondCol = dataItem.email;
+			const thirdCol = {
+				text: dataItem.isLocked
+					? "Locked"
+					: dataItem.isActivated
+					? "Active"
+					: "Deactivated",
+				style: `status ${
+					dataItem.isLocked
+						? "locked"
+						: dataItem.isActivated
+						? "active"
+						: "deactivated"
+				}`,
+			};
+			const fourthCol = {
+				text: dataItem.isLocked ? "Unlock" : "Lock",
+				style: dataItem.isLocked
+					? "dashboard-btn-danger"
+					: "dashboard-btn-warning",
+			};
+			rowRenderedData = [firstCol, secondCol, thirdCol, fourthCol];
+		} else {
+			const firstCol = dataItem.title;
+			const secondCol = dataItem.createdBy.username;
+			const thirdCol = {
+				text: dataItem.archived.archivedBy.username,
+				style: "",
+			};
+			const fourthCol = {
+				text: "Unarchive",
+				style: "dashboard-btn-danger",
+			};
+			rowRenderedData = [firstCol, secondCol, thirdCol, fourthCol];
+		}
+		console.log(rowRenderedData);
+		return rowRenderedData;
+	};
 	useEffect(() => {
 		const handleResize = () => {
 			setIsMobile(window.innerWidth < 768);
@@ -49,7 +93,14 @@ const Middle = (props) => {
 		onLockUser(user._id, isLocked);
 		const action = isLocked ? "unlocked" : "locked";
 		toast.success(`${user.username} has been ${action} successfully`, {
-			position: "bottom-right",
+			position: "top-center",
+		});
+	};
+
+	const handleUnarchive = (item, type) => {
+		onUnarchive(item._id, type);
+		toast.success(`${item.title} has been unarchived successfully`, {
+			position: "top-center",
 		});
 	};
 
@@ -66,7 +117,7 @@ const Middle = (props) => {
 				tabTitle={tabTitle}
 				unit={unit}
 			/>
-			{users.length === 0 ? (
+			{renderedData.length === 0 ? (
 				<div className="no-user-found">No user found</div>
 			) : (
 				<table className="members-table">
@@ -79,52 +130,49 @@ const Middle = (props) => {
 						</tr>
 					</thead>
 					<tbody>
-						{users.map((user, index) => (
+						{renderedData.map((item, index) => (
 							<tr
 								key={index}
 								className="DashboardUserList"
-								onClick={() => handleRowClick(user)}
+								onClick={() => handleRowClick(item)}
 							>
 								<td>
 									<Link
-										to={`/user/${user._id}`}
+										to={`/${
+											tabTitle === "User List"
+												? "user"
+												: tabTitle === "Archived Threads"
+												? "thread"
+												: "post"
+										}/${item._id}`}
 										style={{ color: "#0A2A28" }}
 										onClick={(e) => e.stopPropagation()}
 									>
-										{user.username}
+										{processedRenderedData(item)[0]}
 									</Link>
 								</td>
-								<td>{user.email || "none"}</td>
+								<td>{processedRenderedData(item)[1]}</td>
 								<td>
-									<span
-										className={`status ${
-											user.isLocked
-												? "locked"
-												: user.isActivated
-												? "active"
-												: "deactivated"
-										}`}
-									>
-										{user.isLocked
-											? "Locked"
-											: user.isActivated
-											? "Active"
-											: "Deactivated"}
+									<span className={processedRenderedData(item)[2].style}>
+										{processedRenderedData(item)[2].text}
 									</span>
 								</td>
 								<td>
 									<button
 										onClick={(e) => {
 											e.stopPropagation();
-											handleLockUnlockUser(user, user.isLocked);
+											if (tabTitle === "User List") {
+												handleLockUnlockUser(item, item.isLocked);
+											} else {
+												handleUnarchive(item, unit);
+												// console.log("Unarchived");
+												// console.log(item.archived?.archivedBy?.isDeactivated);
+											}
 										}}
-										className={
-											user.isLocked
-												? "dashboard-btn-danger"
-												: "dashboard-btn-warning"
-										}
+										disabled={item.archived?.archivedBy?.isDeactivated}
+										className={processedRenderedData(item)[3].style}
 									>
-										{user.isLocked ? "Unlock" : "Lock"}
+										{processedRenderedData(item)[3].text}
 									</button>
 								</td>
 							</tr>

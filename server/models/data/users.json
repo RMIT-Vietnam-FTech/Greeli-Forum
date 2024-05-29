@@ -1,0 +1,42 @@
+[
+	{
+		"_id": { "$oid": "60d21b4667d0d8992e610c85" },
+		"username": "john_doe",
+		"email": "john.doe@example.com",
+		"password": "password123",
+		"createdPost": [{ "$oid": "60d21b4f67d0d8992e610c87" }],
+		"createdThread": [{ "$oid": "60d21b5a67d0d8992e610c89" }],
+		"archivedPost": [],
+		"followThread": [],
+		"isActivated": true,
+		"isLocked": false,
+		"role": "user",
+		"profileImage": "https://d46o92zk7g554.cloudfront.net/1716350848246-965924355-Frame%201361%20(2).png",
+		"lastActive": { "$date": "2023-05-29T00:00:00Z" },
+		"tel": "123-456-7890",
+		"address": "123 Main St, Anytown, USA",
+		"gender": "male",
+		"description": "Just a regular user.",
+		"resetPasswordToken": null
+	},
+	{
+		"_id": { "$oid": "60d21b4967d0d8992e610c86" },
+		"username": "jane_smith",
+		"email": "jane.smith@example.com",
+		"password": "password123",
+		"createdPost": [{ "$oid": "60d21b5567d0d8992e610c88" }],
+		"createdThread": [{ "$oid": "60d21b5f67d0d8992e610c8a" }],
+		"archivedPost": [],
+		"followThread": [],
+		"isActivated": true,
+		"isLocked": false,
+		"role": "user",
+		"profileImage": "https://d46o92zk7g554.cloudfront.net/1716350848246-965924355-Frame%201361%20(2).png",
+		"lastActive": { "$date": "2023-05-29T00:00:00Z" },
+		"tel": "098-765-4321",
+		"address": "456 Main St, Anytown, USA",
+		"gender": "female",
+		"description": "Loves to share knowledge.",
+		"resetPasswordToken": null
+	}
+]

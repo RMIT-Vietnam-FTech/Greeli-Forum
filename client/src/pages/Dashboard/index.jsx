@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import { ThemeContext } from "../../context/ThemeContext";
 import "./AdminDashboard.css";
@@ -39,8 +39,8 @@ const Dashboard = () => {
 				},
 			});
 			setData(response.data.users || []);
-			setTotal(response.data.totalUsers || 0);
-			setTotalPages(Math.ceil((response.data.totalUsers || 0) / itemsPerPage));
+			// setTotal(response.data.totalUsers || 0);
+			// setTotalPages(Math.ceil((response.data.totalUsers || 0) / itemsPerPage));
 		} catch (error) {
 			setError(error.message);
 		} finally {
@@ -50,11 +50,37 @@ const Dashboard = () => {
 
 	//FETCH ARCHIVED THREADS
 	const fetchArchivedThreads = async () => {
+		try {
+			const response = await axios.get(
+				`${apiUrl}/api/v1/threads/admin/archived`
+			);
+			console.log(response.data);
+			setData(response.data || []);
+			// setTotal(response.data.total || 0);
+			// 	setTotalPages(Math.ceil((response.data.total || 0) / itemsPerPage));
+		} catch (error) {
+			setError(error.message);
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
 		console.log("fetching archived threads");
 	};
 
 	//FETCH ARCHIVED POSTS
 	const fetchArchivedPosts = async () => {
+		try {
+			const response = await axios.get(`${apiUrl}/api/v1/posts/admin/archived`);
+			console.log(response.data);
+			setData(response.data || []);
+			// setTotal(response.data.totalUsers || 0);
+			// setTotalPages(Math.ceil((response.data.totalUsers || 0) / itemsPerPage));
+		} catch (error) {
+			setError(error.message);
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
 		console.log("fetching archived posts");
 	};
 
@@ -128,13 +154,43 @@ const Dashboard = () => {
 				)
 			);
 		} catch (error) {
-			alert(isLocked ? "Failed to unlock user" : "Failed to lock user");
+			toast(isLocked ? "Failed to unlock user" : "Failed to lock user");
 		}
 	};
 
-	const filteredUsers = data.filter((user) =>
-		user.username.toLowerCase().startsWith(searchQuery.toLowerCase())
-	);
+	const handleUnarchived = async (id, type) => {
+		const itemType = type.toLowerCase();
+		console.log(itemType);
+		try {
+			const configuration = {
+				method: "put",
+				url: `${apiUrl}/api/v1/${itemType}/${id}/unarchive`,
+				headers: {
+					"Content-Type": "application/json",
+				},
+			};
+			await axios(configuration);
+			setData(
+				data.map((item) =>
+					item._id === id ? { ...item, "archived.isArchived": false } : data
+				)
+			);
+		} catch (error) {
+			toast(`Failed to unarchive ${itemType}`);
+			console.log(error);
+		}
+	};
+
+	const filteredData = data?.filter((dataItem) => {
+		var searchCategory = "";
+		if (tab === "User List") {
+			searchCategory = dataItem.username;
+		} else if (tab === "Archived Threads" || tab === "Archived Posts") {
+			searchCategory = dataItem.title;
+		}
+		return searchCategory?.toLowerCase().startsWith(searchQuery.toLowerCase());
+	});
+	console.log(filteredData);
 
 	const navigate = useNavigate();
 
@@ -204,8 +260,10 @@ const Dashboard = () => {
 				onSearchChange={handleSearchChange}
 			/> */}
 			<Middle
-				users={filteredUsers}
+				renderedData={filteredData}
+				// users={[]}
 				onLockUser={handleLockUser}
+				onUnarchive={handleUnarchived}
 				//Top props
 				memberCount={total}
 				sortText={sortText}
