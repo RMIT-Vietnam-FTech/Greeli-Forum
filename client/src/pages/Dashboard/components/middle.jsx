@@ -7,7 +7,7 @@ import Bottom from "./bottom";
 
 const Middle = (props) => {
 	const { isDarkMode } = useContext(ThemeContext);
-	const [selectedUser, setSelectedUser] = useState(null);
+	const [selectedItem, setSelectedItem] = useState(null);
 	const [isMobile, setIsMobile] = useState(false);
 	const {
 		memberCount,
@@ -24,7 +24,7 @@ const Middle = (props) => {
 		tabTitle,
 		unit,
 	} = props;
-	console.log(renderedData);
+	// console.log(renderedData);
 
 	const processedRenderedData = (dataItem) => {
 		var rowRenderedData = [];
@@ -54,9 +54,10 @@ const Middle = (props) => {
 			rowRenderedData = [firstCol, secondCol, thirdCol, fourthCol];
 		} else {
 			const firstCol = dataItem.title;
-			const secondCol = dataItem.createdBy.username;
+			const secondCol = dataItem?.createdBy?.username || "N/A";
 			const thirdCol = {
-				text: dataItem.archived.archivedBy.username,
+				// text: dataItem.archived.archivedBy.username,
+				text: dataItem.archived?.archivedBy?.username || "N/A",
 				style: "",
 			};
 			const fourthCol = {
@@ -65,7 +66,7 @@ const Middle = (props) => {
 			};
 			rowRenderedData = [firstCol, secondCol, thirdCol, fourthCol];
 		}
-		console.log(rowRenderedData);
+		// console.log(rowRenderedData);
 		return rowRenderedData;
 	};
 	useEffect(() => {
@@ -81,12 +82,12 @@ const Middle = (props) => {
 
 	const handleRowClick = (user) => {
 		if (isMobile) {
-			setSelectedUser(user);
+			setSelectedItem(user);
 		}
 	};
 
 	const handleCloseModal = () => {
-		setSelectedUser(null);
+		setSelectedItem(null);
 	};
 
 	const handleLockUnlockUser = (user, isLocked) => {
@@ -118,7 +119,9 @@ const Middle = (props) => {
 				unit={unit}
 			/>
 			{renderedData.length === 0 ? (
-				<div className="no-user-found">No user found</div>
+				<div className="no-user-found">
+					No {unit.substring(0, unit.length).toLowerCase()} found
+				</div>
 			) : (
 				<table className="members-table">
 					<thead>
@@ -180,7 +183,7 @@ const Middle = (props) => {
 					</tbody>
 				</table>
 			)}
-			{selectedUser && (
+			{selectedItem && (
 				<div
 					id="userModal"
 					className="dashboard-modal"
@@ -194,26 +197,43 @@ const Middle = (props) => {
 						<span className="dashboard-close" onClick={handleCloseModal}>
 							&times;
 						</span>
-						<h2>{selectedUser.username}</h2>
-						<p>Email: {selectedUser.email}</p>
+						<h2>
+							{tabTitle === "User List"
+								? selectedItem.username
+								: selectedItem.title}
+						</h2>
 						<p>
-							Status:{" "}
-							{selectedUser.isLocked
-								? "Locked"
-								: selectedUser.isActivated
-								? "Active"
-								: "Deactivated"}
+							{tabTitle === "User List"
+								? `Email: ${selectedItem.email}`
+								: `Author: ${selectedItem.createdBy.username}`}
+						</p>
+						<p>
+							{tabTitle === "User List"
+								? `Status:{" "}
+							${
+								selectedItem.isLocked
+									? "Locked"
+									: selectedItem.isActivated
+									? "Active"
+									: "Deactivated"
+							}`
+								: `Archived By: ${selectedItem.archived.archivedBy.username}`}
 						</p>
 						<button
-							onClick={() => {
-								handleLockUnlockUser(selectedUser, selectedUser.isLocked);
-								handleCloseModal();
+							onClick={(e) => {
+								e.stopPropagation();
+								if (tabTitle === "User List") {
+									handleLockUnlockUser(selectedItem, selectedItem.isLocked);
+								} else {
+									handleUnarchive(selectedItem, unit);
+									// console.log("Unarchived");
+									// console.log(selectedItem.archived?.archivedBy?.isDeactivated);
+								}
 							}}
-							className={
-								selectedUser.isLocked ? "btn btn-danger" : "btn btn-warning"
-							}
+							disabled={selectedItem.archived?.archivedBy?.isDeactivated}
+							className={processedRenderedData(selectedItem)[3].style}
 						>
-							{selectedUser.isLocked ? "Unlock" : "Lock"}
+							{processedRenderedData(selectedItem)[3].text}
 						</button>
 					</div>
 				</div>

@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 axios.defaults.withCredentials = true;
 
 const Dashboard = () => {
-	const [data, setData] = useState([]);
+	const [dataItems, setDataItems] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const { error, setError } = useUserContext();
 	const [currentPage, setCurrentPage] = useState(1);
@@ -38,9 +38,10 @@ const Dashboard = () => {
 					sort: sortCriteria,
 				},
 			});
-			setData(response.data.users || []);
-			// setTotal(response.data.totalUsers || 0);
-			// setTotalPages(Math.ceil((response.data.totalUsers || 0) / itemsPerPage));
+			// console.log(response.data);
+			setDataItems(response.data.users || []);
+			setTotal(response.data.totalUsers || 0);
+			setTotalPages(Math.ceil((response.data.totalUsers || 0) / itemsPerPage));
 		} catch (error) {
 			setError(error.message);
 		} finally {
@@ -55,9 +56,11 @@ const Dashboard = () => {
 				`${apiUrl}/api/v1/threads/admin/archived`
 			);
 			console.log(response.data);
-			setData(response.data || []);
-			// setTotal(response.data.total || 0);
-			// 	setTotalPages(Math.ceil((response.data.total || 0) / itemsPerPage));
+			setDataItems(response.data.threads || []);
+			setTotal(response.data.totalThreads || 0);
+			setTotalPages(
+				Math.ceil((response.data.totalThreads || 0) / itemsPerPage)
+			);
 		} catch (error) {
 			setError(error.message);
 			console.log(error);
@@ -71,10 +74,10 @@ const Dashboard = () => {
 	const fetchArchivedPosts = async () => {
 		try {
 			const response = await axios.get(`${apiUrl}/api/v1/posts/admin/archived`);
-			console.log(response.data);
-			setData(response.data || []);
-			// setTotal(response.data.totalUsers || 0);
-			// setTotalPages(Math.ceil((response.data.totalUsers || 0) / itemsPerPage));
+			// console.log(response.data);
+			setDataItems(response.data.posts || []);
+			setTotal(response.data.totalPosts || 0);
+			setTotalPages(Math.ceil((response.data.totalPosts || 0) / itemsPerPage));
 		} catch (error) {
 			setError(error.message);
 			console.log(error);
@@ -110,7 +113,7 @@ const Dashboard = () => {
 	const currentTabObj = changeTabCollection.find(
 		(tabObj) => tabObj.title === tab
 	);
-	console.log(currentTabObj);
+	// console.log(currentTabObj);
 
 	useEffect(() => {
 		currentTabObj.fetchingFunction();
@@ -148,8 +151,8 @@ const Dashboard = () => {
 				},
 			};
 			await axios(configuration);
-			setData(
-				data.map((user) =>
+			setDataItems(
+				dataItems.map((user) =>
 					user._id === userId ? { ...user, isLocked: !isLocked } : user
 				)
 			);
@@ -170,9 +173,11 @@ const Dashboard = () => {
 				},
 			};
 			await axios(configuration);
-			setData(
-				data.map((item) =>
-					item._id === id ? { ...item, "archived.isArchived": false } : data
+			setDataItems(
+				dataItems.map((item) =>
+					item._id === id
+						? { ...item, "archived.isArchived": false }
+						: dataItems
 				)
 			);
 		} catch (error) {
@@ -180,17 +185,16 @@ const Dashboard = () => {
 			console.log(error);
 		}
 	};
+	const searchCategory = tab === "User List" ? "username" : "title";
+	// console.log(searchCategory);
 
-	const filteredData = data?.filter((dataItem) => {
-		var searchCategory = "";
-		if (tab === "User List") {
-			searchCategory = dataItem.username;
-		} else if (tab === "Archived Threads" || tab === "Archived Posts") {
-			searchCategory = dataItem.title;
-		}
-		return searchCategory?.toLowerCase().startsWith(searchQuery.toLowerCase());
-	});
-	console.log(filteredData);
+	// const filteredData = dataItems.filter((dataItem) =>
+	// 	dataItem[searchCategory]
+	// 		?.toLowerCase()
+	// 		.startsWith(searchQuery.toLowerCase())
+	// );
+	const filteredData = dataItems;
+	console.log(dataItems);
 
 	const navigate = useNavigate();
 

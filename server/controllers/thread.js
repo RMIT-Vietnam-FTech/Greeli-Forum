@@ -114,8 +114,38 @@ export const getThread = async (req, res) => {
 
 export const getArchivedThreads = async (req, res) => {
 	try {
-		const threads = await Thread.find({ "archived.isArchived": true });
-		res.status(200).json(threads);
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 10;
+		const skip = (page - 1) * limit;
+
+		const sort = req.query.sort || "newest";
+
+		let sortCriteria;
+		switch (sort) {
+			case "newest":
+				sortCriteria = { createdAt: -1 };
+				break;
+			case "oldest":
+				sortCriteria = { createdAt: 1 };
+				break;
+			case "most-posts":
+				sortCriteria = { createdPost: -1 };
+				break;
+			case "least-posts":
+				sortCriteria = { createdPost: 1 };
+				break;
+			default:
+				sortCriteria = { createdAt: -1 };
+		}
+		const threads = await Thread.find({ "archived.isArchived": true })
+			.select("-password")
+			.skip(skip)
+			.limit(limit)
+			.sort(sortCriteria);
+		const totalThreads = await Thread.find({
+			"archived.isArchived": true,
+		}).countDocuments();
+		res.status(200).json({ threads, totalThreads });
 		console.log(threads);
 	} catch (error) {
 		res.status(500).json({ message: error.message });

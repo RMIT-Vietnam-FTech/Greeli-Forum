@@ -247,8 +247,38 @@ export const getPost = async (req, res) => {
 
 export const getArchivedPosts = async (req, res) => {
 	try {
-		const posts = await Post.find({ "archived.isArchived": true });
-		res.status(200).json(posts);
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 10;
+		const skip = (page - 1) * limit;
+
+		const sort = req.query.sort || "newest";
+
+		let sortCriteria;
+		switch (sort) {
+			case "newest":
+				sortCriteria = { createdAt: -1 };
+				break;
+			case "oldest":
+				sortCriteria = { createdAt: 1 };
+				break;
+			case "most-posts":
+				sortCriteria = { createdPost: -1 };
+				break;
+			case "least-posts":
+				sortCriteria = { createdPost: 1 };
+				break;
+			default:
+				sortCriteria = { createdAt: -1 };
+		}
+		const posts = await Post.find({ "archived.isArchived": true })
+			.select("-password")
+			.skip(skip)
+			.limit(limit)
+			.sort(sortCriteria);
+		const totalPosts = await Post.find({
+			"archived.isArchived": true,
+		}).countDocuments();
+		res.status(200).json({ posts, totalPosts });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
