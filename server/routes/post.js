@@ -21,7 +21,7 @@ const upload = multer({
 		}
 	},
 	limits: {
-		fileSize: 1024 * 1024 * 15, //15MB
+		fileSize: 1024 * 1024 * 10, //10MB
 	},
 });
 
@@ -39,7 +39,9 @@ router
 	.put(verifyToken, PostController.modifyPost)
 	.delete(verifyToken, PostController.deletePost);
 
-router.put("/:postId/archive", verifyToken, verifyAdmin, PostController.archivePost);
+router.route("/:postId/archive")
+.post( verifyToken, PostController.archivePost)
+.delete(verifyToken, PostController.unArchivePost);
 
 router
 	.route("/:postId/upvote")

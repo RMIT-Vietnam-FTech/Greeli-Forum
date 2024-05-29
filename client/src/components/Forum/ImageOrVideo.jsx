@@ -1,32 +1,31 @@
 import axios from "axios";
+import Skeleton from "react-loading-skeleton";
 import ReactPlayer from "react-player";
 import useSwr from "swr";
 
-// const fetcher = (url) =>
-// 	axios.get(url).then((res) => res.headers.get("Content-Type"));
+import "react-loading-skeleton/dist/skeleton.css";
 
-export default function ImageOrVideo({ src, isPost, alt }) {
-	//console.log("is post: " + isPost);
-	// const { data, error, isLoading } = useSwr(src, fetcher);
-	// if (error) {
-	// 	return 0;
-	// }
-	// if (isLoading) {
-	// 	return 0;
-	// }
-	// if (data.startsWith("image")) {
-	return (
-		<img tabIndex="0" alt={"image: " + alt} src={src} className="h-100" />
-	);
-	// }
-	// if (data.startsWith("video")) {
-	// 	return (
-	// 		<ReactPlayer
-	// 			controls={isPost ? false : true}
-	// 			url={src}
-	// 			className="h-100"
-	// 		/>
-	// 	);
-	// }
-	// return <></>;
+export default function ImageOrVideo({ uploadFile, h100, w100, alt, isPost }) {
+  if (uploadFile) {
+    if (uploadFile.type === "image") {
+      return (
+        <img
+          tabIndex="0"
+          alt={"image: " + alt}
+          src={uploadFile.src}
+          className={(h100 && "h-100 ") + (w100 && "w-100")}
+        />
+      );
+    }
+    if (uploadFile.type === "video") {
+      return (
+        <ReactPlayer
+          controls={isPost?false: true}
+          url={uploadFile.src}
+          className={(h100 && "h-100 ") + (w100 && "w-100")}
+        />
+      );
+    }
+  }
+  return <></>;
 }

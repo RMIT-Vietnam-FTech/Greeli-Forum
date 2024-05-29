@@ -6,6 +6,8 @@ import Comment from "../models/Comment.js";
 import * as crypto from "crypto";
 import { deleteFileData, uploadFileData } from "../service/awsS3.js";
 import sharp from "sharp";
+import { fileTypeFromBuffer } from "file-type";
+
 import dotenv from "dotenv";
 import { error } from "console";
 dotenv.config();
@@ -13,16 +15,12 @@ dotenv.config();
 const createRandomName = (bytes = 32) => crypto.randomBytes(32).toString("hex");
 
 export const createThread = async (req, res) => {
-	//req.body -> title, content, createBy{}
 	try {
-		const { title, content, topics } = req.body;
+		const { title, content } = req.body;
 		const uploadFile = req.file;
-		console.log(
-			`check input: \n file: ${req.file} \n body: ${JSON.stringify(
-				req.body,
-			)}`,
-		);
+
 		if (req.user) {
+			console.log(`check 2`);
 			const user = await User.findById(req.user.id);
 			const uploadObject = {};
 			uploadObject.title = title;
@@ -41,26 +39,44 @@ export const createThread = async (req, res) => {
 			}
 
 			if (uploadFile) {
+				uploadObject.uploadFile = {
+					src: null,
+					type: null,
+				};
 				const imageName = createRandomName();
-				const fileBuffer = await sharp(uploadFile.buffer)
-					.jpeg({ quality: 100 })
-					.resize({ width: 730, height: 400, fit: "contain" })
-					.toBuffer();
-				uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
-				uploadObject.uploadFile = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
+				const uploadFileMetaData = await fileTypeFromBuffer(
+					uploadFile.buffer,
+				);
+				const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
+
+				if (uploadFileMime === "image") {
+					const fileBuffer = await sharp(uploadFile.buffer)
+						.jpeg({ quality: 100 })
+						.resize(1000)
+						.toBuffer();
+					await uploadFileData(
+						fileBuffer,
+						imageName,
+						uploadFile.mimetype,
+					);
+					console.log(uploadFileMime);
+					uploadObject.uploadFile.type = uploadFileMime;
+				} else {
+					await uploadFileData(
+						uploadFile.buffer,
+						imageName,
+						uploadFile.mimetype,
+					);
+					uploadObject.uploadFile.type = uploadFileMime;
+				}
+				uploadObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
 			}
 
 			const thread = await Thread.create(uploadObject);
 
 			user.createdThread.push(thread._id);
 			await user.save();
-			if (topics) {
-				for (let i = 0; i < topics.length; ++i) {
-					const topic = await Topic.findOne({ title: topics[i] });
-					topic.threads.push(thread._id);
-					await topic.save();
-				}
-			}
+
 			res.status(201).json(thread._id);
 		} else {
 			res.status(403).json({ message: "Forbidden" });
@@ -272,17 +288,20 @@ export const deleteThreadRule = async (req, res) => {
 	}
 };
 
-export const archiveThread = async(req, res) => {
+export const archiveThread = async (req, res) => {
 	try {
 		const threadId = req.params.threadId;
 		if (!threadId) return res.status(400).json({ message: "Bad Request" });
 
 		const thread = await Thread.findById(threadId);
-		if (!thread) return res.status(404).json({message: "Thread id not found or invalid"});
+		if (!thread)
+			return res
+				.status(404)
+				.json({ message: "Thread id not found or invalid" });
 		thread.isHidden = true;
 		await thread.save();
-		res.status(200).json({message: "Archived successfully!"});
+		res.status(200).json({ message: "Archived successfully!" });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
-}
+};

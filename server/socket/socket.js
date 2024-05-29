@@ -8,7 +8,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: ["https://group-project-cosc3060-2024a-ftech.onrender.com"],
+		origin: ["http://localhost:3000"],
 		methods: ["GET", "POST"],
 	},
 	connectionStateRecovery: {},
@@ -43,7 +43,6 @@ io.on("connection", (socket) => {
 				date: new Date(),
 			});
 			console.log("send successfully");
-
 		}
 	});
 

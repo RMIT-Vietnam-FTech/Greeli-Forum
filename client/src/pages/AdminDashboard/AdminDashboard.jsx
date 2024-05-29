@@ -7,11 +7,14 @@ import "./AdminDashboard.css";
 import Bottom from "./components/bottom";
 import Middle from "./components/middle";
 import Top from "./components/top";
+import { useUserContext } from "../../context/UserContext";
+import SignIn from "../../components/Popup/SignIn";
+axios.defaults.withCredentials = true;
 
 const AdminDashboard = () => {
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const [error, setError] = useState(null);
+	const { error, setError } = useUserContext();
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [totalUsers, setTotalUsers] = useState(0);
@@ -98,7 +101,7 @@ const AdminDashboard = () => {
 	const navigate = useNavigate();
 
 	if (loading) return <div>Loading...</div>;
-	if (error) return <div>Error, pls come back later nhe ❤️: {error}</div>;
+	if (error === "expire token") return <SignIn isShow={true} />;
 
 	return (
 		<div

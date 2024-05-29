@@ -20,7 +20,7 @@ const upload = multer({
 		}
 	},
 	limits: {
-		fileSize: 1024 * 1024 * 15, //15MB
+		fileSize: 1024 * 1024 * 10, //10MB
 	},
 });
 const router = express.Router();
@@ -42,7 +42,12 @@ router
 	.get(threadController.getThread)
 	.put(verifyToken, threadController.modifyThreadContent);
 
-router.put("/:threadId/archive", verifyToken, verifyAdmin, threadController.archiveThread);
+router.put(
+	"/:threadId/archive",
+	verifyToken,
+	verifyAdmin,
+	threadController.archiveThread,
+);
 
 router
 	.route("/:threadId/rule")

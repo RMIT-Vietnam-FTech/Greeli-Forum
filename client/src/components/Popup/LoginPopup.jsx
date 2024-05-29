@@ -43,7 +43,7 @@ export default function LoginPopup() {
 	const login = () => {
 		const configuration = {
 			method: "post",
-			url: "/api/user/login",
+			url: "http://localhost:3001/api/user/login",
 			data: {
 				email,
 				password,
@@ -80,11 +80,23 @@ export default function LoginPopup() {
 	};
 	// This is for fix biome by Bread, you can delete if u want
 	// fix biome start
-	const handleKeyUp = (event) => {
-		if (event.key === "Enter" || event.key === " ") {
-			showPasswordButton();
-		}
-	};
+	function useEnterKeySubmit(onSubmit) {
+		const handleKeyDown = (event) => {
+			if (event.key === "Enter") {
+				onSubmit();
+			}
+		};
+
+		useEffect(() => {
+			document.addEventListener("keydown", handleKeyDown);
+
+			return () => document.removeEventListener("keydown", handleKeyDown);
+		}, [handleKeyDown]);
+
+		return handleKeyDown;
+	}
+
+	const handleKeyDown = useEnterKeySubmit(handleSubmit(onSubmit));
 	// fix biome ends
 	return (
 		<div data-bs-theme={isDarkMode ? "dark" : "light"}>
@@ -117,6 +129,7 @@ export default function LoginPopup() {
 							<form
 								className="mt-4 mx-3 px-md-5"
 								onSubmit={handleSubmit(onSubmit)}
+								onKeyDown={handleKeyDown}
 								aria-label="login form"
 							>
 								<div
@@ -208,7 +221,7 @@ export default function LoginPopup() {
 									<span
 										className="input-group-text text-login-emphasis"
 										onClick={showPasswordButton}
-										onKeyUp={handleKeyUp} // Just add to fix biome
+										// onKeyUp={handleKeyUp} // Just add to fix biome
 										aria-label="show password button"
 										role="button"
 									>

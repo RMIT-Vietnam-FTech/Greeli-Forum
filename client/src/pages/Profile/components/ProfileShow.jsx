@@ -21,7 +21,7 @@ const ProfileShow = (props) => {
 		formData.append("image", preview);
 		const configuration = {
 			method: "post",
-			url: `/api/user/${userId}/uploadImage`,
+			url: `http://localhost:3001/api/user/${userId}/uploadImage`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},

@@ -6,6 +6,7 @@ import Conversation from "../../components/Conversation/Conversation";
 import SignIn from "../../components/Popup/SignIn";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
+import toast from "react-hot-toast";
 import "./chat.css";
 axios.defaults.withCredentials = true;
 const Chat = () => {
@@ -26,12 +27,10 @@ const Chat = () => {
 	const [userNotInChat, setUserNotInChat] = useState([]);
 	const [query, setQuery] = useState("");
 
-	console.log("notification", chatNoti)
+	console.log("notification", chatNoti);
 
 	useEffect(() => {
-		socket.current = io(
-			"https://group-project-cosc3060-2024a-ftech.onrender.com",
-		);
+		socket.current = io("http://localhost:3000");
 		socket.current.connect();
 		return () => {
 			socket.current.disconnect();
@@ -87,14 +86,16 @@ const Chat = () => {
 			setReceiveMessage(data);
 			console.log(data);
 		});
-		socket.current.on("get-notification", (data) =>{
-			const isChatOpen = currentChat?.members.some(id => id === data.senderId)
+		socket.current.on("get-notification", (data) => {
+			const isChatOpen = currentChat?.members.some(
+				(id) => id === data.senderId,
+			);
 			if (isChatOpen) {
-				setChatNoti(prev => [{...data, isRead: true}, ...prev])
+				setChatNoti((prev) => [{ ...data, isRead: true }, ...prev]);
 			} else {
-				setChatNoti(prev => [data, ...prev])
+				setChatNoti((prev) => [data, ...prev]);
 			}
-		})
+		});
 		return () => {
 			socket.current.off("receive-message");
 			socket.current.off("get-notification");
@@ -139,14 +140,14 @@ const Chat = () => {
 		setUserInChatId((prev) => [...prev, userId]);
 		// userInChatId
 		setUserNotInChat(
-			userList?.filter((user) => !userInChatId?.includes(user._id)),
+			userList.filter((user) => !userInChatId.includes(user._id)),
 		);
 
-		console.log(
-			userList.filter((user) => !userInChatId?.includes(user._id)),
-		);
-		console.log(userNotInChat);
-	}, [chats, userList]);
+		// console.log(
+		// 	userList.filter((user) => !userInChatId?.includes(user._id)),
+		// );
+		// console.log(userInChatId);
+	}, [chats, userList, updateChat]);
 
 	// useEffect(() => {
 	// 	set
@@ -160,7 +161,9 @@ const Chat = () => {
 
 	const handleChatClick = (chat) => {
 		setCurrentChat(chat);
-		chatNoti.filter((noti) => noti.chatId === chat._id).map((noti) => noti.isRead = true);
+		chatNoti
+			.filter((noti) => noti.chatId === chat._id)
+			.map((noti) => (noti.isRead = true));
 		if (isMobileView) {
 			setShowChatBox(true);
 		}
@@ -189,6 +192,10 @@ const Chat = () => {
 		axios(configuration)
 			.then((result) => {
 				// console.log(result.data);
+				toast.success("Create chat successfully!", {
+					duration: 2000,
+					position: "top-center",
+				});
 				setUpdateChat((prev) => prev + 1);
 			})
 			.catch((error) => {
@@ -254,7 +261,9 @@ const Chat = () => {
 									currentUserId={userId}
 									online={checkOnlineStatus(chat)}
 									isActive={currentChat === chat}
-									chatNoti={chatNoti.filter((noti) => noti.chatId === chat._id)}
+									chatNoti={chatNoti.filter(
+										(noti) => noti.chatId === chat._id,
+									)}
 								/>
 							</div>
 						))}
@@ -319,6 +328,7 @@ const Chat = () => {
 										className="follower conversation"
 										onClick={() => createChat(user)}
 										key={user?._id}
+										data-bs-dismiss="modal"
 									>
 										<div>
 											<img

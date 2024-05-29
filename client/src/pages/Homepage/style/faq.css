@@ -9,6 +9,9 @@
     color: #fff !important;
     background-color: #365949 !important;
 }
+[data-bs-theme='light'] .accordion-button:not(.collapsed)::after {
+    color: #fff !important;
+}
 [data-bs-theme='light'] .accordion-button {
     background-color: #eaeaea !important;
     border-color: transparent;
