@@ -2,7 +2,6 @@ import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./SearchBar.css";
