@@ -188,13 +188,13 @@ const Dashboard = () => {
 	const searchCategory = tab === "User List" ? "username" : "title";
 	// console.log(searchCategory);
 
-	// const filteredData = dataItems.filter((dataItem) =>
-	// 	dataItem[searchCategory]
-	// 		?.toLowerCase()
-	// 		.startsWith(searchQuery.toLowerCase())
-	// );
-	const filteredData = dataItems;
-	console.log(dataItems);
+	const filteredData = dataItems.filter((dataItem) =>
+		dataItem[searchCategory]
+			?.toLowerCase()
+			.startsWith(searchQuery.toLowerCase())
+	);
+	// const filteredData = dataItems;
+	// console.log(dataItems);
 
 	const navigate = useNavigate();
 
