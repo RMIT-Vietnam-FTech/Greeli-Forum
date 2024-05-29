@@ -17,36 +17,11 @@ export const register = async (req, res) => {
 		const userEmail = await User.findOne({ email: email });
 		if (userEmail)
 			return res.status(400).json({ error: "Email has been used" });
-	try {
-		const { username, email, password } = req.body;
-		console.log(username, email, password);
-		const userEmail = await User.findOne({ email: email });
-		if (userEmail)
-			return res.status(400).json({ error: "Email has been used" });
 
 		const userName = await User.findOne({ username: username });
 		if (userName)
 			return res.status(400).json({ error: "Username has been used" });
-		const userName = await User.findOne({ username: username });
-		if (userName)
-			return res.status(400).json({ error: "Username has been used" });
 
-		const salt = await bcrypt.genSalt(10);
-		const hashPassword = await bcrypt.hash(password, salt);
-		const newUser = new User({
-			username,
-			email,
-			password: hashPassword,
-		});
-		const savedUser = await newUser.save();
-		res.status(201).json({
-			_id: savedUser._id,
-			role: savedUser.role,
-			message: "success",
-		});
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
 		const salt = await bcrypt.genSalt(10);
 		const hashPassword = await bcrypt.hash(password, salt);
 		const newUser = new User({
@@ -87,9 +62,6 @@ export const login = async (req, res) => {
 
 		delete user.password;
 
-		const updates = {
-			lastActive: Date.now(),
-		};
 		const updates = {
 			lastActive: Date.now(),
 		};
@@ -165,7 +137,6 @@ Click the link to reset your password: ${link}`;
 		res.status(500).json(error);
 		console.log(error);
 	}
-};
 };
 
 export const resetPassword = async (req, res) => {
@@ -397,13 +368,10 @@ export const getCreatedThread = async (req, res) => {
 	try {
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
-	try {
-		const userId = req.params.userId;
-		const user = await User.findOne({ _id: userId });
 
-		if (!user) return res.status(404).json({message:"userId not found"});
+		if (!user) return res.status(404).json({ message: "userId not found" });
 		if (req.user.id !== userId) {
-			res.status(403).json({message:"Unauthorized!"});
+			res.status(403).json({ message: "Unauthorized!" });
 		}
 
 		const createdThreads = await Thread.find(
@@ -420,13 +388,10 @@ export const getFollowThread = async (req, res) => {
 	try {
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
-	try {
-		const userId = req.params.userId;
-		const user = await User.findOne({ _id: userId });
 
-		if (!user) return res.status(404).json({message:"userId not found"});
+		if (!user) return res.status(404).json({ message: "userId not found" });
 		if (req.user.id !== userId) {
-			res.status(403).json({message:"Unauthorized!"});
+			res.status(403).json({ message: "Unauthorized!" });
 		}
 
 		const followThreads = await Thread.find({
@@ -441,14 +406,16 @@ export const getFollowThread = async (req, res) => {
 export const postFollowThread = async (req, res) => {
 	try {
 		const { threadId } = req.body;
-		if (!threadId) return res.status(400).json({message:"Bad Request"});
+		if (!threadId) return res.status(400).json({ message: "Bad Request" });
 		const thread = await Thread.findById(threadId);
-		if (!thread) res.status(404).json({message:"thread id not found or invalid"});
+		if (!thread)
+			res.status(404).json({ message: "thread id not found or invalid" });
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
-		if (!user) return res.status(404).json({message:"userId not found or invalid"});
+		if (!user)
+			return res.status(404).json({ message: "userId not found or invalid" });
 		if (req.user.id !== userId) {
-			res.status(403).json({message:"Unauthorized!"});
+			res.status(403).json({ message: "Unauthorized!" });
 		}
 
 		thread.followedBy.push(user._id);
@@ -466,13 +433,14 @@ export const deleteFollowThread = async (req, res) => {
 	try {
 		const { threadId } = req.body;
 		console.log("check threadId: " + threadId);
-		if (!threadId) return res.status(400).json({message:"Bad Request"});
+		if (!threadId) return res.status(400).json({ message: "Bad Request" });
 		const thread = await Thread.findById(threadId);
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
-		if (!user) return res.status(404).json({message:"userId not found or invalid"});
+		if (!user)
+			return res.status(404).json({ message: "userId not found or invalid" });
 		if (req.user.id !== userId) {
-			res.status(403).json({message:"Unauthorized!"});
+			res.status(403).json({ message: "Unauthorized!" });
 		}
 		thread.followedBy.remove(req.user.id);
 		await thread.save();
@@ -491,10 +459,9 @@ export const getArchivedPost = async (req, res) => {
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
 
-		if (!user) return res.status(404).json({message:"userId not found"});
+		if (!user) return res.status(404).json({ message: "userId not found" });
 		if (req.user.id !== userId) {
-			res.status(403).json({message:"Unauthorized!"});
-
+			res.status(403).json({ message: "Unauthorized!" });
 		}
 
 		const archivedPosts = await Post.find({
@@ -509,12 +476,13 @@ export const getArchivedPost = async (req, res) => {
 export const postArchivedPost = async (req, res) => {
 	try {
 		const { postId } = req.body;
-		if (!postId) return res.status(400).json({message:"Bad Request"});
+		if (!postId) return res.status(400).json({ message: "Bad Request" });
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
-		if (!user) return res.status(404).json({message:"userId not found or invalid"});
+		if (!user)
+			return res.status(404).json({ message: "userId not found or invalid" });
 		if (req.user.id !== userId) {
-			res.status(403).json({message:"Unauthorized!"});
+			res.status(403).json({ message: "Unauthorized!" });
 		}
 
 		user.archivedPost.push(postId);
@@ -529,7 +497,7 @@ export const postArchivedPost = async (req, res) => {
 export const deleteArchivedPost = async (req, res) => {
 	try {
 		const { postId } = req.body;
-		if (!postId) return res.status(400).json({message:"Bad Request"});
+		if (!postId) return res.status(400).json({ message: "Bad Request" });
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
 		if (!user) return res.status(404).json("userId not found or invalid");
@@ -545,16 +513,9 @@ export const deleteArchivedPost = async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
-		res.status(204).json("success");
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
 };
 
 export const getCreatedPost = async (req, res) => {
-	try {
-		const userId = req.params.userId;
-		const user = await User.findOne({ _id: userId });
 	try {
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
@@ -587,25 +548,25 @@ export const postCreatedPost = async (req, res) => {
 		if (req.user.id !== userId) {
 			res.status(403).json("Unauthorized!");
 		}
-	try {
-		const { postId } = req.body;
-		if (!postId) return res.status(400).json("Bad Request");
-		const userId = req.params.userId;
-		const user = await User.findOne({ _id: userId });
-		if (!user) return res.status(404).json("userId not found or invalid");
-		if (req.user.id !== userId) {
-			res.status(403).json("Unauthorized!");
+		try {
+			const { postId } = req.body;
+			if (!postId) return res.status(400).json("Bad Request");
+			const userId = req.params.userId;
+			const user = await User.findOne({ _id: userId });
+			if (!user) return res.status(404).json("userId not found or invalid");
+			if (req.user.id !== userId) {
+				res.status(403).json("Unauthorized!");
+			}
+
+			user.createdPost.push(postId);
+			await user.save();
+			user.createdPost.push(postId);
+			await user.save();
+
+			res.status(204).json("success");
+		} catch (error) {
+			res.status(500).json({ message: error.message });
 		}
-
-		user.createdPost.push(postId);
-		await user.save();
-		user.createdPost.push(postId);
-		await user.save();
-
-		res.status(204).json("success");
-	} catch (error) {
-		res.status(500).json({ message: error.message });
-	}
 		res.status(204).json("success");
 	} catch (error) {
 		res.status(500).json({ message: error.message });
@@ -613,19 +574,6 @@ export const postCreatedPost = async (req, res) => {
 };
 
 export const deleteCreatedPost = async (req, res) => {
-	try {
-		const { postId } = req.body;
-		if (!postId) return res.status(400).json("Bad Request");
-		const userId = req.params.userId;
-		const user = await User.findOne({ _id: userId });
-		if (!user) return res.status(404).json("userId not found or invalid");
-		console.log("user1: " + user._id);
-		console.log("user2: " + req.user.id);
-		if (req.user.id !== userId) {
-			res.status(403).json("Unauthorized!");
-		}
-		user.createdPost.remove(postId);
-		await user.save();
 	try {
 		const { postId } = req.body;
 		if (!postId) return res.status(400).json("Bad Request");

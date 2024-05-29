@@ -209,10 +209,15 @@ const Navbar = ({ isForum }) => {
 								alt="user icon"
 							/>{" "}
 						</div>
-						<ul class="dropdown-menu" style={{ right: "0px", top: "120%" }}>
+						<ul
+							className={`dropdown-menu ${
+								isDarkMode ? "bg-primary-yellow" : ""
+							}`}
+							style={{ right: "0px", top: "120%" }}
+						>
 							<li>
 								<NavLink
-									class="dropdown-item ps-3 text-decoration-none"
+									class="dropdown-item ps-3 text-decoration-none color-greeli-emphasis"
 									to="/profile"
 									role="user profile page"
 									aria-label="link to user profile page"
@@ -222,7 +227,7 @@ const Navbar = ({ isForum }) => {
 							</li>
 							<li>
 								<NavLink
-									class="dropdown-item ps-3 text-decoration-none"
+									class="dropdown-item ps-3 text-decoration-none color-greeli-emphasis"
 									to="/admin"
 									role="dashboard page"
 									aria-label="link to user dashboard page"
