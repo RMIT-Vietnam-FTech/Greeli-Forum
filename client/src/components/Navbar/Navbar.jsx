@@ -217,7 +217,7 @@ const Navbar = ({ isForum }) => {
 						>
 							<li>
 								<NavLink
-									class="dropdown-item ps-3 text-decoration-none color-greeli-emphasis"
+									class="dropdown-item ps-3 text-decoration-none text-greeli-emphasis"
 									to="/profile"
 									role="user profile page"
 									aria-label="link to user profile page"
@@ -227,7 +227,7 @@ const Navbar = ({ isForum }) => {
 							</li>
 							<li>
 								<NavLink
-									class="dropdown-item ps-3 text-decoration-none color-greeli-emphasis"
+									class="dropdown-item ps-3 text-decoration-none text-greeli-emphasis"
 									to="/admin"
 									role="dashboard page"
 									aria-label="link to user dashboard page"

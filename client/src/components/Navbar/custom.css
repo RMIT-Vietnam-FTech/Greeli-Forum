@@ -140,11 +140,11 @@ a > p {
 }
 
 .dropdown-item:hover {
-	background-color: #dedede;
+	background-color: #dedede !important;
 }
 
 [data-bs-theme="dark"] .dropdown-item:hover {
-	background-color: #bd974c;
+	background-color: #bd974c !important;
 }
 
 @media (min-width: 767px) {
