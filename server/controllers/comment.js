@@ -340,6 +340,7 @@ export const archiveCommentByDeactivating = async (req, res) => {
 			userId: data.userId,
 			username: data.username,
 			profileImage: data.profileImage,
+			isDeactivated: true,
 		};
 		await comment.save();
 
