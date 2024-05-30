@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState, useContext } from "react";
+import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 import ChatBox from "../../components/ChatBox/ChatBox";
 import Conversation from "../../components/Conversation/Conversation";
 import SignIn from "../../components/Popup/SignIn";
 import { ThemeContext } from "../../context/ThemeContext";
 import { useUserContext } from "../../context/UserContext";
-import toast from "react-hot-toast";
 import "./chat.css";
 axios.defaults.withCredentials = true;
 const Chat = () => {

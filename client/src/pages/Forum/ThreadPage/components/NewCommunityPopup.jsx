@@ -5,10 +5,10 @@ import { Button } from "react-bootstrap";
 import ReactDom from "react-dom";
 import { IoMdClose } from "react-icons/io";
 import { RiCloseLargeLine } from "react-icons/ri";
-import DropZoneFile from "./DropZoneFile";
-import PopupEditor from "./PopupEditor/PopupEditor";
 import { useNavigate, useParams } from "react-router-dom";
 import CreateCommunityDropZone from "./CreateCommunityDropZone";
+import DropZoneFile from "./DropZoneFile";
+import PopupEditor from "./PopupEditor/PopupEditor";
 export default function NewCommunityPopUp({ isOpen, setIsOpen }) {
 	const [file, setFile] = useState(null);
 	const [description, setDescription] = useState("");

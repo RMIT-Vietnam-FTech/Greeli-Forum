@@ -1,12 +1,12 @@
 import { EditorProvider } from "@tiptap/react";
-import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
+import React, { createContext, useContext, useState } from "react";
 
+import Dropcursor from "@tiptap/extension-dropcursor";
+import Image from "@tiptap/extension-image";
 import Placeholder from "@tiptap/extension-placeholder";
 import StarterKit from "@tiptap/starter-kit";
 import { lowlight } from "lowlight";
-import Dropcursor from "@tiptap/extension-dropcursor";
-import Image from "@tiptap/extension-image";
 
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import css from "highlight.js/lib/languages/css";

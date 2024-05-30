@@ -1,6 +1,6 @@
-import User from "../models/User.js";
-import Thread from "../models/Thread.js";
 import Post from "../models/Post.js";
+import Thread from "../models/Thread.js";
+import User from "../models/User.js";
 
 export const getForumStatistic = async (req, res) => {
 	try {

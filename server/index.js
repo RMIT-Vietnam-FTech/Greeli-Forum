@@ -1,4 +1,6 @@
+import path from "path";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
@@ -6,23 +8,21 @@ import helmet from "helmet";
 import mongoose from "mongoose";
 import morgan from "morgan";
 import multer from "multer";
-import cookieParser from "cookie-parser";
-import path from "path";
 
+import User from "./models/User.js";
+import adminPostRoutes from "./routes/adminPost.js";
 import chatRoutes from "./routes/chat.js";
+import commentRoutes from "./routes/comment.js";
+import emailRoutes from "./routes/email.js";
+import feedbackRoutes from "./routes/feedback.js";
+import forumRoutes from "./routes/forum.js";
 import messageRoutes from "./routes/message.js";
 import newsRoutes from "./routes/news.js";
 import postRoutes from "./routes/post.js";
-import adminPostRoutes from "./routes/adminPost.js";
 import threadRoutes from "./routes/thread.js";
-import userRoutes from "./routes/user.js";
 import topicRoutes from "./routes/topic.js";
-import feedbackRoutes from "./routes/feedback.js";
-import forumRoutes from "./routes/forum.js";
-import commentRoutes from "./routes/comment.js";
-import emailRoutes from "./routes/email.js";
+import userRoutes from "./routes/user.js";
 import { app, io, server } from "./socket/socket.js";
-import User from "./models/User.js";
 
 /* CONFIGURATION */
 dotenv.config();

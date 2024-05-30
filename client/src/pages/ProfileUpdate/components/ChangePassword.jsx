@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
 import axios from "axios";
-import { toast, Toaster } from "react-hot-toast";
+import { useEffect, useState } from "react";
+import { useContext } from "react";
+import { useForm } from "react-hook-form";
+import { Toaster, toast } from "react-hot-toast";
+import { FaKey } from "react-icons/fa";
+import { PiPasswordBold } from "react-icons/pi";
 import { useProfileContext } from "../../../context/ProfileContext";
 import { ThemeContext } from "../../../context/ThemeContext";
-import { useContext } from "react";
 import { useUserContext } from "../../../context/UserContext";
-import { PiPasswordBold } from "react-icons/pi";
-import { FaKey } from "react-icons/fa";
 
 const ChangePassword = (props) => {
 	const { close } = props;

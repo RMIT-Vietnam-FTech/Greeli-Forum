@@ -4,12 +4,12 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactDom from "react-dom";
 import { GrLinkPrevious } from "react-icons/gr";
 import { GrLinkNext } from "react-icons/gr";
+import { IoEllipseSharp } from "react-icons/io5";
 import { RiCloseLargeLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import DropZoneFile from "./DropZoneFile";
 import PopupEditor from "./PopupEditor/PopupEditor";
-import { IoEllipseSharp } from "react-icons/io5";
 
 axios.defaults.withCredentials = true;
 
@@ -83,7 +83,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen, belongToThread }) {
 				for (let i = 0; i < addedTopics.length; ++i) {
 					formData.append("belongToTopics[]", addedTopics[i]._id);
 				}
-				for (let [key, value] of formData) {
+				for (const [key, value] of formData) {
 					console.log(`${key}: ${value}`);
 				}
 
@@ -126,10 +126,6 @@ export default function NewThreadPopUp({ isOpen, setIsOpen, belongToThread }) {
 		),
 		prevArrow: <PrevArrow isNext={isNext} setIsNext={setIsNext} />,
 	};
-
-	{
-		/*-----------------------------------------------------------MAIN---------------------------------------------------------*/
-	}
 	if (!isOpen) return null;
 	return ReactDom.createPortal(
 		<section tabIndex="0" className="modal-wrapper">

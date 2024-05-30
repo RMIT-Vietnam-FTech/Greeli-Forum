@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
 import axios from "axios";
-import ThreadGallery from "./ThreadGallery";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useProfileContext } from "../../../context/ProfileContext";
+import ThreadGallery from "./ThreadGallery";
 
 const RightSidePart = (props) => {
 	const { isMe, comments } = props;
