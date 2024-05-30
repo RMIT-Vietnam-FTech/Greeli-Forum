@@ -25,16 +25,16 @@ dayjs.extend(relativeTime);
 axios.defaults.withCredentials = true;
 
 const fetcher = (url) =>
-  axios.get(url).then((res) => {
-    return res.data.data;
-  });
+	axios.get(url).then((res) => {
+		return res.data.data;
+	});
 
 export default function ReplyComment({ commentData, isLastIndex, isNew }) {
-  const { postId } = useParams();
-  const [newReply, setNewReply] = useState([]);
-  const [expand, setExpand] = useState(false);
-  const [isReply, setIsReply] = useState(false);
-  const [file, setFile] = useState();
+	const { postId } = useParams();
+	const [newReply, setNewReply] = useState([]);
+	const [expand, setExpand] = useState(false);
+	const [isReply, setIsReply] = useState(false);
+	const [file, setFile] = useState();
 
   const { data, error, isLoading } = useSWRImmutable(
     commentData.replies.length > 0 && expand
@@ -89,28 +89,35 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
             {/* avatar */}
             <Avatar size="sm" src={commentData.createdBy.profileImage} />
 
-            {/* username */}
-            <p
-              tabIndex="0"
-              className="fw-bold m-0 text-login-emphasis"
-              style={{ fontSize: "14px" }}
-            >
-              {commentData.createdBy.username}
-            </p>
-            <li className="text-greeli-emphasis" style={{ fontSize: "12px" }}>
-              {dayjs().to(dayjs(commentData.createdAt))}
-            </li>
-            {JSON.parse(localStorage.getItem("user")).role === "admin" && (
-              <div
-                className="position-relative bg-transparent "
-                style={{ left: "55px", height: "35px" }}
-              >
-                <AuthorizationContextProvider>
-                  <DropDown componentType="comment" data={commentData} />
-                </AuthorizationContextProvider>
-              </div>
-            )}
-          </div>
+						{/* username */}
+						<p
+							tabIndex="0"
+							className="fw-bold m-0 text-login-emphasis"
+							style={{ fontSize: "14px" }}
+						>
+							{commentData.createdBy.username}
+						</p>
+						<li
+							className="text-greeli-emphasis"
+							style={{ fontSize: "12px" }}
+						>
+							{dayjs().to(dayjs(commentData.createdAt))}
+						</li>
+						{JSON.parse(localStorage.getItem("user")).role ===
+							"admin" && (
+							<div
+								className="position-relative bg-transparent "
+								style={{ left: "55px", height: "35px" }}
+							>
+								<AuthorizationContextProvider>
+									<DropDown
+										componentType="comment"
+										data={commentData}
+									/>
+								</AuthorizationContextProvider>
+							</div>
+						)}
+					</div>
 
           {/*content*/}
           {commentData.archived.isArchived ? (
@@ -143,11 +150,11 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
                   <EditTextEditor content={JSON.parse(commentData.content)} />
                 </EditContextProvider>
 
-                {/*upvote*/}
-                <ButtonUpvote
-                  upvote={commentData.upvote}
-                  commentId={commentData._id}
-                />
+								{/*upvote*/}
+								<ButtonUpvote
+									upvote={commentData.upvote}
+									commentId={commentData._id}
+								/>
 
                 {/*reply*/}
                 <EditContextProvider>

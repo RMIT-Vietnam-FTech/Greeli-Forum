@@ -16,7 +16,7 @@ const ChangeProfileInfo = (props) => {
 	const { user, error, setError, setSuccess } = useUserContext();
 
 	var currentGender = "";
-	if (gender !== "Please update your  gender") {
+	if (gender !== "Please update your gender") {
 		currentGender = gender;
 	}
 
@@ -39,7 +39,7 @@ const ChangeProfileInfo = (props) => {
 		newPhoneNumber,
 		newAddress,
 		newGender,
-		userId
+		userId,
 	) => {
 		const configuration = {
 			method: "post",
@@ -91,12 +91,15 @@ const ChangeProfileInfo = (props) => {
 						{...register("newUsername", {
 							minLength: {
 								value: 8,
-								message: "This input must be at least 8 characters",
+								message:
+									"This input must be at least 8 characters",
 							},
 						})}
 						className="form-control text-body-color"
 						id="floatingNewUserName"
-						value={newUsername === undefined ? newUsername : username}
+						value={
+							newUsername === undefined ? newUsername : username
+						}
 						placeholder="Diemqui11t1"
 						onChange={(e) => {
 							setNewUsername(e.target.value);
@@ -129,7 +132,8 @@ const ChangeProfileInfo = (props) => {
 						{...register("newPhoneNumber", {
 							maxLength: {
 								value: 10,
-								message: "This input must at least 10 characters",
+								message:
+									"This input must at least 10 characters",
 							},
 						})}
 						className="form-control text-body-color"
@@ -167,7 +171,8 @@ const ChangeProfileInfo = (props) => {
 						{...register("newAddress", {
 							maxLength: {
 								value: 50,
-								message: "This input must not exceed 50 characters",
+								message:
+									"This input must not exceed 50 characters",
 							},
 						})}
 						className="form-control text-body-color"
@@ -190,7 +195,9 @@ const ChangeProfileInfo = (props) => {
 
 			<div
 				className={
-					errors.newGender ? "input-group mb-4 input-error" : "input-group mb-4"
+					errors.newGender
+						? "input-group mb-4 input-error"
+						: "input-group mb-4"
 				}
 			>
 				<span className="input-group-text">

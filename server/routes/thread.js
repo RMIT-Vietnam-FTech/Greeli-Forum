@@ -46,7 +46,11 @@ const router = express.Router();
 router
 	.route("/")
 	.get(threadController.getThreads)
-	.post(verifyToken, upload.single("uploadFile"), threadController.createThread)
+	.post(
+		verifyToken,
+		upload.single("uploadFile"),
+		threadController.createThread,
+	)
 	.delete(verifyToken, threadController.reset);
 
 router.post("/validation", verifyToken, threadController.validateThread);
@@ -60,14 +64,14 @@ router.put(
 	"/:threadId/archive",
 	verifyToken,
 	verifyAdmin,
-	threadController.archiveThread
+	threadController.archiveThread,
 );
 
 router.put(
 	"/:threadId/unarchive",
 	verifyToken,
 	verifyAdmin,
-	threadController.unarchiveThread
+	threadController.unarchiveThread,
 );
 
 router

@@ -69,7 +69,10 @@ const EditInfoModal = () => {
 										}
 										alt={`${username} Avatar`}
 										className="d-block p-0 rounded-circle avatar-image object-fit-cover border border-3 border-primary-yellow"
-										style={{ aspectRatio: "1/1", width: "120px" }}
+										style={{
+											aspectRatio: "1/1",
+											width: "120px",
+										}}
 										data-bs-toggle="modal"
 										data-bs-target="#exampleModal"
 									/>
@@ -107,13 +110,22 @@ const EditInfoModal = () => {
 						</div>
 						<div className="p-0 m-0" style={{ height: "476px" }}>
 							{editTab === "Profile Image" && (
-								<ChangeAvatar close={close} setEditTab={setEditTab} />
+								<ChangeAvatar
+									close={close}
+									setEditTab={setEditTab}
+								/>
 							)}
 							{editTab === "Profile" && (
-								<ChangeProfileInfo close={close} setEditTab={setEditTab} />
+								<ChangeProfileInfo
+									close={close}
+									setEditTab={setEditTab}
+								/>
 							)}
 							{editTab === "Password" && (
-								<ChangePassword close={close} setEditTab={setEditTab} />
+								<ChangePassword
+									close={close}
+									setEditTab={setEditTab}
+								/>
 							)}
 						</div>
 					</div>

@@ -3,57 +3,54 @@ import useSwr from "swr";
 import Avatar from "../Avatar";
 axios.defaults.withCredentials = true;
 
-
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function RightSideBarForum() {
-   return (
-       <div
-           style={{ height: "95%" }}
-           className="w-100 d-flex flex-column-reverse justify-content-end overflow-scroll-y gap-4"
-       >
-           <ForumLeaderBoard />
-           <ForumStatistic />
-       </div>
-   );
+	return (
+		<div
+			style={{ height: "95%" }}
+			className="w-100 d-flex flex-column-reverse justify-content-end overflow-scroll-y gap-4"
+		>
+			<ForumLeaderBoard />
+			<ForumStatistic />
+		</div>
+	);
 }
-
 
 function ForumStatistic() {
-   const path = `http://localhost:3001/api/v1/forums/statistic`;
-   const { data, error, isLoading } = useSwr(path, fetcher);
-   if (isLoading) {
-       return 0;
-   }
-   return (
-       <div
-           tabIndex="0"
-           className="w-100  p-3 bg-forum-subtle d-flex flex-column align-items-start"
-           style={{ borderRadius: "0.75rem" }}
-       >
-           <p
-               className="text-primary-yellow  mb-3"
-               style={{ fontSize: "18px" }}
-           >
-               Forum Statistic
-           </p>
-           <div className="w-100">
-               <p className="text-white w-100 d-flex justify-content-between">
-                   <b className="w-50">Threads</b>{" "}
-                   <span className="ms-3 w-50">{data.thread}</span>
-               </p>
-               <p className="text-white w-100 d-flex justify-content-between">
-                   <b className="w-50">Posts</b>{" "}
-                   <span className="ms-3 w-50">{data.post}</span>
-               </p>
-               <p className="text-white w-100 d-flex justify-content-between">
-                   <b className="w-50">Members</b>{" "}
-                   <span className="ms-3 w-50">{data.user}</span>
-               </p>
-           </div>
-       </div>
-   );
+	const path = `http://localhost:3001/api/v1/forums/statistic`;
+	const { data, error, isLoading } = useSwr(path, fetcher);
+	if (isLoading) {
+		return 0;
+	}
+	return (
+		<div
+			tabIndex="0"
+			className="w-100  p-3 bg-forum-subtle d-flex flex-column align-items-start"
+			style={{ borderRadius: "0.75rem" }}
+		>
+			<p
+				className="text-primary-yellow  mb-3"
+				style={{ fontSize: "18px" }}
+			>
+				Forum Statistic
+			</p>
+			<div className="w-100">
+				<p className="text-white w-100 d-flex justify-content-between">
+					<b className="w-50">Threads</b>{" "}
+					<span className="ms-3 w-50">{data.thread}</span>
+				</p>
+				<p className="text-white w-100 d-flex justify-content-between">
+					<b className="w-50">Posts</b>{" "}
+					<span className="ms-3 w-50">{data.post}</span>
+				</p>
+				<p className="text-white w-100 d-flex justify-content-between">
+					<b className="w-50">Members</b>{" "}
+					<span className="ms-3 w-50">{data.user}</span>
+				</p>
+			</div>
+		</div>
+	);
 }
-
 
 function ForumLeaderBoard() {
    const path = `http://localhost:3001/api/v1/forums/leaderboard`;
