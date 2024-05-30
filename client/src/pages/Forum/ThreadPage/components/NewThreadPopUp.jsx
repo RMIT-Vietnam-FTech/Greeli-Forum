@@ -206,7 +206,7 @@ function FirstSlide({
 	}
 
   return (
-    <div style={{height:"550px"}} className=" overflow-scroll-y" tabIndex="0">
+    <div style={{height:"650px"}} className=" overflow-scroll-y" tabIndex="0">
       {/*---------------- Create Thread header----------------------*/}
       <div className="w-100 d-flex justify-content-between">
         <h2 className="text-dark">Create Thread</h2>
@@ -244,7 +244,7 @@ function FirstSlide({
           {inputTitle.length}/50
         </div>
       </div>
-      {/*------------------Errow Dispaly, don't display by default--------------*/}
+      {/*------------------Errow display, don't display by default--------------*/}
       <p
         className="w-100 text-end text-danger d-none"
         id="inputThreadTitle"

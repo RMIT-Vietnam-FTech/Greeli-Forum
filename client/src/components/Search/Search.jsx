@@ -78,61 +78,63 @@ export default function SearchBar() {
 }
 
 export function SearchItem({ searchData, searchBar }) {
-	return (
-		<Link
-			onClick={() => {
-				const searchBar = document.querySelector(".search-input");
-				const searchOutput = document.querySelector(".search-output");
-				searchOutput.classList.add("d-none");
-				searchBar.value = "";
-			}}
-			className=" py-4 border-bottom border-primary-green-900"
-			style={{ width: "95%" }}
-			to={`/forum/communities/${searchData.belongToThread}/posts/${searchData._id}`}
-		>
-			<div className="d-flex justify-content-between gap-2">
-				{/*-----------left sidebar --------------*/}
-				<div className="overflow-hidden" style={{ width: "85%" }}>
-					{/*-----------user info --------------*/}
-					<div className="d-flex gap-2">
-						<Avatar size="sm" src={searchData.createdBy.profileImage} />
-						<p className="text-secondary" style={{ fontSize: "12px" }}>
-							{searchData.createdBy.username}
-						</p>
-					</div>
-					{/*-----------title and content--------------*/}
-					<div className="w-75">
-						<h2 className="text-greeli-emphasis" style={{ fontSize: "18px" }}>
-							{searchData.title}
-						</h2>
-						<EditContextProvider>
-							<EditTextEditor
-								className="post-content"
-								componentType="post"
-								isOverFlow={true}
-								content={JSON.parse(searchData.content)}
-							/>
-						</EditContextProvider>
-					</div>
-				</div>
+  return (
+    <Link
+      onClick={() => {
+        const searchBar = document.querySelector(".search-input");
+        const searchOutput = document.querySelector(".search-output");
+        searchOutput.classList.add("d-none");
+        searchBar.value = "";
+      }}
+      className=" py-4 border-bottom border-primary-green-900"
+      style={{ width: "95%" }}
+      to={`/forum/communities/${searchData.belongToThread}/posts/${searchData._id}`}
+    >
+      <div className="d-flex justify-content-between gap-2">
+        {/*-----------left sidebar --------------*/}
+        <div className="overflow-hidden" style={{ width: "85%" }}>
+          {/*-----------user info --------------*/}
+          <div className="d-flex gap-2">
+            <Avatar size="sm" src={searchData.createdBy.profileImage} />
+            <p className="text-secondary" style={{ fontSize: "12px" }}>
+              {searchData.createdBy.username}
+            </p>
+          </div>
+          {/*-----------title and content--------------*/}
+          <div className="w-75" >
+            <h2 className="text-greeli-emphasis" style={{ fontSize: "18px" }}>
+              {searchData.title}
+            </h2>
+            <EditContextProvider>
+              <EditTextEditor
+                className="post-content"
+                componentType="search"
+                isOverFlow={true}
+                content={JSON.parse(searchData.content)}
+              />
+            </EditContextProvider>
+          </div>
+        </div>
 
-				{/*-----------right sidebar --------------*/}
-				<div
-					className="search-image overflow-hidden d-flex align-items-center justify-content-center text-white bg-primary-green-600"
-					style={{ borderRadius: "0.75rem", width: "200px" }}
-				>
-					{searchData.uploadFile ? (
-						<ImageOrVideo
-							w100={false}
-							h100={true}
-							uploadFile={searchData.uploadFile}
-							isPost={true}
-						/>
-					) : (
-						<IoDocumentTextOutline />
-					)}
-				</div>
-			</div>
-		</Link>
-	);
+        {/*-----------right sidebar --------------*/}
+        <div
+          className="search-image overflow-hidden d-flex align-items-center justify-content-center text-white bg-primary-green-600"
+          style={{ borderRadius: "0.75rem", width: "200px" }}
+        >
+          {searchData.uploadFile ? (
+            <ImageOrVideo
+              w100={false}
+              h100={true}
+              uploadFile={searchData.uploadFile}
+              isPost={true}
+            />
+          ) : (
+            <div style={{fontSize:"80px"}}> 
+              <IoDocumentTextOutline />
+            </div>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
 }

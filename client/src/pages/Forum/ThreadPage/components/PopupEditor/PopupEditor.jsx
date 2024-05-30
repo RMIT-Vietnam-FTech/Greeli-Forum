@@ -49,7 +49,7 @@ export default function PopupEditor({
   return (
     <div
       className={
-        "mt-3 p-3 w-100 rounded-3 border border-dark h-50 text-dark overflow-hidden"
+        "my-2 p-3 w-100 rounded-3 border border-dark h-50 text-dark overflow-hidden"
       }
     >
       <EditorProvider

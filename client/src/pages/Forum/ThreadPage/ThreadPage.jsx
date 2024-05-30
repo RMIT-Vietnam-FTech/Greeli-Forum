@@ -23,6 +23,9 @@ export default function ThreadPage() {
   if (isLoading) {
     return <div>is loading</div>;
   }
+  if(data){
+
+  }
   return (
      
     <>

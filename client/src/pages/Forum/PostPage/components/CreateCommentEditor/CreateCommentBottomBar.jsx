@@ -1,5 +1,5 @@
 import { useCurrentEditor } from "@tiptap/react";
-import { useContext, useId } from "react";
+import { useContext, useEffect, useId } from "react";
 import { useParams } from "react-router-dom";
 
 import axios from "axios";
@@ -9,22 +9,30 @@ import Comment from "../ReplyComment";
 axios.defaults.withCredentials = true;
 
 export default function CreateCommentBottomBar({ content }) {
+  const { editor } = useCurrentEditor();
   const editContext = useContext(EditContext);
   const commentContext = useContext(CommentContext);
   const { postId } = useParams();
+  const createCommentError = document.querySelector(
+    "#create-comment-section-error"
+  );
 
-  const { editor } = useCurrentEditor();
+  useEffect(() => {
+    createCommentError.classList.add("d-none");
+  }, [editor.getText(), commentContext.file]);
+
   if (!editor.isEditable) {
     editor.setEditable(true);
   }
   function handleOnCancel() {
+    createCommentError.classList.add("d-none");
     editor.setEditable(false);
     editContext.setIsEdit(false);
     editor.commands.setContent("");
   }
   async function handleOnDone() {
     try {
-      if (editor.getText()) {
+      if (editor.getText() || commentContext.file) {
         editor.setEditable(false);
         editContext.setIsEdit(false);
 
@@ -54,6 +62,8 @@ export default function CreateCommentBottomBar({ content }) {
         //set content
       } else {
         // toggle error text editor
+
+        createCommentError.classList.remove("d-none");
       }
     } catch (error) {
       console.error(error.message);

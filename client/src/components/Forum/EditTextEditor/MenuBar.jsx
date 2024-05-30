@@ -18,7 +18,7 @@ export default function MenuBar() {
 
 
  return (
-   <div className="mb-3">
+   <div className=" py-2">
      <Bold editor={editor}>
        <FaBold />
      </Bold>
