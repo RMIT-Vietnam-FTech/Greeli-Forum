@@ -75,7 +75,7 @@ const threadSchema = new mongoose.Schema(
 			},
 		},
 	},
-	{ timestamps: true }
+	{ timestamps: true },
 );
 
 const Thread = mongoose.model("Thread", threadSchema);

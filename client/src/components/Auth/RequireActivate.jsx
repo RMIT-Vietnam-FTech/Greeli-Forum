@@ -18,7 +18,7 @@ const RequireActivate = () => {
 	const activateAccount = () => {
 		const configuration = {
 			method: "post",
-			url: `http://locahost3001/api/user/${userId}/activate`,
+			url: `http://localhost:3001/api/user/${userId}/activate`,
 		};
 		axios(configuration)
 			.then((result) => {

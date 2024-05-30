@@ -25,7 +25,7 @@ function App() {
 	const routes = useRoutes(routesConfig);
 	useEffect(() => {
 		console.log(
-			`check location pathname: ${location.pathname}\n check isForum: ${isForum}`
+			`check location pathname: ${location.pathname}\n check isForum: ${isForum}`,
 		);
 		if (location.pathname.split("/")[1] === "forum") {
 			setIsForum(true);

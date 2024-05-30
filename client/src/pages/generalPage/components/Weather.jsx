@@ -31,7 +31,9 @@ export default function Weather() {
 		try {
 			const data = await WeatherApi(city);
 			const currentWeather = data.currentWeather;
-			const forecastData = data.forecast.list.filter((_, index) => index % 8 === 0,); // Get forecast every 3 hours
+			const forecastData = data.forecast.list.filter(
+				(_, index) => index % 8 === 0,
+			); // Get forecast every 3 hours
 			setWeather({
 				icon: `https://openweathermap.org/img/wn/${currentWeather.weather[0].icon}@2x.png`,
 				temp: currentWeather.main.temp,

@@ -68,7 +68,10 @@ const ChangePassword = (props) => {
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<h2>Change Password</h2>
-			<form onSubmit={handleSubmit(onSubmit)} aria-label="Change Password Form">
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				aria-label="Change Password Form"
+			>
 				<div className="p-0 m-0 editing-input-wrapper">
 					{/* OLD PASS INPUT */}
 					<div
@@ -95,13 +98,21 @@ const ChangePassword = (props) => {
 								onChange={(e) => {
 									setOldPassword(e.target.value);
 								}}
-								aria-invalid={errors.oldPassword ? "true" : "false"}
+								aria-invalid={
+									errors.oldPassword ? "true" : "false"
+								}
 							/>
-							<label htmlFor="floatingOldPassword">Old password</label>
+							<label htmlFor="floatingOldPassword">
+								Old password
+							</label>
 						</div>
 					</div>
 					{errors.oldPassword && (
-						<p className="error text-start" role="alert" tabIndex={0}>
+						<p
+							className="error text-start"
+							role="alert"
+							tabIndex={0}
+						>
 							{errors.oldPassword.message}
 						</p>
 					)}
@@ -131,7 +142,8 @@ const ChangePassword = (props) => {
 									},
 									minLength: {
 										value: 8,
-										message: "This input must exceed 8 characters",
+										message:
+											"This input must exceed 8 characters",
 									},
 									validate: (value) => {
 										if (value === oldPassword) {
@@ -152,13 +164,19 @@ const ChangePassword = (props) => {
 								// 	backgroundColor: "transparent",
 								// 	color: "white",
 								// }}
-								aria-invalid={errors.newPassword ? "true" : "false"}
+								aria-invalid={
+									errors.newPassword ? "true" : "false"
+								}
 							/>
 							<label htmlFor="newPassword">New password</label>
 						</div>
 					</div>
 					{errors.newPassword && (
-						<p className="error text-start" role="alert" tabIndex={0}>
+						<p
+							className="error text-start"
+							role="alert"
+							tabIndex={0}
+						>
 							{errors.newPassword.message}
 						</p>
 					)}

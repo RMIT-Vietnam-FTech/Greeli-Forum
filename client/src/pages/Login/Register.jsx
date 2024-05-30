@@ -34,7 +34,9 @@ const Register = () => {
 			.required("Username is required")
 			.min(5, "Username must be at least 5 characters")
 			.max(20, "Username must not exceed 20 characters"),
-		email: Yup.string().required("Email is required").email("Email is invalid"),
+		email: Yup.string()
+			.required("Email is required")
+			.email("Email is invalid"),
 		password: Yup.string()
 			.required("Password is required")
 			.min(6, "Password must have at least 6 characters")
@@ -44,7 +46,10 @@ const Register = () => {
 			.matches(/[A-Z]/, getCharacterValidationError("uppercase")),
 		confirmPassword: Yup.string()
 			.required("Confirm Password is required")
-			.oneOf([Yup.ref("password"), null], "Confirm Password does not match"),
+			.oneOf(
+				[Yup.ref("password"), null],
+				"Confirm Password does not match",
+			),
 	});
 
 	const {
@@ -178,9 +183,14 @@ const Register = () => {
 									id="username"
 									placeholder="greeli17"
 									value={username}
-									onChange={(e) => setUsername(e.target.value)}
+									onChange={(e) =>
+										setUsername(e.target.value)
+									}
 								/>
-								<label for="username" className="text-greeli-emphasis">
+								<label
+									for="username"
+									className="text-greeli-emphasis"
+								>
 									Username
 								</label>
 							</div>
@@ -211,7 +221,10 @@ const Register = () => {
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
 								/>
-								<label for="email" className="text-greeli-emphasis">
+								<label
+									for="email"
+									className="text-greeli-emphasis"
+								>
 									Email address
 								</label>
 							</div>
@@ -241,9 +254,14 @@ const Register = () => {
 									placeholder="password"
 									value={password}
 									autoComplete="on"
-									onChange={(e) => setPassword(e.target.value)}
+									onChange={(e) =>
+										setPassword(e.target.value)
+									}
 								/>
-								<label for="password" className="text-greeli-emphasis">
+								<label
+									for="password"
+									className="text-greeli-emphasis"
+								>
 									Password
 								</label>
 								<i className="password-info">?</i>
@@ -282,9 +300,14 @@ const Register = () => {
 									autoComplete="on"
 									placeholder="Confirm Password"
 									value={confirmPassword}
-									onChange={(e) => setConfirmPasword(e.target.value)}
+									onChange={(e) =>
+										setConfirmPasword(e.target.value)
+									}
 								/>
-								<label for="confirmPassword" className="text-greeli-emphasis">
+								<label
+									for="confirmPassword"
+									className="text-greeli-emphasis"
+								>
 									Confirm Password
 								</label>
 							</div>
@@ -298,7 +321,9 @@ const Register = () => {
 							</span>
 						</div>
 						{errors.confirmPassword && (
-							<p className="error">{errors.confirmPassword.message}</p>
+							<p className="error">
+								{errors.confirmPassword.message}
+							</p>
 						)}
 						{/* <Reaptcha
               className=" mb-4"

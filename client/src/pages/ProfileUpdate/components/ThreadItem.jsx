@@ -22,6 +22,7 @@ const ThreadItem = (props) => {
 	} = props.post;
 	const data = useProfileContext();
 	const { profileImage } = data;
+	console.log(props.post);
 
 	useEffect(() => {
 		const getPostThreadAsync = async (threadId) => {
@@ -37,12 +38,14 @@ const ThreadItem = (props) => {
 					console.log(error);
 				});
 		};
-		getPostThreadAsync(threadId);
+		threadId && getPostThreadAsync(threadId);
 	}, [threadId]);
 
 	//REDIRECT TO POST PAGE
 	const handlePostClick = () => {
-		navigate(`/forum/threads/${threadId}/posts/${postId}`, { replace: true });
+		navigate(`/forum/threads/${threadId}/posts/${postId}`, {
+			replace: true,
+		});
 	};
 
 	return (
@@ -65,7 +68,7 @@ const ThreadItem = (props) => {
 						<img
 							className="rounded-circle"
 							src={profileImage}
-							alt={`Author: ${author.username}`}
+							alt={`Author: ${author?.username}`}
 							style={{ aspectRatio: "1/1" }}
 						/>
 						<div className="d-flex flex-md-column flex-row-reverse justify-content-center">
@@ -75,26 +78,36 @@ const ThreadItem = (props) => {
 								</p>
 								<p className="text-white m-0">{createdDate}</p>
 							</div>
-							<p className="text-white p-0 m-0">{author.username}</p>
+							<p className="text-white p-0 m-0">
+								{author?.username}
+							</p>
 						</div>
 					</div>
 					<p className="d-md-none d-block text-primary-yellow fw-bold m-0">
 						{threadTitle}/{title}
 					</p>
-					<p className="d-none d-md-block w-100 text-white mt-3">{content}</p>
+					<p className="d-none d-md-block w-100 text-white mt-3">
+						{content}
+					</p>
 					<div className="d-flex justify-content-start interaction-menu">
 						<button
 							aria-label={`Upvote, current count: ${upvote}`}
 							className="bg-primary-green-900 text-white d-flex flex-row justify-content-center align-items-center py-2 px-2 upvote btn btn-link p-0 text-decoration-none p-0"
 						>
-							<TbArrowBigUp className="info-icon" color={"white"} />
+							<TbArrowBigUp
+								className="info-icon"
+								color={"white"}
+							/>
 							<p className="p-0 m-0">{upvote}</p>
 						</button>
 						<button
 							aria-label={`Comments, current count: ${comment}`}
 							className="bg-primary-green-900 text-white d-flex flex-row justify-content-center align-items-center py-2 px-2 comment btn btn-link p-0 text-decoration-none p-0"
 						>
-							<MdInsertComment className="info-icon" color={"white"} />
+							<MdInsertComment
+								className="info-icon"
+								color={"white"}
+							/>
 							<p className="p-0 m-0">{comment}</p>
 						</button>
 					</div>
