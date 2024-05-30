@@ -55,7 +55,9 @@ const RightSidePart = (props) => {
 
 	// PROCESS FETCHED POSTS
 	// console.log(comments.data);
-	const fetchedPosts = comments?.data?.map((comment) => processPosts(comment));
+	const fetchedPosts = comments?.data?.map((comment) =>
+		processPosts(comment),
+	);
 
 	useEffect(() => {
 		var newRenderPostList = [];
@@ -67,8 +69,13 @@ const RightSidePart = (props) => {
 			await axios(configuration)
 				.then(async (response) => {
 					const data = response.data;
-					const processedData = await data.map((post) => processPosts(post));
-					newRenderPostList = [...newRenderPostList, ...processedData];
+					const processedData = await data.map((post) =>
+						processPosts(post),
+					);
+					newRenderPostList = [
+						...newRenderPostList,
+						...processedData,
+					];
 				})
 				.catch((error) => {
 					console.log(error);
@@ -90,8 +97,13 @@ const RightSidePart = (props) => {
 			await axios(configuration)
 				.then(async (response) => {
 					const data = response.data;
-					const processedData = await data.map((post) => processPosts(post));
-					newRenderPostList = [...newRenderPostList, ...processedData];
+					const processedData = await data.map((post) =>
+						processPosts(post),
+					);
+					newRenderPostList = [
+						...newRenderPostList,
+						...processedData,
+					];
 				})
 				.catch((error) => {
 					console.log(error);

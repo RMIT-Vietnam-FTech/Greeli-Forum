@@ -48,7 +48,9 @@ const Dashboard = () => {
 			// console.log(response.data);
 			setDataItems(response.data.users || []);
 			setTotal(response.data.totalUsers || 0);
-			setTotalPages(Math.ceil((response.data.totalUsers || 0) / itemsPerPage));
+			setTotalPages(
+				Math.ceil((response.data.totalUsers || 0) / itemsPerPage),
+			);
 		} catch (error) {
 			setError(error.message);
 		} finally {
@@ -60,13 +62,13 @@ const Dashboard = () => {
 	const fetchArchivedCommunities = async () => {
 		try {
 			const response = await axios.get(
-				`${apiUrl}/api/v1/threads/admin/archived`
+				`${apiUrl}/api/v1/threads/admin/archived`,
 			);
 			console.log(response.data);
 			setDataItems(response.data.threads || []);
 			setTotal(response.data.totalThreads || 0);
 			setTotalPages(
-				Math.ceil((response.data.totalThreads || 0) / itemsPerPage)
+				Math.ceil((response.data.totalThreads || 0) / itemsPerPage),
 			);
 		} catch (error) {
 			setError(error.message);
@@ -80,11 +82,15 @@ const Dashboard = () => {
 	//FETCH ARCHIVED THREADS
 	const fetchArchivedThreads = async () => {
 		try {
-			const response = await axios.get(`${apiUrl}/api/v1/posts/admin/archived`);
+			const response = await axios.get(
+				`${apiUrl}/api/v1/posts/admin/archived`,
+			);
 			// console.log(response.data);
 			setDataItems(response.data.posts || []);
 			setTotal(response.data.totalPosts || 0);
-			setTotalPages(Math.ceil((response.data.totalPosts || 0) / itemsPerPage));
+			setTotalPages(
+				Math.ceil((response.data.totalPosts || 0) / itemsPerPage),
+			);
 		} catch (error) {
 			setError(error.message);
 			console.log(error);
@@ -98,7 +104,7 @@ const Dashboard = () => {
 	const fetchArchivedPosts = async () => {
 		try {
 			const response = await axios.get(
-				`${apiUrl}/api/v1/comments/admin/archived`
+				`${apiUrl}/api/v1/comments/admin/archived`,
 			);
 			// console.log(response.data);
 			const processedData = response.data.comments.map(
@@ -106,13 +112,13 @@ const Dashboard = () => {
 					(comment = {
 						...comment,
 						title: processPostContent(comment),
-					})
+					}),
 			);
 			console.log(processedData);
 			setDataItems(processedData || []);
 			setTotal(response.data.totalComments || 0);
 			setTotalPages(
-				Math.ceil((response.data.totalComments || 0) / itemsPerPage)
+				Math.ceil((response.data.totalComments || 0) / itemsPerPage),
 			);
 		} catch (error) {
 			setError(error.message);
@@ -147,7 +153,7 @@ const Dashboard = () => {
 
 	//CHECK CURRENT TAB
 	const currentTabObj = changeTabCollection.find(
-		(tabObj) => tabObj.title === tab
+		(tabObj) => tabObj.title === tab,
 	);
 	// console.log(currentTabObj);
 
@@ -189,8 +195,10 @@ const Dashboard = () => {
 			await axios(configuration);
 			setDataItems(
 				dataItems.map((user) =>
-					user._id === userId ? { ...user, isLocked: !isLocked } : user
-				)
+					user._id === userId
+						? { ...user, isLocked: !isLocked }
+						: user,
+				),
 			);
 		} catch (error) {
 			toast(isLocked ? "Failed to unlock user" : "Failed to lock user");
@@ -213,8 +221,8 @@ const Dashboard = () => {
 				dataItems.map((item) =>
 					item._id === id
 						? { ...item, "archived.isArchived": false }
-						: dataItems
-				)
+						: dataItems,
+				),
 			);
 			setSuccess("Unarchived successfully");
 		} catch (error) {
@@ -228,7 +236,7 @@ const Dashboard = () => {
 	const filteredData = dataItems.filter((dataItem) =>
 		dataItem[searchCategory]
 			?.toLowerCase()
-			.startsWith(searchQuery.toLowerCase())
+			.startsWith(searchQuery.toLowerCase()),
 	);
 	// const filteredData = dataItems;
 	// console.log(dataItems);

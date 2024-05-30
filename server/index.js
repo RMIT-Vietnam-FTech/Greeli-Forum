@@ -42,7 +42,7 @@ app.use(
 	cors({
 		origin: "http://localhost:3000", // Your client-side URL
 		credentials: true,
-	})
+	}),
 );
 
 app.get("/api", (req, res) => {

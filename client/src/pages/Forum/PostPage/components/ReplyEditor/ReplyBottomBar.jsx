@@ -1,5 +1,7 @@
 import { useCurrentEditor } from "@tiptap/react";
 import axios from "axios";
+import { useEffect } from "react";
+
 import { useContext, useId, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { EditContext } from "../../../../../context/EditContext";
@@ -12,11 +14,19 @@ export default function ReplyBottomBar({ parentId }) {
 	const replyContext = useContext(ReplyContext);
 	const { postId } = useParams();
 	const { editor } = useCurrentEditor();
+	const createReplyError = document.querySelector(
+		`#create-reply-section-error-${parentId}`,
+	);
+	useEffect(() => {
+		createReplyError.classList.add("d-none");
+	}, [editor.getText(), replyContext.file]);
 
 	if (!editor.isEditable) {
 		editor.setEditable(true);
 	}
+
 	function handleOnCancel() {
+		createReplyError.classList.add("d-none");
 		editor.setEditable(false);
 		editContext.setIsEdit(false);
 		editor.commands.setContent("");
@@ -24,8 +34,7 @@ export default function ReplyBottomBar({ parentId }) {
 	}
 
 	async function handleOnDone(parentId) {
-		console.log("check parentId: " + parentId);
-		if (editor.getText()) {
+		if (editor.getText() || replyContext.file) {
 			editor.setEditable(false);
 			editContext.setIsEdit(false);
 			replyContext.setIsReply(false);
@@ -38,37 +47,38 @@ export default function ReplyBottomBar({ parentId }) {
 				)
 				.then((res) => res.data);
 
-      const formData = new FormData();
-      formData.append("uploadFile", replyContext.file);
-      formData.append("content", JSON.stringify(editor.getJSON()));
-      formData.append("postId", postId);
-      formData.append("parentId", parentId);
-      for (var pair of formData.entries()) {
-        console.log(pair[0] + ", " + pair[1]);
-      }
+			const formData = new FormData();
+			formData.append("uploadFile", replyContext.file);
+			formData.append("content", JSON.stringify(editor.getJSON()));
+			formData.append("postId", postId);
+			formData.append("parentId", parentId);
+			for (var pair of formData.entries()) {
+				console.log(pair[0] + ", " + pair[1]);
+			}
 
-      const newReplyData = await axios
-        .post("http://localhost:3001/api/v1/comments", formData, {
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("user")).token
-            }`,
-          },
-        })
-        .then((res) => res.data);
+			const newReplyData = await axios
+				.post("http://localhost:3001/api/v1/comments", formData, {
+					headers: {
+						Authorization: `Bearer ${
+							JSON.parse(localStorage.getItem("user")).token
+						}`,
+					},
+				})
+				.then((res) => res.data);
 
-      replyContext.setNewReply([
-        <ReplyComment
-          key={newReplyData._id}
-          commentData={newReplyData}
-          isNew={true}
-        />,
-      ]);
+			replyContext.setNewReply([
+				<ReplyComment
+					key={newReplyData._id}
+					commentData={newReplyData}
+					isNew={true}
+				/>,
+			]);
 
 			//set content
 			editor.commands.setContent("");
 		} else {
 			// toggle error text editor
+			createReplyError.classList.remove("d-none");
 		}
 	}
 	return (

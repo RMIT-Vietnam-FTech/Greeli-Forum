@@ -20,12 +20,16 @@ const BasicInfo = (props) => {
 					{iconArray[id]}
 				</div>
 				<p
-					className={`col-10 ${displayInfo === null ? "text-gray" : ""}`}
+					className={`col-10 ${
+						displayInfo === null ? "text-gray" : ""
+					}`}
 					tabIndex={0}
 					role="textbox"
 					aria-readonly="true"
 				>
-					{displayInfo === null ? "Please update your info" : displayInfo}
+					{displayInfo === null
+						? "Please update your info"
+						: displayInfo}
 				</p>
 			</div>
 		</div>

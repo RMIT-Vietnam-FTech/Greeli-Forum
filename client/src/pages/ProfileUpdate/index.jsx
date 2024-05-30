@@ -67,7 +67,9 @@ const ProfileUpdate = (props) => {
 					const gender = user.gender;
 					// ? user.gender
 					// : `${prefixForNoInfo} gender`;
-					const profileImage = user.profileImage ? user.profileImage : "";
+					const profileImage = user.profileImage
+						? user.profileImage
+						: "";
 					const description = user.description
 						? user.description
 						: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...";

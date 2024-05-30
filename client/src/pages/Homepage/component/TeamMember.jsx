@@ -1,5 +1,6 @@
 import React from "react";
 import members from "../data/memberInfo";
+import "../style/member.css";
 const TeamMember = () => {
 	return (
 		<>
@@ -9,10 +10,6 @@ const TeamMember = () => {
 						<h1 className="display-5 fw-semibold text-center text-greeli-emphasis w-100 mb-3">
 							Our Team
 						</h1>
-						{/* <p className="text-secondary mb-5 text-center lead fs-4">
-                We are a group of innovative, experienced, and proficient teams.
-                You will love to collaborate with us.
-              </p> */}
 					</div>
 				</div>
 			</div>
@@ -24,20 +21,20 @@ const TeamMember = () => {
 							className="col-11 col-md-6 col-lg-4 rounded-3"
 							key={member.id}
 						>
-							<div className="card border-0 shadow-sm rounded-4 overflow-hidden">
+							<div className="card rounded-4 overflow-hidden">
 								<div className="card-body p-0">
-									<figure className="m-0 p-0">
+									<figure className="m-0 p-0 rounded-4 shadow-lg rounded">
 										<img
-											className="img-fluid"
+											className="img-fluid "
 											loading="lazy"
 											src={member.src}
 											alt=""
 										/>
 										<figcaption className="m-0 p-4">
-											<h4 className="mb-1">
+											<h4 className="mb-1 text-black">
 												{member.name}
 											</h4>
-											<p className="text-secondary mb-0">
+											<p className="mb-0 text-black">
 												{member.position}
 											</p>
 										</figcaption>
@@ -53,20 +50,20 @@ const TeamMember = () => {
 							className="col-11 col-md-6 col-lg-4"
 							key={member.id}
 						>
-							<div className="card border-0 shadow-sm rounded-4 overflow-hidden">
+							<div className="card border-0 rounded-4 overflow-hidden">
 								<div className="card-body p-0">
 									<figure className="m-0 p-0">
 										<img
-											className="img-fluid"
+											className="img-fluid rounded-top-4"
 											loading="lazy"
 											src={member.src}
 											alt={`${member.name}'s profile image`}
 										/>
 										<figcaption className="m-0 p-4">
-											<h4 className="mb-1">
+											<h4 className="mb-1 text-black">
 												{member.name}
 											</h4>
-											<p className="text-secondary mb-0">
+											<p className="text-black mb-0">
 												{member.position}
 											</p>
 										</figcaption>

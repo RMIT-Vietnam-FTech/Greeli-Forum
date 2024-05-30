@@ -21,7 +21,9 @@ export default function SearchBar() {
 		) {
 			searchOutput.classList.remove("d-none");
 			let searchTerm = await axios
-				.get(`http://localhost:3001/api/v1/posts?search=${e.target.value}`)
+				.get(
+					`http://localhost:3001/api/v1/posts?search=${e.target.value}`,
+				)
 				.then((res) => res.data);
 			setResult([...searchTerm]);
 			console.log(result);
@@ -58,11 +60,17 @@ export default function SearchBar() {
 					}}
 				>
 					{result.map((searchData) => {
-						if (result.length < 1 || searchData.archived.isArchived) {
+						if (
+							result.length < 1 ||
+							searchData.archived.isArchived
+						) {
 							return null;
 						} else {
 							return (
-								<SearchItem key={searchData._id} searchData={searchData} />
+								<SearchItem
+									key={searchData._id}
+									searchData={searchData}
+								/>
 							);
 						}
 					})}
@@ -95,20 +103,29 @@ export function SearchItem({ searchData, searchBar }) {
 				<div className="overflow-hidden" style={{ width: "85%" }}>
 					{/*-----------user info --------------*/}
 					<div className="d-flex gap-2">
-						<Avatar size="sm" src={searchData.createdBy.profileImage} />
-						<p className="text-secondary" style={{ fontSize: "12px" }}>
+						<Avatar
+							size="sm"
+							src={searchData.createdBy.profileImage}
+						/>
+						<p
+							className="text-secondary"
+							style={{ fontSize: "12px" }}
+						>
 							{searchData.createdBy.username}
 						</p>
 					</div>
 					{/*-----------title and content--------------*/}
 					<div className="w-75">
-						<h2 className="text-greeli-emphasis" style={{ fontSize: "18px" }}>
+						<h2
+							className="text-greeli-emphasis"
+							style={{ fontSize: "18px" }}
+						>
 							{searchData.title}
 						</h2>
 						<EditContextProvider>
 							<EditTextEditor
 								className="post-content"
-								componentType="post"
+								componentType="search"
 								isOverFlow={true}
 								content={JSON.parse(searchData.content)}
 							/>
@@ -129,7 +146,9 @@ export function SearchItem({ searchData, searchBar }) {
 							isPost={true}
 						/>
 					) : (
-						<IoDocumentTextOutline />
+						<div style={{ fontSize: "80px" }}>
+							<IoDocumentTextOutline />
+						</div>
 					)}
 				</div>
 			</div>

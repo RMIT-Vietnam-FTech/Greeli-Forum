@@ -43,14 +43,14 @@ router.put(
 	"/:postId/archive",
 	verifyToken,
 	// verifyAdmin,
-	PostController.archivePost
+	PostController.archivePost,
 );
 
 router.put(
 	"/:postId/unarchive",
 	verifyToken,
 	// verifyAdmin,
-	PostController.unarchivePost
+	PostController.unarchivePost,
 );
 
 router
@@ -58,7 +58,7 @@ router
 	.post(verifyToken, PostController.postUpVote)
 	.delete(verifyToken, PostController.deleteUpvote);
 
-router
-	.route("/admin/archived")
-	.get(verifyToken, verifyAdmin, PostController.getArchivedPosts);
+// router
+// 	.route("/admin/archived")
+// 	.get(verifyToken, verifyAdmin, PostController.getArchivedPosts);
 export default router;

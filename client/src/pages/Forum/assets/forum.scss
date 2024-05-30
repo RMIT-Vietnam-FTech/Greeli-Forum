@@ -41,6 +41,12 @@
   border-top: 0.25px solid rgb(95, 98, 95);
   border-bottom: 0.25px solid rgb(95, 98, 95);
 }
+.bg-hidden-dark{
+  background-color: #000000;
+}
+.bg-hidden-light{
+  background-color: #4f4f4f;
+}
 .avatar {
   display: flex;
   align-items: center;
@@ -331,7 +337,7 @@
 }
 #post-modal {
   width: 90%;
-  height: 80%;
+  height: 85%;
   max-height: 800px;
   overflow-y: scroll;
   border-radius: 0.75rem;

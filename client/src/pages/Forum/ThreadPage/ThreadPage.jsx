@@ -11,30 +11,32 @@ axios.defaults.withCredentials = true;
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 export default function ThreadPage() {
-  const { threadId } = useParams();
-  const path = `http://localhost:3001/api/v1/threads/${threadId}`;
-  const navigate = useNavigate();
-  const { data, error, isLoading } = useSwr(path, fetcher);
+	const { threadId } = useParams();
+	const path = `http://localhost:3001/api/v1/threads/${threadId}`;
+	const navigate = useNavigate();
+	const { data, error, isLoading } = useSwr(path, fetcher);
 
-  if (error) {
-    navigate("/404");
-  }
+	if (error) {
+		navigate("/404");
+	}
 
-  if (isLoading) {
-    return <div>is loading</div>;
-  }
-  return (
-     
-    <>
-      {data && <ThreadContent
-        title={data.title}
-        uploadFile={data.uploadFile}
-        content={data.content}
-        objectId={data._id}
-        createdBy={data.createdBy}
-      />}
-      {data && <PostList threadData={data} />}
-    </>
-  
-  );
+	if (isLoading) {
+		return <div>is loading</div>;
+	}
+	if (data) {
+	}
+	return (
+		<>
+			{data && (
+				<ThreadContent
+					title={data.title}
+					uploadFile={data.uploadFile}
+					content={data.content}
+					objectId={data._id}
+					createdBy={data.createdBy}
+				/>
+			)}
+			{data && <PostList threadData={data} />}
+		</>
+	);
 }

@@ -174,7 +174,9 @@ const LeftSidePart = (props) => {
 								{role}
 							</div>
 						</div>
-						<h1 className="px-3 mt-5 username-container">{username}</h1>
+						<h1 className="px-3 mt-5 username-container">
+							{username}
+						</h1>
 						{isMe && <EditInfoModal />}
 					</div>
 					<div className="w-100 d-flex flex-row align-items-center justify-content-between profile-figures">
@@ -229,7 +231,9 @@ const LeftSidePart = (props) => {
 						{/* LOCK/UNLOCK BUTTON */}
 						{!isMe && isAdmin && (
 							<PreventionPopup
-								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
+								modalTitle={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} Account`}
 								buttonStyle="bg-danger text-white rounded-pill mt-2 py-2 border-0"
 								ariaLabel={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
@@ -237,7 +241,9 @@ const LeftSidePart = (props) => {
 								buttonValue={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
 								} this user`}
-								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
+								action={`${
+									basicInfo.isLocked ? "unlock" : "lock"
+								} this user`}
 								warningMessage={`If you ${
 									basicInfo.isLocked ? "unlock" : "lock"
 								} this account, the user will be ${

@@ -278,7 +278,7 @@ export default function News() {
 				setLoading(false);
 			} catch (error) {
 				setError(
-					"Sorry my love ❤️, we trying to fix the issue. Please try again later.",
+					"Sorry, we trying to fix the issue. Please try again later.",
 				);
 				setLoading(false);
 			}

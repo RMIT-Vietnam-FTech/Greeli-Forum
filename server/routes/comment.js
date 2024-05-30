@@ -31,7 +31,7 @@ router
 	.post(
 		verifyToken,
 		upload.single("uploadFile"),
-		commentController.createComment
+		commentController.createComment,
 	);
 router
 	.route("/:commentId/archive")

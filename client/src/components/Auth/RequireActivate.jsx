@@ -39,7 +39,10 @@ const RequireActivate = () => {
 	) : (
 		// <Navigate to="/login" state={{ from: location }} replace />
 		<div className="h-100 text-center m-5">
-			<h2 className="" style={{ marginBottom: "-40px", marginTop: "100px" }}>
+			<h2
+				className=""
+				style={{ marginBottom: "-40px", marginTop: "100px" }}
+			>
 				Your account is deactivated, click the button to activate it
 			</h2>
 			<PreventionPopup

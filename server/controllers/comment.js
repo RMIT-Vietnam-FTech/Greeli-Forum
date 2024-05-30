@@ -47,17 +47,27 @@ export const createComment = async (req, res) => {
 				type: null,
 			};
 			const imageName = createRandomName();
-			const uploadFileMetaData = await fileTypeFromBuffer(uploadFile.buffer);
+			const uploadFileMetaData = await fileTypeFromBuffer(
+				uploadFile.buffer,
+			);
 			const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
 			if (uploadFileMime === "image") {
 				const fileBuffer = await sharp(uploadFile.buffer)
 					.jpeg({ quality: 100 })
 					.resize(1000)
 					.toBuffer();
-				await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
+				await uploadFileData(
+					fileBuffer,
+					imageName,
+					uploadFile.mimetype,
+				);
 				commentObject.uploadFile.type = "image";
 			} else {
-				await uploadFileData(uploadFile.buffer, imageName, uploadFile.mimetype);
+				await uploadFileData(
+					uploadFile.buffer,
+					imageName,
+					uploadFile.mimetype,
+				);
 				commentObject.uploadFile.type = "video";
 			}
 			commentObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
@@ -125,7 +135,9 @@ export const getComments = async (req, res) => {
 			}
 			queryCommand._id = { $in: post.comments };
 		}
-		const comments = await Comment.aggregate([{ $match: queryCommand }]).facet({
+		const comments = await Comment.aggregate([
+			{ $match: queryCommand },
+		]).facet({
 			metadata: [
 				{
 					$project: {
@@ -200,6 +212,45 @@ export const getArchivedComments = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
+export const getArchivedComments = async (req, res) => {
+	try {
+		const page = parseInt(req.query.page) || 1;
+		const limit = parseInt(req.query.limit) || 10;
+		const skip = (page - 1) * limit;
+
+		const sort = req.query.sort || "newest";
+
+		let sortCriteria;
+		switch (sort) {
+			case "newest":
+				sortCriteria = { createdAt: -1 };
+				break;
+			case "oldest":
+				sortCriteria = { createdAt: 1 };
+				break;
+			case "most-posts":
+				sortCriteria = { createdPost: -1 };
+				break;
+			case "least-posts":
+				sortCriteria = { createdPost: 1 };
+				break;
+			default:
+				sortCriteria = { createdAt: -1 };
+		}
+		const comments = await Comment.find({ "archived.isArchived": true })
+			.select("-password")
+			.skip(skip)
+			.limit(limit)
+			.sort(sortCriteria);
+		const totalComments = await Comment.find({
+			"archived.isArchived": true,
+		}).countDocuments();
+		res.status(200).json({ comments, totalComments });
+		console.log(comments);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};
 
 export const postUpVote = async (req, res) => {
 	try {
@@ -207,7 +258,8 @@ export const postUpVote = async (req, res) => {
 		if (!commentId) return res.status(400).json("Bad Request");
 
 		const comment = await Comment.findById(commentId);
-		if (!comment) return res.status(400).json("post id not found or invalid");
+		if (!comment)
+			return res.status(400).json("post id not found or invalid");
 
 		comment.upvote.push(req.user.id);
 		await comment.save();
@@ -222,7 +274,8 @@ export const deleteUpvote = async (req, res) => {
 		if (!commentId) return res.status(400).json("Bad Request");
 
 		const comment = await Comment.findById(commentId);
-		if (!comment) return res.status(400).json("post id not found or invalid");
+		if (!comment)
+			return res.status(400).json("post id not found or invalid");
 
 		comment.upvote.remove(req.user.id);
 		await comment.save();
@@ -239,7 +292,9 @@ export const archiveComment = async (req, res) => {
 
 		const comment = await Post.findById(commentId);
 		if (!comment)
-			return res.status(404).json({ message: "post id not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "post id not found or invalid" });
 
 		{
 			/*check who can able to archived post*/
@@ -250,7 +305,12 @@ export const archiveComment = async (req, res) => {
 				.status(404)
 				.json({ message: "userId is invalid or not found" });
 
-		if (!(req.user.role === "admin" || user._id === comment.createdBy.userId))
+		if (
+			!(
+				req.user.role === "admin" ||
+				user._id === comment.createdBy.userId
+			)
+		)
 			return res.status(403).json({ message: "Forbidden" });
 
 		comment.archived.isArchived = true;
