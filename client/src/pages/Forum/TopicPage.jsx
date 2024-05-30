@@ -1,8 +1,8 @@
+import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import useSWR from "swr";
-import PostList from "./ThreadPage/PostList";
-import axios from "axios";
 import useSwr from "swr";
+import PostList from "./ThreadPage/PostList";
 
 const fetcher = (url) => axios.get(url).then((res) => res.data);
 

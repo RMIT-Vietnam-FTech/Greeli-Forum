@@ -1,8 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
-import { useUserContext } from "../../../context/UserContext";
-import { useProfileContext } from "../../../context/ProfileContext";
 import toast from "react-hot-toast";
+import { useProfileContext } from "../../../context/ProfileContext";
+import { useUserContext } from "../../../context/UserContext";
 
 const ChangeAvatar = (props) => {
 	const data = useProfileContext();

@@ -1,13 +1,14 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Cookies from "universal-cookie";
+import PreventionPopup from "../../../components/Popup/PreventionPopup";
+import { useProfileContext } from "../../../context/ProfileContext";
+import { useUserContext } from "../../../context/UserContext";
 // import { FaCamera } from "react-icons/fa";
 import BasicInfo from "./BasicInfo";
 import EditInfoModal from "./EditInfoModal";
-import PreventionPopup from "../../../components/Popup/PreventionPopup";
-import { useUserContext } from "../../../context/UserContext";
-import { useNavigate, useParams } from "react-router-dom";
-import Cookies from "universal-cookie";
-import axios from "axios";
-import { useProfileContext } from "../../../context/ProfileContext";
+axios.defaults.withCredentials = true;
 
 const LeftSidePart = (props) => {
 	//GET ID FROM LOCAL STORAGE AND PARAM
@@ -33,12 +34,18 @@ const LeftSidePart = (props) => {
 	} = data;
 	const [basicInfo, setBasicInfo] = useState(data);
 	const { isMe, comments } = props;
+	console.log(comments);
 
 	//ARCHIVE POSTS + THREADS
 	const archiveCreatedPost = (postId) => {
 		const configuration = {
 			method: "put",
-			url: `http://localhost:3001/api/posts/${postId}/archive`,
+			url: `http://localhost:3001/api/v1/posts/${postId}/archive-by-deactivating`,
+			data: {
+				userId: userId,
+				username: username,
+				profileImage: profileImage,
+			},
 		};
 		axios(configuration)
 			.then((result) => {
@@ -49,10 +56,15 @@ const LeftSidePart = (props) => {
 			});
 	};
 
-	const archiveCreatedThread = (threadId) => {
+	const archiveCreatedComment = (commentId) => {
 		const configuration = {
 			method: "put",
-			url: `http://localhost:3001/api/threads/${threadId}/archive`,
+			url: `http://localhost:3001/api/v1/comments/${commentId}/archive-by-deactivating`,
+			data: {
+				userId: userId,
+				username: username,
+				profileImage: profileImage,
+			},
 		};
 		axios(configuration)
 			.then((result) => {
@@ -68,14 +80,18 @@ const LeftSidePart = (props) => {
 	const cookies = new Cookies();
 
 	const deactivateAccount = () => {
-		console.log(createdThread, createdPost);
+		// console.log(createdThread, createdPost);
 
-		// createdPost.forEach((postId) => {
-		// 	archiveCreatedPost(postId);
-		// });
-		// createdThread.forEach((threadId) => {
-		// 	archiveCreatedThread(threadId);
-		// });
+		createdPost.forEach((postId) => {
+			archiveCreatedPost(postId);
+		});
+
+		console.log(createdPost, comments.data);
+
+		comments.data.forEach((comment) => {
+			archiveCreatedComment(comment._id);
+		});
+
 		const configuration = {
 			method: "post",
 			url: `http://localhost:3001/api/user/${userId}/deactivate`,

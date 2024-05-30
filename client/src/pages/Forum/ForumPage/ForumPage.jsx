@@ -12,9 +12,9 @@ import { useContext } from "react";
 import LoginPopup from "../../../components/Popup/LoginPopup";
 import { PopupContextProvider } from "../../../context/PopupContext";
 import { ThemeContext } from "../../../context/ThemeContext";
+import ErrorPage from "../../ErrorPage/ErrorPage";
 import PostList from "../ThreadPage/PostList";
 import TopicPage from "../TopicPage";
-import ErrorPage from "../../ErrorPage/ErrorPage";
 export default function ForumPage() {
 	const { isDarkMode } = useContext(ThemeContext);
 	return (

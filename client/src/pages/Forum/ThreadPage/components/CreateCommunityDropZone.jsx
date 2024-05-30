@@ -76,11 +76,11 @@ export default function CreateCommunityDropZone({ file, setFile, isReset }) {
 		}),
 		[isFocused, isDragAccept, isDragReject],
 	);
-	let _URL = window.URL || window.webkitURL;
+	const _url = window.URL || window.webkitURL;
 
 	let url;
 	if (acceptedFiles.length > 0) {
-		url = _URL.createObjectURL(acceptedFiles[0]);
+		url = _url.createObjectURL(acceptedFiles[0]);
 	}
 
 	return (

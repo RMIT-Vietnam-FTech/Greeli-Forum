@@ -14,9 +14,9 @@ import html from "highlight.js/lib/languages/xml";
 
 import MenuBar from "../../../../../components/Forum/EditTextEditor/MenuBar";
 import { EditContext } from "../../../../../context/EditContext";
-import ReplyBottomBar from "./ReplyBottomBar";
 import CreateCommentBottomBar from "../CreateCommentEditor/CreateCommentBottomBar";
 import CreateCommentMenuBar from "../CreateCommentEditor/CreateCommentMenuBar";
+import ReplyBottomBar from "./ReplyBottomBar";
 import ReplyMenuBar from "./ReplyMenuBar";
 //Utilities in tiptap
 lowlight.registerLanguage("html", html);

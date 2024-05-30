@@ -56,7 +56,7 @@ const Top = ({
 					isDarkMode
 						? "dashboard-title-dark"
 						: "dashboard-title-light"
-				}`}
+				} px-3`}
 			>
 				{tabTitle}
 			</h1>
@@ -105,38 +105,48 @@ const Top = ({
 							className="dashboard-dropdown-item"
 							onClick={() => handleSort("newest", "Newest")}
 						>
-							<a className="a-dashboard-dropdown-item" href="#">
+							<span className="a-dashboard-dropdown-item">
 								Newest
-							</a>
+							</span>
 						</li>
 						<li
 							className="dashboard-dropdown-item"
 							onClick={() => handleSort("oldest", "Oldest")}
 						>
-							<a className="a-dashboard-dropdown-item" href="#">
+							<span className="a-dashboard-dropdown-item">
 								Oldest
-							</a>
+							</span>
 						</li>
-						<li
-							className="dashboard-dropdown-item"
-							onClick={() =>
-								handleSort("most-posts", "Most Posts Created")
-							}
-						>
-							<a className="a-dashboard-dropdown-item" href="#">
-								Most Posts Created
-							</a>
-						</li>
-						<li
-							className="dashboard-dropdown-item"
-							onClick={() =>
-								handleSort("least-posts", "Least Posts Created")
-							}
-						>
-							<a className="a-dashboard-dropdown-item" href="#">
-								Least Posts Created
-							</a>
-						</li>
+						{tabTitle === "User List" && (
+							<li
+								className="dashboard-dropdown-item"
+								onClick={() =>
+									handleSort(
+										"most-posts",
+										"Most Posts Created",
+									)
+								}
+							>
+								<span className="a-dashboard-dropdown-item">
+									Most Posts Created
+								</span>
+							</li>
+						)}
+						{tabTitle === "User List" && (
+							<li
+								className="dashboard-dropdown-item"
+								onClick={() =>
+									handleSort(
+										"least-posts",
+										"Least Posts Created",
+									)
+								}
+							>
+								<span className="a-dashboard-dropdown-item">
+									Least Posts Created
+								</span>
+							</li>
+						)}
 					</ul>
 				</div>
 			</div>

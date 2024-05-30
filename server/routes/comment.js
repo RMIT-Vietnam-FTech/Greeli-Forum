@@ -33,10 +33,13 @@ router
 		upload.single("uploadFile"),
 		commentController.createComment,
 	);
-router
-	.route("/:commentId/archive")
-	.post(verifyToken, commentController.archiveComment);
+router.route("/:commentId/archive").post(commentController.archiveComment);
 // .delete(verifyToken, commentController.unArchiveComment);
+router.put(
+	"/:commentId/archive-by-deactivating",
+	// verifyToken,
+	commentController.archiveCommentByDeactivating,
+);
 
 router
 	.route("/:commentId/unarchive")

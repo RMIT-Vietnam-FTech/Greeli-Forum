@@ -2,9 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext";
-import Top from "./top";
-import Bottom from "./bottom";
 import { useUserContext } from "../../../context/UserContext";
+import Bottom from "./bottom";
+import Top from "./top";
 
 const Middle = (props) => {
 	const { user, error, setError, setSuccess } = useUserContext();
@@ -187,6 +187,7 @@ const Middle = (props) => {
 												?.isDeactivated
 										}
 										className={
+											"unarchive-btn " +
 											processedRenderedData(item)[3].style
 										}
 									>
@@ -227,7 +228,7 @@ const Middle = (props) => {
 						</p>
 						<p>
 							{tabTitle === "User List"
-								? `Status:{" "}
+								? `Status: 
 							${
 								selectedItem.isLocked
 									? "Locked"
@@ -248,13 +249,14 @@ const Middle = (props) => {
 								} else {
 									handleUnarchive(selectedItem, unit);
 									// console.log("Unarchived");
-									// console.log(selectedItem.archived?.archivedBy?.isDeactivated);
+									// console.log(item.archived?.archivedBy?.isDeactivated);
 								}
 							}}
 							disabled={
 								selectedItem.archived?.archivedBy?.isDeactivated
 							}
 							className={
+								"unarchive-btn " +
 								processedRenderedData(selectedItem)[3].style
 							}
 						>

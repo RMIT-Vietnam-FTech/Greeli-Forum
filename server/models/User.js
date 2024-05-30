@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import Thread from "./Thread.js";
 import Post from "./Post.js";
+import Thread from "./Thread.js";
 
 const userSchema = new mongoose.Schema(
 	{

@@ -1,37 +1,37 @@
+import { RestoreRequestType } from "@aws-sdk/client-s3";
 import express from "express";
 import { ExpressValidator } from "express-validator";
-import {
-	getProfile,
-	updateUserProfile,
-	getUser,
-	login,
-	register,
-	lock,
-	unlock,
-	getAllUser,
-	getCreatedThread,
-	getFollowThread,
-	postFollowThread,
-	deleteFollowThread,
-	getArchivedPost,
-	postArchivedPost,
-	deleteArchivedPost,
-	getCreatedPost,
-	postCreatedPost,
-	deleteCreatedPost,
-	changePassword,
-	deactivateAccount,
-	activateAccount,
-	logout,
-	uploadProfileImage,
-	requestResetPassword,
-	resetPassword,
-} from "../controllers/user.js";
-// import { getProfile } from "../controllers/userProfile.js";
-import { verifyToken, verifyAdmin } from "../middleware/auth.js";
 import { get } from "mongoose";
 import multer from "multer";
-import { RestoreRequestType } from "@aws-sdk/client-s3";
+import {
+	activateAccount,
+	changePassword,
+	deactivateAccount,
+	deleteArchivedPost,
+	deleteCreatedPost,
+	deleteFollowThread,
+	getAllUser,
+	getArchivedPost,
+	getCreatedPost,
+	getCreatedThread,
+	getFollowThread,
+	getProfile,
+	getUser,
+	lock,
+	login,
+	logout,
+	postArchivedPost,
+	postCreatedPost,
+	postFollowThread,
+	register,
+	requestResetPassword,
+	resetPassword,
+	unlock,
+	updateUserProfile,
+	uploadProfileImage,
+} from "../controllers/user.js";
+// import { getProfile } from "../controllers/userProfile.js";
+import { verifyAdmin, verifyToken } from "../middleware/auth.js";
 const { body, validationResult } = new ExpressValidator();
 
 const storage = multer.memoryStorage();
