@@ -32,7 +32,7 @@ const LeftSidePart = (props) => {
 		profileImage,
 	} = data;
 	const [basicInfo, setBasicInfo] = useState(data);
-	const { isMe } = props;
+	const { isMe, comments } = props;
 
 	//ARCHIVE POSTS + THREADS
 	const archiveCreatedPost = (postId) => {
@@ -179,11 +179,11 @@ const LeftSidePart = (props) => {
 					</div>
 					<div className="w-100 d-flex flex-row align-items-center justify-content-between profile-figures">
 						<div className="d-flex flex-column align-items-center">
-							<strong>{createdThread?.length}</strong>
-							<p>Communities</p>
+							<strong>{createdPost?.length}</strong>
+							<p>Threads</p>
 						</div>
 						<div className="d-flex flex-column align-items-center">
-							<strong>{createdPost?.length}</strong>
+							<strong>{comments?.data?.length}</strong>
 							<p>Posts</p>
 						</div>
 						<div className="d-flex flex-column align-items-center">

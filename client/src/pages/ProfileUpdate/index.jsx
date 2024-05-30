@@ -127,7 +127,7 @@ const ProfileUpdate = (props) => {
 			>
 				<Toaster />
 				<div className="row row-cols-12 h-100">
-					<LeftSidePart isMe={isMe} />
+					<LeftSidePart isMe={isMe} comments={comments} />
 					<RightSidePart isMe={isMe} comments={comments} />
 				</div>
 			</div>
