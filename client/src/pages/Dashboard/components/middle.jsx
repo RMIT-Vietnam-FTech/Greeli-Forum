@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext";
 import Top from "./top";
 import Bottom from "./bottom";
+import { useUserContext } from "../../../context/UserContext";
 
 const Middle = (props) => {
+	const { user, error, setError, setSuccess } = useUserContext();
 	const { isDarkMode } = useContext(ThemeContext);
 	const [selectedItem, setSelectedItem] = useState(null);
 	const [isMobile, setIsMobile] = useState(false);

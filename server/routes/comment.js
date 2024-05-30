@@ -26,19 +26,27 @@ const upload = multer({
 const router = express.Router();
 
 router
-  .route("/")
-  .get(commentController.getComments)
-  .post(
-    verifyToken,
-    upload.single("uploadFile"),
-    commentController.createComment
-  );
-  router.route("/:commentId/archive")
-  .post(verifyToken, commentController.archiveComment)
-  .delete(verifyToken, commentController.unArchiveComment)
+	.route("/")
+	.get(commentController.getComments)
+	.post(
+		verifyToken,
+		upload.single("uploadFile"),
+		commentController.createComment
+	);
+router
+	.route("/:commentId/archive")
+	.post(verifyToken, commentController.archiveComment);
+// .delete(verifyToken, commentController.unArchiveComment);
+
+router
+	.route("/:commentId/unarchive")
+	.put(verifyToken, commentController.unarchiveComment);
 router
 	.route("/:commentId/upvote")
 	.post(verifyToken, commentController.postUpVote)
 	.delete(verifyToken, commentController.deleteUpvote);
 
+router
+	.route("/admin/archived")
+	.get(verifyToken, commentController.getArchivedComments);
 export default router;

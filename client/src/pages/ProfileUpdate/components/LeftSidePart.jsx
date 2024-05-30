@@ -174,7 +174,7 @@ const LeftSidePart = (props) => {
 								{role}
 							</div>
 						</div>
-						<h1 className="mt-5 username-container">{username}</h1>
+						<h1 className="px-3 mt-5 username-container">{username}</h1>
 						{isMe && <EditInfoModal />}
 					</div>
 					<div className="w-100 d-flex flex-row align-items-center justify-content-between profile-figures">

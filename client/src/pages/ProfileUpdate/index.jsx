@@ -101,7 +101,7 @@ const ProfileUpdate = (props) => {
 	}, [userId, isMe, success]);
 	// ----------------------------
 
-	//FETCH USER COMMENTS
+	//FETCH POSTS
 	useEffect(() => {
 		const configuration = {
 			method: "get",

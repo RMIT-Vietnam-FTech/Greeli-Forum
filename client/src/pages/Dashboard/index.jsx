@@ -26,7 +26,14 @@ const Dashboard = () => {
 	const [tab, setTab] = useState("User List");
 	const itemsPerPage = 5; // Lets do 5 i guess
 
+	const { user, setUser, toggleUserInfo, success, setSuccess } =
+		useUserContext();
+
 	const apiUrl = "http://localhost:3001"; // Manh Tan change this in production nhe
+
+	//PROCESS POSTS CONTENT
+	const processPostContent = (postObject) =>
+		JSON.parse(postObject["content"])["content"][0]["content"][0]["text"];
 
 	//FETCH USERS
 	const fetchUsers = async () => {
@@ -49,8 +56,8 @@ const Dashboard = () => {
 		}
 	};
 
-	//FETCH ARCHIVED THREADS
-	const fetchArchivedThreads = async () => {
+	//FETCH ARCHIVED COMMUNITIES
+	const fetchArchivedCommunities = async () => {
 		try {
 			const response = await axios.get(
 				`${apiUrl}/api/v1/threads/admin/archived`
@@ -70,14 +77,43 @@ const Dashboard = () => {
 		console.log("fetching archived threads");
 	};
 
-	//FETCH ARCHIVED POSTS
-	const fetchArchivedPosts = async () => {
+	//FETCH ARCHIVED THREADS
+	const fetchArchivedThreads = async () => {
 		try {
 			const response = await axios.get(`${apiUrl}/api/v1/posts/admin/archived`);
 			// console.log(response.data);
 			setDataItems(response.data.posts || []);
 			setTotal(response.data.totalPosts || 0);
 			setTotalPages(Math.ceil((response.data.totalPosts || 0) / itemsPerPage));
+		} catch (error) {
+			setError(error.message);
+			console.log(error);
+		} finally {
+			setLoading(false);
+		}
+		console.log("fetching archived posts");
+	};
+
+	//FETCH POSTS
+	const fetchArchivedPosts = async () => {
+		try {
+			const response = await axios.get(
+				`${apiUrl}/api/v1/comments/admin/archived`
+			);
+			// console.log(response.data);
+			const processedData = response.data.comments.map(
+				(comment) =>
+					(comment = {
+						...comment,
+						title: processPostContent(comment),
+					})
+			);
+			console.log(processedData);
+			setDataItems(processedData || []);
+			setTotal(response.data.totalComments || 0);
+			setTotalPages(
+				Math.ceil((response.data.totalComments || 0) / itemsPerPage)
+			);
 		} catch (error) {
 			setError(error.message);
 			console.log(error);
@@ -103,7 +139,7 @@ const Dashboard = () => {
 		},
 		{
 			title: "Archived Posts",
-			headings: ["Title", "Author", "Archived By", "Action"],
+			headings: ["Content", "Author", "Archived By", "Action"],
 			fetchingFunction: fetchArchivedPosts,
 			unit: "Posts",
 		},
@@ -117,7 +153,7 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		currentTabObj.fetchingFunction();
-	}, [currentPage, sortCriteria, apiUrl, tab]);
+	}, [currentPage, sortCriteria, apiUrl, tab, success]);
 
 	const handlePageChange = (page) => {
 		setCurrentPage(page);
@@ -162,8 +198,8 @@ const Dashboard = () => {
 	};
 
 	const handleUnarchived = async (id, type) => {
-		const itemType = type.toLowerCase();
-		console.log(itemType);
+		const itemType = type.toLowerCase() === "posts" ? "comments" : "posts";
+		// console.log(itemType);
 		try {
 			const configuration = {
 				method: "put",
@@ -180,6 +216,7 @@ const Dashboard = () => {
 						: dataItems
 				)
 			);
+			setSuccess("Unarchived successfully");
 		} catch (error) {
 			toast(`Failed to unarchive ${itemType}`);
 			console.log(error);
