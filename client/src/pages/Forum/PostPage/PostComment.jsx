@@ -35,8 +35,6 @@ import { useEditor } from "@tiptap/react";
 import CommentSkeleton from "../../../components/Forum/Skeleton/CommentSkeleton";
 import { PopupContext } from "../../../context/PopupContext";
 import ReplyComment from "../PostPage/components/ReplyComment";
-import { useEditor } from "@tiptap/react";
-import CommentSkeleton from "../../../components/Forum/Skeleton/CommentSkeleton";
 import ButtonShare from "../../../components/Forum/ButtonShare";
 
 axios.defaults.withCredentials = true;
