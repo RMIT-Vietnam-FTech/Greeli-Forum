@@ -10,7 +10,8 @@ const flattenRoutes = (routes, parentPath = "") => {
 	return routes.flatMap((route) => {
 		if (
 			route.element.type === RequireAuth ||
-			route.element.type === RequireActivate
+			route.element.type === RequireActivate || 
+			route.element.type === RequireAdmin
 		) {
 			return route.children
 				? flattenRoutes(route.children, parentPath)

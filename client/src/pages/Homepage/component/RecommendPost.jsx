@@ -8,7 +8,7 @@ function Posts() {
 	const Post = (props) => {
 		return (
 			<Link
-				to={`/forum/threads/${props.belongToThread}/posts/${props.id}`}
+				to={`/forum/communities/${props.belongToThread}/posts/${props.id}`}
 			>
 				<div className="news-card card-item rounded-4">
 					<img
@@ -119,7 +119,7 @@ function Posts() {
 	const [data, setData] = useState([]);
 	useEffect(() => {
 		axios
-			.get("http://localhost:3001/api/v1/posts/")
+			.get("http://localhost:3001/api/v1/posts")
 			.then((response) => {
 				setData(response.data.data);
 				console.log(response.data.data);
@@ -146,15 +146,16 @@ function Posts() {
 				className="slider-container p-3"
 				ref={sliderRef}
 			>
-				{data.map((item) => (
+				{data.filter(d => !d.archived?.isArchived === true).map((item) => (
+					item.uploadFile?.type === "image" && (
 					<Post
 						key={item._id} // Use _id from MongoDB
 						id={item._id} // Pass the id to the Post component
-						img={item.uploadFile} // Ensure the image source is correctly passed
+						img={item.uploadFile?.src} // Ensure the image source is correctly passed
 						date={item.verifiedAt.substring(0, 10)}
 						title={item.title}
 						belongToThread={item.belongToThread} // Pass belongToThread to the Post component
-					/>
+					/>)
 				))}
 			</Slider>
 		</div>
