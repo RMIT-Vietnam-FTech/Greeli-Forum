@@ -21,6 +21,10 @@
     transform: scale(1.05);
 }
 
+[data-bs-theme="light"] .admin-text {
+	color: white !important;
+}
+
 @media (max-width: 568px) {
 
     /* Mobile */
@@ -64,7 +68,7 @@
 }
 
 .dashboard-title-dark {
-    color: #fff;
+    color: #0A2A28;
 }
 
 .members-count {
@@ -103,7 +107,7 @@
 }
 
 .members-count-dark {
-    color: #fff;
+    color: #0A2A28;
 }
 
 .members-count-light {

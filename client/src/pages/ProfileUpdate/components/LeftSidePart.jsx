@@ -217,7 +217,7 @@ const LeftSidePart = (props) => {
 						{/* CHAT BUTTON */}
 						{!isMe && (
 							<button
-								className="bg-primary-yellow text-black rounded-pill mt-5 py-2 px-4 border-0"
+								className="bg-primary-yellow text-black rounded-pill py-2 px-4 border-0"
 								aria-label="Chat with this user"
 								onClick={() => {
 									// navigate(`/chat`, { root: true });

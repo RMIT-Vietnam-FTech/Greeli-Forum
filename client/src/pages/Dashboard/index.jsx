@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -255,7 +255,7 @@ const Dashboard = () => {
 				<button
 					className="btn btn-primary-green dropdown-toggle theme-button"
 					type="button"
-					id="dropdownMenuButton1"
+					// id="dropdownMenuButton1"
 					data-bs-toggle="dropdown"
 					aria-expanded="false"
 					style={{ width: "200px" }}
@@ -263,15 +263,15 @@ const Dashboard = () => {
 					{tab}{" "}
 				</button>
 				<ul
-					className="dropdown-menu"
+					className="dropdown-menu bg-forum-subtle"
 					aria-labelledby="dropdownMenuButton1"
 					style={{ width: "200px" }}
 				>
 					<li>
 						<Link
-							className="dropdown-item"
+							className="dropdown-item admin-text"
 							onClick={() => {
-								setTab("User List");
+								setTab("User List")
 								// setRenderPostList(createdPosts);
 							}}
 						>
@@ -280,7 +280,7 @@ const Dashboard = () => {
 					</li>
 					<li>
 						<Link
-							className="dropdown-item"
+							className="dropdown-item admin-text"
 							onClick={() => {
 								setTab("Archived Threads");
 								// setRenderPostList(archivedPosts);
@@ -291,7 +291,7 @@ const Dashboard = () => {
 					</li>
 					<li>
 						<Link
-							className="dropdown-item"
+							className="dropdown-item admin-text"
 							onClick={() => {
 								setTab("Archived Posts");
 								// setRenderPostList(archivedPosts);

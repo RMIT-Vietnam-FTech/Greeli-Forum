@@ -125,7 +125,7 @@ const Chat = () => {
 			axios(configuration)
 				.then((result) => {
 					// console.log(result.data);
-					setUserList(result.data);
+					setUserList(result.data.users);
 				})
 				.catch((error) => {
 					setError(error.response.data.error);
