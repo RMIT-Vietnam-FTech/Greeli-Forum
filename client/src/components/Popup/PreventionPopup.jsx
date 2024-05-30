@@ -18,11 +18,7 @@ const PreventionPopup = (props) => {
 	return (
 		<Popup
 			trigger={
-				<button
-					aria-label={ariaLabel}
-					type="button"
-					className={buttonStyle}
-				>
+				<button aria-label={ariaLabel} type="button" className={buttonStyle}>
 					{buttonValue}
 				</button>
 			}
@@ -49,11 +45,7 @@ const PreventionPopup = (props) => {
 					</p>
 					<div className="popup-content">
 						<div className="warning-title text-danger fw-bold d-flex align-items-center">
-							<IoWarning
-								className="text-danger"
-								size={32}
-								aria-hidden="true"
-							/>
+							<IoWarning className="text-danger" size={32} aria-hidden="true" />
 							<span>Warning</span>
 						</div>
 						<p id="modal-description" className="text-warning m-0">
@@ -62,7 +54,7 @@ const PreventionPopup = (props) => {
 					</div>
 					<div className="popup-actions w-100 d-flex justify-content-between">
 						<button
-							className="popup-button bg-primary-green text-white"
+							className="popup-button bg-primary-green text-white border-0"
 							type="button"
 							onClick={() => {
 								close();
@@ -71,7 +63,7 @@ const PreventionPopup = (props) => {
 							No, cancel
 						</button>
 						<button
-							className="popup-button bg-danger text-white"
+							className="popup-button bg-danger text-white border-0"
 							onClick={() => {
 								close();
 								actionFunction();

@@ -147,10 +147,10 @@ a > p {
 	background-color: #bd974c !important;
 }
 
-a {
+/* a {
 	color: #000000 !important;
 	padding-left: 0.5rem !important;
-}
+} */
 
 [data-bs-theme="dark"] a {
 	color: #ffffff !important;

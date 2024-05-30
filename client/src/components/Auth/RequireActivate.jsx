@@ -118,18 +118,23 @@ const RequireActivate = () => {
 		<Outlet />
 	) : (
 		// <Navigate to="/login" state={{ from: location }} replace />
-		<div className="h-100 text-center m-5">
-			<h2 className="" style={{ marginBottom: "-40px", marginTop: "100px" }}>
-				Your account is deactivated, click the button to activate it
-			</h2>
-			<PreventionPopup
-				modalTitle="Reactivate your account to continue"
-				buttonValue="Activate"
-				action="Activate"
-				buttonStyle="bg-success text-white rounded-pill mt-5 py-2"
-				ariaLabel="Deactivate account"
-				actionFunction={activateAccount}
-			/>
+		<div
+			className="d-flex justify-content-center align-items-center text-center"
+			style={{ height: "90vh" }}
+		>
+			<div>
+				<h2 className="" style={{ marginBottom: "-40px", marginTop: "100px" }}>
+					Your account is deactivated, click the button to activate it
+				</h2>
+				<PreventionPopup
+					modalTitle="Reactivate your account to continue"
+					buttonValue="Activate"
+					action="Activate"
+					buttonStyle="bg-success text-white rounded-pill mt-5 py-2 px-4 fw-bolder border-0"
+					ariaLabel="Deactivate account"
+					actionFunction={activateAccount}
+				/>
+			</div>
 		</div>
 	);
 };
