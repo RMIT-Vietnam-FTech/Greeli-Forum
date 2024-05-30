@@ -94,7 +94,7 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
 
        >
            {nOfUpvote}
-           <BsArrowUpSquareFill className="ms-2" />
+          <BsArrowUpSquareFill size={14} className="ms-2 mb-1" />
        </button>
    );
 }

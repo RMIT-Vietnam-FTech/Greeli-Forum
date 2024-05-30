@@ -72,7 +72,7 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
           {(commentData.replies.length > 0 || newReply.length > 0) && (
             <div
               className="bg-login-subtle h-100 opacity-25 position-absolute"
-              style={{ width: "1px", top: "10px", left: "10px" }}
+              style={{ width: "1px", top: "16px", left: "10px" }}
             ></div>
           )}
           {(isLastIndex || isNew) && (
@@ -126,18 +126,18 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
             </div>
           ) : (
             <>
-              <div
-                style={{ width: "250px", borderRadius: "20px" }}
-                className="ms-4 my-2 position-relative overflow-hidden bg-black"
-              >
-                {commentData.uploadFile && (
+              {commentData.uploadFile && (
+                <div
+                  style={{ width: "250px", borderRadius: "20px" }}
+                  className="ms-4 my-2 position-relative overflow-hidden bg-black"
+                >
                   <ImageOrVideo
                     uploadFile={commentData.uploadFile}
                     w100={true}
                     h100={true}
                   />
-                )}
-              </div>
+                </div>
+              )}
               <div className="ms-4">
                 <EditContextProvider>
                   <EditTextEditor content={JSON.parse(commentData.content)} />
@@ -161,8 +161,8 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
                   onClick={() => {
                     setExpand(true);
                   }}
-                  className="px-1 pb-3 position-relative cursor-pointer text-secondary  bg-greeli-subtle z-2"
-                  style={{ borderRadius: "20px", left: "-5px" }}
+                  className="px-1 pb-2 position-relative cursor-pointer text-secondary  bg-greeli-subtle z-2"
+                  style={{ borderRadius: "20px", left: "-5px", top: "15px" }}
                 >
                   <div className="d-inline-block fs-4">
                     <CiCirclePlus />{" "}

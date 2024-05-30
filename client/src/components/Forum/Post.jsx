@@ -24,10 +24,12 @@ import { BsShieldFillCheck } from "react-icons/bs";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Skeleton from "react-loading-skeleton";
+import ButtonShare from "./ButtonShare";
 
 dayjs.extend(relativeTime);
 
-export default function Post({ postData, isThreadAdmin}) {
+export default function Post({ postData, isThreadAdmin }) {
+  console.log(`postData: ${JSON.stringify(postData)}`);
   const isLogin = useLogin();
   const [newComment, setNewComment] = useState([]);
   const [isApproved, setIsApproved] = useState(postData.isApproved);
@@ -183,6 +185,9 @@ export default function Post({ postData, isThreadAdmin}) {
           >
             <ButtonComment commentLength={postData.comments.length} />
           </Link>
+          <ButtonShare
+            location={`http://localhost:3000/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
+          />
         </div>
 
         {/* ----------------------------------- Verify Status ------------------------------------- */}
@@ -208,8 +213,9 @@ export default function Post({ postData, isThreadAdmin}) {
           // for post creator
           <>
             {isLogin &&
-            (isThreadAdmin || postData.createdBy.userId ===
-              JSON.parse(localStorage.getItem("user")).id ) ? (
+            (isThreadAdmin ||
+              postData.createdBy.userId ===
+                JSON.parse(localStorage.getItem("user")).id) ? (
               <div className="d-flex align-items-center">
                 <p
                   className={`text-forum-emphasis p-0 m-0 ${

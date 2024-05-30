@@ -111,7 +111,7 @@ export function PostYouMayLike() {
      </p>
      <div ref={ref} className="">
        {/*Recommend post items*/}
-       {issues.map((postData) => postData && !postData.archived.isArchived && (
+       {issues.map((postData) => postData && !(postData.archived.isArchived || postData.isDeleted ) && (
          matchWindowWidth ? (
            <RecommendPost key={postData._id} postData={postData} />
          ) : (

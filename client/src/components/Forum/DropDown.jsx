@@ -127,6 +127,22 @@ export default function DropDown({ componentType, data, threadId, postId }) {
       console.error(error.message);
     }
   }
+  async function handleDelete() {
+    try {
+      const path = `http://localhost:3001/api/v1/${componentType}s/${data._id}`;
+      await axios.delete(path, {
+        headers: {
+          // Authorization: `Bearer ${
+          //   JSON.parse(localStorage.getItem("user")).token
+          // }`,
+        },
+      });
+      navigate(`/forum/communities/${data.belongToThread}`);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   if (
     JSON.parse(localStorage.getItem("user")) &&
     (componentType === "post" ||
@@ -154,15 +170,24 @@ export default function DropDown({ componentType, data, threadId, postId }) {
               </li>
             )}
           {componentType == "post" && (
-            <li>
-              <a
-                className="dropdown-item"
-                onClick={isSaved ? handleUnSave : handleSave}
-                href="#"
-              >
-                {isSaved ? "Unsaved" : "Save"}
-              </a>
-            </li>
+            <>
+              <li>
+                <a
+                  className="dropdown-item"
+                  onClick={isSaved ? handleUnSave : handleSave}
+                  href="#"
+                >
+                  {isSaved ? "Unsaved" : "Save"}
+                </a>
+              </li>
+              {authorizationContext.isAuthor.current && (
+                <li>
+                  <a className="dropdown-item" onClick={handleDelete} href="#">
+                    Delete
+                  </a>
+                </li>
+              )}
+            </>
           )}
           <li>
             {(componentType === "post" || componentType === "comment") &&

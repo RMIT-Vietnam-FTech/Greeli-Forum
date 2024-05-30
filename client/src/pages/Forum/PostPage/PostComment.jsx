@@ -35,6 +35,7 @@ import { PopupContext } from "../../../context/PopupContext";
 import ReplyComment from "../PostPage/components/ReplyComment";
 import { useEditor } from "@tiptap/react";
 import CommentSkeleton from "../../../components/Forum/Skeleton/CommentSkeleton";
+import ButtonShare from "../../../components/Forum/ButtonShare";
 
 axios.defaults.withCredentials = true;
 
@@ -134,6 +135,7 @@ export default function PostComment({ postData, threadAdminId }) {
         <div className="d-flex gap-2 align-items-center">
           <ButtonUpvote upvote={postData.upvote} postId={postData._id} />
           <ButtonComment commentLength={postData.comments.length} />
+          <ButtonShare location={window.location.href}/>
         </div>
 
         {/*show verify status */}

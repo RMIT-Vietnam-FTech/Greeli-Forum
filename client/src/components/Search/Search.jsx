@@ -58,7 +58,7 @@ export default function SearchBar() {
 					}}
 				>
 					{result.map((searchData) => {
-						if (result.length < 1 || searchData.archived.isArchived) {
+						if (result.length < 1 || searchData.archived.isArchived || searchData.isDeleted) {
 							return null;
 						} else {
 							return (

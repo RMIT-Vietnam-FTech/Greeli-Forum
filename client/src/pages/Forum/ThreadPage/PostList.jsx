@@ -119,7 +119,9 @@ export default function PostList({ threadData, topicData }) {
           {issues.map(
             (postData) =>
               postData &&
-              !postData.archived.isArchived && (
+              !postData.archived.isArchived 
+              && !postData.isDeleted
+               && (
                 <div className="post-list-item">
                   <Post
                     key={postData._id}
@@ -157,10 +159,10 @@ const Sorting = ({ sortOption, setSortOption }) => {
             tabIndex="0"
             className="dropdown-item text-white"
             onClick={() => {
-              setSortOption("Hot");
+              setSortOption("Newest");
             }}
           >
-            Hot
+            Newest
           </a>
         </li>
 
@@ -169,10 +171,10 @@ const Sorting = ({ sortOption, setSortOption }) => {
             tabIndex="0"
             className="dropdown-item text-white"
             onClick={() => {
-              setSortOption("New");
+              setSortOption("Oldest");
             }}
           >
-            New
+            Oldest
           </a>
         </li>
 
@@ -181,10 +183,10 @@ const Sorting = ({ sortOption, setSortOption }) => {
             tabIndex="0"
             className="dropdown-item text-white"
             onClick={() => {
-              setSortOption("Top");
+              setSortOption("Hottest");
             }}
           >
-            Top
+            Hottest
           </a>
         </li>
       </ul>

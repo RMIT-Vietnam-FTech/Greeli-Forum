@@ -76,7 +76,7 @@ function ForumLeaderBoard() {
                className="mt-3 m-0 p-0 text-primary-yellow"
                style={{ fontSize: "18px" }}
            >
-               Leaderboard
+              Most active users
            </p>
            {data.map((leadeboard, index) => {
                return (

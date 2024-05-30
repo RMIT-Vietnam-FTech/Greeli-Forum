@@ -70,6 +70,7 @@ const postSchema = new mongoose.Schema(
 		archived: {
 			isArchived: {
 				type: Boolean,
+				required: true, 
 				default: false,
 			},
 			archivedBy: {
@@ -91,6 +92,11 @@ const postSchema = new mongoose.Schema(
 				},
 			},
 		},
+		isDeleted:{
+			type: Boolean,
+			required: true, 
+			default: false 
+		}
 	},
 	{ timestamps: true }
 );

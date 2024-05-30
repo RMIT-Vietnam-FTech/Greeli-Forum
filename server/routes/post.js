@@ -39,15 +39,15 @@ router
 	.put(verifyToken, PostController.modifyPost)
 	.delete(verifyToken, PostController.deletePost);
 
-router.put(
+router.post(
 	"/:postId/archive",
 	verifyToken,
 	// verifyAdmin,
 	PostController.archivePost
 );
 
-router.put(
-	"/:postId/unarchive",
+router.delete(
+	"/:postId/archive",
 	verifyToken,
 	// verifyAdmin,
 	PostController.unarchivePost
