@@ -227,7 +227,7 @@ const Navbar = ({ isForum }) => {
 						>
 							<li>
 								<NavLink
-									class="dropdown-item ps-3 text-decoration-none"
+									className="dropdown-item ps-3 text-decoration-none profile-drop"
 									to="/profile"
 									role="user profile page"
 									aria-label="link to user profile page"
@@ -235,17 +235,17 @@ const Navbar = ({ isForum }) => {
 									Profile
 								</NavLink>
 							</li>
-							<li>
+							{ isAdmin && <li>
 								{" "}
-								<NavLink
-									class="dropdown-item ps-3 text-decoration-none"
+								<NavLink 
+									className="dropdown-item ps-3 text-decoration-none profile-drop"
 									to={isAdmin ? "/admin" : "/page-not-found"}
 									role="dashboard page"
 									aria-label="link to user dashboard page"
 								>
 									Dashboard (Admin)
 								</NavLink>
-							</li>
+							</li>}
 						</ul>
 						{/* </div> */}
 					</div>

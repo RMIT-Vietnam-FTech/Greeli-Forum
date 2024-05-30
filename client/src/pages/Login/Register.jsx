@@ -264,7 +264,6 @@ const Register = () => {
 								>
 									Password
 								</label>
-								<i className="password-info">?</i>
 							</div>
 							<span
 								className="input-group-text text-login-emphasis"
