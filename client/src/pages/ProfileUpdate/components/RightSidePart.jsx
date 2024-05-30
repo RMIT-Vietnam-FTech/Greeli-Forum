@@ -5,14 +5,14 @@ import ThreadGallery from "./ThreadGallery";
 import { useProfileContext } from "../../../context/ProfileContext";
 
 const RightSidePart = (props) => {
-	const { isMe } = props;
+	const { isMe, comments } = props;
 	const [tab, setTab] = useState("Created Threads");
-	const data = useProfileContext();
-	const { createdPost, archivedPost, userId } = data;
+	const userId = JSON.parse(localStorage.getItem("user")).id;
+	// const savedPosts = data.archivedPost;
 	// console.log(createdPost, archivedPost);
 	const token = JSON.parse(localStorage.getItem("user")).token;
 	const [createdPosts, setCreatedPosts] = useState(null);
-	const [archivedPosts, setArchivedPosts] = useState(null);
+	const [savedPosts, setSavedPosts] = useState(null);
 	const [renderPostList, setRenderPostList] = useState(null);
 
 	const processPosts = (postObject) => {
@@ -27,8 +27,11 @@ const RightSidePart = (props) => {
 			"content"
 		][0]["text"];
 
-		const upvote = postObject.upvote.length;
-		const comment = postObject.comments.length;
+		const upvote = postObject.upvote?.length;
+		const comment =
+			tab === "Created Threads"
+				? postObject.comments?.length
+				: postObject.replies?.length;
 
 		const threadId = postObject.belongToThread;
 
@@ -49,6 +52,10 @@ const RightSidePart = (props) => {
 		};
 		return showPostObject;
 	};
+
+	// PROCESS FETCHED POSTS
+	// console.log(comments.data);
+	const fetchedPosts = comments?.data?.map((comment) => processPosts(comment));
 
 	useEffect(() => {
 		var newRenderPostList = [];
@@ -74,7 +81,7 @@ const RightSidePart = (props) => {
 		const fetchArchivedPosts = async () => {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/user/${userId}/archived_posts`,
+				url: `http://localhost:3001/api/user/${userId}/saved_posts`,
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -89,7 +96,7 @@ const RightSidePart = (props) => {
 				.catch((error) => {
 					console.log(error);
 				});
-			setArchivedPosts(newRenderPostList);
+			setSavedPosts(newRenderPostList);
 		};
 
 		const fetchRenderPosts = async () => {
@@ -140,11 +147,11 @@ const RightSidePart = (props) => {
 								<Link
 									className="dropdown-item"
 									onClick={() => {
-										setTab("Archieved Threads");
-										setRenderPostList(archivedPosts);
+										setTab("Created Posts");
+										setRenderPostList(fetchedPosts);
 									}}
 								>
-									Archieved Threads
+									Created Posts
 								</Link>
 							</li>
 						</ul>

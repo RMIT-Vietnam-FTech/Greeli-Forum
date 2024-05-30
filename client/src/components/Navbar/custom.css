@@ -139,12 +139,21 @@ a > p {
 	display: none;
 }
 
-.dropdown-item:hover {
+.dropdown-item a:hover {
 	background-color: #dedede !important;
 }
 
-[data-bs-theme="dark"] .dropdown-item:hover {
+[data-bs-theme="dark"] .dropdown-item a:hover {
 	background-color: #bd974c !important;
+}
+
+a {
+	color: #000000 !important;
+	padding-left: 0.5rem !important;
+}
+
+[data-bs-theme="dark"] a {
+	color: #ffffff !important;
 }
 
 @media (min-width: 767px) {

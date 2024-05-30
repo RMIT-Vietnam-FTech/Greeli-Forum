@@ -21,6 +21,8 @@ const Navbar = ({ isForum }) => {
 	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
 	const { user, setUser, toggleUserInfo } = useUserContext();
 	const userId = JSON.parse(user)?.id || null;
+	const userRole = JSON.parse(user)?.role || null;
+	const isAdmin = userRole === "admin";
 
 	const closeBtnRef = useRef(null);
 
@@ -217,7 +219,7 @@ const Navbar = ({ isForum }) => {
 						>
 							<li>
 								<NavLink
-									class="dropdown-item ps-3 text-decoration-none text-greeli-emphasis"
+									class="dropdown-item ps-3 text-decoration-none"
 									to="/profile"
 									role="user profile page"
 									aria-label="link to user profile page"
@@ -226,13 +228,14 @@ const Navbar = ({ isForum }) => {
 								</NavLink>
 							</li>
 							<li>
+								{" "}
 								<NavLink
-									class="dropdown-item ps-3 text-decoration-none text-greeli-emphasis"
-									to="/admin"
+									class="dropdown-item ps-3 text-decoration-none"
+									to={isAdmin ? "/admin" : "/page-not-found"}
 									role="dashboard page"
 									aria-label="link to user dashboard page"
 								>
-									Dashboard
+									Dashboard (Admin)
 								</NavLink>
 							</li>
 						</ul>

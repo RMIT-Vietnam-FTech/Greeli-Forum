@@ -18,7 +18,7 @@ const RequireActivate = () => {
 	const activateAccount = () => {
 		const configuration = {
 			method: "post",
-			url: `/api/user/${userId}/activate`,
+			url: `http://localhost:3001/api/user/${userId}/activate`,
 		};
 		axios(configuration)
 			.then((result) => {
@@ -39,10 +39,7 @@ const RequireActivate = () => {
 	) : (
 		// <Navigate to="/login" state={{ from: location }} replace />
 		<div className="h-100 text-center m-5">
-			<h2
-				className=""
-				style={{ marginBottom: "-40px", marginTop: "100px" }}
-			>
+			<h2 className="" style={{ marginBottom: "-40px", marginTop: "100px" }}>
 				Your account is deactivated, click the button to activate it
 			</h2>
 			<PreventionPopup

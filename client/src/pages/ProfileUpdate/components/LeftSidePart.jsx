@@ -28,16 +28,54 @@ const LeftSidePart = (props) => {
 		joinedDate,
 		createdPost,
 		createdThread,
+		archivedPost,
 		profileImage,
 	} = data;
 	const [basicInfo, setBasicInfo] = useState(data);
 	const { isMe } = props;
+
+	//ARCHIVE POSTS + THREADS
+	const archiveCreatedPost = (postId) => {
+		const configuration = {
+			method: "put",
+			url: `http://localhost:3001/api/posts/${postId}/archive`,
+		};
+		axios(configuration)
+			.then((result) => {
+				console.log(result.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	const archiveCreatedThread = (threadId) => {
+		const configuration = {
+			method: "put",
+			url: `http://localhost:3001/api/threads/${threadId}/archive`,
+		};
+		axios(configuration)
+			.then((result) => {
+				console.log(result.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
 
 	// DEACTIVATE ACCOUNT FUNCTION
 	const { user, setUser, toggleUserInfo } = useUserContext();
 	const cookies = new Cookies();
 
 	const deactivateAccount = () => {
+		console.log(createdThread, createdPost);
+
+		// createdPost.forEach((postId) => {
+		// 	archiveCreatedPost(postId);
+		// });
+		// createdThread.forEach((threadId) => {
+		// 	archiveCreatedThread(threadId);
+		// });
 		const configuration = {
 			method: "post",
 			url: `http://localhost:3001/api/user/${userId}/deactivate`,

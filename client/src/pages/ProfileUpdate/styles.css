@@ -140,6 +140,10 @@
 	border-bottom: 2px solid white !important;
 }
 
+.text-gray {
+	color: gray;
+}
+
 /* Responsiveness */
 @media (max-width: 992px) {
 	.profile-page-container {

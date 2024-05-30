@@ -19,8 +19,13 @@ const BasicInfo = (props) => {
 				<div className="col-2" aria-hidden="true">
 					{iconArray[id]}
 				</div>
-				<p className="col-10" tabIndex={0} role="textbox" aria-readonly="true">
-					{displayInfo}
+				<p
+					className={`col-10 ${displayInfo === null ? "text-gray" : ""}`}
+					tabIndex={0}
+					role="textbox"
+					aria-readonly="true"
+				>
+					{displayInfo === null ? "Please update your info" : displayInfo}
 				</p>
 			</div>
 		</div>

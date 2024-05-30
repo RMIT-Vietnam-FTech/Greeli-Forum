@@ -22,6 +22,7 @@ const ThreadItem = (props) => {
 	} = props.post;
 	const data = useProfileContext();
 	const { profileImage } = data;
+	console.log(props.post);
 
 	useEffect(() => {
 		const getPostThreadAsync = async (threadId) => {
@@ -37,7 +38,7 @@ const ThreadItem = (props) => {
 					console.log(error);
 				});
 		};
-		getPostThreadAsync(threadId);
+		threadId && getPostThreadAsync(threadId);
 	}, [threadId]);
 
 	//REDIRECT TO POST PAGE
@@ -65,7 +66,7 @@ const ThreadItem = (props) => {
 						<img
 							className="rounded-circle"
 							src={profileImage}
-							alt={`Author: ${author.username}`}
+							alt={`Author: ${author?.username}`}
 							style={{ aspectRatio: "1/1" }}
 						/>
 						<div className="d-flex flex-md-column flex-row-reverse justify-content-center">
@@ -75,7 +76,7 @@ const ThreadItem = (props) => {
 								</p>
 								<p className="text-white m-0">{createdDate}</p>
 							</div>
-							<p className="text-white p-0 m-0">{author.username}</p>
+							<p className="text-white p-0 m-0">{author?.username}</p>
 						</div>
 					</div>
 					<p className="d-md-none d-block text-primary-yellow fw-bold m-0">
