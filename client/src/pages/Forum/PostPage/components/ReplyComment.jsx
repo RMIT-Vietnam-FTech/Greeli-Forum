@@ -36,11 +36,11 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
 	const [isReply, setIsReply] = useState(false);
 	const [file, setFile] = useState();
 
-	const { data, error, isLoading } = useSwrImmutable(
+	const { data, error, isLoading } = useSWRImmutable(
 		commentData.replies.length > 0 && expand
 			? `http://localhost:3001/api/v1/comments?postsId=${postId}&parentId=${commentData._id}`
 			: null,
-		fetcher,
+		fetcher
 	);
 	if (error) {
 		return "error";
@@ -51,14 +51,7 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
 	return (
 		<>
 			<ReplyContext.Provider
-				value={{
-					newReply,
-					setNewReply,
-					isReply,
-					setIsReply,
-					file,
-					setFile,
-				}}
+				value={{ newReply, setNewReply, isReply, setIsReply, file, setFile }}
 			>
 				<div
 					tabIndex="0"
@@ -76,11 +69,10 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
 							}}
 						></div>
 					)}
-					{(commentData.replies.length > 0 ||
-						newReply.length > 0) && (
+					{(commentData.replies.length > 0 || newReply.length > 0) && (
 						<div
 							className="bg-login-subtle h-100 opacity-25 position-absolute"
-							style={{ width: "1px", top: "10px", left: "10px" }}
+							style={{ width: "1px", top: "16px", left: "10px" }}
 						></div>
 					)}
 					{(isLastIndex || isNew) && (
@@ -95,10 +87,7 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
 					)}
 					<div className="d-flex align-items-center gap-1 py-2">
 						{/* avatar */}
-						<Avatar
-							size="sm"
-							src={commentData.createdBy.profileImage}
-						/>
+						<Avatar size="sm" src={commentData.createdBy.profileImage} />
 
 						{/* username */}
 						<p
@@ -108,23 +97,16 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
 						>
 							{commentData.createdBy.username}
 						</p>
-						<li
-							className="text-greeli-emphasis"
-							style={{ fontSize: "12px" }}
-						>
+						<li className="text-greeli-emphasis" style={{ fontSize: "12px" }}>
 							{dayjs().to(dayjs(commentData.createdAt))}
 						</li>
-						{JSON.parse(localStorage.getItem("user")).role ===
-							"admin" && (
+						{JSON.parse(localStorage.getItem("user")).role === "admin" && (
 							<div
 								className="position-relative bg-transparent "
 								style={{ left: "55px", height: "35px" }}
 							>
 								<AuthorizationContextProvider>
-									<DropDown
-										componentType="comment"
-										data={commentData}
-									/>
+									<DropDown componentType="comment" data={commentData} />
 								</AuthorizationContextProvider>
 							</div>
 						)}
@@ -133,39 +115,32 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
 					{/*content*/}
 					{commentData.archived.isArchived ? (
 						<div
-							className={"px-3 py-1 bg-hidden-light"}
+							className={"px-3 py-1 bg-hidden-light ms-4"}
 							style={{ width: "300px", borderRadius: "20px" }}
 						>
 							{/*archived content UI*/}
-							<p
-								style={{ fontSize: "14px" }}
-								className="text-white w-100"
-							>
+							<p style={{ fontSize: "14px" }} className="text-white w-100">
 								this comment was archived by{" "}
 								{commentData.archived.archivedBy.username}
 							</p>
 						</div>
 					) : (
 						<>
-							<div
-								style={{ width: "250px", borderRadius: "20px" }}
-								className="ms-4 my-2 position-relative overflow-hidden bg-black"
-							>
-								{commentData.uploadFile && (
+							{commentData.uploadFile && (
+								<div
+									style={{ width: "250px", borderRadius: "20px" }}
+									className="ms-4 my-2 position-relative overflow-hidden bg-black"
+								>
 									<ImageOrVideo
 										uploadFile={commentData.uploadFile}
 										w100={true}
 										h100={true}
 									/>
-								)}
-							</div>
+								</div>
+							)}
 							<div className="ms-4">
 								<EditContextProvider>
-									<EditTextEditor
-										content={JSON.parse(
-											commentData.content,
-										)}
-									/>
+									<EditTextEditor content={JSON.parse(commentData.content)} />
 								</EditContextProvider>
 
 								{/*upvote*/}
@@ -176,14 +151,8 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
 
 								{/*reply*/}
 								<EditContextProvider>
-									<ReplyButton
-										nOfReply={commentData.replies.length}
-									/>
-									{isReply ? (
-										<ReplyEditor
-											parentId={commentData._id}
-										/>
-									) : null}
+									<ReplyButton nOfReply={commentData.replies.length} />
+									{isReply ? <ReplyEditor parentId={commentData._id} /> : null}
 								</EditContextProvider>
 							</div>
 							{/*expand reply buttons*/}
@@ -192,11 +161,8 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
 									onClick={() => {
 										setExpand(true);
 									}}
-									className="px-1 pb-3 position-relative cursor-pointer text-secondary  bg-greeli-subtle z-2"
-									style={{
-										borderRadius: "20px",
-										left: "-5px",
-									}}
+									className="px-1 pb-2 position-relative cursor-pointer text-secondary  bg-greeli-subtle z-2"
+									style={{ borderRadius: "20px", left: "-5px", top: "15px" }}
 								>
 									<div className="d-inline-block fs-4">
 										<CiCirclePlus />{" "}
@@ -214,12 +180,10 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
 										<ReplyComment
 											key={commentData._id}
 											commentData={commentData}
-											isLastIndex={
-												index === data.length - 1
-											}
+											isLastIndex={index === data.length - 1}
 										/>
 									);
-								})
+							  })
 							: []}
 					</div>
 				</div>

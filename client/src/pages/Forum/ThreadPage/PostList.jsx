@@ -12,7 +12,7 @@ axios.defaults.withCredentials = true;
 const fetcher = async (prop) => {
 	const [url, isThreadAdmin, isMetaData] = prop;
 	console.log(
-		`check thread admin: ${isThreadAdmin} \n url: ${url}, \n isMetadata: ${isMetaData}`,
+		`check thread admin: ${isThreadAdmin} \n url: ${url}, \n isMetadata: ${isMetaData}`
 	);
 
 	if (isMetaData) {
@@ -44,7 +44,7 @@ const fetcher = async (prop) => {
 };
 
 export default function PostList({ threadData, topicData }) {
-	const [sortOption, setSortOption] = useState("Hot");
+	const [sortOption, setSortOption] = useState("Hottest");
 
 	const user = JSON.parse(localStorage.getItem("user"));
 	const isThreadAdmin =
@@ -70,10 +70,13 @@ export default function PostList({ threadData, topicData }) {
 				false,
 			];
 		},
-		fetcher,
+		fetcher
 	);
 
 	const issues = data ? [].concat(...data) : [];
+	{
+		/*------define component to get metdata and use intersection observer to achieve lazyload-------------*/
+	}
 	const path = validatedPath(isThreadAdmin, threadData, sortOption, 1);
 
 	const [metaData, setMetaData] = useState();
@@ -99,6 +102,9 @@ export default function PostList({ threadData, topicData }) {
 			}
 		},
 	});
+	{
+		/*------------------------------------------------------------------------------------------------------*/
+	}
 
 	if (isLoading) {
 		return <PostSkeleton nOfCard={5} />;
@@ -107,16 +113,14 @@ export default function PostList({ threadData, topicData }) {
 	return (
 		<>
 			<div className="position-relative">
-				<Sorting
-					sortOption={sortOption}
-					setSortOption={setSortOption}
-				/>
+				<Sorting sortOption={sortOption} setSortOption={setSortOption} />
 				{/*Post items*/}
 				<div className="pt-4">
 					{issues.map(
 						(postData) =>
 							postData &&
-							!postData.archived.isArchived && (
+							!postData.archived.isArchived &&
+							!postData.isDeleted && (
 								<div className="post-list-item">
 									<Post
 										key={postData._id}
@@ -124,7 +128,7 @@ export default function PostList({ threadData, topicData }) {
 										isThreadAdmin={isThreadAdmin}
 									/>
 								</div>
-							),
+							)
 					)}
 				</div>
 				<div className="mt-2" ref={ref}></div>
@@ -148,40 +152,40 @@ const Sorting = ({ sortOption, setSortOption }) => {
 				</div>
 			</button>
 
-			<ul className="dropdown-menu bg-forum-subtle ">
+			<ul className="text-greeli-empahsis dropdown-menu bg-navbar-subtle ">
 				<li>
 					<a
 						tabIndex="0"
-						className="dropdown-item text-white"
+						className="dropdown-item "
 						onClick={() => {
-							setSortOption("Hot");
+							setSortOption("Newest");
 						}}
 					>
-						Hot
+						Newest
 					</a>
 				</li>
 
 				<li>
 					<a
 						tabIndex="0"
-						className="dropdown-item text-white"
+						className="dropdown-item "
 						onClick={() => {
-							setSortOption("New");
+							setSortOption("Oldest");
 						}}
 					>
-						New
+						Oldest
 					</a>
 				</li>
 
 				<li>
 					<a
 						tabIndex="0"
-						className="dropdown-item text-white"
+						className="dropdown-item "
 						onClick={() => {
-							setSortOption("Top");
+							setSortOption("Hottest");
 						}}
 					>
-						Top
+						Hottest
 					</a>
 				</li>
 			</ul>

@@ -23,9 +23,10 @@ const validatedFetcher = (url) => {
 }
 
 const listHeadingStyle =
-	"w-100 d-flex justify-content-between   text-primary-yellow border-0 py-2 px-1 left-sidebar-item";
+	" hover-style w-100 bg-transparent d-flex justify-content-between text-primary-yellow border-0 py-2 px-1 left-sidebar-item ";
+
 const listItemStyle =
-	"w-100 d-flex justify-content-between align-items-center  text-greeli-emphasis border-0 py-2 px-1 left-sidebar-item";
+	"hover-style w-100 d-flex justify-content-between align-items-center  text-greeli-emphasis border-0 py-2 px-1 left-sidebar-item ";
 const nestedListItemStyle =
 	"d-block py-2 px-1 text-greeli-emphasis left-sidebar-item";
 
@@ -38,7 +39,7 @@ export default function LeftSideBar() {
 		>
 			<CommunityList>
 				<button
-					className="w-100 my-2 bg-primary-yellow text-dark py-1 rounded-2 border-0"
+					className="w-100 my-2 bg-primary-yellow hover-style-yellow text-dark py-1 rounded-2 border-0"
 					style={{ borderWidth: "0.5px" }}
 					onClick={() => {
 						setIsOpen(true);
@@ -76,7 +77,7 @@ function CommunityList({ children }) {
 						aria-expanded="false"
 						aria-controls="collapseExample"
 					>
-						<a>Community</a>
+						<p className="m-0 p-0">Community</p>
 						<p
 							style={
 								!isExpanded
@@ -119,14 +120,14 @@ function YourCommunity() {
 				onClick={() => {
 					setIsExpanded(!isExpanded);
 				}}
-				className={listItemStyle}
+				className={listItemStyle+" hover-style"}
 				data-bs-toggle="collapse"
 				href="#collapse-created-thread"
 				role="button"
 				aria-expanded="false"
 				aria-controls="collapseExample"
 			>
-				<a>Your Community</a>
+				<p className="m-0 p-0">Your Community</p>
 
 				<p
 					style={isExpanded ? { transform: "rotate(180deg)" } : {}}
@@ -233,7 +234,7 @@ function TopicWrapper({ children }) {
 				aria-expanded="true"
 				aria-controls="collapseExample"
 			>
-				<a>Topic</a>
+				<p className="m-0 p-0">Topic</p>
 				<p
 					style={!isExpanded ? { transform: "rotate(180deg)" } : {}}
 					className="m-0 p-0"

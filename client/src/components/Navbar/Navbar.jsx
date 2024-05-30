@@ -93,9 +93,7 @@ const Navbar = ({ isForum }) => {
 					<Link className="brand d-flex" to="/">
 						<Image
 							className="me-0 me-md-3"
-							src={
-								isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"
-							}
+							src={isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"}
 							width={40}
 							alt="Greeli Logo"
 						/>
@@ -205,15 +203,9 @@ const Navbar = ({ isForum }) => {
 				)}
 
 				<div className="d-flex flex-row align-items-center gap-3">
-					<div
-						className="dropdown"
-						style={{ top: "0px", right: "0px" }}
-					>
+					<div className="dropdown" style={{ top: "0px", right: "0px" }}>
 						<div data-bs-toggle="dropdown">
-							<FaUser
-								className="icon text-greeli-emphasis"
-								alt="user icon"
-							/>
+							<FaUser className="icon text-greeli-emphasis" alt="user icon" />
 							<IoMdArrowDropdown
 								className="icon text-greeli-emphasis"
 								alt="user icon"
@@ -227,7 +219,7 @@ const Navbar = ({ isForum }) => {
 						>
 							<li>
 								<NavLink
-									className="dropdown-item ps-2 text-decoration-none"
+									className="dropdown-item ps-3 text-decoration-none profile-drop"
 									to="/profile"
 									role="user profile page"
 									aria-label="link to user profile page"
@@ -235,17 +227,19 @@ const Navbar = ({ isForum }) => {
 									Profile
 								</NavLink>
 							</li>
-							<li>
-								{" "}
-								<NavLink
-									className="dropdown-item ps-2 text-decoration-none"
-									to={isAdmin ? "/admin" : "/page-not-found"}
-									role="dashboard page"
-									aria-label="link to user dashboard page"
-								>
-									Dashboard (Admin)
-								</NavLink>
-							</li>
+							{isAdmin && (
+								<li>
+									{" "}
+									<NavLink
+										className="dropdown-item ps-3 text-decoration-none profile-drop"
+										to={isAdmin ? "/admin" : "/page-not-found"}
+										role="dashboard page"
+										aria-label="link to user dashboard page"
+									>
+										Dashboard (Admin)
+									</NavLink>
+								</li>
+							)}
 						</ul>
 						{/* </div> */}
 					</div>
@@ -268,7 +262,7 @@ const Navbar = ({ isForum }) => {
 					{userId === null ? (
 						<Link
 							to="/login"
-							className="login-button theme-button"
+							className="login-button"
 							style={{ textDecoration: "none" }}
 							onClick={handleNavLinkClick}
 						>

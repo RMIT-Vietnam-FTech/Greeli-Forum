@@ -37,6 +37,17 @@
 .border-bottom-gray {
   border-bottom: 0.5px solid rgb(95, 98, 95);
 }
+.hover-style:hover{
+  background-color: rgba(157, 157, 157, 0.3) !important ;
+}
+.hover-style-yellow:hover{
+ background-color: rgba(189, 151, 76, 1) !important; 
+}
+.hover-style-green:hover{
+  background-color: rgb(54, 89, 73, 1) !important;
+  color: white !important;
+
+}
 .post-list-item {
   border-top: 0.25px solid rgb(95, 98, 95);
   border-bottom: 0.25px solid rgb(95, 98, 95);
@@ -431,7 +442,6 @@ video {
   width: 100%;
   position: sticky;
   top: 80px;
-  gap: 5px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;

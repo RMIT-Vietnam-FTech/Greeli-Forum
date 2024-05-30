@@ -20,10 +20,8 @@ export default function SearchBar() {
 			e.target.value.replace(/ /g, "").length > 0
 		) {
 			searchOutput.classList.remove("d-none");
-			const searchTerm = await axios
-				.get(
-					`http://localhost:3001/api/v1/posts?search=${e.target.value}`,
-				)
+			let searchTerm = await axios
+				.get(`http://localhost:3001/api/v1/posts?search=${e.target.value}`)
 				.then((res) => res.data);
 			setResult([...searchTerm]);
 			console.log(result);
@@ -51,7 +49,7 @@ export default function SearchBar() {
 				/>
 
 				<div
-					className="search-output py-2 overflow-scroll-y scrollbar-thumb-show w-100 position-absolute shadow-lg bg-navbar-subtle z-3  d-none d-flex flex-column gap-3 align-items-center"
+					className="search-output px-2 py-2 overflow-scroll-y scrollbar-thumb-show w-100 position-absolute shadow-lg bg-navbar-subtle z-3  d-none d-flex flex-column gap-3 align-items-center"
 					style={{
 						height: "300px",
 						borderRadius: "0.75rem",
@@ -62,15 +60,13 @@ export default function SearchBar() {
 					{result.map((searchData) => {
 						if (
 							result.length < 1 ||
-							searchData.archived.isArchived
+							searchData.archived.isArchived ||
+							searchData.isDeleted
 						) {
 							return null;
 						} else {
 							return (
-								<SearchItem
-									key={searchData._id}
-									searchData={searchData}
-								/>
+								<SearchItem key={searchData._id} searchData={searchData} />
 							);
 						}
 					})}
@@ -94,38 +90,32 @@ export function SearchItem({ searchData, searchBar }) {
 				searchOutput.classList.add("d-none");
 				searchBar.value = "";
 			}}
-			className=" py-4 border-bottom border-primary-green-900"
-			style={{ width: "95%" }}
+			className="w-100 border-primary-green-900 border-bottom-gray"
 			to={`/forum/communities/${searchData.belongToThread}/posts/${searchData._id}`}
 		>
-			<div className="d-flex justify-content-between gap-2">
+			<div
+				style={{ borderRadius: "20px" }}
+				className="d-flex justify-content-between gap-2 hover-style px-2 py-4 hover-style mb-2 w-100"
+			>
 				{/*-----------left sidebar --------------*/}
 				<div className="overflow-hidden" style={{ width: "85%" }}>
 					{/*-----------user info --------------*/}
 					<div className="d-flex gap-2">
-						<Avatar
-							size="sm"
-							src={searchData.createdBy.profileImage}
-						/>
-						<p
-							className="text-secondary"
-							style={{ fontSize: "12px" }}
-						>
+						<Avatar size="sm" src={searchData.createdBy.profileImage} />
+						<p className="text-secondary" style={{ fontSize: "12px" }}>
 							{searchData.createdBy.username}
 						</p>
 					</div>
 					{/*-----------title and content--------------*/}
 					<div className="w-75">
-						<h2
-							className="text-greeli-emphasis"
-							style={{ fontSize: "18px" }}
-						>
+						<h2 className="text-greeli-emphasis" style={{ fontSize: "18px" }}>
 							{searchData.title}
 						</h2>
 						<EditContextProvider>
 							<EditTextEditor
 								className="post-content"
 								componentType="search"
+								cursorPointer={true}
 								isOverFlow={true}
 								content={JSON.parse(searchData.content)}
 							/>

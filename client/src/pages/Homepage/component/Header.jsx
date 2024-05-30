@@ -15,6 +15,8 @@ const Header = () => {
 					autoPlay
 					muted
 					loop
+					controls
+					controlsList="nofullscreen"
 				>
 					<source src="/Forest.mp4" />
 				</video>

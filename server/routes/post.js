@@ -40,6 +40,7 @@ router
 	.delete(verifyToken, PostController.deletePost);
 
 router.post(
+router.post(
 	"/:postId/archive",
 	verifyToken,
 	// verifyAdmin,
@@ -50,6 +51,19 @@ router.put(
 	"/:postId/archive-by-deactivating",
 	// verifyToken,
 	PostController.archivePostByDeactivating,
+);
+
+router.put(
+	"/:postId/archive-by-deactivating",
+	// verifyToken,
+	PostController.archivePostByDeactivating,
+);
+
+router.delete(
+	"/:postId/archive",
+	verifyToken,
+	// verifyAdmin,
+	PostController.unarchivePost,
 );
 
 router.put(

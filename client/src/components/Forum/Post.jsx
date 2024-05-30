@@ -24,15 +24,17 @@ import { IoMdCheckmark } from "react-icons/io";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Skeleton from "react-loading-skeleton";
+import ButtonShare from "./ButtonShare";
 
 dayjs.extend(relativeTime);
 
 export default function Post({ postData, isThreadAdmin }) {
-	const isLogin = useLogin();
-	const [newComment, setNewComment] = useState([]);
-	const [isApproved, setIsApproved] = useState(postData.isApproved);
-	const [threadData, setTheadData] = useState();
-	const navigate = useNavigate();
+  console.log(`postData: ${JSON.stringify(postData)}`);
+  const isLogin = useLogin();
+  const [newComment, setNewComment] = useState([]);
+  const [isApproved, setIsApproved] = useState(postData.isApproved);
+  const [threadData, setTheadData] = useState();
+  const navigate = useNavigate();
 
 	const handleUserProfileRedirect = () => {
 		navigate(`/user/${postData.createdBy.userId}`, { root: true });
@@ -91,7 +93,7 @@ export default function Post({ postData, isThreadAdmin }) {
 			});
 	}, []);
 	return (
-		<div className="mx-auto  p-3 my-2" style={{ width: "95%" }}>
+		<div className="mx-auto  p-3 my-2 hover-style" style={{ width: "95%", borderRadius:"20px" }}>
 			<EditContextProvider>
 				<div className="w-100 d-flex">
 					{/*----------------------------post header--------------------------------------------------------*/}
@@ -184,21 +186,19 @@ export default function Post({ postData, isThreadAdmin }) {
 				</div>
 			</EditContextProvider>
 
-			<div className="d-flex justify-content-between align-items-center mb-3 z-3">
-				{/* ----------------------------------- Upvote and Comment Button ------------------------------------- */}
-				<div className="d-flex gap-2">
-					<ButtonUpvote
-						upvote={postData.upvote}
-						postId={postData._id}
-					/>
-					<Link
-						to={`/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
-					>
-						<ButtonComment
-							commentLength={postData.comments.length}
-						/>
-					</Link>
-				</div>
+      <div className="d-flex justify-content-between align-items-center mb-3 z-3">
+        {/* ----------------------------------- Upvote and Comment Button ------------------------------------- */}
+        <div className="d-flex gap-2">
+          <ButtonUpvote upvote={postData.upvote} postId={postData._id} />
+          <Link
+            to={`/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
+          >
+            <ButtonComment commentLength={postData.comments.length} />
+          </Link>
+          <ButtonShare
+            location={`http://localhost:3000/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
+          />
+        </div>
 
 				{/* ----------------------------------- Verify Status ------------------------------------- */}
 
@@ -212,40 +212,40 @@ export default function Post({ postData, isThreadAdmin }) {
 							<IoMdCheckmark />
 						</Button>
 
-						<Button
-							onClick={handleUnApproved}
-							className="border-greeli rounded-circle bg-transparent text-forum-emphasis"
-						>
-							<IoMdClose />
-						</Button>
-					</div>
-				) : (
-					// for post creator
-					<>
-						{isLogin &&
-						(isThreadAdmin ||
-							postData.createdBy.userId ===
-								JSON.parse(localStorage.getItem("user")).id) ? (
-							<div className="d-flex align-items-center">
-								<p
-									className={`text-forum-emphasis p-0 m-0 ${
-										isApproved ? null : "opacity-25"
-									}`}
-								>
-									{isApproved ? "Approved" : "Unapproved"}
-								</p>
-								<div className="ms-3 fs-4">
-									{isApproved ? (
-										<BsShieldFillCheck className="text-success" />
-									) : (
-										<BsShieldFillX className="text-danger" />
-									)}
-								</div>
-							</div>
-						) : null}
-					</>
-				)}
-			</div>
-		</div>
-	);
+            <Button
+              onClick={handleUnApproved}
+              className="border-greeli rounded-circle bg-transparent text-forum-emphasis"
+            >
+              <IoMdClose />
+            </Button>
+          </div>
+        ) : (
+          // for post creator
+          <>
+            {isLogin &&
+            (isThreadAdmin ||
+              postData.createdBy.userId ===
+                JSON.parse(localStorage.getItem("user")).id) ? (
+              <div className="d-flex align-items-center">
+                <p
+                  className={`text-forum-emphasis p-0 m-0 ${
+                    isApproved ? null : "opacity-25"
+                  }`}
+                >
+                  {isApproved ? "Approved" : "Unapproved"}
+                </p>
+                <div className="ms-3 fs-4">
+                  {isApproved ? (
+                    <BsShieldFillCheck className="text-success" />
+                  ) : (
+                    <BsShieldFillX className="text-danger" />
+                  )}
+                </div>
+              </div>
+            ) : null}
+          </>
+        )}
+      </div>
+    </div>
+  );
 }

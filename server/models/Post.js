@@ -16,8 +16,8 @@ const postSchema = new mongoose.Schema(
 		title: {
 			type: String,
 			required: true,
-			min: 5,
-			max: 100,
+			minLength: 5,
+			maxLength: 100,
 		},
 		uploadFile: {
 			src: {
@@ -70,6 +70,7 @@ const postSchema = new mongoose.Schema(
 		archived: {
 			isArchived: {
 				type: Boolean,
+				required: true, 
 				default: false,
 			},
 			archivedBy: {
@@ -91,6 +92,11 @@ const postSchema = new mongoose.Schema(
 				},
 			},
 		},
+		isDeleted:{
+			type: Boolean,
+			required: true, 
+			default: false 
+		}
 	},
 	{ timestamps: true },
 );

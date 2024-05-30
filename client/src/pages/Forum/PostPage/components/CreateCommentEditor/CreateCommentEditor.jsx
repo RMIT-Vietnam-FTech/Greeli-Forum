@@ -75,7 +75,7 @@ export default function CreateCommentEditor() {
 				aria-label="create comment"
 				onKeyDown={handleDisplay}
 				onClick={handleDisplay}
-				className={"text-editor text-greeli-emphasis show-border"}
+				className={"text-editor text-greeli-emphasis show-border my-3"}
 			>
 				<EditorProvider
 					slotBefore={

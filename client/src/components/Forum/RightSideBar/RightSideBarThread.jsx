@@ -19,7 +19,7 @@ export default function RightSideBarThread() {
 		<div
 			style={{ height: "95%" }}
 			className={
-				"w-100  gap-4 d-flex " +
+				"w-100   d-flex " +
 				(matchWindowWidth
 					? "flex-column overflow-scroll-y"
 					: "flex-column-reverse")
@@ -35,19 +35,15 @@ function ThreadStatistic() {
 	const { threadId } = useParams();
 	const path = `http://localhost:3001/api/v1/threads/${threadId}/statistic`;
 	const { data, error, isLoading } = useSwr(path, fetcher);
+	if (error) {
+		return error;
+	}
 	if (isLoading) {
 		return 0;
 	}
 	return (
-		<div
-			tabIndex="0"
-			className="thread-statistic bg-forum-subtle"
-			style={{ marginBottom: "23px" }}
-		>
-			<p
-				className="text-primary-yellow fs-5"
-				style={{ fontSize: "18px" }}
-			>
+		<div tabIndex="0" className="thread-statistic bg-forum-subtle">
+			<p className="text-primary-yellow fs-5" style={{ fontSize: "18px" }}>
 				Thread statistic
 			</p>
 			<div className="w-75">
@@ -88,8 +84,8 @@ export function PostYouMayLike() {
 					? null
 					: `http://localhost:3001/api/v1/posts?page=${
 							index + 1
-						}&sort=${"Hot"}`,
-			fetchPost,
+					  }&sort=${"Hot"}`,
+			fetchPost
 		);
 
 	if (isLoading) {
@@ -101,8 +97,8 @@ export function PostYouMayLike() {
 	return (
 		<section tabIndex="0">
 			<p
-				className="ms-3 text-primary-yellow "
-				style={{ fontSize: "18px" }}
+				className=" text-primary-yellow "
+				style={{ fontSize: "18px", marginTop: "23px" }}
 			>
 				Recommended Post
 			</p>
@@ -111,15 +107,16 @@ export function PostYouMayLike() {
 				{issues.map(
 					(postData) =>
 						postData &&
-						!postData.archived.isArchived &&
+						!(postData.archived.isArchived || postData.isDeleted) &&
 						(matchWindowWidth ? (
-							<RecommendPost
-								key={postData._id}
-								postData={postData}
-							/>
+							<div className="border-bottom-gray ">
+								<RecommendPost key={postData._id} postData={postData} />
+							</div>
 						) : (
-							<Post key={postData._id} postData={postData} />
-						)),
+							<div key={postData._id} className="border-bottom-gray">
+								<Post postData={postData} />
+							</div>
+						))
 				)}
 			</div>
 		</section>
@@ -130,8 +127,8 @@ const RecommendPost = ({ postData }) => {
 	// console.log(`check data: ${postData._id}`)
 	return (
 		<div
-			style={{ height: "130px" }}
-			className="w-100 d-flex flex-column justify-content-between border-bottom-gray py-3"
+			style={{ height: "130px", borderRadius: "20px" }}
+			className="w-100 d-flex flex-column justify-content-between  px-2 py-3 hover-style my-1 cursor-pointer"
 		>
 			<div className="w-100 d-flex justify-content-between">
 				{/*left sidebar*/}
@@ -139,16 +136,10 @@ const RecommendPost = ({ postData }) => {
 					{/*user info*/}
 					<div className="d-flex gap-2 mb-2">
 						{/*avatar*/}
-						<Avatar
-							src={postData.createdBy.profileImage}
-							size="sm"
-						/>
+						<Avatar src={postData.createdBy.profileImage} size="sm" />
 
 						{/*user username*/}
-						<div
-							className="text-greeli-emphasis"
-							style={{ fontSize: "14px" }}
-						>
+						<div className="text-greeli-emphasis" style={{ fontSize: "14px" }}>
 							{postData.createdBy.username}
 						</div>
 					</div>

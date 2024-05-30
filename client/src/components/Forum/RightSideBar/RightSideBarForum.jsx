@@ -8,7 +8,7 @@ export default function RightSideBarForum() {
 	return (
 		<div
 			style={{ height: "95%" }}
-			className="w-100 d-flex flex-column-reverse justify-content-end overflow-scroll-y gap-4"
+			className="w-100 d-flex flex-column-reverse justify-content-end overflow-scroll-y"
 		>
 			<ForumLeaderBoard />
 			<ForumStatistic />
@@ -19,6 +19,9 @@ export default function RightSideBarForum() {
 function ForumStatistic() {
 	const path = `http://localhost:3001/api/v1/forums/statistic`;
 	const { data, error, isLoading } = useSwr(path, fetcher);
+    if(error){
+        return 0;
+    }
 	if (isLoading) {
 		return 0;
 	}
@@ -53,61 +56,66 @@ function ForumStatistic() {
 }
 
 function ForumLeaderBoard() {
-	const path = `http://localhost:3001/api/v1/forums/leaderboard`;
-	const { data, error, isLoading } = useSwr(path, fetcher);
-	if (isLoading) {
-		return 0;
-	}
-	return (
-		<div
-			tabIndex="0"
-			className=" w-100 bg-forum-subtle d-flex flex-column gap-2 align-items-start overflow-scroll-y"
-			style={{
-				borderRadius: "0.75rem",
-				height: "350px",
-				marginTop: "23px",
-				padding: "16px",
-			}}
-		>
-			<p
-				className="mt-3 m-0 p-0 text-primary-yellow"
-				style={{ fontSize: "18px" }}
-			>
-				Leaderboard
-			</p>
-			{data.map((leadeboard, index) => {
-				return (
-					<div
-						key={leadeboard._id}
-						className="w-100 d-flex align-items-center py-4 justify-content-start overflow-hidden  text-white"
-					>
-						<div
-							className=" d-flex gap-2 align-items-center justify-content-between"
-							style={{ width: "60px", maxWidth: "100px" }}
-						>
-							<div>{index + 1}</div>
-							<div
-								className="rounded-circle bg-white overflow-hidden"
-								style={{ width: "30px", height: "30px" }}
-							>
-								{leadeboard.profileImage && (
-									<img
-										alt={leadeboard.username}
-										src={leadeboard.profileImage}
-										className="w-100 h-100"
-									/>
-								)}
-							</div>
-						</div>
-						<div
-							className="ms-4"
-							style={{ fontSize: "12px", width: "50%" }}
-						>
-							{leadeboard.username}
-						</div>
-					</div>
-				);
-			})}
-		</div>
-	);
+   const path = `http://localhost:3001/api/v1/forums/leaderboard`;
+   const { data, error, isLoading } = useSwr(path, fetcher);
+   if(error){
+    return 0;
+   }
+   if (isLoading) {
+       return 0;
+   }
+   return (
+       <div
+           tabIndex="0"
+           className=" w-100 bg-forum-subtle d-flex flex-column gap-2 align-items-start overflow-scroll-y"
+           style={{
+               borderRadius: "0.75rem",
+               height: "350px",
+               marginTop: "23px",
+               padding: "16px",
+           }}
+       >
+           <p
+               className="mt-3 m-0 p-0 text-primary-yellow"
+               style={{ fontSize: "18px" }}
+           >
+              Most active users
+           </p>
+           {data.map((leadeboard, index) => {
+               return (
+                   <a
+                       href={`http://localhost:3000/user/${leadeboard._id}`}
+                       key={leadeboard._id}
+                       className="w-100 d-flex px-2 align-items-center py-4 justify-content-start overflow-hidden text-white hover-style"
+                       style={{borderRadius:"20px"}}
+                   >
+                       <div
+                           className=" d-flex gap-2 align-items-center justify-content-between"
+                           style={{ width: "60px", maxWidth: "100px" }}
+                       >
+                           <div>{index + 1}</div>
+                           <div
+                               className="rounded-circle bg-white overflow-hidden"
+                               style={{ width: "30px", height: "30px" }}
+                           >
+                               {leadeboard.profileImage && (
+                                   <img
+                                       alt={leadeboard.username}
+                                       src={leadeboard.profileImage}
+                                       className="w-100 h-100"
+                                   />
+                               )}
+                           </div>
+                       </div>
+                       <div
+                           className="ms-4"
+                           style={{ fontSize: "12px", width: "50%" }}
+                       >
+                           {leadeboard.username}
+                       </div>
+                   </a>
+               );
+           })}
+       </div>
+   );
 }
