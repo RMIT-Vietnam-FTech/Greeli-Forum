@@ -1,15 +1,15 @@
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FaSearch } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./SearchBar.css";
-import EditTextEditor from "../Forum/EditTextEditor/EditTextEditor";
-import Avatar from "../Forum/Avatar";
-import ImageOrVideo from "../Forum/ImageOrVideo";
+import React, { useState, useEffect } from "react";
+import { FaSearch } from "react-icons/fa";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 import { EditContext, EditContextProvider } from "../../context/EditContext";
+import Avatar from "../Forum/Avatar";
+import EditTextEditor from "../Forum/EditTextEditor/EditTextEditor";
+import ImageOrVideo from "../Forum/ImageOrVideo";
+import "./SearchBar.css";
 export default function SearchBar() {
 	const [result, setResult] = useState([]);
 	async function handleOnInput(e) {
@@ -20,7 +20,7 @@ export default function SearchBar() {
 			e.target.value.replace(/ /g, "").length > 0
 		) {
 			searchOutput.classList.remove("d-none");
-			let searchTerm = await axios
+			const searchTerm = await axios
 				.get(
 					`http://localhost:3001/api/v1/posts?search=${e.target.value}`,
 				)

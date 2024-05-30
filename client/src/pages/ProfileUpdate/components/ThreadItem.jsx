@@ -1,10 +1,10 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { IoIosMore } from "react-icons/io";
 import { MdInsertComment } from "react-icons/md";
 import { TbArrowBigUp } from "react-icons/tb";
-import { useEffect, useState } from "react";
-import { useProfileContext } from "../../../context/ProfileContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { useProfileContext } from "../../../context/ProfileContext";
 
 const ThreadItem = (props) => {
 	const [threadTitle, setThreadTitle] = useState("Lorem ipsum dolo");

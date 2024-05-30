@@ -1,7 +1,7 @@
-import Topic from "../models/Topic.js";
 import express from "express";
 import * as topicController from "../controllers/topic.js";
 import { verifyAdmin, verifyToken } from "../middleware/auth.js";
+import Topic from "../models/Topic.js";
 
 const router = express.Router();
 

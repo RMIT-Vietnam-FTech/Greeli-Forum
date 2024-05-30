@@ -1,14 +1,14 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import User from "../models/User.js";
-import Thread from "../models/Thread.js";
-import Post from "../models/Post.js";
-import { deleteFileData, uploadFileData } from "../service/awsS3.js";
-import mongoose from "mongoose";
-import { sendEmail } from "../service/email.js";
-import express from "express";
-import sharp from "sharp";
 import crypto from "crypto";
+import bcrypt from "bcrypt";
+import express from "express";
+import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
+import sharp from "sharp";
+import Post from "../models/Post.js";
+import Thread from "../models/Thread.js";
+import User from "../models/User.js";
+import { deleteFileData, uploadFileData } from "../service/awsS3.js";
+import { sendEmail } from "../service/email.js";
 
 export const register = async (req, res) => {
 	try {
@@ -257,8 +257,8 @@ export const getUser = async (req, res) => {
 
 export const getAllUser = async (req, res) => {
 	try {
-		const page = parseInt(req.query.page) || 1;
-		const limit = parseInt(req.query.limit) || 10;
+		const page = Number.parseInt(req.query.page) || 1;
+		const limit = Number.parseInt(req.query.limit) || 10;
 		const skip = (page - 1) * limit;
 
 		const sort = req.query.sort || "newest";

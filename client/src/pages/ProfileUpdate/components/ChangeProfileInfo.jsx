@@ -1,13 +1,13 @@
+import axios from "axios";
 import React from "react";
 import { useState } from "react";
-import { useUserContext } from "../../../context/UserContext";
 import { set, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import axios from "axios";
-import { MdLocationOn, MdOutlineTransgender, MdPhone } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
+import { MdLocationOn, MdOutlineTransgender, MdPhone } from "react-icons/md";
 import "reactjs-popup/dist/index.css";
 import { useProfileContext } from "../../../context/ProfileContext";
+import { useUserContext } from "../../../context/UserContext";
 
 const ChangeProfileInfo = (props) => {
 	const data = useProfileContext();
@@ -39,7 +39,7 @@ const ChangeProfileInfo = (props) => {
 		newPhoneNumber,
 		newAddress,
 		newGender,
-		userId
+		userId,
 	) => {
 		const configuration = {
 			method: "post",
@@ -91,7 +91,8 @@ const ChangeProfileInfo = (props) => {
 						{...register("newUsername", {
 							minLength: {
 								value: 8,
-								message: "This input must be at least 8 characters",
+								message:
+									"This input must be at least 8 characters",
 							},
 						})}
 						className="form-control text-body-color"
@@ -129,7 +130,8 @@ const ChangeProfileInfo = (props) => {
 						{...register("newPhoneNumber", {
 							maxLength: {
 								value: 10,
-								message: "This input must at least 10 characters",
+								message:
+									"This input must at least 10 characters",
 							},
 						})}
 						className="form-control text-body-color"
@@ -167,7 +169,8 @@ const ChangeProfileInfo = (props) => {
 						{...register("newAddress", {
 							maxLength: {
 								value: 50,
-								message: "This input must not exceed 50 characters",
+								message:
+									"This input must not exceed 50 characters",
 							},
 						})}
 						className="form-control text-body-color"
@@ -190,7 +193,9 @@ const ChangeProfileInfo = (props) => {
 
 			<div
 				className={
-					errors.newGender ? "input-group mb-4 input-error" : "input-group mb-4"
+					errors.newGender
+						? "input-group mb-4 input-error"
+						: "input-group mb-4"
 				}
 			>
 				<span className="input-group-text">

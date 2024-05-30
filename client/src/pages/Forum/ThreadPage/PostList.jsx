@@ -4,8 +4,8 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { useInView } from "react-intersection-observer";
 import useSwrInfinite from "swr/infinite";
 import Post from "../../../components/Forum/Post";
-import { useUserContext } from "../../../context/UserContext";
 import PostSkeleton from "../../../components/Forum/Skeleton/PostSkeleton";
+import { useUserContext } from "../../../context/UserContext";
 
 axios.defaults.withCredentials = true;
 
@@ -74,9 +74,6 @@ export default function PostList({ threadData, topicData }) {
 	);
 
 	const issues = data ? [].concat(...data) : [];
-	{
-		/*------define component to get metdata and use intersection observer to achieve lazyload-------------*/
-	}
 	const path = validatedPath(isThreadAdmin, threadData, sortOption, 1);
 
 	const [metaData, setMetaData] = useState();
@@ -102,9 +99,6 @@ export default function PostList({ threadData, topicData }) {
 			}
 		},
 	});
-	{
-		/*------------------------------------------------------------------------------------------------------*/
-	}
 
 	if (isLoading) {
 		return <PostSkeleton nOfCard={5} />;

@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useContext, useRef } from "react";
 import Image from "react-bootstrap/Image";
 import { FaUser } from "react-icons/fa";
-import { IoMdArrowDropdown } from "react-icons/io";
 import { FiMoreVertical } from "react-icons/fi";
+import { IoMdArrowDropdown } from "react-icons/io";
 import { IoMoon, IoSunny } from "react-icons/io5";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -93,7 +93,9 @@ const Navbar = ({ isForum }) => {
 					<Link className="brand d-flex" to="/">
 						<Image
 							className="me-0 me-md-3"
-							src={isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"}
+							src={
+								isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"
+							}
 							width={40}
 							alt="Greeli Logo"
 						/>
@@ -203,9 +205,15 @@ const Navbar = ({ isForum }) => {
 				)}
 
 				<div className="d-flex flex-row align-items-center gap-3">
-					<div className="dropdown" style={{ top: "0px", right: "0px" }}>
+					<div
+						className="dropdown"
+						style={{ top: "0px", right: "0px" }}
+					>
 						<div data-bs-toggle="dropdown">
-							<FaUser className="icon text-greeli-emphasis" alt="user icon" />
+							<FaUser
+								className="icon text-greeli-emphasis"
+								alt="user icon"
+							/>
 							<IoMdArrowDropdown
 								className="icon text-greeli-emphasis"
 								alt="user icon"

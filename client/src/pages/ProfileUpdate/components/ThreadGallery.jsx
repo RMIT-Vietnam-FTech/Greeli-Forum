@@ -1,6 +1,6 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import ThreadItem from "./ThreadItem";
-import axios from "axios";
 
 const ThreadGallery = (props) => {
 	// const demoPost = {

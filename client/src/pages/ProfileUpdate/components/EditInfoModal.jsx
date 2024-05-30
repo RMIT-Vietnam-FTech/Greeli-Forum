@@ -1,15 +1,15 @@
 import React from "react";
 import { useState } from "react";
-import Popup from "reactjs-popup";
+import { useContext } from "react";
 import { IoIosSettings } from "react-icons/io";
-import "reactjs-popup/dist/index.css";
 import { MdSettingsInputSvideo } from "react-icons/md";
-import ChangePassword from "./ChangePassword";
-import ChangeProfileInfo from "./ChangeProfileInfo";
-import ChangeAvatar from "./ChangeAvatar";
+import Popup from "reactjs-popup";
+import "reactjs-popup/dist/index.css";
 import { useProfileContext } from "../../../context/ProfileContext";
 import { ThemeContext } from "../../../context/ThemeContext";
-import { useContext } from "react";
+import ChangeAvatar from "./ChangeAvatar";
+import ChangePassword from "./ChangePassword";
+import ChangeProfileInfo from "./ChangeProfileInfo";
 
 const EditInfoModal = () => {
 	const data = useProfileContext();

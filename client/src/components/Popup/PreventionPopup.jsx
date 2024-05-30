@@ -18,7 +18,11 @@ const PreventionPopup = (props) => {
 	return (
 		<Popup
 			trigger={
-				<button aria-label={ariaLabel} type="button" className={buttonStyle}>
+				<button
+					aria-label={ariaLabel}
+					type="button"
+					className={buttonStyle}
+				>
 					{buttonValue}
 				</button>
 			}
@@ -45,7 +49,11 @@ const PreventionPopup = (props) => {
 					</p>
 					<div className="popup-content">
 						<div className="warning-title text-danger fw-bold d-flex align-items-center">
-							<IoWarning className="text-danger" size={32} aria-hidden="true" />
+							<IoWarning
+								className="text-danger"
+								size={32}
+								aria-hidden="true"
+							/>
 							<span>Warning</span>
 						</div>
 						<p id="modal-description" className="text-warning m-0">

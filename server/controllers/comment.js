@@ -1,11 +1,11 @@
+import * as crypto from "crypto";
+import { fileTypeFromBuffer } from "file-type";
+import mongoose from "mongoose";
+import sharp from "sharp";
+import Comment from "../models/Comment.js";
 import Post from "../models/Post.js";
 import User from "../models/User.js";
-import Comment from "../models/Comment.js";
-import mongoose from "mongoose";
 import { uploadFileData } from "../service/awsS3.js";
-import * as crypto from "crypto";
-import sharp from "sharp";
-import { fileTypeFromBuffer } from "file-type";
 
 const createRandomName = (bytes = 32) =>
 	crypto.randomBytes(bytes).toString("hex");
@@ -47,17 +47,27 @@ export const createComment = async (req, res) => {
 				type: null,
 			};
 			const imageName = createRandomName();
-			const uploadFileMetaData = await fileTypeFromBuffer(uploadFile.buffer);
+			const uploadFileMetaData = await fileTypeFromBuffer(
+				uploadFile.buffer,
+			);
 			const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
 			if (uploadFileMime === "image") {
 				const fileBuffer = await sharp(uploadFile.buffer)
 					.jpeg({ quality: 100 })
 					.resize(1000)
 					.toBuffer();
-				await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
+				await uploadFileData(
+					fileBuffer,
+					imageName,
+					uploadFile.mimetype,
+				);
 				commentObject.uploadFile.type = "image";
 			} else {
-				await uploadFileData(uploadFile.buffer, imageName, uploadFile.mimetype);
+				await uploadFileData(
+					uploadFile.buffer,
+					imageName,
+					uploadFile.mimetype,
+				);
 				commentObject.uploadFile.type = "video";
 			}
 			commentObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
@@ -125,7 +135,9 @@ export const getComments = async (req, res) => {
 			}
 			queryCommand._id = { $in: post.comments };
 		}
-		const comments = await Comment.aggregate([{ $match: queryCommand }]).facet({
+		const comments = await Comment.aggregate([
+			{ $match: queryCommand },
+		]).facet({
 			metadata: [
 				{
 					$project: {
@@ -135,8 +147,8 @@ export const getComments = async (req, res) => {
 				{ $count: "total" },
 				{
 					$addFields: {
-						page: parseInt(page),
-						limit: parseInt(limit),
+						page: Number.parseInt(page),
+						limit: Number.parseInt(limit),
 					},
 				},
 			],
@@ -163,8 +175,8 @@ export const getComments = async (req, res) => {
 };
 export const getArchivedComments = async (req, res) => {
 	try {
-		const page = parseInt(req.query.page) || 1;
-		const limit = parseInt(req.query.limit) || 10;
+		const page = Number.parseInt(req.query.page) || 1;
+		const limit = Number.parseInt(req.query.limit) || 10;
 		const skip = (page - 1) * limit;
 
 		const sort = req.query.sort || "newest";
@@ -207,7 +219,8 @@ export const postUpVote = async (req, res) => {
 		if (!commentId) return res.status(400).json("Bad Request");
 
 		const comment = await Comment.findById(commentId);
-		if (!comment) return res.status(400).json("post id not found or invalid");
+		if (!comment)
+			return res.status(400).json("post id not found or invalid");
 
 		comment.upvote.push(req.user.id);
 		await comment.save();
@@ -222,7 +235,8 @@ export const deleteUpvote = async (req, res) => {
 		if (!commentId) return res.status(400).json("Bad Request");
 
 		const comment = await Comment.findById(commentId);
-		if (!comment) return res.status(400).json("post id not found or invalid");
+		if (!comment)
+			return res.status(400).json("post id not found or invalid");
 
 		comment.upvote.remove(req.user.id);
 		await comment.save();
@@ -240,11 +254,9 @@ export const archiveComment = async (req, res) => {
 
 		const comment = await Comment.findById(commentId);
 		if (!comment)
-			return res.status(404).json({ message: "post id not found or invalid" });
-
-		{
-			/*check who can able to archived post*/
-		}
+			return res
+				.status(404)
+				.json({ message: "post id not found or invalid" });
 		const user = await User.findById(data.userId);
 		if (!user)
 			return res
@@ -334,7 +346,9 @@ export const archiveCommentByDeactivating = async (req, res) => {
 
 		const comment = await Comment.findById(commentId);
 		if (!comment)
-			return res.status(404).json({ message: "post id not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "post id not found or invalid" });
 		comment.archived.isArchived = true;
 		comment.archived.archivedBy = {
 			userId: data.userId,

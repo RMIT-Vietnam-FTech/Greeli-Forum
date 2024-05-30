@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
-import { ThemeContext } from "../../context/ThemeContext";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { useUserContext } from "../../context/UserContext";
+import React, { useState, useEffect, useContext } from "react";
 import { Toaster } from "react-hot-toast";
-import "../../scss/custom.scss";
 import { FaCamera } from "react-icons/fa";
+import { useNavigate, useParams } from "react-router-dom";
+// import demoUserInfo from "./data";
+import { ProfileContext } from "../../context/ProfileContext";
+import { ThemeContext } from "../../context/ThemeContext";
+import { useUserContext } from "../../context/UserContext";
+import "../../scss/custom.scss";
 import LeftSidePart from "./components/LeftSidePart";
 import RightSidePart from "./components/RightSidePart";
 import "./styles.css";
-// import demoUserInfo from "./data";
-import { ProfileContext } from "../../context/ProfileContext";
 
 const ProfileUpdate = (props) => {
 	const { user, setUser, toggleUserInfo, success, setSuccess } =

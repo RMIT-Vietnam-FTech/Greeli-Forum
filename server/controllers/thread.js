@@ -1,15 +1,15 @@
-import Thread from "../models/Thread.js";
-import User from "../models/User.js";
-import Topic from "../models/Topic.js";
-import Post from "../models/Post.js";
-import Comment from "../models/Comment.js";
 import * as crypto from "crypto";
-import { deleteFileData, uploadFileData } from "../service/awsS3.js";
-import sharp from "sharp";
 import { fileTypeFromBuffer } from "file-type";
+import sharp from "sharp";
+import Comment from "../models/Comment.js";
+import Post from "../models/Post.js";
+import Thread from "../models/Thread.js";
+import Topic from "../models/Topic.js";
+import User from "../models/User.js";
+import { deleteFileData, uploadFileData } from "../service/awsS3.js";
 
-import dotenv from "dotenv";
 import { error } from "console";
+import dotenv from "dotenv";
 dotenv.config();
 
 const createRandomName = (bytes = 32) => crypto.randomBytes(32).toString("hex");
@@ -119,8 +119,8 @@ export const getThread = async (req, res) => {
 
 export const getArchivedThreads = async (req, res) => {
 	try {
-		const page = parseInt(req.query.page) || 1;
-		const limit = parseInt(req.query.limit) || 10;
+		const page = Number.parseInt(req.query.page) || 1;
+		const limit = Number.parseInt(req.query.limit) || 10;
 		const skip = (page - 1) * limit;
 
 		const sort = req.query.sort || "newest";

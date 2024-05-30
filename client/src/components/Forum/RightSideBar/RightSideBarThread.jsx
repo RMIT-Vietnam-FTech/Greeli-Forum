@@ -1,13 +1,13 @@
-import { useState, useEffect, useMemo } from "react";
-import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import useSWR from "swr";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import useSwr from "swr";
 
-import useSWRInfinite from "swr/infinite";
 import { useInView } from "react-intersection-observer";
-import Post from "../Post";
+import useSwrInfinite from "swr/infinite";
 import Avatar from "../Avatar";
 import ImageOrVideo from "../ImageOrVideo";
+import Post from "../Post";
 
 import { IoDocumentTextOutline } from "react-icons/io5";
 
@@ -34,7 +34,7 @@ export default function RightSideBarThread() {
 function ThreadStatistic() {
 	const { threadId } = useParams();
 	const path = `http://localhost:3001/api/v1/threads/${threadId}/statistic`;
-	const { data, error, isLoading } = useSWR(path, fetcher);
+	const { data, error, isLoading } = useSwr(path, fetcher);
 	if (isLoading) {
 		return 0;
 	}
@@ -82,7 +82,7 @@ export function PostYouMayLike() {
 	});
 
 	const { data, mutate, size, setSize, isValidating, isLoading } =
-		useSWRInfinite(
+		useSwrInfinite(
 			(index, prevData) =>
 				prevData && !prevData.length
 					? null

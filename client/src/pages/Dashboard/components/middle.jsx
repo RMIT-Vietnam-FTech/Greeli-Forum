@@ -2,9 +2,9 @@ import React, { useState, useContext, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../../context/ThemeContext";
-import Top from "./top";
-import Bottom from "./bottom";
 import { useUserContext } from "../../../context/UserContext";
+import Bottom from "./bottom";
+import Top from "./top";
 
 const Middle = (props) => {
 	const { user, error, setError, setSuccess } = useUserContext();
@@ -37,14 +37,14 @@ const Middle = (props) => {
 				text: dataItem.isLocked
 					? "Locked"
 					: dataItem.isActivated
-					? "Active"
-					: "Deactivated",
+						? "Active"
+						: "Deactivated",
 				style: `status ${
 					dataItem.isLocked
 						? "locked"
 						: dataItem.isActivated
-						? "active"
-						: "deactivated"
+							? "active"
+							: "deactivated"
 				}`,
 			};
 			const fourthCol = {
@@ -146,9 +146,10 @@ const Middle = (props) => {
 										to={`/${
 											tabTitle === "User List"
 												? "user"
-												: tabTitle === "Archived Threads"
-												? "thread"
-												: "post"
+												: tabTitle ===
+														"Archived Threads"
+													? "thread"
+													: "post"
 										}/${item._id}`}
 										style={{ color: "#0A2A28" }}
 										onClick={(e) => e.stopPropagation()}
@@ -158,7 +159,11 @@ const Middle = (props) => {
 								</td>
 								<td>{processedRenderedData(item)[1]}</td>
 								<td>
-									<span className={processedRenderedData(item)[2].style}>
+									<span
+										className={
+											processedRenderedData(item)[2].style
+										}
+									>
 										{processedRenderedData(item)[2].text}
 									</span>
 								</td>
@@ -167,16 +172,23 @@ const Middle = (props) => {
 										onClick={(e) => {
 											e.stopPropagation();
 											if (tabTitle === "User List") {
-												handleLockUnlockUser(item, item.isLocked);
+												handleLockUnlockUser(
+													item,
+													item.isLocked,
+												);
 											} else {
 												handleUnarchive(item, unit);
 												// console.log("Unarchived");
 												// console.log(item.archived?.archivedBy?.isDeactivated);
 											}
 										}}
-										disabled={item.archived?.archivedBy?.isDeactivated}
+										disabled={
+											item.archived?.archivedBy
+												?.isDeactivated
+										}
 										className={
-											"unarchive-btn " + processedRenderedData(item)[3].style
+											"unarchive-btn " +
+											processedRenderedData(item)[3].style
 										}
 									>
 										{processedRenderedData(item)[3].text}
@@ -198,7 +210,10 @@ const Middle = (props) => {
 						className="dashboard-modal-content"
 						onClick={(e) => e.stopPropagation()}
 					>
-						<span className="dashboard-close" onClick={handleCloseModal}>
+						<span
+							className="dashboard-close"
+							onClick={handleCloseModal}
+						>
 							&times;
 						</span>
 						<h2>
@@ -218,8 +233,8 @@ const Middle = (props) => {
 								selectedItem.isLocked
 									? "Locked"
 									: selectedItem.isActivated
-									? "Active"
-									: "Deactivated"
+										? "Active"
+										: "Deactivated"
 							}`
 								: `Archived By: ${selectedItem.archived.archivedBy.username}`}
 						</p>
@@ -227,16 +242,22 @@ const Middle = (props) => {
 							onClick={(e) => {
 								e.stopPropagation();
 								if (tabTitle === "User List") {
-									handleLockUnlockUser(selectedItem, selectedItem.isLocked);
+									handleLockUnlockUser(
+										selectedItem,
+										selectedItem.isLocked,
+									);
 								} else {
 									handleUnarchive(selectedItem, unit);
 									// console.log("Unarchived");
 									// console.log(item.archived?.archivedBy?.isDeactivated);
 								}
 							}}
-							disabled={selectedItem.archived?.archivedBy?.isDeactivated}
+							disabled={
+								selectedItem.archived?.archivedBy?.isDeactivated
+							}
 							className={
-								"unarchive-btn " + processedRenderedData(selectedItem)[3].style
+								"unarchive-btn " +
+								processedRenderedData(selectedItem)[3].style
 							}
 						>
 							{processedRenderedData(selectedItem)[3].text}

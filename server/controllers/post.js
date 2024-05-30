@@ -1,13 +1,13 @@
+import exp from "constants";
 import * as crypto from "crypto";
-import Post from "../models/Post.js";
-import Thread from "../models/Thread.js";
-import User from "../models/User.js";
-import Topic from "../models/Topic.js";
-import { deleteFileData, uploadFileData } from "../service/awsS3.js";
+import { fileTypeFromBuffer } from "file-type";
 import mongoose from "mongoose";
 import sharp from "sharp";
-import { fileTypeFromBuffer } from "file-type";
-import exp from "constants";
+import Post from "../models/Post.js";
+import Thread from "../models/Thread.js";
+import Topic from "../models/Topic.js";
+import User from "../models/User.js";
+import { deleteFileData, uploadFileData } from "../service/awsS3.js";
 
 const createRandomName = (bytes = 32) =>
 	crypto.randomBytes(bytes).toString("hex");
@@ -20,8 +20,13 @@ export const createPost = async (req, res) => {
 			uploadFile = req.file;
 		}
 		const user = req.user;
-		const { title, content, plainTextContent, belongToThread, belongToTopics } =
-			req.body;
+		const {
+			title,
+			content,
+			plainTextContent,
+			belongToThread,
+			belongToTopics,
+		} = req.body;
 
 		// console.log(`check input:\n req.user: ${req.user}\n req.body: ${JSON.stringify(req.body)}\n file: ${req.file}`);
 		if (req.user) {
@@ -66,7 +71,9 @@ export const createPost = async (req, res) => {
 				};
 				console.log("check 2");
 				const imageName = createRandomName();
-				const uploadFileMetaData = await fileTypeFromBuffer(uploadFile.buffer);
+				const uploadFileMetaData = await fileTypeFromBuffer(
+					uploadFile.buffer,
+				);
 				const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
 				console.log("check 3");
 				if (uploadFileMime === "image") {
@@ -74,7 +81,11 @@ export const createPost = async (req, res) => {
 						.jpeg({ quality: 100 })
 						.resize(1000)
 						.toBuffer();
-					await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
+					await uploadFileData(
+						fileBuffer,
+						imageName,
+						uploadFile.mimetype,
+					);
 					uploadObject.uploadFile.type = uploadFileMime;
 					console.log("check 4");
 				} else {
@@ -82,7 +93,7 @@ export const createPost = async (req, res) => {
 					await uploadFileData(
 						uploadFile.buffer,
 						imageName,
-						uploadFile.mimetype
+						uploadFile.mimetype,
 					);
 					uploadObject.uploadFile.type = uploadFileMime;
 					console.log("check 6");
@@ -113,8 +124,15 @@ export const getPosts = async (req, res) => {
 	try {
 		//filter -> threadId
 		//sorting
-		let { sort, filter, belongToThread, belongToTopic, page, limit, search } =
-			req.query;
+		let {
+			sort,
+			filter,
+			belongToThread,
+			belongToTopic,
+			page,
+			limit,
+			search,
+		} = req.query;
 
 		let response;
 
@@ -151,7 +169,9 @@ export const getPosts = async (req, res) => {
 		}
 		if (belongToTopic) {
 			filterCommand.belongToTopics = {
-				$in: [mongoose.Types.ObjectId.createFromHexString(belongToTopic)],
+				$in: [
+					mongoose.Types.ObjectId.createFromHexString(belongToTopic),
+				],
 			};
 		} else if (belongToThread) {
 			filterCommand.belongToThread =
@@ -183,7 +203,9 @@ export const getPosts = async (req, res) => {
 				.match({ isApproved: true });
 		} else {
 			//sorting ( on upvote length, on createTime, trendy -> (upvote + comment)/(now-createTime))
-			const result = await Post.aggregate([{ $match: filterCommand }]).facet({
+			const result = await Post.aggregate([
+				{ $match: filterCommand },
+			]).facet({
 				metadata: [
 					{
 						$project: {
@@ -193,8 +215,8 @@ export const getPosts = async (req, res) => {
 					{ $count: "total" },
 					{
 						$addFields: {
-							page: parseInt(page),
-							limit: parseInt(limit),
+							page: Number.parseInt(page),
+							limit: Number.parseInt(limit),
 						},
 					},
 				],
@@ -308,9 +330,13 @@ export const deletePost = async (req, res) => {
 		const post = await Post.findById(postId);
 		const thread = await Thread.findById(threadId);
 		if (!thread)
-			return res.status(404).json({ message: "threadId not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "threadId not found or invalid" });
 		if (!post)
-			return res.status(404).json({ message: "postId not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "postId not found or invalid" });
 		if (post.createdBy.userId !== req.user.id)
 			return res.status(403).json({ message: "Forbidden" });
 		// console.log("check post data: " + JSON.stringify(post.comments));
@@ -362,9 +388,13 @@ export const threadAdminDeletePost = async (req, res) => {
 		const post = await Post.findById(postId);
 		const thread = await Thread.findById(threadId);
 		if (!thread)
-			return res.status(404).json({ message: "threadId not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "threadId not found or invalid" });
 		if (!post)
-			return res.status(404).json({ message: "postId not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "postId not found or invalid" });
 		if (thread.createdBy.userId !== req.user.id)
 			return res.status(403).json({ message: "Forbidden" });
 		// delete in s3 bucket
@@ -437,8 +467,8 @@ export const threadAdminGetPosts = async (req, res) => {
 				{ $count: "total" },
 				{
 					$addFields: {
-						page: parseInt(page),
-						limit: parseInt(limit),
+						page: Number.parseInt(page),
+						limit: Number.parseInt(limit),
 					},
 				},
 			],
@@ -454,7 +484,10 @@ export const threadAdminGetPosts = async (req, res) => {
 										{
 											$add: [
 												{
-													$add: [{ $size: "$upvote" }, { $size: "$comments" }],
+													$add: [
+														{ $size: "$upvote" },
+														{ $size: "$comments" },
+													],
 												},
 												1,
 											],
@@ -506,7 +539,8 @@ export const threadAdminVerifyPost = async (req, res) => {
 			res.status(403).json({ message: "Unauthorized" });
 
 		const post = await Post.findById(postId);
-		if (!post) res.status(404).json({ message: "post not found or invalid" });
+		if (!post)
+			res.status(404).json({ message: "post not found or invalid" });
 		post.isApproved = true;
 		post.verifiedAt = new Date();
 		await post.save();
@@ -523,7 +557,9 @@ export const postUpVote = async (req, res) => {
 
 		const post = await Post.findById(postId);
 		if (!post)
-			return res.status(404).json({ message: "post id not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "post id not found or invalid" });
 
 		post.upvote.push(req.user.id);
 		await post.save();
@@ -568,12 +604,11 @@ export const archivePost = async (req, res) => {
 		if (!postId) return res.status(400).json({ message: "Bad Request" });
 		const post = await Post.findById(postId);
 		if (!post)
-			return res.status(404).json({ message: "post id not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "post id not found or invalid" });
 
 		const thread = await Thread.findById(threadId);
-		{
-			/*check who can able to archived post*/
-		}
 		const user = await User.findById(req.user.id);
 		if (!user)
 			return res
@@ -581,7 +616,7 @@ export const archivePost = async (req, res) => {
 				.json({ message: "userId is invalid or not found" });
 
 		console.log(
-			`userId: ${user._id}\n, postCreatorId: ${post.createdBy.userId}\n communityAdminId: ${thread.createdBy.userId}`
+			`userId: ${user._id}\n, postCreatorId: ${post.createdBy.userId}\n communityAdminId: ${thread.createdBy.userId}`,
 		);
 		if (
 			!(
@@ -620,7 +655,9 @@ export const archivePostByDeactivating = async (req, res) => {
 
 		const post = await Post.findById(postId);
 		if (!post)
-			return res.status(404).json({ message: "post id not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "post id not found or invalid" });
 		post.archived.isArchived = true;
 		post.archived.archivedBy = {
 			userId: data.userId,
@@ -678,7 +715,9 @@ export const unarchivePost = async (req, res) => {
 
 		const post = await Post.findById(postId);
 		if (!post)
-			return res.status(404).json({ message: "post id not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "post id not found or invalid" });
 
 		post.archived.isArchived = false;
 		post.archived.archivedBy.userId = null;
@@ -695,8 +734,8 @@ export const unarchivePost = async (req, res) => {
 
 export const getArchivedPosts = async (req, res) => {
 	try {
-		const page = parseInt(req.query.page) || 1;
-		const limit = parseInt(req.query.limit) || 10;
+		const page = Number.parseInt(req.query.page) || 1;
+		const limit = Number.parseInt(req.query.limit) || 10;
 		const skip = (page - 1) * limit;
 
 		const sort = req.query.sort || "newest";

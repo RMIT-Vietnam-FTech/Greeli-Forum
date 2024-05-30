@@ -1,8 +1,8 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "./ChatBubble.css";
 import { io } from "socket.io-client";
 import { useUserContext } from "../../context/UserContext";
+import "./ChatBubble.css";
 const ChatBubble = () => {
 	const navigate = useNavigate();
 	const location = useLocation();

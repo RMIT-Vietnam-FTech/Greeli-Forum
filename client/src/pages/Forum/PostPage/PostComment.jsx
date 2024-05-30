@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import useSWRInfinite from "swr/infinite";
+import useSwrInfinite from "swr/infinite";
 
 import { Button } from "react-bootstrap";
 import ButtonUpvote from "../../../components/Forum/ButtonUpvote";
@@ -31,10 +31,10 @@ import {
 
 import { useLogin } from "../../../hooks/useLogin";
 
-import { PopupContext } from "../../../context/PopupContext";
-import ReplyComment from "../PostPage/components/ReplyComment";
 import { useEditor } from "@tiptap/react";
 import CommentSkeleton from "../../../components/Forum/Skeleton/CommentSkeleton";
+import { PopupContext } from "../../../context/PopupContext";
+import ReplyComment from "../PostPage/components/ReplyComment";
 
 axios.defaults.withCredentials = true;
 
@@ -109,7 +109,7 @@ export default function PostComment({ postData, threadAdminId }) {
 			console.error(error.message);
 		}
 	}
-	const { data, size, setSize, isLoading } = useSWRInfinite(
+	const { data, size, setSize, isLoading } = useSwrInfinite(
 		(index, prevData) => {
 			if (prevData && !prevData.length) return null;
 			return `http://localhost:3001/api/v1/comments?postId=${

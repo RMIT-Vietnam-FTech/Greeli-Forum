@@ -42,7 +42,9 @@ const Top = ({
 					<h2>{unit}</h2>
 					<p
 						className={`${
-							isDarkMode ? "members-count-dark" : "members-count-light"
+							isDarkMode
+								? "members-count-dark"
+								: "members-count-light"
 						}`}
 					>
 						{memberCount}
@@ -51,7 +53,9 @@ const Top = ({
 			</div>
 			<h1
 				className={`${
-					isDarkMode ? "dashboard-title-dark" : "dashboard-title-light"
+					isDarkMode
+						? "dashboard-title-dark"
+						: "dashboard-title-light"
 				} px-3`}
 			>
 				{tabTitle}
@@ -64,7 +68,9 @@ const Top = ({
 						height="16"
 						fill="currentColor"
 						className={`${
-							isDarkMode ? "search-icon-dark" : "search-icon-light"
+							isDarkMode
+								? "search-icon-dark"
+								: "search-icon-light"
 						} bi bi-search search-icon`}
 						viewBox="0 0 16 16"
 					>
@@ -91,23 +97,35 @@ const Top = ({
 					>
 						{sortText}
 					</button>
-					<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+					<ul
+						className="dropdown-menu"
+						aria-labelledby="dropdownMenuButton1"
+					>
 						<li
 							className="dashboard-dropdown-item"
 							onClick={() => handleSort("newest", "Newest")}
 						>
-							<span className="a-dashboard-dropdown-item">Newest</span>
+							<span className="a-dashboard-dropdown-item">
+								Newest
+							</span>
 						</li>
 						<li
 							className="dashboard-dropdown-item"
 							onClick={() => handleSort("oldest", "Oldest")}
 						>
-							<span className="a-dashboard-dropdown-item">Oldest</span>
+							<span className="a-dashboard-dropdown-item">
+								Oldest
+							</span>
 						</li>
 						{tabTitle === "User List" && (
 							<li
 								className="dashboard-dropdown-item"
-								onClick={() => handleSort("most-posts", "Most Posts Created")}
+								onClick={() =>
+									handleSort(
+										"most-posts",
+										"Most Posts Created",
+									)
+								}
 							>
 								<span className="a-dashboard-dropdown-item">
 									Most Posts Created
@@ -117,7 +135,12 @@ const Top = ({
 						{tabTitle === "User List" && (
 							<li
 								className="dashboard-dropdown-item"
-								onClick={() => handleSort("least-posts", "Least Posts Created")}
+								onClick={() =>
+									handleSort(
+										"least-posts",
+										"Least Posts Created",
+									)
+								}
 							>
 								<span className="a-dashboard-dropdown-item">
 									Least Posts Created

@@ -123,7 +123,10 @@ const RequireActivate = () => {
 			style={{ height: "90vh" }}
 		>
 			<div>
-				<h2 className="" style={{ marginBottom: "-40px", marginTop: "100px" }}>
+				<h2
+					className=""
+					style={{ marginBottom: "-40px", marginTop: "100px" }}
+				>
 					Your account is deactivated, click the button to activate it
 				</h2>
 				<PreventionPopup
