@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 import axios from "axios";
 import { useProfileContext } from "../../../context/ProfileContext";
+axios.defaults.withCredentials = true;
 
 const LeftSidePart = (props) => {
 	//GET ID FROM LOCAL STORAGE AND PARAM
@@ -33,12 +34,18 @@ const LeftSidePart = (props) => {
 	} = data;
 	const [basicInfo, setBasicInfo] = useState(data);
 	const { isMe, comments } = props;
+	console.log(comments);
 
 	//ARCHIVE POSTS + THREADS
 	const archiveCreatedPost = (postId) => {
 		const configuration = {
 			method: "put",
-			url: `http://localhost:3001/api/posts/${postId}/archive`,
+			url: `http://localhost:3001/api/v1/posts/${postId}/archive-by-deactivating`,
+			data: {
+				userId: userId,
+				username: username,
+				profileImage: profileImage,
+			},
 		};
 		axios(configuration)
 			.then((result) => {
@@ -49,10 +56,15 @@ const LeftSidePart = (props) => {
 			});
 	};
 
-	const archiveCreatedThread = (threadId) => {
+	const archiveCreatedComment = (commentId) => {
 		const configuration = {
 			method: "put",
-			url: `http://localhost:3001/api/threads/${threadId}/archive`,
+			url: `http://localhost:3001/api/v1/comments/${commentId}/archive-by-deactivating`,
+			data: {
+				userId: userId,
+				username: username,
+				profileImage: profileImage,
+			},
 		};
 		axios(configuration)
 			.then((result) => {
@@ -68,14 +80,18 @@ const LeftSidePart = (props) => {
 	const cookies = new Cookies();
 
 	const deactivateAccount = () => {
-		console.log(createdThread, createdPost);
+		// console.log(createdThread, createdPost);
 
-		// createdPost.forEach((postId) => {
-		// 	archiveCreatedPost(postId);
-		// });
-		// createdThread.forEach((threadId) => {
-		// 	archiveCreatedThread(threadId);
-		// });
+		createdPost.forEach((postId) => {
+			archiveCreatedPost(postId);
+		});
+
+		console.log(createdPost, comments.data);
+
+		comments.data.forEach((comment) => {
+			archiveCreatedComment(comment._id);
+		});
+
 		const configuration = {
 			method: "post",
 			url: `http://localhost:3001/api/user/${userId}/deactivate`,
@@ -174,9 +190,7 @@ const LeftSidePart = (props) => {
 								{role}
 							</div>
 						</div>
-						<h1 className="px-3 mt-5 username-container">
-							{username}
-						</h1>
+						<h1 className="px-3 mt-5 username-container">{username}</h1>
 						{isMe && <EditInfoModal />}
 					</div>
 					<div className="w-100 d-flex flex-row align-items-center justify-content-between profile-figures">
@@ -231,9 +245,7 @@ const LeftSidePart = (props) => {
 						{/* LOCK/UNLOCK BUTTON */}
 						{!isMe && isAdmin && (
 							<PreventionPopup
-								modalTitle={`${
-									basicInfo.isLocked ? "Unlock" : "Lock"
-								} Account`}
+								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
 								buttonStyle="bg-danger text-white rounded-pill mt-2 py-2 border-0"
 								ariaLabel={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
@@ -241,9 +253,7 @@ const LeftSidePart = (props) => {
 								buttonValue={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
 								} this user`}
-								action={`${
-									basicInfo.isLocked ? "unlock" : "lock"
-								} this user`}
+								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
 								warningMessage={`If you ${
 									basicInfo.isLocked ? "unlock" : "lock"
 								} this account, the user will be ${

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useUserContext } from "../../../context/UserContext";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { MdLocationOn, MdOutlineTransgender, MdPhone } from "react-icons/md";
@@ -20,9 +20,9 @@ const ChangeProfileInfo = (props) => {
 		currentGender = gender;
 	}
 
-	const [newUsername, setNewUsername] = useState(username);
-	const [newAddress, setnewAddress] = useState(address);
-	const [newPhoneNumber, setnewPhoneNumber] = useState(tel);
+	const [newUsername, setNewUsername] = useState(data?.username);
+	const [newAddress, setnewAddress] = useState(data?.address);
+	const [newPhoneNumber, setnewPhoneNumber] = useState(data?.tel);
 	const [newGender, setNewGender] = useState(currentGender);
 
 	const {
@@ -39,7 +39,7 @@ const ChangeProfileInfo = (props) => {
 		newPhoneNumber,
 		newAddress,
 		newGender,
-		userId,
+		userId
 	) => {
 		const configuration = {
 			method: "post",
@@ -91,15 +91,12 @@ const ChangeProfileInfo = (props) => {
 						{...register("newUsername", {
 							minLength: {
 								value: 8,
-								message:
-									"This input must be at least 8 characters",
+								message: "This input must be at least 8 characters",
 							},
 						})}
 						className="form-control text-body-color"
 						id="floatingNewUserName"
-						value={
-							newUsername === undefined ? newUsername : username
-						}
+						value={newUsername}
 						placeholder="Diemqui11t1"
 						onChange={(e) => {
 							setNewUsername(e.target.value);
@@ -132,13 +129,12 @@ const ChangeProfileInfo = (props) => {
 						{...register("newPhoneNumber", {
 							maxLength: {
 								value: 10,
-								message:
-									"This input must at least 10 characters",
+								message: "This input must at least 10 characters",
 							},
 						})}
 						className="form-control text-body-color"
 						id="floatingNewPhoneNumber"
-						value={newPhoneNumber ? newPhoneNumber : tel}
+						value={newPhoneNumber}
 						placeholder="0123456789"
 						onChange={(e) => {
 							setnewPhoneNumber(e.target.value);
@@ -171,13 +167,12 @@ const ChangeProfileInfo = (props) => {
 						{...register("newAddress", {
 							maxLength: {
 								value: 50,
-								message:
-									"This input must not exceed 50 characters",
+								message: "This input must not exceed 50 characters",
 							},
 						})}
 						className="form-control text-body-color"
 						id="newAddress"
-						value={newAddress ? newAddress : address}
+						value={newAddress}
 						placeholder="702, Nguyen Van Linh, District 7"
 						onChange={(e) => {
 							setnewAddress(e.target.value);
@@ -195,9 +190,7 @@ const ChangeProfileInfo = (props) => {
 
 			<div
 				className={
-					errors.newGender
-						? "input-group mb-4 input-error"
-						: "input-group mb-4"
+					errors.newGender ? "input-group mb-4 input-error" : "input-group mb-4"
 				}
 			>
 				<span className="input-group-text">
