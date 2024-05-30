@@ -19,56 +19,56 @@ lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
 export let popUpEditorContent;
 export default function PopupEditor({
-  componentType,
-  setDescription,
-  setPlainTextDescription,
-  isReset,
+	componentType,
+	setDescription,
+	setPlainTextDescription,
+	isReset,
 }) {
-  //edit text editor for thread and post only
-  if (isReset) {
-    return ({ editor }) => {
-      editor.setContent = "";
-    };
-  }
-  const extensions = [
-    StarterKit.configure({
-      bulletList: {
-        keepMarks: true,
-        keepAttributes: false,
-      },
-      orderedList: {
-        keepMarks: true,
-        keepAttributes: false,
-      },
-    }),
-    CodeBlockLowlight.configure({
-      lowlight,
-      languageClassPrefix: "language-",
-    }),
-  ];
-  return (
-    <div
-      className={
-        "my-2 p-3 w-100 rounded-3 border border-dark h-50 text-dark overflow-hidden"
-      }
-    >
-      <EditorProvider
-        editorProps={{
-          attributes: {
-            class: "cursor-text popup-editor",
-          },
-        }}
-        slotBefore={<MenuBar />}
-        extensions={extensions}
-        editable={true}
-        content={""}
-        onUpdate={({ editor }) => {
-          setDescription(editor.getJSON());
-          if (setPlainTextDescription) {
-            setPlainTextDescription(editor.getText());
-          }
-        }}
-      ></EditorProvider>
-    </div>
-  );
+	//edit text editor for thread and post only
+	if (isReset) {
+		return ({ editor }) => {
+			editor.setContent = "";
+		};
+	}
+	const extensions = [
+		StarterKit.configure({
+			bulletList: {
+				keepMarks: true,
+				keepAttributes: false,
+			},
+			orderedList: {
+				keepMarks: true,
+				keepAttributes: false,
+			},
+		}),
+		CodeBlockLowlight.configure({
+			lowlight,
+			languageClassPrefix: "language-",
+		}),
+	];
+	return (
+		<div
+			className={
+				"my-2 p-3 w-100 rounded-3 border border-dark h-50 text-dark overflow-hidden"
+			}
+		>
+			<EditorProvider
+				editorProps={{
+					attributes: {
+						class: "cursor-text popup-editor",
+					},
+				}}
+				slotBefore={<MenuBar />}
+				extensions={extensions}
+				editable={true}
+				content={""}
+				onUpdate={({ editor }) => {
+					setDescription(editor.getJSON());
+					if (setPlainTextDescription) {
+						setPlainTextDescription(editor.getText());
+					}
+				}}
+			></EditorProvider>
+		</div>
+	);
 }

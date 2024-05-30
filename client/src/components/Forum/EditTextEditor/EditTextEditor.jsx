@@ -17,65 +17,74 @@ lowlight.registerLanguage("html", html);
 lowlight.registerLanguage("css", css);
 lowlight.registerLanguage("js", js);
 lowlight.registerLanguage("ts", ts);
-export default function EditTextEditor({ content, componentType, isOverflow, cursorPointer }) {
-   //edit text editor for thread and post only
-   const editContext = useContext(EditContext);
-   let placeholder = "";
-   if (componentType == "posts") {
-       placeholder = "Enter post's content ...";
-   } else if (componentType === "threads") {
-       placeholder = "Enter thread's content ...";
-   }
-   const extensions = [
-       StarterKit.configure({
-           bulletList: {
-               keepMarks: true,
-               keepAttributes: false,
-           },
-           orderedList: {
-               keepMarks: true,
-               keepAttributes: false,
-           },
-       }),
-       Placeholder.configure({
-           placeholder: placeholder,
-           showOnlyWhenEditable: false,
-       }),
-       CodeBlockLowlight.configure({
-           lowlight,
-           languageClassPrefix: "language-",
-       }),
-   ];
-   return (
-       <div
-       tabIndex="0"
-           className={
-               editContext.isEdit
-                   ? "text-editor text-greeli-emphasis show-border"
-                   :  `text-editor text-greeli-emphasis ` 
-           }
-       >
-           <EditorProvider
-               editorProps={{
-                   attributes: {
-                       class:( componentType === "search" || isOverflow? "cursor-text line-clamp ":"cursor-text ") + (cursorPointer && "cursor-pointer")
-                   },
-               }}
-               slotBefore={
-                   editContext.isEdit ? <MenuBar className="" /> : null
-               }
-               slotAfter={
-                   editContext.isEdit ? (
-                       <EditTextBar
-                           content={content}
-                           componentType={componentType}
-                       />
-                   ) : null
-               }
-               extensions={extensions}
-               editable={editContext.isEdit}
-               content={content}
-           ></EditorProvider>
-       </div>
-   );
+export default function EditTextEditor({
+	content,
+	componentType,
+	isOverflow,
+	cursorPointer,
+}) {
+	//edit text editor for thread and post only
+	const editContext = useContext(EditContext);
+	let placeholder = "";
+	if (componentType == "posts") {
+		placeholder = "Enter post's content ...";
+	} else if (componentType === "threads") {
+		placeholder = "Enter thread's content ...";
+	}
+	const extensions = [
+		StarterKit.configure({
+			bulletList: {
+				keepMarks: true,
+				keepAttributes: false,
+			},
+			orderedList: {
+				keepMarks: true,
+				keepAttributes: false,
+			},
+		}),
+		Placeholder.configure({
+			placeholder: placeholder,
+			showOnlyWhenEditable: false,
+		}),
+		CodeBlockLowlight.configure({
+			lowlight,
+			languageClassPrefix: "language-",
+		}),
+	];
+	return (
+		<div
+			tabIndex="0"
+			className={
+				editContext.isEdit
+					? "text-editor text-greeli-emphasis show-border"
+					: `text-editor text-greeli-emphasis `
+			}
+		>
+			<EditorProvider
+				editorProps={{
+					attributes: {
+						class:
+							(componentType === "search" || isOverflow
+								? "cursor-text line-clamp "
+								: "cursor-text ") +
+							(cursorPointer && "cursor-pointer"),
+					},
+				}}
+				slotBefore={
+					editContext.isEdit ? <MenuBar className="" /> : null
+				}
+				slotAfter={
+					editContext.isEdit ? (
+						<EditTextBar
+							content={content}
+							componentType={componentType}
+						/>
+					) : null
+				}
+				extensions={extensions}
+				editable={editContext.isEdit}
+				content={content}
+			></EditorProvider>
+		</div>
+	);
 }

@@ -19,6 +19,7 @@ const ProfileUpdate = (props) => {
 	// const userData = demoUserInfo[0];
 	const navigate = useNavigate();
 	const [basicInfo, setBasicInfo] = useState({});
+	const [comments, setComments] = useState([]);
 
 	// GET ID FROM LOCAL STORAGE
 	const currentUserId = JSON.parse(localStorage.getItem("user")).id;
@@ -59,14 +60,16 @@ const ProfileUpdate = (props) => {
 						createdAt,
 						archivedPost,
 					} = user;
-					const tel = user.tel ? user.tel : `${prefixForNoInfo} phone number`;
-					const address = user.address
-						? user.address
-						: `${prefixForNoInfo} address`;
-					const gender = user.gender
-						? user.gender
-						: `${prefixForNoInfo} gender`;
-					const profileImage = user.profileImage ? user.profileImage : "";
+					const tel = user.tel;
+					const address = user.address;
+					// ? user.address
+					// : `${prefixForNoInfo} address`;
+					const gender = user.gender;
+					// ? user.gender
+					// : `${prefixForNoInfo} gender`;
+					const profileImage = user.profileImage
+						? user.profileImage
+						: "";
 					const description = user.description
 						? user.description
 						: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...";
@@ -100,7 +103,21 @@ const ProfileUpdate = (props) => {
 	}, [userId, isMe, success]);
 	// ----------------------------
 
-	//EDIT PROFILE - PUSH DATA TO DB
+	//FETCH POSTS
+	useEffect(() => {
+		const configuration = {
+			method: "get",
+			url: `http://localhost:3001/api/v1/comments?userId=${userId}`,
+		};
+		axios(configuration)
+			.then((result) => {
+				console.log(result.data);
+				setComments(result.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, [userId]);
 
 	// ----------------------------
 
@@ -112,8 +129,8 @@ const ProfileUpdate = (props) => {
 			>
 				<Toaster />
 				<div className="row row-cols-12 h-100">
-					<LeftSidePart isMe={isMe} />
-					<RightSidePart isMe={isMe} />
+					<LeftSidePart isMe={isMe} comments={comments} />
+					<RightSidePart isMe={isMe} comments={comments} />
 				</div>
 			</div>
 		</ProfileContext.Provider>

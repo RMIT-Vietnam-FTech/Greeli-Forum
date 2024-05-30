@@ -13,83 +13,94 @@ const createRandomName = (bytes = 32) =>
   crypto.randomBytes(bytes).toString("hex");
 
 export const createPost = async (req, res) => {
-  //req.body -> title, content, createBy{}
-  try {
-    let uploadFile;
-    if (req.file) {
-      uploadFile = req.file;
-    }
-    const user = req.user;
-    const { title, content, plainTextContent, belongToThread, belongToTopics } =
-      req.body;
+	//req.body -> title, content, createBy{}
+	try {
+		let uploadFile;
+		if (req.file) {
+			uploadFile = req.file;
+		}
+		const user = req.user;
+		const {
+			title,
+			content,
+			plainTextContent,
+			belongToThread,
+			belongToTopics,
+		} = req.body;
 
-    // console.log(`check input:\n req.user: ${req.user}\n req.body: ${JSON.stringify(req.body)}\n file: ${req.file}`);
-    if (req.user) {
-      const user = await User.findById(req.user.id);
-      // console.log(user);
-      const uploadObject = {
-        belongToTopics: [],
-      };
-      uploadObject.title = title;
-      uploadObject.content = content;
-      uploadObject.plainTextContent = plainTextContent;
-      uploadObject.createdBy = {
-        userId: user._id,
-        username: user.username,
-      };
-      if (user.profileImage) {
-        uploadObject.createdBy.profileImage = user.profileImage;
-      }
-      const thread = await Thread.findById(belongToThread);
+		// console.log(`check input:\n req.user: ${req.user}\n req.body: ${JSON.stringify(req.body)}\n file: ${req.file}`);
+		if (req.user) {
+			const user = await User.findById(req.user.id);
+			// console.log(user);
+			const uploadObject = {
+				belongToTopics: [],
+			};
+			uploadObject.title = title;
+			uploadObject.content = content;
+			uploadObject.plainTextContent = plainTextContent;
+			uploadObject.createdBy = {
+				userId: user._id,
+				username: user.username,
+			};
+			if (user.profileImage) {
+				uploadObject.createdBy.profileImage = user.profileImage;
+			}
+			const thread = await Thread.findById(belongToThread);
 
-      //   console.log(`check thread: ${thread}`);
-      if (thread) {
-        uploadObject.belongToThread = belongToThread;
-      } else {
-        res.status(404).json({
-          message: "thread id is not found or invalid",
-        });
-      }
-      if (!belongToTopics)
-        return res
-          .status(400)
-          .json({ message: "Bad Request, must include topic" });
-      for (let i = 0; i < belongToTopics.length; ++i) {
-        const topic = await Topic.findById(belongToTopics[i]);
-        uploadObject.belongToTopics.push(topic._id);
-      }
-      if (uploadFile) {
-        console.log("check 1");
-        uploadObject.uploadFile = {
-          src: null,
-          type: null,
-        };
-        console.log("check 2");
-        const imageName = createRandomName();
-        const uploadFileMetaData = await fileTypeFromBuffer(uploadFile.buffer);
-        const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
-        console.log("check 3");
-        if (uploadFileMime === "image") {
-          const fileBuffer = await sharp(uploadFile.buffer)
-            .jpeg({ quality: 100 })
-            .resize(1000)
-            .toBuffer();
-          await uploadFileData(fileBuffer, imageName, uploadFile.mimetype);
-          uploadObject.uploadFile.type = uploadFileMime;
-          console.log("check 4");
-        } else {
-          console.log("check 5");
-          await uploadFileData(
-            uploadFile.buffer,
-            imageName,
-            uploadFile.mimetype
-          );
-          uploadObject.uploadFile.type = uploadFileMime;
-          console.log("check 6");
-        }
-        uploadObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
-        console.log("check 7");
-      }
+			//   console.log(`check thread: ${thread}`);
+			if (thread) {
+				uploadObject.belongToThread = belongToThread;
+			} else {
+				res.status(404).json({
+					message: "thread id is not found or invalid",
+				});
+			}
+			if (!belongToTopics)
+				return res
+					.status(400)
+					.json({ message: "Bad Request, must include topic" });
+			for (let i = 0; i < belongToTopics.length; ++i) {
+				const topic = await Topic.findById(belongToTopics[i]);
+				uploadObject.belongToTopics.push(topic._id);
+			}
+			if (uploadFile) {
+				console.log("check 1");
+				uploadObject.uploadFile = {
+					src: null,
+					type: null,
+				};
+				console.log("check 2");
+				const imageName = createRandomName();
+				const uploadFileMetaData = await fileTypeFromBuffer(
+					uploadFile.buffer,
+				);
+				const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
+				console.log("check 3");
+				if (uploadFileMime === "image") {
+					const fileBuffer = await sharp(uploadFile.buffer)
+						.jpeg({ quality: 100 })
+						.resize(1000)
+						.toBuffer();
+					await uploadFileData(
+						fileBuffer,
+						imageName,
+						uploadFile.mimetype,
+					);
+					uploadObject.uploadFile.type = uploadFileMime;
+					console.log("check 4");
+				} else {
+					console.log("check 5");
+					await uploadFileData(
+						uploadFile.buffer,
+						imageName,
+						uploadFile.mimetype,
+					);
+					uploadObject.uploadFile.type = uploadFileMime;
+					console.log("check 6");
+				}
+				uploadObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
+				console.log("check 7");
+			}
 
       const post = new Post(uploadObject);
       await post.save();
@@ -109,22 +120,29 @@ export const createPost = async (req, res) => {
   }
 };
 export const getPosts = async (req, res) => {
-  //pagination
-  try {
-    //filter -> threadId
-    //sorting
-    let { sort, filter, belongToThread, belongToTopic, page, limit, search } =
-      req.query;
+	//pagination
+	try {
+		//filter -> threadId
+		//sorting
+		let {
+			sort,
+			filter,
+			belongToThread,
+			belongToTopic,
+			page,
+			limit,
+			search,
+		} = req.query;
 
-    let response;
+		let response;
 
-    if (belongToThread) {
-      const thread = await Thread.findById(belongToThread);
-      if (!thread)
-        res.status(404).json({
-          message: "threadId not found or invalid",
-        });
-    }
+		if (belongToThread) {
+			const thread = await Thread.findById(belongToThread);
+			if (!thread)
+				res.status(404).json({
+					message: "threadId not found or invalid",
+				});
+		}
 
     const filterCommand = {
       isApproved: true,
@@ -258,17 +276,17 @@ export const getPosts = async (req, res) => {
 };
 
 export const getPost = async (req, res) => {
-  try {
-    const { postId } = req.params;
-    const post = await Post.findById(postId);
-    if (post.archived.isArchived)
-      return res
-        .status(404)
-        .json({ message: "Post is archived, user cannot access" });
-    res.status(200).json(post);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+	try {
+		const { postId } = req.params;
+		const post = await Post.findById(postId);
+		if (post.archived.isArchived)
+			return res
+				.status(404)
+				.json({ message: "Post is archived, user cannot access" });
+		res.status(200).json(post);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
 };
 
 export const modifyPost = async (req, res) => {
@@ -524,13 +542,13 @@ export const deleteUpvote = async (req, res) => {
 };
 
 export const searchPost = async (req, res) => {
-  try {
-    const searchQuery = req.query.search;
+	try {
+		const searchQuery = req.query.search;
 
-    console.log(res);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+		console.log(res);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
 };
 
 export const archivePost = async (req, res) => {
@@ -627,37 +645,39 @@ export const unarchivePost = async (req, res) => {
     const postId = req.params.postId;
     if (!postId) return res.status(400).json({ message: "Bad Request" });
 
-    const post = await Post.findById(postId);
-    if (!post)
-      return res.status(404).json({ message: "post id not found or invalid" });
+		const post = await Post.findById(postId);
+		if (!post)
+			return res
+				.status(404)
+				.json({ message: "post id not found or invalid" });
 
-    {
-      /*check who can able to archived post*/
-    }
-    const user = await User.findById(req.user.id);
-    if (!user)
-      return res
-        .status(404)
-        .json({ message: "userId is invalid or not found" });
+		{
+			/*check who can able to archived post*/
+		}
+		const user = await User.findById(req.user.id);
+		if (!user)
+			return res
+				.status(404)
+				.json({ message: "userId is invalid or not found" });
 
-    console.log(
-      `check user: ${JSON.stringify(req.user)}\n postDATA:${JSON.stringify(
-        post
-      )}`
-    );
+		console.log(
+			`check user: ${JSON.stringify(
+				req.user,
+			)}\n postDATA:${JSON.stringify(post)}`,
+		);
 
-    if (eq.user.role !== "admin" && user._id !== post.createdBy.userId)
-      return res.status(403).json({ message: "Forbidden" });
+		if (eq.user.role !== "admin" && user._id !== post.createdBy.userId)
+			return res.status(403).json({ message: "Forbidden" });
 
-    post.archived.isArchived = false;
-    post.archived.archivedBy.userId = null;
-    post.archived.archivedBy.username = null;
-    post.archived.archivedBy.profileImage = null;
+		post.archived.isArchived = false;
+		post.archived.archivedBy.userId = null;
+		post.archived.archivedBy.username = null;
+		post.archived.archivedBy.profileImage = null;
 
-    await post.save();
+		await post.save();
 
-    res.status(200).json({ message: "Archived successfully!" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
+		res.status(200).json({ message: "Archived successfully!" });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
 };

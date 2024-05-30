@@ -46,7 +46,8 @@ export const login = async (req, res) => {
 		const user = await User.findOne({ email: email });
 		if (!user) return res.status(400).json({ error: "User doesn't exist" });
 		const isMatch = await bcrypt.compare(password, user.password);
-		if (!isMatch) return res.status(400).json({ error: "Password incorrect" });
+		if (!isMatch)
+			return res.status(400).json({ error: "Password incorrect" });
 		if (user.isLocked)
 			return res
 				.status(400)
@@ -55,7 +56,7 @@ export const login = async (req, res) => {
 		const token = await jwt.sign(
 			{ id: user._id, email: user.email, role: user.role },
 			process.env.JWT_SECRET,
-			{ expiresIn: "3d" }
+			{ expiresIn: "3d" },
 		);
 
 		console.log(token);
@@ -66,14 +67,13 @@ export const login = async (req, res) => {
 			lastActive: Date.now(),
 		};
 
-		res
-			.cookie("JWT", token, {
-				path: "/",
-				maxAge: 3 * 24 * 60 * 60 * 1000, // MS
-				httpOnly: true, // prevent XSS attacks cross-site scripting attacks
-				sameSite: "strict", // CSRF attacks cross-site request forgery attacks
-				secure: process.env.NODE_ENV !== "development",
-			})
+		res.cookie("JWT", token, {
+			path: "/",
+			maxAge: 3 * 24 * 60 * 60 * 1000, // MS
+			httpOnly: true, // prevent XSS attacks cross-site scripting attacks
+			sameSite: "strict", // CSRF attacks cross-site request forgery attacks
+			secure: process.env.NODE_ENV !== "development",
+		})
 			.status(200)
 			.json({
 				id: user._id,
@@ -92,7 +92,8 @@ export const uploadProfileImage = async (req, res) => {
 		const userId = req.params.id;
 		console.log(userId);
 		if (uploadFile) {
-			const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+			const uniqueSuffix =
+				Date.now() + "-" + Math.round(Math.random() * 1e9);
 			const imageName = uniqueSuffix + "-" + uploadFile.originalname;
 			const fileBuffer = await sharp(uploadFile.buffer)
 				.jpeg({ quality: 100 })
@@ -376,7 +377,7 @@ export const getCreatedThread = async (req, res) => {
 
 		const createdThreads = await Thread.find(
 			{ _id: { $in: user.createdThread } },
-			{ _id: 1, title: 1 }
+			{ _id: 1, title: 1 },
 		);
 		res.status(200).json(createdThreads);
 	} catch (error) {
@@ -413,7 +414,9 @@ export const postFollowThread = async (req, res) => {
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
 		if (!user)
-			return res.status(404).json({ message: "userId not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "userId not found or invalid" });
 		if (req.user.id !== userId) {
 			res.status(403).json({ message: "Unauthorized!" });
 		}
@@ -438,7 +441,9 @@ export const deleteFollowThread = async (req, res) => {
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
 		if (!user)
-			return res.status(404).json({ message: "userId not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "userId not found or invalid" });
 		if (req.user.id !== userId) {
 			res.status(403).json({ message: "Unauthorized!" });
 		}
@@ -480,7 +485,9 @@ export const postArchivedPost = async (req, res) => {
 		const userId = req.params.userId;
 		const user = await User.findOne({ _id: userId });
 		if (!user)
-			return res.status(404).json({ message: "userId not found or invalid" });
+			return res
+				.status(404)
+				.json({ message: "userId not found or invalid" });
 		if (req.user.id !== userId) {
 			res.status(403).json({ message: "Unauthorized!" });
 		}
@@ -553,7 +560,8 @@ export const postCreatedPost = async (req, res) => {
 			if (!postId) return res.status(400).json("Bad Request");
 			const userId = req.params.userId;
 			const user = await User.findOne({ _id: userId });
-			if (!user) return res.status(404).json("userId not found or invalid");
+			if (!user)
+				return res.status(404).json("userId not found or invalid");
 			if (req.user.id !== userId) {
 				res.status(403).json("Unauthorized!");
 			}

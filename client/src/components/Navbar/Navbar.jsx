@@ -21,6 +21,8 @@ const Navbar = ({ isForum }) => {
 	const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
 	const { user, setUser, toggleUserInfo } = useUserContext();
 	const userId = JSON.parse(user)?.id || null;
+	const userRole = JSON.parse(user)?.role || null;
+	const isAdmin = userRole === "admin";
 
 	const closeBtnRef = useRef(null);
 
@@ -33,7 +35,7 @@ const Navbar = ({ isForum }) => {
 	const logout = () => {
 		const configuration = {
 			method: "post",
-			url: "/api/user/logout",
+			url: "http://localhost:3001/api/user/logout",
 		};
 		axios(configuration)
 			.then((result) => {
@@ -47,11 +49,11 @@ const Navbar = ({ isForum }) => {
 				navigate("/", { replace: true });
 			})
 			.catch((error) => {
-				toast.error(error.response.data.error, {
+				toast.error(error, {
 					duration: 3000,
 					position: "top-center",
 				});
-				console.log(error.response.data.error);
+				console.log(error);
 			});
 	};
 
@@ -91,7 +93,9 @@ const Navbar = ({ isForum }) => {
 					<Link className="brand d-flex" to="/">
 						<Image
 							className="me-0 me-md-3"
-							src={isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"}
+							src={
+								isDarkMode ? "/DarkLogo.svg" : "/LightLogo.svg"
+							}
 							width={40}
 							alt="Greeli Logo"
 						/>
@@ -153,7 +157,7 @@ const Navbar = ({ isForum }) => {
 									Forum
 								</NavLink>
 							</li>
-							<li className="nav-item">
+							{/* <li className="nav-item">
 								<NavLink
 									to="/about"
 									className="nav-link text-greeli-emphasis"
@@ -161,7 +165,7 @@ const Navbar = ({ isForum }) => {
 								>
 									About
 								</NavLink>
-							</li>
+							</li> */}
 							<li className="nav-item">
 								<NavLink
 									to="/contact"
@@ -201,9 +205,15 @@ const Navbar = ({ isForum }) => {
 				)}
 
 				<div className="d-flex flex-row align-items-center gap-3">
-					<div className="dropdown" style={{ top: "0px", right: "0px" }}>
+					<div
+						className="dropdown"
+						style={{ top: "0px", right: "0px" }}
+					>
 						<div data-bs-toggle="dropdown">
-							<FaUser className="icon text-greeli-emphasis" alt="user icon" />
+							<FaUser
+								className="icon text-greeli-emphasis"
+								alt="user icon"
+							/>
 							<IoMdArrowDropdown
 								className="icon text-greeli-emphasis"
 								alt="user icon"
@@ -217,7 +227,7 @@ const Navbar = ({ isForum }) => {
 						>
 							<li>
 								<NavLink
-									class="dropdown-item ps-3 text-decoration-none text-greeli-emphasis"
+									className="dropdown-item ps-3 text-decoration-none profile-drop"
 									to="/profile"
 									role="user profile page"
 									aria-label="link to user profile page"
@@ -225,16 +235,17 @@ const Navbar = ({ isForum }) => {
 									Profile
 								</NavLink>
 							</li>
-							<li>
-								<NavLink
-									class="dropdown-item ps-3 text-decoration-none text-greeli-emphasis"
-									to="/admin"
+							{ isAdmin && <li>
+								{" "}
+								<NavLink 
+									className="dropdown-item ps-3 text-decoration-none profile-drop"
+									to={isAdmin ? "/admin" : "/page-not-found"}
 									role="dashboard page"
 									aria-label="link to user dashboard page"
 								>
-									Dashboard
+									Dashboard (Admin)
 								</NavLink>
-							</li>
+							</li>}
 						</ul>
 						{/* </div> */}
 					</div>
@@ -257,7 +268,7 @@ const Navbar = ({ isForum }) => {
 					{userId === null ? (
 						<Link
 							to="/login"
-							className="login-button theme-button"
+							className="login-button"
 							style={{ textDecoration: "none" }}
 							onClick={handleNavLinkClick}
 						>
@@ -268,7 +279,6 @@ const Navbar = ({ isForum }) => {
 							<button
 								className="login-button theme-button"
 								onClick={() => {
-									handleNavLinkClick();
 									logout();
 								}}
 								type="button"

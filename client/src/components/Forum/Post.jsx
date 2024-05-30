@@ -36,93 +36,103 @@ export default function Post({ postData, isThreadAdmin }) {
   const [threadData, setTheadData] = useState();
   const navigate = useNavigate();
 
-  const handleUserProfileRedirect = () => {
-    navigate(`/user/${postData.createdBy.userId}`, { root: true });
-  };
-  const handleCommunityRedirect = () => {
-    navigate(`/forum/communities/${postData.belongToThread}`, { root: true });
-  };
-  async function handleApproved() {
-    setIsApproved(true);
-    const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
-    await axios.put(
-      path,
-      { threadId: postData.belongToThread },
-      {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("user")).token
-          }`,
-        },
-      }
-    );
-  }
+	const handleUserProfileRedirect = () => {
+		navigate(`/user/${postData.createdBy.userId}`, { root: true });
+	};
+	const handleCommunityRedirect = () => {
+		navigate(`/forum/communities/${postData.belongToThread}`, {
+			root: true,
+		});
+	};
+	async function handleApproved() {
+		setIsApproved(true);
+		const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
+		await axios.put(
+			path,
+			{ threadId: postData.belongToThread },
+			{
+				headers: {
+					Authorization: `Bearer ${
+						JSON.parse(localStorage.getItem("user")).token
+					}`,
+				},
+			},
+		);
+	}
 
-  async function handleUnApproved() {
-    try {
-      //archived and redirect
-      const path = `http://localhost:3001/api/v1/posts/${postData._id}/archive`;
-      await axios.post(
-        path,
-        {
-          threadId: postData.belongToThread,
-        },
-        {
-          headers: {
-            // Authorization: `Bearer ${
-            //   JSON.parse(localStorage.getItem("user")).token
-            // }`,
-          },
-        }
-      );
+	async function handleUnApproved() {
+		try {
+			//archived and redirect
+			const path = `http://localhost:3001/api/v1/posts/${postData._id}/archive`;
+			await axios.post(
+				path,
+				{
+					threadId: postData.belongToThread,
+				},
+				{
+					headers: {
+						// Authorization: `Bearer ${
+						//   JSON.parse(localStorage.getItem("user")).token
+						// }`,
+					},
+				},
+			);
 
-      navigate(`/forum/communities/${postData.belongToThread}`);
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-  useEffect(() => {
-    axios
-      .get(`http://localhost:3001/api/v1/threads/${postData.belongToThread}`)
-      .then((res) => {
-        setTheadData(res.data);
-      });
-  }, []);
-  return (
-    <div className="mx-auto  p-3 my-2" style={{ width: "95%" }}>
-      <EditContextProvider>
-        <div className="w-100 d-flex">
-          {/*----------------------------post header--------------------------------------------------------*/}
-          <div className="d-flex gap-2 position-relative">
-            {threadData ? (
-              <div className="cursor-pointer" onClick={handleCommunityRedirect}>
-                <Avatar size="lg" src={threadData.uploadFile.src} />
-              </div>
-            ) : (
-              <Skeleton width="60px" height="60px" circle />
-            )}
-            <p
-              className="mb-0 text-general-emphasis fw-bold cursor-pointer"
-              onClick={handleCommunityRedirect}
-            >
-              {threadData ? threadData.title : <Skeleton />}
-            </p>
-            <li className="text-greeli-emphasis">
-              {postData.isApproved
-                ? dayjs().to(dayjs(postData.verifiedAt))
-                : dayjs().to(dayjs(postData.createdAt))}
-            </li>
+			navigate(`/forum/communities/${postData.belongToThread}`);
+		} catch (error) {
+			console.error(error.message);
+		}
+	}
+	useEffect(() => {
+		axios
+			.get(
+				`http://localhost:3001/api/v1/threads/${postData.belongToThread}`,
+			)
+			.then((res) => {
+				setTheadData(res.data);
+			});
+	}, []);
+	return (
+		<div className="mx-auto  p-3 my-2" style={{ width: "95%" }}>
+			<EditContextProvider>
+				<div className="w-100 d-flex">
+					{/*----------------------------post header--------------------------------------------------------*/}
+					<div className="d-flex gap-2 position-relative">
+						{threadData ? (
+							<div
+								className="cursor-pointer"
+								onClick={handleCommunityRedirect}
+							>
+								<Avatar
+									size="lg"
+									src={threadData.uploadFile.src}
+								/>
+							</div>
+						) : (
+							<Skeleton width="60px" height="60px" circle />
+						)}
+						<p
+							className="mb-0 text-general-emphasis fw-bold cursor-pointer"
+							onClick={handleCommunityRedirect}
+						>
+							{threadData ? threadData.title : <Skeleton />}
+						</p>
+						<li className="text-greeli-emphasis">
+							{postData.isApproved
+								? dayjs().to(dayjs(postData.verifiedAt))
+								: dayjs().to(dayjs(postData.createdAt))}
+						</li>
 
-            <p
-              onClick={handleUserProfileRedirect}
-              className="text-secondary position-absolute cursor-pointer"
-              style={{ top: "25px", left: "70px" }}
-            >
-              {postData.createdBy.username}
-            </p>
-          </div>
+						<p
+							onClick={handleUserProfileRedirect}
+							className="text-secondary position-absolute cursor-pointer"
+							style={{ top: "25px", left: "70px" }}
+						>
+							{postData.createdBy.username}
+						</p>
+					</div>
 
-          {/* <AuthorizationContextProvider
+					{/* <AuthorizationContextProvider
              componentType="post"
              objectId={postData._id}
            >
@@ -132,49 +142,49 @@ export default function Post({ postData, isThreadAdmin }) {
                threadId={postData.belongToThread}
              />
            </AuthorizationContextProvider> */}
-        </div>
+				</div>
 
-        {/*-------------------------------------------post body -----------------------------------------*/}
-        <div className=" mt-3 w-100">
-          <Link
-            to={`/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
-          >
-            <div
-              tabIndex="0"
-              className="fs-5 fw-bold text-greeli-emphasis"
-              style={{ wordBreak: "break-word" }}
-            >
-              {postData.title}
-            </div>
-          </Link>
+				{/*-------------------------------------------post body -----------------------------------------*/}
+				<div className=" mt-3 w-100">
+					<Link
+						to={`/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
+					>
+						<div
+							tabIndex="0"
+							className="fs-5 fw-bold text-greeli-emphasis"
+							style={{ wordBreak: "break-word" }}
+						>
+							{postData.title}
+						</div>
+					</Link>
 
-          {postData.uploadFile ? (
-            <div
-              className=" my-4 bg-forum-subtle d-flex justify-content-center align-items-center overflow-hidden"
-              style={{ height: "45vh", borderRadius: "0.75rem" }}
-            >
-              <ImageOrVideo
-                alt={postData.createdBy.username}
-                uploadFile={postData.uploadFile}
-                h100={true}
-                w100={false}
-              />
-            </div>
-          ) : null}
-          <a
-            href={`/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
-            className="cursor-pointer post-content-wrapper d-block w-100 overflow-hidden"
-          >
-            <EditTextEditor
-              className="post-content"
-              cursorPointer={true}
-              componentType="post"
-              isOverflow={true}
-              content={JSON.parse(postData.content)}
-            />
-          </a>
-        </div>
-      </EditContextProvider>
+					{postData.uploadFile ? (
+						<div
+							className=" my-4 bg-forum-subtle d-flex justify-content-center align-items-center overflow-hidden"
+							style={{ height: "45vh", borderRadius: "0.75rem" }}
+						>
+							<ImageOrVideo
+								alt={postData.createdBy.username}
+								uploadFile={postData.uploadFile}
+								h100={true}
+								w100={false}
+							/>
+						</div>
+					) : null}
+					<a
+						href={`/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
+						className="cursor-pointer post-content-wrapper d-block w-100 overflow-hidden"
+					>
+						<EditTextEditor
+							className="post-content"
+							cursorPointer={true}
+							componentType="post"
+							isOverflow={true}
+							content={JSON.parse(postData.content)}
+						/>
+					</a>
+				</div>
+			</EditContextProvider>
 
       <div className="d-flex justify-content-between align-items-center mb-3 z-3">
         {/* ----------------------------------- Upvote and Comment Button ------------------------------------- */}
@@ -190,17 +200,17 @@ export default function Post({ postData, isThreadAdmin }) {
           />
         </div>
 
-        {/* ----------------------------------- Verify Status ------------------------------------- */}
+				{/* ----------------------------------- Verify Status ------------------------------------- */}
 
-        {/* for thread Admin  */}
-        {isLogin && isThreadAdmin && !isApproved ? (
-          <div className="d-flex gap-2 me-2">
-            <Button
-              onClick={handleApproved}
-              className="border-greeli rounded-circle bg-transparent text-forum-emphasis"
-            >
-              <IoMdCheckmark />
-            </Button>
+				{/* for thread Admin  */}
+				{isLogin && isThreadAdmin && !isApproved ? (
+					<div className="d-flex gap-2 me-2">
+						<Button
+							onClick={handleApproved}
+							className="border-greeli rounded-circle bg-transparent text-forum-emphasis"
+						>
+							<IoMdCheckmark />
+						</Button>
 
             <Button
               onClick={handleUnApproved}

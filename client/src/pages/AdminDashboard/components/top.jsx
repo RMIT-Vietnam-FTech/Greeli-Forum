@@ -34,20 +34,22 @@ const Top = ({ memberCount, sortText, onSortChange, onSearchChange }) => {
 				<div className="AdminDashBoardMember">
 					<h2>Members</h2>
 					<p
-						className={`${isDarkMode
+						className={`${
+							isDarkMode
 								? "members-count-dark"
 								: "members-count-light"
-							}`}
+						}`}
 					>
 						{memberCount}
 					</p>
 				</div>
 			</div>
 			<h1
-				className={`${isDarkMode
+				className={`${
+					isDarkMode
 						? "dashboard-title-dark"
 						: "dashboard-title-light"
-					}`}
+				}`}
 			>
 				DASH BOARD
 			</h1>
@@ -58,10 +60,11 @@ const Top = ({ memberCount, sortText, onSortChange, onSearchChange }) => {
 						width="16"
 						height="16"
 						fill="currentColor"
-						className={`${isDarkMode
+						className={`${
+							isDarkMode
 								? "search-icon-dark"
 								: "search-icon-light"
-							} bi bi-search search-icon`}
+						} bi bi-search search-icon`}
 						viewBox="0 0 16 16"
 					>
 						<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
@@ -69,10 +72,11 @@ const Top = ({ memberCount, sortText, onSortChange, onSearchChange }) => {
 					<input
 						type="text"
 						placeholder="Search"
-						className={`${isDarkMode
+						className={`${
+							isDarkMode
 								? "dashboard-search-input-dark"
 								: "dashboard-search-input-light"
-							} dashboard-search-input`}
+						} dashboard-search-input`}
 						onChange={handleSearch}
 					/>
 				</div>
@@ -90,46 +94,39 @@ const Top = ({ memberCount, sortText, onSortChange, onSearchChange }) => {
 						className="dropdown-menu"
 						aria-labelledby="dropdownMenuButton1"
 					>
-						<li className="dashboard-dropdown-item" onClick={() => handleSort("newest", "Newest")}>
-							<a
-								className="a-dashboard-dropdown-item"
-								href="#"
-							>
+						<li
+							className="dashboard-dropdown-item"
+							onClick={() => handleSort("newest", "Newest")}
+						>
+							<a className="a-dashboard-dropdown-item" href="#">
 								Newest
 							</a>
 						</li>
-						<li className="dashboard-dropdown-item" onClick={() => handleSort("oldest", "Oldest")}>
-							<a
-								className="a-dashboard-dropdown-item"
-								href="#"
-							>
+						<li
+							className="dashboard-dropdown-item"
+							onClick={() => handleSort("oldest", "Oldest")}
+						>
+							<a className="a-dashboard-dropdown-item" href="#">
 								Oldest
 							</a>
 						</li>
-						<li className="dashboard-dropdown-item" onClick={() =>
-							handleSort(
-								"most-posts",
-								"Most Posts Created",
-							)
-						}>
-							<a
-								className="a-dashboard-dropdown-item"
-								href="#"
-
-							>
+						<li
+							className="dashboard-dropdown-item"
+							onClick={() =>
+								handleSort("most-posts", "Most Posts Created")
+							}
+						>
+							<a className="a-dashboard-dropdown-item" href="#">
 								Most Posts Created
 							</a>
 						</li>
-						<li className="dashboard-dropdown-item" onClick={() =>
-							handleSort(
-								"least-posts",
-								"Least Posts Created",
-							)
-						}>
-							<a
-								className="a-dashboard-dropdown-item"
-								href="#"
-							>
+						<li
+							className="dashboard-dropdown-item"
+							onClick={() =>
+								handleSort("least-posts", "Least Posts Created")
+							}
+						>
+							<a className="a-dashboard-dropdown-item" href="#">
 								Least Posts Created
 							</a>
 						</li>

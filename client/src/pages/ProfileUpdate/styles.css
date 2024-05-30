@@ -26,7 +26,7 @@
 }
 
 .username-container {
-	font-size: 2.5vw;
+	font-size: 2.25vw;
 }
 
 .info-item {
@@ -138,6 +138,10 @@
 [data-bs-theme="dark"] .edit-tab-active {
 	color: white !important;
 	border-bottom: 2px solid white !important;
+}
+
+.text-gray {
+	color: gray;
 }
 
 /* Responsiveness */
