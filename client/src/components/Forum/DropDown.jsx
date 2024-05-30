@@ -3,10 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import {
 	Link,
-	redirect,
-	redirectDocument,
 	useNavigate,
-	useParams,
 } from "react-router-dom";
 import { AuthorizationContext } from "../../context/AuthorizationContext";
 import { EditContext } from "../../context/EditContext";

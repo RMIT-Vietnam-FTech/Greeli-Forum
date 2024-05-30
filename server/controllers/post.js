@@ -35,6 +35,9 @@ export const createPost = async (req, res) => {
 			const uploadObject = {
 				belongToTopics: [],
 			};
+      if(!title) return res.status(400).json({message:"Bad Request"});
+      if (title.length < 5 || title.length > 50)
+      return res.status(400).json({message:"Bad Request"});
 			uploadObject.title = title;
 			uploadObject.content = content;
 			uploadObject.plainTextContent = plainTextContent;
@@ -64,18 +67,15 @@ export const createPost = async (req, res) => {
 				uploadObject.belongToTopics.push(topic._id);
 			}
 			if (uploadFile) {
-				console.log("check 1");
 				uploadObject.uploadFile = {
 					src: null,
 					type: null,
 				};
-				console.log("check 2");
 				const imageName = createRandomName();
 				const uploadFileMetaData = await fileTypeFromBuffer(
 					uploadFile.buffer,
 				);
 				const uploadFileMime = uploadFileMetaData.mime.split("/")[0];
-				console.log("check 3");
 				if (uploadFileMime === "image") {
 					const fileBuffer = await sharp(uploadFile.buffer)
 						.jpeg({ quality: 100 })
@@ -87,19 +87,15 @@ export const createPost = async (req, res) => {
 						uploadFile.mimetype,
 					);
 					uploadObject.uploadFile.type = uploadFileMime;
-					console.log("check 4");
 				} else {
-					console.log("check 5");
 					await uploadFileData(
 						uploadFile.buffer,
 						imageName,
 						uploadFile.mimetype,
 					);
 					uploadObject.uploadFile.type = uploadFileMime;
-					console.log("check 6");
 				}
 				uploadObject.uploadFile.src = `https://d46o92zk7g554.cloudfront.net/${imageName}`;
-				console.log("check 7");
 			}
 
       const post = new Post(uploadObject);

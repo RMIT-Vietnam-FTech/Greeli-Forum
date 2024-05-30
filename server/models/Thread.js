@@ -7,8 +7,8 @@ const threadSchema = new mongoose.Schema(
 			unique: true,
 			// immutable: true,
 			required: true,
-			min: 5,
-			max: 20,
+			mineLength: 5,
+			maxLength: 20,
 		},
 		content: {
 			type: String,

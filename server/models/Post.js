@@ -16,8 +16,8 @@ const postSchema = new mongoose.Schema(
 		title: {
 			type: String,
 			required: true,
-			min: 5,
-			max: 100,
+			minLength: 5,
+			maxLength: 100,
 		},
 		uploadFile: {
 			src: {
