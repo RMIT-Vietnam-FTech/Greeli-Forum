@@ -42,9 +42,7 @@ const Top = ({
 					<h2>{unit}</h2>
 					<p
 						className={`${
-							isDarkMode
-								? "members-count-dark"
-								: "members-count-light"
+							isDarkMode ? "members-count-dark" : "members-count-light"
 						}`}
 					>
 						{memberCount}
@@ -53,10 +51,8 @@ const Top = ({
 			</div>
 			<h1
 				className={`${
-					isDarkMode
-						? "dashboard-title-dark"
-						: "dashboard-title-light"
-				}`}
+					isDarkMode ? "dashboard-title-dark" : "dashboard-title-light"
+				} px-3`}
 			>
 				{tabTitle}
 			</h1>
@@ -68,9 +64,7 @@ const Top = ({
 						height="16"
 						fill="currentColor"
 						className={`${
-							isDarkMode
-								? "search-icon-dark"
-								: "search-icon-light"
+							isDarkMode ? "search-icon-dark" : "search-icon-light"
 						} bi bi-search search-icon`}
 						viewBox="0 0 16 16"
 					>
@@ -97,46 +91,39 @@ const Top = ({
 					>
 						{sortText}
 					</button>
-					<ul
-						className="dropdown-menu"
-						aria-labelledby="dropdownMenuButton1"
-					>
+					<ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 						<li
 							className="dashboard-dropdown-item"
 							onClick={() => handleSort("newest", "Newest")}
 						>
-							<a className="a-dashboard-dropdown-item" href="#">
-								Newest
-							</a>
+							<span className="a-dashboard-dropdown-item">Newest</span>
 						</li>
 						<li
 							className="dashboard-dropdown-item"
 							onClick={() => handleSort("oldest", "Oldest")}
 						>
-							<a className="a-dashboard-dropdown-item" href="#">
-								Oldest
-							</a>
+							<span className="a-dashboard-dropdown-item">Oldest</span>
 						</li>
-						<li
-							className="dashboard-dropdown-item"
-							onClick={() =>
-								handleSort("most-posts", "Most Posts Created")
-							}
-						>
-							<a className="a-dashboard-dropdown-item" href="#">
-								Most Posts Created
-							</a>
-						</li>
-						<li
-							className="dashboard-dropdown-item"
-							onClick={() =>
-								handleSort("least-posts", "Least Posts Created")
-							}
-						>
-							<a className="a-dashboard-dropdown-item" href="#">
-								Least Posts Created
-							</a>
-						</li>
+						{tabTitle === "User List" && (
+							<li
+								className="dashboard-dropdown-item"
+								onClick={() => handleSort("most-posts", "Most Posts Created")}
+							>
+								<span className="a-dashboard-dropdown-item">
+									Most Posts Created
+								</span>
+							</li>
+						)}
+						{tabTitle === "User List" && (
+							<li
+								className="dashboard-dropdown-item"
+								onClick={() => handleSort("least-posts", "Least Posts Created")}
+							>
+								<span className="a-dashboard-dropdown-item">
+									Least Posts Created
+								</span>
+							</li>
+						)}
 					</ul>
 				</div>
 			</div>

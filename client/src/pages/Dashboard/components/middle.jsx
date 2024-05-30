@@ -213,7 +213,7 @@ const Middle = (props) => {
 						</p>
 						<p>
 							{tabTitle === "User List"
-								? `Status:{" "}
+								? `Status: 
 							${
 								selectedItem.isLocked
 									? "Locked"
@@ -231,11 +231,13 @@ const Middle = (props) => {
 								} else {
 									handleUnarchive(selectedItem, unit);
 									// console.log("Unarchived");
-									// console.log(selectedItem.archived?.archivedBy?.isDeactivated);
+									// console.log(item.archived?.archivedBy?.isDeactivated);
 								}
 							}}
 							disabled={selectedItem.archived?.archivedBy?.isDeactivated}
-							className={processedRenderedData(selectedItem)[3].style}
+							className={
+								"unarchive-btn " + processedRenderedData(selectedItem)[3].style
+							}
 						>
 							{processedRenderedData(selectedItem)[3].text}
 						</button>
