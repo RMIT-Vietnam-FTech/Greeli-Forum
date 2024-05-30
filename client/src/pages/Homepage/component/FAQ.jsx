@@ -7,7 +7,10 @@ const FAQ = () => {
     <div className="accordion accordion-flush p-3" id="accordionFlushExample">
       {forumFaq.map((item) => (
         <div className="accordion-item rounded-3 mb-2" key={item.id}>
-          <h1 className="accordion-header" id={`flush-heading${item.id}`}>
+          <h1
+            className="accordion-header border-none"
+            id={`flush-heading${item.id}`}
+          >
             <button
               className="accordion-button border-none rounded-3 collapsed fs-4"
               type="button"

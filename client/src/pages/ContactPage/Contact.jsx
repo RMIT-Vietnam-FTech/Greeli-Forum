@@ -31,7 +31,7 @@ const Contact = () => {
 	const feedback = () => {
 		const configuration = {
 			method: "post",
-			url: "/api/feedback/create",
+			url: "http://localhost:3001/api/feedback/create",
 			data: {
 				name,
 				email,

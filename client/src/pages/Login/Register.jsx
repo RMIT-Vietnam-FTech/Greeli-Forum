@@ -246,6 +246,7 @@ const Register = () => {
 								<label for="password" className="text-greeli-emphasis">
 									Password
 								</label>
+								<i className="password-info">?</i>
 							</div>
 							<span
 								className="input-group-text text-login-emphasis"

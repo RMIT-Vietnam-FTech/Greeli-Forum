@@ -16,7 +16,7 @@ const ChangeProfileInfo = (props) => {
 	const { user, error, setError, setSuccess } = useUserContext();
 
 	var currentGender = "";
-	if (gender !== "Please update your  gender") {
+	if (gender !== "Please update your gender") {
 		currentGender = gender;
 	}
 
