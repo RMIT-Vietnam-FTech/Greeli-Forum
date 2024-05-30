@@ -268,7 +268,7 @@ const Navbar = ({ isForum }) => {
 					{userId === null ? (
 						<Link
 							to="/login"
-							className="login-button theme-button"
+							className="login-button"
 							style={{ textDecoration: "none" }}
 							onClick={handleNavLinkClick}
 						>
