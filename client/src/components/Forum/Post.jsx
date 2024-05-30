@@ -93,7 +93,7 @@ export default function Post({ postData, isThreadAdmin }) {
 			});
 	}, []);
 	return (
-		<div className="mx-auto  p-3 my-2" style={{ width: "95%" }}>
+		<div className="mx-auto  p-3 my-2 hover-style" style={{ width: "95%", borderRadius:"20px" }}>
 			<EditContextProvider>
 				<div className="w-100 d-flex">
 					{/*----------------------------post header--------------------------------------------------------*/}

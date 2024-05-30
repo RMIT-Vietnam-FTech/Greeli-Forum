@@ -27,7 +27,7 @@ export default function ButtonShare({ location }) {
     <div className="share-btn position-relative">
       <button
         onClick={handlePopup}
-        className="px-3 border border-primary-green bg-transparent text-forum-emphasis  align-items-center justify-content-center "
+        className="px-3 border border-primary-green bg-transparent text-forum-emphasis  align-items-center justify-content-center hover-style-green"
         style={{ fontSize: "14px", height: "25px", borderRadius:"20px"}}
 
       >

@@ -122,7 +122,8 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
           {/*content*/}
           {commentData.archived.isArchived ? (
             <div
-              className={"px-3 py-1 bg-hidden-light"}
+              className={"px-3 py-1 bg-hidden-light ms-4"}
+
               style={{ width: "300px", borderRadius: "20px" }}
             >
               {/*archived content UI*/}

@@ -130,9 +130,9 @@ export default function PostComment({ postData, threadAdminId }) {
   }
   const issues = data ? [].concat(...data) : [];
   return (
-    <>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <div className="d-flex gap-2 align-items-center">
+    <section className="pb-5 border-bottom-gray">
+      <div className="d-flex justify-content-between align-items-center">
+        <div className="d-flex gap-2 align-items-center ">
           <ButtonUpvote upvote={postData.upvote} postId={postData._id} />
           <ButtonComment commentLength={postData.comments.length} />
           <ButtonShare location={window.location.href}/>
@@ -194,7 +194,7 @@ export default function PostComment({ postData, threadAdminId }) {
 				<section
 					style={{ minHeight: "450px" }}
 					id="comment-section"
-					className="mt-3 w-100"
+					className="w-100"
 				>
 					{newComment}
 					{issues.map((commentData, index, data) => {
@@ -219,7 +219,7 @@ export default function PostComment({ postData, threadAdminId }) {
 					Load more comments
 				</button>
 			)}
-		</>
+		</section>
 	);
 }
 export function ButtonComment({ commentLength }) {
@@ -232,7 +232,7 @@ export function ButtonComment({ commentLength }) {
 		<button
 			onClick={handlePopup}
 			href="#comment-section"
-			className=" px-1 border border-primary-green bg-transparent text-forum-emphasis d-flex align-items-center gap-2"
+			className=" px-1 border border-primary-green bg-transparent text-forum-emphasis d-flex align-items-center gap-2 hover-style-green"
 			style={{ fontSize: "14px", borderRadius: "20px", height: "25px" }}
 		>
 			{commentLength} <FaCommentAlt className="me-2" />

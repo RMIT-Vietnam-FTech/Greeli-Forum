@@ -8,7 +8,7 @@ export default function RightSideBarForum() {
 	return (
 		<div
 			style={{ height: "95%" }}
-			className="w-100 d-flex flex-column-reverse justify-content-end overflow-scroll-y gap-4"
+			className="w-100 d-flex flex-column-reverse justify-content-end overflow-scroll-y"
 		>
 			<ForumLeaderBoard />
 			<ForumStatistic />
@@ -19,6 +19,9 @@ export default function RightSideBarForum() {
 function ForumStatistic() {
 	const path = `http://localhost:3001/api/v1/forums/statistic`;
 	const { data, error, isLoading } = useSwr(path, fetcher);
+    if(error){
+        return 0;
+    }
 	if (isLoading) {
 		return 0;
 	}
@@ -55,6 +58,9 @@ function ForumStatistic() {
 function ForumLeaderBoard() {
    const path = `http://localhost:3001/api/v1/forums/leaderboard`;
    const { data, error, isLoading } = useSwr(path, fetcher);
+   if(error){
+    return 0;
+   }
    if (isLoading) {
        return 0;
    }
@@ -77,9 +83,11 @@ function ForumLeaderBoard() {
            </p>
            {data.map((leadeboard, index) => {
                return (
-                   <div
+                   <a
+                       href={`http://localhost:3000/user/${leadeboard._id}`}
                        key={leadeboard._id}
-                       className="w-100 d-flex align-items-center py-4 justify-content-start overflow-hidden  text-white"
+                       className="w-100 d-flex px-2 align-items-center py-4 justify-content-start overflow-hidden text-white hover-style"
+                       style={{borderRadius:"20px"}}
                    >
                        <div
                            className=" d-flex gap-2 align-items-center justify-content-between"
@@ -105,7 +113,7 @@ function ForumLeaderBoard() {
                        >
                            {leadeboard.username}
                        </div>
-                   </div>
+                   </a>
                );
            })}
        </div>
