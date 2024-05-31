@@ -31,14 +31,14 @@ router
 	.post(
 		verifyToken,
 		upload.single("uploadFile"),
-		commentController.createComment,
+		commentController.createComment
 	);
 router.route("/:commentId/archive").post(commentController.archiveComment);
 // .delete(verifyToken, commentController.unArchiveComment);
 router.put(
 	"/:commentId/archive-by-deactivating",
 	// verifyToken,
-	commentController.archiveCommentByDeactivating,
+	commentController.archiveCommentByDeactivating
 );
 
 router
@@ -53,3 +53,5 @@ router
 	.route("/admin/archived")
 	.get(verifyToken, commentController.getArchivedComments);
 export default router;
+
+router.route("/:commentId/getPost").get(commentController.getPostByCommentId);

@@ -339,3 +339,24 @@ export const archiveCommentByDeactivating = async (req, res) => {
 		res.status(500).json({ message: error.message });
 	}
 };
+
+export const getPostByCommentId = async (req, res) => {
+	try {
+		const commentId = req.params.commentId;
+		if (!commentId) return res.status(400).json({ message: "Bad Request" });
+
+		const comment = await Comment.findById(commentId);
+		if (!comment)
+			return res
+				.status(404)
+				.json({ message: "comment id not found or invalid" });
+
+		const post = await Post.findOne({
+			comments: commentId,
+		});
+		if (!post) return res.status(404).json({ message: "post not found" });
+		res.status(200).json({ post });
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+};

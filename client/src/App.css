@@ -1,9 +1,13 @@
+/* html {
+	scroll-behavior: smooth;
+} */
+
 .error {
-  color: #C11946;
-  font-weight: bold;
-  margin-top: -1rem;
-  text-align: left;
-  margin-bottom: 1rem;
+	color: #c11946;
+	font-weight: bold;
+	margin-top: -1rem;
+	text-align: left;
+	margin-bottom: 1rem;
 }
 
 /* .input-group {
@@ -12,5 +16,5 @@
 } */
 
 .login {
-  height: 100vh;
+	height: 100vh;
 }

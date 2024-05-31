@@ -25,7 +25,7 @@ function App() {
 	const routes = useRoutes(routesConfig);
 	useEffect(() => {
 		console.log(
-			`check location pathname: ${location.pathname}\n check isForum: ${isForum}`,
+			`check location pathname: ${location.pathname}\n check isForum: ${isForum}`
 		);
 		if (location.pathname.split("/")[1] === "forum") {
 			setIsForum(true);
@@ -40,7 +40,7 @@ function App() {
 				<UserContextProvider>
 					<Navbar isForum={isForum} />
 					<div className="h-100" style={{ marginTop: "80px" }}>
-						<ScrollToTop />
+						{/* <ScrollToTop /> */}
 						{routes}
 					</div>
 					<Footer />

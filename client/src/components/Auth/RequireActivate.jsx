@@ -14,7 +14,7 @@ const RequireActivate = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const from = location.state?.from?.pathname || "/";
-	console.log(userActivated);
+	// console.log(userActivated);
 	const [comments, setComments] = useState([]);
 	const [posts, setPosts] = useState([]);
 
@@ -58,7 +58,7 @@ const RequireActivate = () => {
 		};
 		axios(configuration)
 			.then((result) => {
-				console.log(result.data);
+				// console.log(result.data);
 				setComments(result.data.data);
 			})
 			.catch((error) => {
@@ -76,7 +76,7 @@ const RequireActivate = () => {
 		};
 		axios(configuration)
 			.then((result) => {
-				console.log(result.data);
+				// console.log(result.data);
 				setPosts(result.data.user.createdPost);
 			})
 			.catch((error) => {
@@ -84,7 +84,7 @@ const RequireActivate = () => {
 			});
 	}, [userId]);
 
-	console.log(posts, comments);
+	// console.log(posts, comments);
 
 	const activateAccount = () => {
 		const configuration = {
@@ -123,10 +123,7 @@ const RequireActivate = () => {
 			style={{ height: "90vh" }}
 		>
 			<div>
-				<h2
-					className=""
-					style={{ marginBottom: "-40px", marginTop: "100px" }}
-				>
+				<h2 className="" style={{ marginBottom: "-40px", marginTop: "100px" }}>
 					Your account is deactivated, click the button to activate it
 				</h2>
 				<PreventionPopup
