@@ -128,7 +128,7 @@ const ProfileUpdate = (props) => {
 				className="container-fluid profile-page-container bg-greeli-subtle"
 				data-bs-theme={isDarkMode ? "dark" : "light"}
 			>
-				<Toaster />
+				{/* <Toaster /> */}
 				<div className="row row-cols-12 h-100">
 					<LeftSidePart isMe={isMe} comments={comments} />
 					<RightSidePart isMe={isMe} comments={comments} />

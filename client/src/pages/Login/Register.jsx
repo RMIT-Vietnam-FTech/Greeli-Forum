@@ -73,7 +73,7 @@ const Register = () => {
 			.then((result) => {
 				console.log(result.data.message);
 				toast.success("Register successfully!", {
-					duration: 4000,
+					duration: 2000,
 					position: "top-center",
 				});
 				setTimeout(() => {
