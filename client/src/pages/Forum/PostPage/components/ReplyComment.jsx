@@ -19,7 +19,7 @@ import ReplyEditor from "./ReplyEditor/ReplyEditor";
 
 import { CiCirclePlus } from "react-icons/ci";
 import ImageOrVideo from "../../../../components/Forum/ImageOrVideo";
-
+import useSWRImmutable from "swr/immutable";
 dayjs.extend(relativeTime);
 
 axios.defaults.withCredentials = true;

@@ -105,7 +105,7 @@ export default function Post({ postData, isThreadAdmin }) {
 							>
 								<Avatar
 									size="lg"
-									src={threadData.uploadFile.src}
+									src={threadData.uploadFile?.src}
 								/>
 							</div>
 						) : (
