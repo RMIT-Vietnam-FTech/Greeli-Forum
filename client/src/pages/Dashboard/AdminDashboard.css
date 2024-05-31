@@ -25,6 +25,10 @@
 	color: white !important;
 }
 
+[data-bs-theme="light"] .admin-text:hover {
+	color: black !important;
+}
+
 .unarchive-btn:disabled {
 	background-color: #d1708a;
 	color: #fff;
@@ -70,7 +74,7 @@
 }
 
 .dashboard-title-dark {
-    color: #0A2A28;
+	color: #0a2a28;
 }
 
 .members-count {
@@ -109,7 +113,7 @@
 }
 
 .members-count-dark {
-    color: #0A2A28;
+	color: #0a2a28;
 }
 
 .members-count-light {
@@ -239,6 +243,7 @@
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 	padding: 20px;
+	width: 80%;
 }
 
 .members-table {
