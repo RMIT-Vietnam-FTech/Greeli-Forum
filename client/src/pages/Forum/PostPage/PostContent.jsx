@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useMediaQuery } from "../../../components/Forum/RightSideBar/RightSideBarThread";
 
 import Avatar from "../../../components/Forum/Avatar";
 import DropDown from "../../../components/Forum/DropDown";
@@ -17,6 +18,7 @@ import Skeleton from "react-loading-skeleton";
 dayjs.extend(relativeTime);
 
 export default function PostContent({ postData }) {
+	const matchWindowWidth = useMediaQuery("(max-width: 800px)");
   const [threadData, setTheadData] = useState({
     uploadFile: {
       src: null,
@@ -54,7 +56,7 @@ export default function PostContent({ postData }) {
             ) : (
               <Skeleton width="60px" height="60px" circle />
             )}
-            <div style={{ maxWidth: "140px" }}>
+            <div style={matchWindowWidth ?{maxWidth:"140px"}:{}}>
               <p
                 className="mb-0 p-0 text-general-emphasis fw-bold cursor-pointer position-relative"
                 style={{ fontSize: "14px", wordBreak:"break-all" }}

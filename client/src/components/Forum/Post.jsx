@@ -1,8 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+import { useMediaQuery } from "./RightSideBar/RightSideBarThread";
+
 import Avatar from "./Avatar";
-import DropDown from "./DropDown";
 import EditTextEditor from "./EditTextEditor/EditTextEditor";
 import ImageOrVideo from "./ImageOrVideo";
 
@@ -29,7 +30,7 @@ import ButtonShare from "./ButtonShare";
 dayjs.extend(relativeTime);
 
 export default function Post({ postData, isThreadAdmin }) {
-  console.log(`postData: ${JSON.stringify(postData)}`);
+	const matchWindowWidth = useMediaQuery("(max-width: 800px)");
   const isLogin = useLogin();
   const [newComment, setNewComment] = useState([]);
   const [isApproved, setIsApproved] = useState(postData.isApproved);
@@ -106,7 +107,7 @@ export default function Post({ postData, isThreadAdmin }) {
             ) : (
               <Skeleton width="60px" height="60px" circle />
             )}
-            <div style={{maxWidth:"140px"}}>
+            <div style={matchWindowWidth ?{maxWidth:"140px"}:{}}>
               <p
                 className="mb-0 p-0 text-general-emphasis fw-bold cursor-pointer position-relative"
                 style={{ fontSize: "14px", wordBreak:"break-all" }}
@@ -195,7 +196,7 @@ export default function Post({ postData, isThreadAdmin }) {
         </div>
       </EditContextProvider>
 
-      <div className="d-flex justify-content-between align-items-center mb-3 z-3">
+      <div className="d-flex justify-content-between align-items-center mt-2 z-3">
         {/* ----------------------------------- Upvote and Comment Button ------------------------------------- */}
         <div className="d-flex gap-2">
           <ButtonUpvote upvote={postData.upvote} postId={postData._id} />

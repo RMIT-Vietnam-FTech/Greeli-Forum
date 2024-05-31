@@ -101,7 +101,7 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
             <li className="text-greeli-emphasis" style={{ fontSize: "12px" }}>
               {dayjs().to(dayjs(commentData.createdAt))}
             </li>
-            {JSON.parse(localStorage.getItem("user")).role === "admin" && (
+            {JSON.parse(localStorage.getItem("user"))?.role === "admin" && (
               <div
                 className="position-relative bg-transparent "
                 style={{ left: "55px", height: "35px" }}

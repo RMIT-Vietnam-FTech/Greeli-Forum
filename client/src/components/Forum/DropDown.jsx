@@ -186,7 +186,7 @@ export default function DropDown({ componentType, data, threadId, postId }) {
           )}
           <li>
             {(componentType === "post" || componentType === "comment") &&
-              JSON.parse(localStorage.getItem("user")).role === "admin" && (
+               JSON.parse(localStorage.getItem("user"))?.role === "admin" && (
                 <Link
                   to={!isArchived && componentType === "post" ? ".." : ""}
                   onClick={isArchived ? handleUnArchive : handleArchive}

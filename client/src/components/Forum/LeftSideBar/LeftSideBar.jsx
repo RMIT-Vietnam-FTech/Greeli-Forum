@@ -23,12 +23,12 @@ const validatedFetcher = (url) => {
 }
 
 const listHeadingStyle =
-	" hover-style w-100 bg-transparent d-flex justify-content-between text-primary-yellow border-0 py-2 px-1 left-sidebar-item ";
+	" hover-style w-100 bg-transparent d-flex justify-content-between text-primary-yellow border-0 p-2 left-sidebar-item ";
 
 const listItemStyle =
-	"hover-style w-100 d-flex justify-content-between align-items-center  text-greeli-emphasis border-0 py-2 px-1 left-sidebar-item ";
+	"hover-style w-100 d-flex justify-content-between align-items-center  text-greeli-emphasis border-0 p-2 left-sidebar-item ";
 const nestedListItemStyle =
-	"d-block py-2 px-1 text-greeli-emphasis left-sidebar-item hover-style";
+	"d-block p-2 text-greeli-emphasis left-sidebar-item hover-style";
 
 export default function LeftSideBar() {
 	const [isOpen, setIsOpen] = useState(false);
