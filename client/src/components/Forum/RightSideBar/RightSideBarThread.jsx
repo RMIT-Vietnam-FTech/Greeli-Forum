@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import useSwr from "swr";
+import useSWR from "swr";
 
 import { useInView } from "react-intersection-observer";
 import useSwrInfinite from "swr/infinite";
