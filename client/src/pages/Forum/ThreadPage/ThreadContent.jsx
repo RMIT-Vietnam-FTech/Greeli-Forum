@@ -121,11 +121,10 @@ export default function ThreadContent({ ...prop }) {
           {/*---------Display image or video if have and content----------------------------------------------------------*/}
           <div className="d-flex gap-3">
             <div
-              className="  bg-primary-green-600 rounded-circle rounded-3 d-flex justify-content-center overflow-hidden"
+              className="  bg-primary-green-600 rounded-circle overflow-hidden"
               style={{
-                height: "400px",
-                width: "150px",
-                height: "150px",
+                width: "70px",
+                height: "70px",
               }}
             >
               {uploadFile ? (

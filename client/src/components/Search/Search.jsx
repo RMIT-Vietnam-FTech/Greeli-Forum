@@ -24,8 +24,8 @@ export default function SearchBar() {
 				.get(`http://localhost:3001/api/v1/posts?search=${e.target.value}`)
 				.then((res) => res.data);
 			setResult([...searchTerm]);
-			console.log(result);
-			if (result.length === 0) {
+
+			if (searchTerm?.length === 0) {
 				searchNotFound.classList.remove("d-none");
 			} else {
 				searchNotFound.classList.add("d-none");

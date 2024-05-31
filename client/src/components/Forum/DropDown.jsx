@@ -1,94 +1,88 @@
 import { useContext, useEffect, useState } from "react";
 
 import axios from "axios";
-import {
-	Link,
-	useNavigate,
-} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthorizationContext } from "../../context/AuthorizationContext";
 import { EditContext } from "../../context/EditContext";
 import { useLogin } from "../../hooks/useLogin";
 axios.defaults.withCredentials = true;
 export default function DropDown({ componentType, data, threadId, postId }) {
-	const navigate = useNavigate();
-	const editContext = useContext(EditContext);
-	const authorizationContext = useContext(AuthorizationContext);
-	const [isArchived, setIsArchived] = useState(
-		data && data.archived.isArchived,
-	);
-	const [isSaved, setIsSaved] = useState(false);
-	useEffect(() => {
-		checkSavingStatus().then((res) => res);
-	}, []);
-	async function checkSavingStatus() {
-		if (
-			JSON.parse(localStorage.getItem("user")) &&
-			componentType === "post"
-		) {
-			const path = `http://localhost:3001/api/user/${
-				JSON.parse(localStorage.getItem("user")).id
-			}/saved_posts`;
-			const archivedPosts = await axios.get(path).then((res) => res.data);
-			archivedPosts.map((object) => {
-				if (object._id == postId) {
-					setIsSaved(true);
-				}
-			});
-		}
-	}
+  const navigate = useNavigate();
+  const editContext = useContext(EditContext);
+  const authorizationContext = useContext(AuthorizationContext);
+  const [isArchived, setIsArchived] = useState(
+    data && data.archived.isArchived
+  );
+  const [isSaved, setIsSaved] = useState(false);
+  useEffect(() => {
+    checkSavingStatus().then((res) => res);
+  }, []);
+  async function checkSavingStatus() {
+    if (JSON.parse(localStorage.getItem("user")) && componentType === "post") {
+      const path = `http://localhost:3001/api/user/${
+        JSON.parse(localStorage.getItem("user")).id
+      }/saved_posts`;
+      const archivedPosts = await axios.get(path).then((res) => res.data);
+      archivedPosts.map((object) => {
+        if (object._id == postId) {
+          setIsSaved(true);
+        }
+      });
+    }
+  }
 
-	function handleEdit() {
-		editContext.setIsEdit(true);
-	}
+  function handleEdit() {
+    editContext.setIsEdit(true);
+  }
 
-	async function handleSave() {
-		try {
-			const path = `http://localhost:3001/api/user/${
-				JSON.parse(localStorage.getItem("user")).id
-			}/saved_posts`;
-			await axios.post(
-				path,
-				{
-					postId: postId,
-				},
-				{
-					headers: {
-						// Authorization: `Bearer ${
-						//   JSON.parse(localStorage.getItem("user")).token
-						// }`,
-					},
-				},
-			);
-			setIsSaved(true);
-		} catch (e) {
-			console.error(e.message.data);
-		}
-	}
+  async function handleSave() {
+    try {
+      const path = `http://localhost:3001/api/user/${
+        JSON.parse(localStorage.getItem("user")).id
+      }/saved_posts`;
+      await axios.post(
+        path,
+        {
+          postId: postId,
+        },
+        {
+          headers: {
+            // Authorization: `Bearer ${
+            //   JSON.parse(localStorage.getItem("user")).token
+            // }`,
+          },
+        }
+      );
+      setIsSaved(true);
+    } catch (e) {
+      console.error(e.message.data);
+    }
+  }
 
-	async function handleUnSave() {
-		try {
-			const path = `http://localhost:3001/api/user/${
-				JSON.parse(localStorage.getItem("user")).id
-			}/saved_posts`;
-			await axios.delete(
-				path,
+  async function handleUnSave() {
+    try {
+      const path = `http://localhost:3001/api/user/${
+        JSON.parse(localStorage.getItem("user")).id
+      }/saved_posts`;
+      await axios.delete(
+        path,
 
-				{
-					data: {
-						postId: postId,
-					},
-					headers: {
-						// Authorization: `Bearer ${
-						//   JSON.parse(localStorage.getItem("user")).token
-						// }`,
-					},
-				},
-			);
-			setIsSaved(false);
-		} catch (e) {
-			console.error(e.message.data);
-		}
-	}
+        {
+          data: {
+            postId: postId,
+          },
+          headers: {
+            // Authorization: `Bearer ${
+            //   JSON.parse(localStorage.getItem("user")).token
+            // }`,
+          },
+        }
+      );
+      setIsSaved(false);
+    } catch (e) {
+      console.error(e.message.data);
+    }
+  }
 
   async function handleArchive() {
     try {
@@ -102,10 +96,8 @@ export default function DropDown({ componentType, data, threadId, postId }) {
         },
       });
       setIsArchived(true);
-      if (componentType == "post") {
-        console.log(
-          `check input: \n compoenntType: ${componentType}\n data: ${data}\n threadId: ${threadId}`
-        );
+      if (componentType == "comment") {
+        window.location.reload();
       }
     } catch (error) {
       console.error(error.message);
@@ -113,16 +105,19 @@ export default function DropDown({ componentType, data, threadId, postId }) {
   }
   async function handleUnArchive() {
     try {
-      //archived and redirect
-      const path = `http://localhost:3001/api/v1/${componentType}s/${data._id}/archive`;
-      await axios.delete(path, {
-        headers: {
-          // Authorization: `Bearer ${
-          //   JSON.parse(localStorage.getItem("user")).token
-          // }`,
-        },
-      });
-      setIsArchived(false);
+      if (componentType === "comment") {
+        //archived and redirect
+        const path = `http://localhost:3001/api/v1/${componentType}s/${data._id}/unarchive`;
+        await axios.put(path, {
+          headers: {
+            // Authorization: `Bearer ${
+            //   JSON.parse(localStorage.getItem("user")).token
+            // }`,
+          },
+        });
+        setIsArchived(false);
+        window.location.reload();
+      }
     } catch (error) {
       console.error(error.message);
     }
