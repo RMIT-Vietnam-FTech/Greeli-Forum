@@ -243,9 +243,9 @@ const Dashboard = () => {
 			className="admin-dashboard bg-greeli-subtle d-flex flex-column align-items-center"
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
-			<div className="dropdown position-static d-flex flex-row justify-content-end">
+			<div className="dropdown dropdown-admin-dashboard-wrapper position-static d-flex flex-row justify-content-end">
 				<button
-					className="btn btn-primary-green dropdown-toggle theme-button"
+					className="btn dropdown-admin-dashboard btn-primary-green dropdown-toggle theme-button"
 					type="button"
 					// id="dropdownMenuButton1"
 					data-bs-toggle="dropdown"

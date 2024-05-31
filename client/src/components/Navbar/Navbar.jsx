@@ -204,7 +204,7 @@ const Navbar = ({ isForum }) => {
 
 				<div className="d-flex flex-row align-items-center gap-3">
 					<div className="dropdown" style={{ top: "0px", right: "0px" }}>
-						<div data-bs-toggle="dropdown">
+						<div data-bs-toggle="dropdown" className="user-profile-icon">
 							<FaUser className="icon text-greeli-emphasis" alt="user icon" />
 							<IoMdArrowDropdown
 								className="icon text-greeli-emphasis"
@@ -236,7 +236,7 @@ const Navbar = ({ isForum }) => {
 										role="dashboard page"
 										aria-label="link to user dashboard page"
 									>
-										Dashboard (Admin)
+										Admin Dashboard
 									</NavLink>
 								</li>
 							)}

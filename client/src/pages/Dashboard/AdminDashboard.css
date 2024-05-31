@@ -35,6 +35,17 @@
 	cursor: not-allowed;
 }
 
+.dropdown-admin-dashboard {
+	margin-bottom: 15px;
+}
+
+.dropdown-admin-dashboard-wrapper {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	width: 90%;
+}
+
 @media (max-width: 568px) {
 	/* Mobile */
 	.AdminDashboardReturnButton {
@@ -42,7 +53,7 @@
 	}
 }
 
-@media (min-width: 769px) and (max-width: 992px) {
+@media (min-width: 569px) and (max-width: 992px) {
 	/* Tablet */
 	.AdminDashboardReturnButton {
 		right: 90vw;
@@ -243,7 +254,7 @@
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
 	padding: 20px;
-	width: 80%;
+	width: 90vw;
 }
 
 .members-table {
@@ -375,6 +386,8 @@
 	.dashboard-middle-container {
 		padding: 0;
 		border-radius: 20px;
+		background-color: #f9fafb;
+		box-shadow: none;
 	}
 }
 
@@ -414,7 +427,7 @@
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 	background-color: #dcb968;
-	opacity: 0.9;
+	opacity: 1;
 }
 
 .dashboard-modal-content {

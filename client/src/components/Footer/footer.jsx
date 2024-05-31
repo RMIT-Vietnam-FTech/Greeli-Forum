@@ -60,14 +60,6 @@ export default function Footer() {
 							</li>
 							<li className="mb-2">
 								<Link
-									to="/about"
-									className="nav-link d-inline p-0 text-light"
-								>
-									About
-								</Link>
-							</li>
-							<li className="mb-2">
-								<Link
 									to="/contact"
 									className="nav-link d-inline p-0 text-light"
 								>
