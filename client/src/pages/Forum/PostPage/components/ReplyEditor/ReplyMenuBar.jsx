@@ -1,4 +1,6 @@
 import { useCurrentEditor } from "@tiptap/react";
+import { CiImageOn } from "react-icons/ci";
+import { FaRegTrashAlt } from "react-icons/fa";
 import {
   FaBold,
   FaCode,
@@ -9,12 +11,10 @@ import {
   FaQuoteLeft,
   FaStrikethrough,
 } from "react-icons/fa6";
-import { CiImageOn } from "react-icons/ci";
 import { MdOndemandVideo } from "react-icons/md";
-import { FaRegTrashAlt } from "react-icons/fa";
 
-import { useDropzone } from "react-dropzone";
 import { useContext, useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import ReactPlayer from "react-player";
 import { ReplyContext } from "../../../../../context/ReplyContext";
 

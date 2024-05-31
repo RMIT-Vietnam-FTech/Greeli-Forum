@@ -82,6 +82,14 @@ export default function Footer() {
 									Profile
 								</Link>
 							</li>
+							<li className="mb-2">
+								<Link
+									to="/sitemap"
+									className="nav-link d-inline p-0 text-light"
+								>
+									Sitemap
+								</Link>
+							</li>
 						</ul>
 					</section>
 

@@ -1,9 +1,10 @@
 import RequireActivate from "./components/Auth/RequireActivate.jsx";
+import RequireAdmin from "./components/Auth/RequireAdmin.jsx";
 import RequireAuth from "./components/Auth/RequireAuth.jsx";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
-import Dashboard from "./pages/Dashboard";
 import Chat from "./pages/Chat/Chat";
 import ContactPage from "./pages/ContactPage/Contact.jsx";
+import Dashboard from "./pages/Dashboard";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import ForumPage from "./pages/Forum/ForumPage/ForumPage.jsx";
 import Homepage from "./pages/Homepage/Homepage.jsx";
@@ -12,10 +13,9 @@ import NewPassword from "./pages/Login/NewPassword.jsx";
 import Register from "./pages/Login/Register";
 import ResetPassword from "./pages/Login/ResetPassword.jsx";
 import Profile from "./pages/Profile/Profile";
-import Sitemap from "./pages/Sitemap/Sitemap.jsx";
 import ProfileUpdate from "./pages/ProfileUpdate";
+import Sitemap from "./pages/Sitemap/Sitemap.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
-import RequireAdmin from "./components/Auth/RequireAdmin.jsx";
 
 const routesConfig = [
 	{ path: "/", element: <Homepage />, name: "Homepage" },

@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
 import Avatar from "../../../components/Forum/Avatar";
 import DropDown from "../../../components/Forum/DropDown";
@@ -10,9 +10,9 @@ import { useNavigate } from "react-router-dom";
 import { AuthorizationContextProvider } from "../../../context/AuthorizationContext";
 import { EditContextProvider } from "../../../context/EditContext";
 
-import Skeleton from "react-loading-skeleton";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Skeleton from "react-loading-skeleton";
 
 dayjs.extend(relativeTime);
 

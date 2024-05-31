@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import useSWRInfinite from "swr/infinite";
+import useSwrInfinite from "swr/infinite";
 
 import { Button } from "react-bootstrap";
 import ButtonUpvote from "../../../components/Forum/ButtonUpvote";
@@ -31,10 +31,10 @@ import {
 
 import { useLogin } from "../../../hooks/useLogin";
 
-import { PopupContext } from "../../../context/PopupContext";
-import ReplyComment from "../PostPage/components/ReplyComment";
 import { useEditor } from "@tiptap/react";
 import CommentSkeleton from "../../../components/Forum/Skeleton/CommentSkeleton";
+import { PopupContext } from "../../../context/PopupContext";
+import ReplyComment from "../PostPage/components/ReplyComment";
 import ButtonShare from "../../../components/Forum/ButtonShare";
 
 axios.defaults.withCredentials = true;
@@ -60,7 +60,7 @@ export default function PostComment({ postData, threadAdminId }) {
 
 	useEffect(() => {
 		getMetadata(
-			`http://localhost:3001/api/v1/comments?postId=${postData._id}&parentId=null&page=1`,
+			`http://localhost:3001/api/v1/comments?postId=${postData._id}&parentId=null&page=1`
 		).then((res) => {
 			setMetadata(res);
 		});
@@ -82,7 +82,7 @@ export default function PostComment({ postData, threadAdminId }) {
 						JSON.parse(localStorage.getItem("user")).token
 					}`,
 				},
-			},
+			}
 		);
 	}
 
@@ -102,7 +102,7 @@ export default function PostComment({ postData, threadAdminId }) {
 						//   JSON.parse(localStorage.getItem("user")).token
 						// }`,
 					},
-				},
+				}
 			);
 
 			navigate(`/forum/communities/${postData.belongToThread}`);
@@ -110,7 +110,7 @@ export default function PostComment({ postData, threadAdminId }) {
 			console.error(error.message);
 		}
 	}
-	const { data, size, setSize, isLoading } = useSWRInfinite(
+	const { data, size, setSize, isLoading } = useSwrInfinite(
 		(index, prevData) => {
 			if (prevData && !prevData.length) return null;
 			return `http://localhost:3001/api/v1/comments?postId=${
@@ -122,21 +122,21 @@ export default function PostComment({ postData, threadAdminId }) {
 			revalidateIfStale: false,
 			revalidateOnFocus: false,
 			revalidateOnReconnect: false,
-		},
+		}
 	);
 
-  if (isLoading) {
-    return <CommentSkeleton nOfCard={3} />;
-  }
-  const issues = data ? [].concat(...data) : [];
-  return (
-    <section className="pb-5 border-bottom-gray">
-      <div className="d-flex justify-content-between align-items-center">
-        <div className="d-flex gap-2 align-items-center ">
-          <ButtonUpvote upvote={postData.upvote} postId={postData._id} />
-          <ButtonComment commentLength={postData.comments.length} />
-          <ButtonShare location={window.location.href}/>
-        </div>
+	if (isLoading) {
+		return <CommentSkeleton nOfCard={3} />;
+	}
+	const issues = data ? [].concat(...data) : [];
+	return (
+		<section className="pb-5 border-bottom-gray">
+			<div className="d-flex justify-content-between align-items-center">
+				<div className="d-flex gap-2 align-items-center ">
+					<ButtonUpvote upvote={postData.upvote} postId={postData._id} />
+					<ButtonComment commentLength={postData.comments.length} />
+					<ButtonShare location={window.location.href} />
+				</div>
 
 				{/*show verify status */}
 				{isLogin &&
@@ -160,8 +160,7 @@ export default function PostComment({ postData, threadAdminId }) {
 				) : (
 					<>
 						{isLogin &&
-						(threadAdminId ===
-							JSON.parse(localStorage.getItem("user")).id ||
+						(threadAdminId === JSON.parse(localStorage.getItem("user")).id ||
 							postData.createdBy.userId ===
 								JSON.parse(localStorage.getItem("user")).id) ? (
 							<div className="d-flex align-items-center">

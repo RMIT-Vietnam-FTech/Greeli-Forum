@@ -4,13 +4,15 @@ import RequireActivate from "../../components/Auth/RequireActivate";
 import RequireAuth from "../../components/Auth/RequireAuth";
 import { ThemeContext } from "../../context/ThemeContext";
 import routesConfig from "../../routesConfig";
+import RequireAdmin from "../../components/Auth/RequireAdmin";
 import "./Sitemap.css";
 
 const flattenRoutes = (routes, parentPath = "") => {
 	return routes.flatMap((route) => {
 		if (
 			route.element.type === RequireAuth ||
-			route.element.type === RequireActivate
+			route.element.type === RequireActivate || 
+			route.element.type === RequireAdmin
 		) {
 			return route.children
 				? flattenRoutes(route.children, parentPath)
@@ -37,7 +39,7 @@ const Sitemap = () => {
 				<h1>Sitemap</h1>
 				<ul>
 					{flattenedRoutes.map((route, index) => (
-						<li key={index} style={{ textDecoration: "none" }}>
+						<li key={index} className="link" style={{ textDecoration: "none" }}>
 							<Link to={route.path}>{route.name}</Link>
 						</li>
 					))}

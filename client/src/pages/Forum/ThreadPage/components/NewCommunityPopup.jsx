@@ -8,6 +8,8 @@ import PopupEditor from "./PopupEditor/PopupEditor";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import CreateCommunityDropZone from "./CreateCommunityDropZone";
+import DropZoneFile from "./DropZoneFile";
+import PopupEditor from "./PopupEditor/PopupEditor";
 export default function NewCommunityPopUp({ isOpen, setIsOpen }) {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState("");

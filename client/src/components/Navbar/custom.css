@@ -157,8 +157,14 @@ a > p {
 	padding-left: 0.5rem;
 } */
 
-[data-bs-theme="dark"] a {
+[data-bs-theme="light"] .dropdown-item.active {
+	color: #000000 !important;
+	background-color: grey;
+}
+
+[data-bs-theme="dark"] .dropdown-item.active {
 	color: #ffffff !important;
+	background-color: grey;
 }
 
 @media (min-width: 767px) {

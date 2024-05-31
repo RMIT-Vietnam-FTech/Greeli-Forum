@@ -62,7 +62,7 @@ const PreventionPopup = (props) => {
 					</div>
 					<div className="popup-actions w-100 d-flex justify-content-between">
 						<button
-							className="popup-button bg-primary-green text-white"
+							className="popup-button bg-primary-green text-white border-0"
 							type="button"
 							onClick={() => {
 								close();
@@ -71,7 +71,7 @@ const PreventionPopup = (props) => {
 							No, cancel
 						</button>
 						<button
-							className="popup-button bg-danger text-white"
+							className="popup-button bg-danger text-white border-0"
 							onClick={() => {
 								close();
 								actionFunction();

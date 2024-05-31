@@ -1,4 +1,6 @@
 import { useCurrentEditor } from "@tiptap/react";
+import { CiImageOn } from "react-icons/ci";
+import { FaRegTrashAlt } from "react-icons/fa";
 import {
 	FaBold,
 	FaCode,
@@ -9,15 +11,13 @@ import {
 	FaQuoteLeft,
 	FaStrikethrough,
 } from "react-icons/fa6";
-import { CiImageOn } from "react-icons/ci";
 import { MdOndemandVideo } from "react-icons/md";
-import { FaRegTrashAlt } from "react-icons/fa";
 
-import { useDropzone } from "react-dropzone";
-import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { CommentContext } from "../../../../../context/CommentContext";
+import { useContext, useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 import ReactPlayer from "react-player";
+import { CommentContext } from "../../../../../context/CommentContext";
 
 export default function CreateCommentMenuBar() {
 	const { editor } = useCurrentEditor();
@@ -258,8 +258,8 @@ function ImageTag({ editor, children, setDropFile, setFile, file }) {
 	});
 	useEffect(() => {
 		if (acceptedFiles.length > 0) {
-			let _URL = window.URL || window.webkitURL;
-			let url = _URL.createObjectURL(acceptedFiles[0]);
+			const _url = window.URL || window.webkitURL;
+			const url = _url.createObjectURL(acceptedFiles[0]);
 			setDropFile({
 				src: url,
 				type: "image",
@@ -294,8 +294,8 @@ function VideoTag({ editor, children, setDropFile, setFile }) {
 
 	useEffect(() => {
 		if (acceptedFiles.length > 0) {
-			let _URL = window.URL || window.webkitURL;
-			let url = _URL.createObjectURL(acceptedFiles[0]);
+			const _url = window.URL || window.webkitURL;
+			const url = _url.createObjectURL(acceptedFiles[0]);
 			setDropFile({
 				src: url,
 				type: "video",
