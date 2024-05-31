@@ -129,9 +129,9 @@ const ProfileUpdate = (props) => {
 				data-bs-theme={isDarkMode ? "dark" : "light"}
 			>
 				{/* <Toaster /> */}
-				<div className="row row-cols-12 h-100">
-					<LeftSidePart isMe={isMe} comments={comments} />
-					<RightSidePart isMe={isMe} comments={comments} />
+				<div className="row h-100">
+					<LeftSidePart isMe={isMe} comments={comments} className="col-sm-12 col-lg-3" />
+					<RightSidePart isMe={isMe} comments={comments} className="col-sm-12 col-lg-9" />
 				</div>
 			</div>
 		</ProfileContext.Provider>
