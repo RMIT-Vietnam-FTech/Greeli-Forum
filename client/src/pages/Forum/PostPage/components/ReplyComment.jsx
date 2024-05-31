@@ -57,6 +57,7 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
 					tabIndex="0"
 					aria-label="comment section"
 					className="my-3 position-relative"
+					id={commentData._id}
 				>
 					{commentData.parentId !== null && (
 						<div
