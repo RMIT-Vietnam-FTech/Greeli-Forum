@@ -133,6 +133,7 @@ export function SearchItem({ searchData, searchBar }) {
               w100={false}
               h100={true}
               uploadFile={searchData.uploadFile}
+			  alt={searchData.title}
               isPost={true}
             />
           ) : (

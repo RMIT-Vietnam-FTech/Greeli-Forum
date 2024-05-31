@@ -108,10 +108,11 @@ function YourCommunity() {
 
 	const { data, error, isLoading } = useSwr(path, validatedFetcher);
 	if (error) {
-		return <div>is error</div>;
+		return <></>
 	}
 	if (isLoading) {
-		return <div>is loading</div>;
+		return <></>;
+
 	}
 	return (
 		<>
@@ -167,10 +168,10 @@ function FollowingCommunity() {
 
 	const { data, error, isLoading } = useSwr(path, validatedFetcher);
 	if (error) {
-		return <div>is error</div>;
+		return <></>
 	}
 	if (isLoading) {
-		return <div>is loading</div>;
+		return <></>
 	}
 
 	return (
@@ -254,10 +255,10 @@ function TopicList() {
 	const path = "http://localhost:3001/api/v1/topics";
 	const { data, error, isLoading } = useSwr(path, fetcher);
 	if (error) {
-		return 0;
+		return <></>;
 	}
 	if (isLoading) {
-		return 0;
+		return <></>;
 	}
 	return data.map((topic) => {
 		return (

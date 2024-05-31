@@ -15,21 +15,19 @@ export const createComment = async (req, res) => {
     const { content, parentId, postId } = req.body;
 
     const uploadFile = req.file;
-	if(!(req.file || content )) return res.status(400).json({message:"Bad Request"});
+    // if(!(req.file || content )) return res.status(400).json({message:"Bad Request"});
 
     const user = await User.findById(req.user.id);
-    if (!user) 
+    if (!user)
       return res.status(404).json({ message: "userId not found or invalid" });
-    
 
-    if (!postId) 
-      return res.status(400).json({ message: "Bad Request" });
-    
+    if (!postId) return res.status(400).json({ message: "Bad Request" });
 
     const post = await Post.findById(postId);
-    if (!post) {
-      res.status(404).json({ message: "postId is not found or invalid" });
-    }
+    if (!post)
+      return res
+        .status(404)
+        .json({ message: "postId is not found or invalid" });
 
     const commentObject = {
       content: content,
@@ -69,7 +67,9 @@ export const createComment = async (req, res) => {
     if (parentId) {
       const parentComment = await Comment.findById(parentId);
       if (!parentComment) {
-        return res.status(404).json({message:"parenId comment is not found or invalid"});
+        return res
+          .status(404)
+          .json({ message: "parenId comment is not found or invalid" });
       }
 
       comment.parentId = parentComment._id;
@@ -273,7 +273,9 @@ export const archiveComment = async (req, res) => {
     const comment = await Comment.findById(commentId);
     console.log("check 1");
     if (!comment)
-      return res.status(404).json({ message: "comment id not found or invalid" });
+      return res
+        .status(404)
+        .json({ message: "comment id not found or invalid" });
 
     {
       /*check who can able to archived post*/

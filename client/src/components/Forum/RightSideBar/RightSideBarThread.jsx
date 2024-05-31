@@ -36,10 +36,10 @@ function ThreadStatistic() {
   const path = `http://localhost:3001/api/v1/threads/${threadId}/statistic`;
   const { data, error, isLoading } = useSWR(path, fetcher);
   if (error) {
-    return error;
+    return <></>;
   }
   if (isLoading) {
-    return 0;
+    return <></>;
   }
   return (
     <div tabIndex="0" className="thread-statistic bg-forum-subtle">
@@ -165,6 +165,7 @@ const RecommendPost = ({ postData }) => {
         >
           {postData.uploadFile ? (
             <ImageOrVideo
+              alt={postData.title}
               uploadFile={postData.uploadFile}
               isPost={true}
               h100={true}

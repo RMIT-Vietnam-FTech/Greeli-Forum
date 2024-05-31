@@ -23,7 +23,7 @@ export default function Avatar({ src, username, size }) {
 		<div
 			tabIndex={0}
 			aria-label="avatar image"
-			className="avatar"
+			className="bg-primary-green avatar"
 			style={style}
 		>
 			{isNull ? null : (

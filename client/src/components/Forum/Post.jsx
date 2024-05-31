@@ -105,17 +105,18 @@ export default function Post({ postData, isThreadAdmin }) {
 							>
 								<Avatar
 									size="lg"
-									src={threadData.uploadFile.src}
+									src={threadData.uploadFile?.src}
 								/>
 							</div>
 						) : (
 							<Skeleton width="60px" height="60px" circle />
 						)}
 						<p
-							className="mb-0 text-general-emphasis fw-bold cursor-pointer"
+            style={{height:"20px"}}
+							className="mb-0 p-0 text-general-emphasis fw-bold cursor-pointer"
 							onClick={handleCommunityRedirect}
 						>
-							{threadData ? threadData.title : <Skeleton />}
+							community/{threadData ? threadData.title : <Skeleton />}
 						</p>
 						<li className="text-greeli-emphasis">
 							{postData.isApproved
@@ -124,8 +125,9 @@ export default function Post({ postData, isThreadAdmin }) {
 						</li>
 
 						<p
+             
 							onClick={handleUserProfileRedirect}
-							className="text-secondary position-absolute cursor-pointer"
+							className="m-0 p-0 text-secondary position-absolute cursor-pointer"
 							style={{ top: "25px", left: "70px" }}
 						>
 							{postData.createdBy.username}
@@ -164,7 +166,7 @@ export default function Post({ postData, isThreadAdmin }) {
 							style={{ height: "45vh", borderRadius: "0.75rem" }}
 						>
 							<ImageOrVideo
-								alt={postData.createdBy.username}
+								alt={postData.title}
 								uploadFile={postData.uploadFile}
 								h100={true}
 								w100={false}

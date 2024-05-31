@@ -147,7 +147,7 @@ export default function ThreadContent({ ...prop }) {
                 className=" border-0 py-1 px-1 bg-login-subtle text-greeli-reverse-emphasis "
                 style={{ width: "150px", borderRadius: "20px" }}
               >
-                {isFollowed ? "joined" : "join community"}
+                {isFollowed ? "Joined" : "Join community"}
               </button>
 
               <h1 tabIndex="0" className="title text-greeli-emphasis fs-4">
