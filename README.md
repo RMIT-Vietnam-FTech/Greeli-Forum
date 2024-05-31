@@ -10,9 +10,6 @@
     - Admin:
         - email: tomhuynh2@gmail.com
         - password: TomHuynh2@gmail.com
-    - Thread Admin: 
-        - email: tomhuynh3@gmail.com
-        - password: TomHuynh3@gmail.com
 # (4).  MongoDB Atlas database connection url: https://cloud.mongodb.com/v2/662388da5e13544ad4b3aced#
         username: inventiongroupt1@gmail.com
         password: nhi144a11112005
