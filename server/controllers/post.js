@@ -542,19 +542,20 @@ export const archivePost = async (req, res) => {
 
 		const thread = await Thread.findById(threadId);
 		const user = await User.findById(req.user.id);
+		// console.log(post)
 		if (!user)
 			return res
 				.status(404)
 				.json({ message: "userId is invalid or not found" });
 
-		console.log(
-			`userId: ${user._id}\n, postCreatorId: ${post.createdBy.userId}\n communityAdminId: ${thread.createdBy.userId}`
-		);
+		// console.log(
+		// 	`userId: ${user._id}\n, postCreatorId: ${post.createdBy.userId}\n communityAdminId: ${thread.createdBy.userId}`
+		// );
 		if (
 			!(
 				req.user.role === "admin" ||
 				user._id === post.createdBy.userId ||
-				(thread && thread.createdBy.userId === req.user.id)
+				(thread && thread?.createdBy.userId === req.user.id)
 			)
 		) {
 			return res.status(403).json({ message: "Forbidden" });

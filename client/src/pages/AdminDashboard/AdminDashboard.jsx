@@ -105,7 +105,7 @@ const AdminDashboard = () => {
 
 	return (
 		<div
-			className="admin-dashboard bg-greeli-subtle"
+			className="admin-dashboard"
 			data-bs-theme={isDarkMode ? "dark" : "light"}
 		>
 			<Top

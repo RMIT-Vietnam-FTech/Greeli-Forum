@@ -8,8 +8,12 @@ import PopupEditor from "./PopupEditor/PopupEditor";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import CreateCommunityDropZone from "./CreateCommunityDropZone";
+<<<<<<< HEAD
 axios.defaults.withCredentials = true;
 
+=======
+import DropZoneFile from "./DropZoneFile";
+>>>>>>> 9763174e8ced416dce5f430ccaa1e5f99bc3f7c9
 export default function NewCommunityPopUp({ isOpen, setIsOpen }) {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState("");

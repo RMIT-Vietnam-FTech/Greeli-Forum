@@ -169,7 +169,7 @@ const LeftSidePart = (props) => {
 		<div className="my-5 col-12 col-lg-3 text-greeli-emphasis">
 			<div className="ms-4 me-4 me-lg-0 h-lg-50 h-100">
 				{/* <p>Left side part</p> */}
-				<div className="d-flex flex-column align-items-center justify-content-between h-100 left-part-container position-relative">
+				<div className="d-flex flex-column align-items-center justify-content-start h-100 left-part-container position-relative">
 					<div className="d-flex flex-column align-items-center">
 						<div className="d-flex flex-column align-items-center text-center rounded-circle profile-image-container position-relative">
 							<img
