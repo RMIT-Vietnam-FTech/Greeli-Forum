@@ -106,10 +106,10 @@ export default function Post({ postData, isThreadAdmin }) {
             ) : (
               <Skeleton width="60px" height="60px" circle />
             )}
-            <div style={{maxWidth:"170px"}}>
+            <div style={{maxWidth:"140px"}}>
               <p
                 className="mb-0 p-0 text-general-emphasis fw-bold cursor-pointer position-relative"
-                style={{ fontSize: "14px" }}
+                style={{ fontSize: "14px", wordBreak:"break-all" }}
                 onClick={handleCommunityRedirect}
               >
                 community/{threadData ? threadData.title : <Skeleton />}

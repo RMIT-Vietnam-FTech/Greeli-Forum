@@ -18,10 +18,10 @@ dayjs.extend(relativeTime);
 
 export default function PostContent({ postData }) {
   const [threadData, setTheadData] = useState({
-	uploadFile:{
-	src: null,
-    type: "image",
-	}
+    uploadFile: {
+      src: null,
+      type: "image",
+    },
   });
   const navigate = useNavigate();
 
@@ -49,30 +49,44 @@ export default function PostContent({ postData }) {
           <div className="d-flex gap-2 position-relative">
             {threadData ? (
               <div className="cursor-pointer" onClick={handleCommunityRedirect}>
-                <Avatar size="lg" src={threadData.uploadFile?.src} />
+                <Avatar src={threadData.uploadFile?.src} />
               </div>
             ) : (
               <Skeleton width="60px" height="60px" circle />
             )}
-            <p
-              className="mb-0 text-general-emphasis fw-bold cursor-pointer"
-              onClick={handleCommunityRedirect}
+            <div style={{ maxWidth: "140px" }}>
+              <p
+                className="mb-0 p-0 text-general-emphasis fw-bold cursor-pointer position-relative"
+                style={{ fontSize: "14px", wordBreak:"break-all" }}
+                onClick={handleCommunityRedirect}
+              >
+                community/{threadData ? threadData.title : <Skeleton />}
+              </p>
+              <p
+                style={{ fontSize: "14px" }}
+                onClick={handleUserProfileRedirect}
+                className="m-0 p-0 text-secondary cursor-pointer "
+              >
+                {postData.createdBy.username}
+              </p>
+            </div>
+            <div
+              style={{ height: "12px", marginTop: "5px" }}
+              className="d-flex align-items-center gap-1"
             >
-              community/{threadData ? threadData.title : <Skeleton />}
-            </p>
-            <li className="text-greeli-emphasis">
-              {postData.isApproved
-                ? dayjs().to(dayjs(postData.verifiedAt))
-                : dayjs().to(dayjs(postData.createdAt))}
-            </li>
-
-            <p
-              onClick={handleUserProfileRedirect}
-              className="text-secondary position-absolute cursor-pointer"
-              style={{ top: "25px", left: "70px" }}
-            >
-              {postData.createdBy.username}
-            </p>
+              <div
+                className="rounded-circle bg-black"
+                style={{ width: "3px", height: "3px" }}
+              ></div>
+              <p
+                className="text-greeli-emphasis m-0 p-0"
+                style={{ fontSize: "12px" }}
+              >
+                {postData.isApproved
+                  ? dayjs().to(dayjs(postData.verifiedAt))
+                  : dayjs().to(dayjs(postData.createdAt))}
+              </p>
+            </div>
           </div>
           <AuthorizationContextProvider
             componentType="post"
