@@ -9,7 +9,7 @@ import { useProfileContext } from "../../../context/ProfileContext";
 const ThreadItem = (props) => {
 	const [threadTitle, setThreadTitle] = useState("Lorem ipsum dolo");
 	const navigate = useNavigate();
-	const {
+	var {
 		postId,
 		author,
 		comment,
@@ -20,9 +20,40 @@ const ThreadItem = (props) => {
 		upvote,
 		uploadFile,
 	} = props.post;
+	var link = `/forum/communities/${threadId}/posts/${postId}`;
+	const { tab } = props.tab;
 	const data = useProfileContext();
 	const { profileImage } = data;
 	console.log(props.post);
+
+	//GET BELONGING POST AND THREAD TITLE
+	var belongingPost = null;
+	const getPostThread = async (threadId) => {
+		const configuration = {
+			method: "get",
+			url: `http://localhost:3001/api/v1/comments/${postId}/getPost/`,
+		};
+		await axios(configuration)
+			.then((response) => {
+				belongingPost = response.data;
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	//GET POSTS AND THREADS ID IF RENDER COMMENTS
+	const getBelongingPost = async (postId) => {
+		await getPostThread(postId);
+		// console.log(belongingPost);
+		threadId = [belongingPost?.post?.belongToThread, belongingPost?.post?._id];
+		link = `/forum/communities/${threadId[0]}/posts/${threadId[1]}#${postId}`;
+		// console.log(threadId);
+	};
+	if (props.tab === "Created Posts") {
+		getBelongingPost(postId);
+	}
+	// -------------------------------------------
 
 	useEffect(() => {
 		const getPostThreadAsync = async (threadId) => {
@@ -43,9 +74,10 @@ const ThreadItem = (props) => {
 
 	//REDIRECT TO POST PAGE
 	const handlePostClick = () => {
-		navigate(`/forum/communities/${threadId}/posts/${postId}`, {
+		navigate(link, {
 			replace: true,
 		});
+		// console.log(link);
 	};
 
 	return (
