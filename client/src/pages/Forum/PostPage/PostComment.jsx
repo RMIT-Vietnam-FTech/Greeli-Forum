@@ -231,10 +231,10 @@ export function ButtonComment({ commentLength }) {
 		<button
 			onClick={handlePopup}
 			href="#comment-section"
-			className=" px-1 border border-primary-green bg-transparent text-forum-emphasis d-flex align-items-center gap-2 hover-style-green"
+			className=" px-2 border border-primary-green bg-transparent text-forum-emphasis d-flex align-items-center gap-2 hover-style-green"
 			style={{ fontSize: "14px", borderRadius: "20px", height: "25px" }}
 		>
-			{commentLength} <FaCommentAlt className="me-2" />
+			{commentLength} <FaCommentAlt className="" />
 		</button>
 	);
 }
