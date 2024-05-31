@@ -106,7 +106,8 @@ const ThreadItem = (props) => {
 						<div className="d-flex flex-md-column flex-row-reverse justify-content-center">
 							<div className="w-100 d-flex flex-row flex-sm-nowrap flex-wrap justify-content-start justify-content-sm-around">
 								<p className="d-none d-md-block text-primary-yellow fw-bold m-0">
-									{threadTitle}/{title}
+									{props.tab === "Created Threads" && `${threadTitle} /`}
+									{title}
 								</p>
 								<p className="text-white m-0">{createdDate}</p>
 							</div>
