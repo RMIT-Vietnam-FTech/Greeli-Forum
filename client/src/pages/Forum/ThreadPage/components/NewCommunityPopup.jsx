@@ -8,8 +8,8 @@ import PopupEditor from "./PopupEditor/PopupEditor";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import CreateCommunityDropZone from "./CreateCommunityDropZone";
-import DropZoneFile from "./DropZoneFile";
-import PopupEditor from "./PopupEditor/PopupEditor";
+axios.defaults.withCredentials = true;
+
 export default function NewCommunityPopUp({ isOpen, setIsOpen }) {
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState("");
@@ -44,10 +44,10 @@ export default function NewCommunityPopUp({ isOpen, setIsOpen }) {
           formData,
           {
             headers: {
-              Authorization: `Bearer ${
-                JSON.parse(localStorage.getItem("user")).token
-              }`,
-              "Content-Type": "multipart/form-data",
+            //   Authorization: `Bearer ${
+            //     JSON.parse(localStorage.getItem("user")).token
+            //   }`,
+            //   "Content-Type": "multipart/form-data",
             },
           }
         );
