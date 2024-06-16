@@ -24,6 +24,7 @@ const ProfileUpdate = (props) => {
 			baseUrl = "";
 		}
 	}, [process.env.NODE_ENV]);
+
 	const { user, setUser, toggleUserInfo, success, setSuccess } =
 		useUserContext();
 	const { isDarkMode } = useContext(ThemeContext);
