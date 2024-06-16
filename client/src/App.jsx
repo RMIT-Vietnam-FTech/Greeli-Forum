@@ -9,8 +9,8 @@ import {
 import "./App.css";
 import ChatBubble from "./components/ChatBubble/ChatBubble.jsx";
 import Cookies from "./components/Cookies/Cookie.jsx";
-import Footer from "./components/Footer/footer";
-import Navbar from "./components/Navbar/Navbar";
+import Footer from "./components/Footer/footer.jsx";
+import Navbar from "./components/Navbar/Navbar.jsx";
 import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
