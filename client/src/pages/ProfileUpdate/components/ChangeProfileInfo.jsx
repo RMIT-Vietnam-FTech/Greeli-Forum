@@ -23,7 +23,7 @@ const ChangeProfileInfo = (props) => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 	var currentGender = "";
 	if (gender !== "Please update your gender") {
 		currentGender = gender;

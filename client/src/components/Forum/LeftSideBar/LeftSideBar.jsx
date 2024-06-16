@@ -111,7 +111,8 @@ function YourCommunity() {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+
 	const path =
 		baseUrl +
 		`/api/user/${
@@ -182,7 +183,8 @@ function FollowingCommunity() {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+
 	const path =
 		baseUrl +
 		`/api/user/${
@@ -284,7 +286,8 @@ function TopicList() {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+	
 	const path = baseUrl + "/api/v1/topics";
 	const { data, error, isLoading } = useSwr(path, fetcher);
 	if (error) {

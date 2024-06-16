@@ -26,7 +26,7 @@ const ChangePassword = (props) => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	const {
 		register,

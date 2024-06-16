@@ -25,7 +25,7 @@ const EditInfoModal = () => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	const handleChangeTab = (e) => {
 		const currentTabContent = e.target.innerHTML;

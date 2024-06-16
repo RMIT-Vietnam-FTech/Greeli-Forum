@@ -18,7 +18,7 @@ const ChangeAvatar = (props) => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	//UPLOAD PROFILE IMAGE
 	const [file, setFile] = useState();

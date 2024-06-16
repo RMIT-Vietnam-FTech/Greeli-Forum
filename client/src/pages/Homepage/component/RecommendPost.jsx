@@ -125,7 +125,7 @@ function Posts() {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 	const [data, setData] = useState([]);
 	useEffect(() => {
 		axios

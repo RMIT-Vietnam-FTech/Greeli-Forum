@@ -66,7 +66,7 @@ export default function PostComment({ postData, threadAdminId }) {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	useEffect(() => {
 		getMetadata(

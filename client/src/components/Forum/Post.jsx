@@ -45,7 +45,7 @@ export default function Post({ postData, isThreadAdmin }) {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	const handleUserProfileRedirect = () => {
 		navigate(`/user/${postData.createdBy.userId}`, { root: true });

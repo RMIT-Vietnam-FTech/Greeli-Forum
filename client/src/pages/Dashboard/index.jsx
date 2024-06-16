@@ -38,7 +38,7 @@ const Dashboard = () => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	//PROCESS POSTS CONTENT
 	const processPostContent = (postObject) =>

@@ -33,7 +33,7 @@ const ThreadItem = (props) => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	//GET BELONGING POST AND THREAD TITLE
 	var belongingPost = null;

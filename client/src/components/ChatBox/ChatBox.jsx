@@ -33,7 +33,7 @@ const ChatBox = ({
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	useEffect(() => {
 		const fetchMessagesAndUser = async () => {

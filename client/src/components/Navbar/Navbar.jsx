@@ -34,7 +34,7 @@ const Navbar = ({ isForum }) => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	useEffect(() => {
 		const query = window.matchMedia("(max-width: 768px)");

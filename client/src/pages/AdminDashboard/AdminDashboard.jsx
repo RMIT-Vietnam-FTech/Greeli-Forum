@@ -33,8 +33,7 @@ const AdminDashboard = () => {
 		} else {
 			baseUrl = "";
 		}
-	});
-
+	}, [process.env.NODE_ENV]);
 	useEffect(() => {
 		const fetchUsers = async () => {
 			try {

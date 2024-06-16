@@ -21,7 +21,8 @@ const Conversation = ({ data, currentUserId, online, isActive, chatNoti }) => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+	
 	let userId = "";
 	useEffect(() => {
 		const getUserData = async () => {

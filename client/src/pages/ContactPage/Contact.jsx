@@ -24,7 +24,7 @@ const Contact = () => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 	const feedBackSchema = Yup.object().shape({
 		name: Yup.string().required("Your name is required"),
 		email: Yup.string()

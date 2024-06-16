@@ -34,7 +34,7 @@ export default function ThreadContent({ ...prop }) {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	useEffect(() => {
 		checkFollowingStatus().then((res) => {

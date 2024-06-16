@@ -27,7 +27,7 @@ export default function CreateCommentBottomBar({ content }) {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	useEffect(() => {
 		createCommentError.classList.add("d-none");

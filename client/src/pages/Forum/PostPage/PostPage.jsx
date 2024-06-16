@@ -23,7 +23,7 @@ export default function PostPage() {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 	const { data, error, isLoading } = useSwr(
 		baseUrl + `/api/v1/posts/${postId}`,
 		fetcher,

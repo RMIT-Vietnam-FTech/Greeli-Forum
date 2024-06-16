@@ -28,7 +28,8 @@ const SignIn = ({ isShow }) => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+	
 	const [showPassword, setShowPassword] = useState(false);
 	const loginSchema = Yup.object().shape({
 		email: Yup.string()

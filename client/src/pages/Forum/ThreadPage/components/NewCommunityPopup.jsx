@@ -23,7 +23,7 @@ export default function NewCommunityPopUp({ isOpen, setIsOpen }) {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 	const errorTexts = [
 		"min 5 and max 20 characters",
 		"title is already existed!",

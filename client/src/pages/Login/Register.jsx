@@ -38,7 +38,7 @@ const Register = () => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 	const registerSchema = Yup.object().shape({
 		username: Yup.string()
 			.required("Username is required")

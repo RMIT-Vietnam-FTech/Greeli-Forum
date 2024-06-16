@@ -18,7 +18,7 @@ export default function TopicPage() {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 	const path = baseUrl + `/api/v1/topics/${topicId}`;
 	const navigate = useNavigate();
 	const { data, error, isLoading } = useSwr(path, fetcher);

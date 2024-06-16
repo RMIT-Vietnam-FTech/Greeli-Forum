@@ -22,7 +22,8 @@ export const AuthorizationContextProvider = ({
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+	
 	if (user == null) {
 		isAuthor.current = false;
 	}

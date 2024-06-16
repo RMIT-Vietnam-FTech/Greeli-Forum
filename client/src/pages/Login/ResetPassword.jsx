@@ -28,7 +28,7 @@ const ResetPassword = () => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 	const loginSchema = Yup.object().shape({
 		email: Yup.string()
 			.required("Email is required")

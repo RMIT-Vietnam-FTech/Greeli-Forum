@@ -22,7 +22,8 @@ export default function ButtonUpvote({ upvote, postId, commentId }) {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+	
 	async function handleUpvote() {
 		try {
 			if (!isLogin) {

@@ -19,7 +19,8 @@ export default function EditTextBar({ content, componentType }) {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+	
 	if (component == "post") {
 		objectId = postId;
 	} else {

@@ -42,7 +42,8 @@ function ThreadStatistic() {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+
 	const path = baseUrl + `/api/v1/threads/${threadId}/statistic`;
 	const { data, error, isLoading } = useSWR(path, fetcher);
 	if (error) {
@@ -90,7 +91,8 @@ export function PostYouMayLike() {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+
 	const { ref, inView, entry } = useInView({
 		threshold: 0,
 		onChange: (inView, entry) => {
@@ -161,7 +163,8 @@ const RecommendPost = ({ postData }) => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+	
 	return (
 		<div
 			style={{ height: "130px", borderRadius: "20px" }}

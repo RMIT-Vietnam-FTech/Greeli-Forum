@@ -29,6 +29,17 @@ const Chat = () => {
 
 	console.log("notification", chatNoti);
 
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	}, [process.env.NODE_ENV]);
+
 	useEffect(() => {
 		socket.current = io("http://localhost:3000");
 		socket.current.connect();
@@ -50,7 +61,7 @@ const Chat = () => {
 		const getChats = async () => {
 			const configuration = {
 				method: "get",
-				url: `/api/chat/find/${userId}`,
+				url: baseUrl + `/api/chat/find/${userId}`,
 				headers: {
 					"Content-Type": "application/json",
 					// Authorization: `Bearer ${token}`,
@@ -115,7 +126,7 @@ const Chat = () => {
 		const getAllUsers = async () => {
 			const configuration = {
 				method: "get",
-				url: "/api/user/getAll",
+				url: baseUrl + "/api/user/getAll",
 				headers: {
 					"Content-Type": "application/json",
 					// Authorization: `Bearer ${token}`,
@@ -178,7 +189,7 @@ const Chat = () => {
 
 		const configuration = {
 			method: "post",
-			url: "/api/chat/create",
+			url: baseUrl + "/api/chat/create",
 			headers: {
 				"Content-Type": "application/json",
 				// Authorization: `Bearer ${token}`,

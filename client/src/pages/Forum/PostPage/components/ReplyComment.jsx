@@ -45,7 +45,7 @@ export default function ReplyComment({ commentData, isLastIndex, isNew }) {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	const { data, error, isLoading } = useSWRImmutable(
 		commentData.replies.length > 0 && expand

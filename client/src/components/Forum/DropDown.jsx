@@ -19,7 +19,8 @@ export default function DropDown({ componentType, data, threadId, postId }) {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
+	
 	const [isArchived, setIsArchived] = useState(
 		data && data.archived.isArchived,
 	);

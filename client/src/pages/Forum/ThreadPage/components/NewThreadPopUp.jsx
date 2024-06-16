@@ -35,7 +35,7 @@ export default function NewThreadPopUp({ isOpen, setIsOpen, belongToThread }) {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	useEffect(() => {
 		axios.get(baseUrl + "/api/v1/topics").then((res) => {

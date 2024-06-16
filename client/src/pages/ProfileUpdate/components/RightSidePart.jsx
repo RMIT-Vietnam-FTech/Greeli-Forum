@@ -23,7 +23,7 @@ const RightSidePart = (props) => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	const processPosts = (postObject) => {
 		// console.log(postObject);

@@ -54,7 +54,7 @@ export default function PostList({ threadData, topicData }) {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	const user = JSON.parse(localStorage.getItem("user"));
 	const isThreadAdmin =

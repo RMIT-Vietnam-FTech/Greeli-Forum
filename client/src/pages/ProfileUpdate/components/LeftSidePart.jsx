@@ -25,7 +25,7 @@ const LeftSidePart = (props) => {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 
 	const navigate = useNavigate();
 	const data = useProfileContext();

@@ -21,7 +21,7 @@ export default function ThreadPage() {
 		} else {
 			baseUrl = "";
 		}
-	});
+	}, [process.env.NODE_ENV]);
 	const path = baseUrl + `/api/v1/threads/${threadId}`;
 	const navigate = useNavigate();
 	const { data, error, isLoading } = useSwr(path, fetcher);
