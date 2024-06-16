@@ -1,6 +1,6 @@
 import { useCurrentEditor } from "@tiptap/react";
 import axios from "axios";
-import { useContext, useId, useRef } from "react";
+import { useContext, useId, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { EditContext } from "../../../context/EditContext";
 axios.defaults.withCredentials = true;
@@ -10,6 +10,16 @@ export default function EditTextBar({ content, componentType }) {
 	const { threadId, postId } = useParams();
 	const component = componentType;
 	let objectId;
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	if (component == "post") {
 		objectId = postId;
 	} else {
@@ -34,7 +44,7 @@ export default function EditTextBar({ content, componentType }) {
 				// store data (PUT) in database
 				const currentContent = JSON.stringify(editor.getJSON());
 				await axios.put(
-					`http://localhost:3001/api/v1/${component}s/${objectId}`,
+					baseUrl + `/api/v1/${component}s/${objectId}`,
 					{
 						content: currentContent,
 					},

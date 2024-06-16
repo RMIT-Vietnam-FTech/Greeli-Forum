@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { createContext } from "react";
 import useSwr from "swr";
 export const AuthorizationContext = createContext(false);
@@ -13,12 +13,22 @@ export const AuthorizationContextProvider = ({
 }) => {
 	const user = JSON.parse(localStorage.getItem("user"));
 	const isAuthor = useRef(false);
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	if (user == null) {
 		isAuthor.current = false;
 	}
 	const { data, error, isLoading } = useSwr(
 		componentType || objectId
-			? `http://localhost:3001/api/v1/${componentType}s/${objectId}`
+			? baseUrl + `/api/v1/${componentType}s/${objectId}`
 			: null,
 		fetcher,
 	);

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import useSwr from "swr";
 
 import { IoIosArrowDown } from "react-icons/io";
@@ -102,17 +102,28 @@ function CommunityList({ children }) {
 
 function YourCommunity() {
 	const [isExpanded, setIsExpanded] = useState(false);
-	const path = `http://localhost:3001/api/user/${
-		JSON.parse(localStorage.getItem("user")).id
-	}/created_threads`;
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
+	const path =
+		baseUrl +
+		`/api/user/${
+			JSON.parse(localStorage.getItem("user")).id
+		}/created_threads`;
 
 	const { data, error, isLoading } = useSwr(path, validatedFetcher);
 	if (error) {
-		return <></>
+		return <></>;
 	}
 	if (isLoading) {
 		return <></>;
-
 	}
 	return (
 		<>
@@ -121,7 +132,7 @@ function YourCommunity() {
 				onClick={() => {
 					setIsExpanded(!isExpanded);
 				}}
-				className={listItemStyle+" hover-style"}
+				className={listItemStyle + " hover-style"}
 				data-bs-toggle="collapse"
 				href="#collapse-created-thread"
 				role="button"
@@ -162,16 +173,28 @@ function YourCommunity() {
 }
 function FollowingCommunity() {
 	const [isExpanded, setIsExpanded] = useState(false);
-	const path = `http://localhost:3001/api/user/${
-		JSON.parse(localStorage.getItem("user")).id
-	}/follow_threads`;
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
+	const path =
+		baseUrl +
+		`/api/user/${
+			JSON.parse(localStorage.getItem("user")).id
+		}/follow_threads`;
 
 	const { data, error, isLoading } = useSwr(path, validatedFetcher);
 	if (error) {
-		return <></>
+		return <></>;
 	}
 	if (isLoading) {
-		return <></>
+		return <></>;
 	}
 
 	return (
@@ -252,7 +275,17 @@ function TopicWrapper({ children }) {
 }
 
 function TopicList() {
-	const path = "http://localhost:3001/api/v1/topics";
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
+	const path = baseUrl + "/api/v1/topics";
 	const { data, error, isLoading } = useSwr(path, fetcher);
 	if (error) {
 		return <></>;

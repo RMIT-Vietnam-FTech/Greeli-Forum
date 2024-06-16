@@ -271,9 +271,7 @@ function ImageTag({ editor, children, setDropFile, setFile, file }) {
 	return (
 		<button
 			style={{ fontSize: "20px" }}
-			className={
-				"btn-editor bg-transparent border-0 " 
-			}
+			className={"btn-editor bg-transparent border-0 "}
 			type="button"
 			onClick={open}
 		>
@@ -307,9 +305,7 @@ function VideoTag({ editor, children, setDropFile, setFile }) {
 	return (
 		<button
 			style={{ fontSize: "20px" }}
-			className={
-				"btn-editor bg-transparent border-0 " 
-			}
+			className={"btn-editor bg-transparent border-0 "}
 			type="button"
 			onClick={open}
 		>

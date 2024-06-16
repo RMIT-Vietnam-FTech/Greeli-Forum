@@ -24,12 +24,21 @@ const AdminDashboard = () => {
 	const { isDarkMode } = useContext(ThemeContext);
 	const usersPerPage = 5; // Lets do 5 i guess
 
-	const apiUrl = "http://localhost:3001"; // Manh Tan change this in production nhe
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	useEffect(() => {
 		const fetchUsers = async () => {
 			try {
-				const response = await axios.get(`${apiUrl}/api/user/getAll`, {
+				const response = await axios.get(`${baseUrl}/api/user/getAll`, {
 					params: {
 						page: currentPage,
 						limit: usersPerPage,
@@ -48,7 +57,7 @@ const AdminDashboard = () => {
 			}
 		};
 		fetchUsers();
-	}, [currentPage, sortCriteria, apiUrl]);
+	}, [currentPage, sortCriteria, baseUrl]);
 
 	const handlePageChange = (page) => {
 		setCurrentPage(page);
@@ -76,7 +85,7 @@ const AdminDashboard = () => {
 		try {
 			const configuration = {
 				method: "put",
-				url: `${apiUrl}/api/user/${adminId}/${userId}/${action}`,
+				url: `${baseUrl}/api/user/${adminId}/${userId}/${action}`,
 				headers: {
 					"Content-Type": "application/json",
 				},

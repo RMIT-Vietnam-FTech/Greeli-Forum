@@ -32,42 +32,65 @@ export default function RightSideBarThread() {
 }
 
 function ThreadStatistic() {
-  const { threadId } = useParams();
-  const path = `http://localhost:3001/api/v1/threads/${threadId}/statistic`;
-  const { data, error, isLoading } = useSWR(path, fetcher);
-  if (error) {
-    return <></>;
-  }
-  if (isLoading) {
-    return <></>;
-  }
-  return (
-    <div tabIndex="0" className="thread-statistic bg-forum-subtle">
-      <p className="text-primary-yellow fs-5" style={{ fontSize: "18px" }}>
-        Thread statistic
-      </p>
-      <div className="w-75">
-        <p className="text-white w-100 d-flex justify-content-between">
-          <b className="w-50">Posts</b>{" "}
-          <span className="ms-3 w-50">{data.post}</span>
-        </p>
-        <p className="text-white w-100 d-flex justify-content-between">
-          <b className="w-50">Members</b>{" "}
-          <span className="ms-3 w-50">{data.member}</span>
-        </p>
-        <p className="text-white w-100 d-flex justify-content-between">
-          <b className="w-50">Admin</b>{" "}
-          <span className="ms-3 w-50" style={{ color: "#33FF00" }}>
-            {data.admin.username}
-          </span>
-        </p>
-      </div>
-    </div>
-  );
+	const { threadId } = useParams();
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
+	const path = baseUrl + `/api/v1/threads/${threadId}/statistic`;
+	const { data, error, isLoading } = useSWR(path, fetcher);
+	if (error) {
+		return <></>;
+	}
+	if (isLoading) {
+		return <></>;
+	}
+	return (
+		<div tabIndex="0" className="thread-statistic bg-forum-subtle">
+			<p
+				className="text-primary-yellow fs-5"
+				style={{ fontSize: "18px" }}
+			>
+				Thread statistic
+			</p>
+			<div className="w-75">
+				<p className="text-white w-100 d-flex justify-content-between">
+					<b className="w-50">Posts</b>{" "}
+					<span className="ms-3 w-50">{data.post}</span>
+				</p>
+				<p className="text-white w-100 d-flex justify-content-between">
+					<b className="w-50">Members</b>{" "}
+					<span className="ms-3 w-50">{data.member}</span>
+				</p>
+				<p className="text-white w-100 d-flex justify-content-between">
+					<b className="w-50">Admin</b>{" "}
+					<span className="ms-3 w-50" style={{ color: "#33FF00" }}>
+						{data.admin.username}
+					</span>
+				</p>
+			</div>
+		</div>
+	);
 }
 
 export function PostYouMayLike() {
 	const matchWindowWidth = useMediaQuery("(min-width: 800px)");
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	const { ref, inView, entry } = useInView({
 		threshold: 0,
 		onChange: (inView, entry) => {
@@ -82,10 +105,8 @@ export function PostYouMayLike() {
 			(index, prevData) =>
 				prevData && !prevData.length
 					? null
-					: `http://localhost:3001/api/v1/posts?page=${
-							index + 1
-					  }&sort=${"Hot"}`,
-			fetchPost
+					: baseUrl + `/api/v1/posts?page=${index + 1}&sort=${"Hot"}`,
+			fetchPost,
 		);
 
 	if (isLoading) {
@@ -110,13 +131,19 @@ export function PostYouMayLike() {
 						!(postData.archived.isArchived || postData.isDeleted) &&
 						(matchWindowWidth ? (
 							<div className="border-bottom-gray ">
-								<RecommendPost key={postData._id} postData={postData} />
+								<RecommendPost
+									key={postData._id}
+									postData={postData}
+								/>
 							</div>
 						) : (
-							<div key={postData._id} className="border-bottom-gray">
+							<div
+								key={postData._id}
+								className="border-bottom-gray"
+							>
 								<Post postData={postData} />
 							</div>
-						))
+						)),
 				)}
 			</div>
 		</section>
@@ -125,6 +152,16 @@ export function PostYouMayLike() {
 
 const RecommendPost = ({ postData }) => {
 	// console.log(`check data: ${postData._id}`)
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	return (
 		<div
 			style={{ height: "130px", borderRadius: "20px" }}
@@ -136,56 +173,65 @@ const RecommendPost = ({ postData }) => {
 					{/*user info*/}
 					<div className="d-flex gap-2 mb-2">
 						{/*avatar*/}
-						<Avatar src={postData.createdBy.profileImage} size="sm" />
+						<Avatar
+							src={postData.createdBy.profileImage}
+							size="sm"
+						/>
 
 						{/*user username*/}
-						<div className="text-greeli-emphasis" style={{ fontSize: "14px" }}>
+						<div
+							className="text-greeli-emphasis"
+							style={{ fontSize: "14px" }}
+						>
 							{postData.createdBy.username}
 						</div>
 					</div>
 
-          <a
-            href={`http://localhost:3000/forum/communities/${postData.belongToThread}/posts/${postData._id}`}
-            className="line-clamp-2-line"
-          >
-            <h4
-              style={{
-                wordBreak: "break-word",
-                fontSize: "14px",
-                color: "#6b8177",
-              }}
-            >
-              {postData.title}
-            </h4>
-          </a>
-        </div>
-        <div
-          className="w-25 ratio ratio-1x1  overflow-hidden text-white bg-primary-green-600"
-          style={{ borderRadius: "0.75rem" }}
-        >
-          {postData.uploadFile ? (
-            <ImageOrVideo
-              alt={postData.title}
-              uploadFile={postData.uploadFile}
-              isPost={true}
-              h100={true}
-              w100={true}
-            />
-          ) : (
-            <IoDocumentTextOutline />
-          )}
-        </div>
-      </div>
-      {/*number of like and comment*/}
-      <div
-        className="d-flex gap-2 "
-        style={{ fontSize: "12px", color: "gray" }}
-      >
-        <p className="m-0 p-0">{postData.upvoteLength} upvotes</p>
-        <p className="m-0 p-0">{postData.commentLength} comments</p>
-      </div>
-    </div>
-  );
+					<a
+						href={
+							baseUrl +
+							`/forum/communities/${postData.belongToThread}/posts/${postData._id}`
+						}
+						className="line-clamp-2-line"
+					>
+						<h4
+							style={{
+								wordBreak: "break-word",
+								fontSize: "14px",
+								color: "#6b8177",
+							}}
+						>
+							{postData.title}
+						</h4>
+					</a>
+				</div>
+				<div
+					className="w-25 ratio ratio-1x1  overflow-hidden text-white bg-primary-green-600"
+					style={{ borderRadius: "0.75rem" }}
+				>
+					{postData.uploadFile ? (
+						<ImageOrVideo
+							alt={postData.title}
+							uploadFile={postData.uploadFile}
+							isPost={true}
+							h100={true}
+							w100={true}
+						/>
+					) : (
+						<IoDocumentTextOutline />
+					)}
+				</div>
+			</div>
+			{/*number of like and comment*/}
+			<div
+				className="d-flex gap-2 "
+				style={{ fontSize: "12px", color: "gray" }}
+			>
+				<p className="m-0 p-0">{postData.upvoteLength} upvotes</p>
+				<p className="m-0 p-0">{postData.commentLength} comments</p>
+			</div>
+		</div>
+	);
 };
 
 export function useMediaQuery(mediaQueryString) {

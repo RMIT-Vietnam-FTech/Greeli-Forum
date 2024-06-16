@@ -29,6 +29,16 @@ const Register = () => {
 	const captchaRef = useRef(null);
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	const registerSchema = Yup.object().shape({
 		username: Yup.string()
 			.required("Username is required")
@@ -62,7 +72,7 @@ const Register = () => {
 	const registerAccount = () => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/register",
+			url: baseUrl + "/api/user/register",
 			data: {
 				username,
 				email,

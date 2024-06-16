@@ -17,13 +17,23 @@ const RequireActivate = () => {
 	// console.log(userActivated);
 	const [comments, setComments] = useState([]);
 	const [posts, setPosts] = useState([]);
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	const handleUnarchivedPost = async (id) => {
 		// console.log(itemType);
 		try {
 			const configuration = {
 				method: "put",
-				url: `http://localhost:3001/api/v1/posts/${id}/unarchive`,
+				url: baseUrl + `/api/v1/posts/${id}/unarchive`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -39,7 +49,7 @@ const RequireActivate = () => {
 		try {
 			const configuration = {
 				method: "put",
-				url: `http://localhost:3001/api/v1/comments/${id}/unarchive`,
+				url: baseUrl + `/api/v1/comments/${id}/unarchive`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -54,7 +64,7 @@ const RequireActivate = () => {
 	useEffect(() => {
 		const configuration = {
 			method: "get",
-			url: `http://localhost:3001/api/v1/comments?userId=${userId}`,
+			url: baseUrl + `/api/v1/comments?userId=${userId}`,
 		};
 		axios(configuration)
 			.then((result) => {
@@ -72,7 +82,7 @@ const RequireActivate = () => {
 	useEffect(() => {
 		const configuration = {
 			method: "get",
-			url: `http://localhost:3001/api/user/${userId}`,
+			url: baseUrl + `/api/user/${userId}`,
 		};
 		axios(configuration)
 			.then((result) => {
@@ -89,7 +99,7 @@ const RequireActivate = () => {
 	const activateAccount = () => {
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/user/${userId}/activate`,
+			url: baseUrl + `/api/user/${userId}/activate`,
 		};
 		axios(configuration)
 			.then((result) => {
@@ -123,7 +133,10 @@ const RequireActivate = () => {
 			style={{ height: "90vh" }}
 		>
 			<div>
-				<h2 className="" style={{ marginBottom: "-40px", marginTop: "100px" }}>
+				<h2
+					className=""
+					style={{ marginBottom: "-40px", marginTop: "100px" }}
+				>
 					Your account is deactivated, click the button to activate it
 				</h2>
 				<PreventionPopup

@@ -19,6 +19,16 @@ const SignIn = ({ isShow }) => {
 	const from = location.state?.from?.pathname || "/";
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	const [showPassword, setShowPassword] = useState(false);
 	const loginSchema = Yup.object().shape({
 		email: Yup.string()
@@ -40,7 +50,7 @@ const SignIn = ({ isShow }) => {
 	const login = () => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/login",
+			url: baseUrl + "/api/user/login",
 			data: {
 				email,
 				password,

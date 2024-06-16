@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Image from "react-bootstrap/Image";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
@@ -19,6 +19,16 @@ const ResetPassword = () => {
 	const from = location.state?.from?.pathname || "/";
 	const backgroundImage = 'url("/LoginBackground.png")';
 	const [email, setEmail] = useState("");
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	const loginSchema = Yup.object().shape({
 		email: Yup.string()
 			.required("Email is required")
@@ -35,7 +45,7 @@ const ResetPassword = () => {
 	const requestReset = async () => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/requestResetPassword",
+			url: baseUrl + "/api/user/requestResetPassword",
 			data: {
 				email,
 			},

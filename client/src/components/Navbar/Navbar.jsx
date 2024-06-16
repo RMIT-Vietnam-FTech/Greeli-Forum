@@ -24,8 +24,17 @@ const Navbar = ({ isForum }) => {
 	const userRole = JSON.parse(user)?.role || null;
 	const isAdmin = userRole === "admin";
 	const [isMobile, setIsMobile] = useState(false);
-
 	const closeBtnRef = useRef(null);
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	useEffect(() => {
 		const query = window.matchMedia("(max-width: 768px)");
@@ -41,7 +50,7 @@ const Navbar = ({ isForum }) => {
 	const logout = () => {
 		const configuration = {
 			method: "post",
-			url: "/api/user/logout",
+			url: baseUrl + "/api/user/logout",
 		};
 		axios(configuration)
 			.then((result) => {

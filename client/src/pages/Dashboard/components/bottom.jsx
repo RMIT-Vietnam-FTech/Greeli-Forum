@@ -33,7 +33,7 @@ const Bottom = ({ currentPage, totalPages, onPageChange }) => {
 		for (
 			let i = Math.max(
 				totalPages - totalDisplayedPages + 1,
-				totalDisplayedPages + 1
+				totalDisplayedPages + 1,
 			);
 			i <= totalPages;
 			i++
@@ -57,7 +57,9 @@ const Bottom = ({ currentPage, totalPages, onPageChange }) => {
 			<div className="pagination">
 				<button
 					className={`${
-						isDarkMode ? "dashboard-arrow-dark" : "dashboard-arrow-light"
+						isDarkMode
+							? "dashboard-arrow-dark"
+							: "dashboard-arrow-light"
 					}`}
 					onClick={() => onPageChange(currentPage - 1)}
 					disabled={currentPage === 1}
@@ -68,7 +70,9 @@ const Bottom = ({ currentPage, totalPages, onPageChange }) => {
 					<button
 						key={index}
 						className={`${
-							isDarkMode ? "pagination-button-dark" : "pagination-button-light"
+							isDarkMode
+								? "pagination-button-dark"
+								: "pagination-button-light"
 						} ${currentPage === page ? "active" : ""}`}
 						onClick={() => onPageChange(page)}
 						disabled={page === "..."}
@@ -78,7 +82,9 @@ const Bottom = ({ currentPage, totalPages, onPageChange }) => {
 				))}
 				<button
 					className={`${
-						isDarkMode ? "dashboard-arrow-dark" : "dashboard-arrow-light"
+						isDarkMode
+							? "dashboard-arrow-dark"
+							: "dashboard-arrow-light"
 					}`}
 					onClick={() => onPageChange(currentPage + 1)}
 					disabled={currentPage === totalPages}

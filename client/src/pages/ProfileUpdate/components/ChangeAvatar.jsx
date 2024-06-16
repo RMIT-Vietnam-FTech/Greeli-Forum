@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useProfileContext } from "../../../context/ProfileContext";
 import { useUserContext } from "../../../context/UserContext";
@@ -9,6 +9,16 @@ const ChangeAvatar = (props) => {
 	const { userId } = data;
 	console.log(userId);
 	const { close } = props;
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	//UPLOAD PROFILE IMAGE
 	const [file, setFile] = useState();
@@ -22,7 +32,7 @@ const ChangeAvatar = (props) => {
 		formData.append("image", preview);
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/user/${userId}/uploadImage`,
+			url: baseUrl + `/api/user/${userId}/uploadImage`,
 			headers: {
 				"Content-Type": "multipart/form-data",
 			},

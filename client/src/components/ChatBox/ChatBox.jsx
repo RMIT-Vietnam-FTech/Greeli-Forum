@@ -24,13 +24,23 @@ const ChatBox = ({
 	const chatBodyRef = useRef();
 	const emojiPickerRef = useRef();
 	const { isDarkMode } = useContext(ThemeContext);
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	useEffect(() => {
 		const fetchMessagesAndUser = async () => {
 			const receiverId = chat.members.find((id) => id !== currentUserId);
 			const userConfig = {
 				method: "get",
-				url: `/api/user/find/${receiverId}`,
+				url: baseUrl + `/api/user/find/${receiverId}`,
 				headers: {
 					"Content-Type": "application/json",
 					// Authorization: `Bearer ${token}`,
@@ -68,7 +78,7 @@ const ChatBox = ({
 			};
 			const configuration = {
 				method: "post",
-				url: "http://localhost:3001/api/message/create",
+				url: baseUrl + "/api/message/create",
 				data: message,
 				headers: {
 					"Content-Type": "application/json",

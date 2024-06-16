@@ -12,6 +12,16 @@ import ImageOrVideo from "../Forum/ImageOrVideo";
 import "./SearchBar.css";
 export default function SearchBar() {
 	const [result, setResult] = useState([]);
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	async function handleOnInput(e) {
 		const searchOutput = document.querySelector(".search-output");
 		const searchNotFound = document.querySelector(".search-not-found");
@@ -21,7 +31,7 @@ export default function SearchBar() {
 		) {
 			searchOutput.classList.remove("d-none");
 			let searchTerm = await axios
-				.get(`http://localhost:3001/api/v1/posts?search=${e.target.value}`)
+				.get(baseUrl + `/api/v1/posts?search=${e.target.value}`)
 				.then((res) => res.data);
 			setResult([...searchTerm]);
 
@@ -66,7 +76,10 @@ export default function SearchBar() {
 							return null;
 						} else {
 							return (
-								<SearchItem key={searchData._id} searchData={searchData} />
+								<SearchItem
+									key={searchData._id}
+									searchData={searchData}
+								/>
 							);
 						}
 					})}
@@ -101,14 +114,23 @@ export function SearchItem({ searchData, searchBar }) {
 				<div className="overflow-hidden" style={{ width: "85%" }}>
 					{/*-----------user info --------------*/}
 					<div className="d-flex gap-2">
-						<Avatar size="sm" src={searchData.createdBy.profileImage} />
-						<p className="text-secondary" style={{ fontSize: "12px" }}>
+						<Avatar
+							size="sm"
+							src={searchData.createdBy.profileImage}
+						/>
+						<p
+							className="text-secondary"
+							style={{ fontSize: "12px" }}
+						>
 							{searchData.createdBy.username}
 						</p>
 					</div>
 					{/*-----------title and content--------------*/}
 					<div className="w-75">
-						<h2 className="text-greeli-emphasis" style={{ fontSize: "18px" }}>
+						<h2
+							className="text-greeli-emphasis"
+							style={{ fontSize: "18px" }}
+						>
 							{searchData.title}
 						</h2>
 						<EditContextProvider>
@@ -123,26 +145,26 @@ export function SearchItem({ searchData, searchBar }) {
 					</div>
 				</div>
 
-        {/*-----------right sidebar --------------*/}
-        <div
-          className="search-image overflow-hidden d-flex align-items-center justify-content-center text-white bg-primary-green-600"
-          style={{ borderRadius: "0.75rem", width: "200px" }}
-        >
-          {searchData.uploadFile ? (
-            <ImageOrVideo
-              w100={false}
-              h100={true}
-              uploadFile={searchData.uploadFile}
-			  alt={searchData.title}
-              isPost={true}
-            />
-          ) : (
-            <div style={{ fontSize: "80px" }}>
-              <IoDocumentTextOutline />
-            </div>
-          )}
-        </div>
-      </div>
-    </Link>
-  );
+				{/*-----------right sidebar --------------*/}
+				<div
+					className="search-image overflow-hidden d-flex align-items-center justify-content-center text-white bg-primary-green-600"
+					style={{ borderRadius: "0.75rem", width: "200px" }}
+				>
+					{searchData.uploadFile ? (
+						<ImageOrVideo
+							w100={false}
+							h100={true}
+							uploadFile={searchData.uploadFile}
+							alt={searchData.title}
+							isPost={true}
+						/>
+					) : (
+						<div style={{ fontSize: "80px" }}>
+							<IoDocumentTextOutline />
+						</div>
+					)}
+				</div>
+			</div>
+		</Link>
+	);
 }

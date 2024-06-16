@@ -20,6 +20,16 @@ import "./styles.css";
 axios.defaults.withCredentials = true;
 
 const Profile = () => {
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	const { isDarkMode } = useContext(ThemeContext);
 	const userData = demoUserInfo[0];
 	const navigate = useNavigate();
@@ -124,7 +134,7 @@ const Profile = () => {
 	const updateUserData = (basicInfo) => {
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/user/${basicInfo.userId}/update`,
+			url: baseUrl + `/api/user/${basicInfo.userId}/update`,
 			data: basicInfo,
 		};
 		axios(configuration)
@@ -149,7 +159,7 @@ const Profile = () => {
 	const deactivateAccount = () => {
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/user/${userId}/deactivate`,
+			url: baseUrl + `/api/user/${userId}/deactivate`,
 		};
 		axios(configuration)
 			.then((result) => {
@@ -174,7 +184,7 @@ const Profile = () => {
 		// console.log("Lock/Unlock user");
 		const configuration = {
 			method: "put",
-			url: `http://localhost:3001/api/user/${adminId}/${userId}/${action}`,
+			url: baseUrl + `/api/user/${adminId}/${userId}/${action}`,
 			headers: {
 				"Content-Type": "application/json",
 				// Authorization: `Bearer ${token}`,
@@ -199,7 +209,7 @@ const Profile = () => {
 	const createChat = (user) => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/chat/create",
+			url: baseUrl + "/api/chat/create",
 			headers: {
 				"Content-Type": "application/json",
 			},

@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { FaMap } from "react-icons/fa";
@@ -15,6 +15,16 @@ const Contact = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState("");
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	const feedBackSchema = Yup.object().shape({
 		name: Yup.string().required("Your name is required"),
 		email: Yup.string()
@@ -31,7 +41,7 @@ const Contact = () => {
 	const feedback = () => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/feedback/create",
+			url: baseUrl + "/api/feedback/create",
 			data: {
 				name,
 				email,

@@ -17,6 +17,16 @@ const ChangePassword = (props) => {
 	const [oldPassword, setOldPassword] = useState("");
 	const [newPassword, setNewPassword] = useState("");
 	const { user, error, setError, setSuccess } = useUserContext();
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	const {
 		register,
@@ -37,7 +47,7 @@ const ChangePassword = (props) => {
 	const sendOldPassword = async (oldPassword, newPassword, userId) => {
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/user/change-password`,
+			url: baseUrl + `/api/user/change-password`,
 			data: {
 				userId: userId,
 				oldPassword: oldPassword,

@@ -12,13 +12,23 @@ const Conversation = ({ data, currentUserId, online, isActive, chatNoti }) => {
 	const [unseenMessages, setUnseenMessages] = useState([]);
 	// const {user, chatNoti} = useUserContext();
 	const { error, setError } = useUserContext();
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	let userId = "";
 	useEffect(() => {
 		const getUserData = async () => {
 			userId = data.members.find((id) => id !== currentUserId);
 			const configuration = {
 				method: "get",
-				url: `/api/user/find/${userId}`,
+				url: baseUrl + `/api/user/find/${userId}`,
 				headers: {
 					"Content-Type": "application/json",
 					// Authorization: `Bearer ${token}`,

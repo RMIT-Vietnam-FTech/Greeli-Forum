@@ -17,53 +17,59 @@ import PostList from "../ThreadPage/PostList";
 import TopicPage from "../TopicPage";
 import { Toaster } from "react-hot-toast";
 export default function ForumPage() {
-  const { isDarkMode } = useContext(ThemeContext);
-  return (
-    <main
-      className=" bg-greeli-subtle"
-      data-bs-theme={isDarkMode ? "dark" : "light"}
-    >
-      <Toaster />
-      <PopupContextProvider>
-        <section className="search-container d-flex justify-content-center w-100"></section>
+	const { isDarkMode } = useContext(ThemeContext);
+	return (
+		<main
+			className=" bg-greeli-subtle"
+			data-bs-theme={isDarkMode ? "dark" : "light"}
+		>
+			<Toaster />
+			<PopupContextProvider>
+				<section className="search-container d-flex justify-content-center w-100"></section>
 
-        <section className="container-wrapper">
-          <section className="left-sidebar">
-            <LeftSideBar />
-          </section>
-          <section className="main-container">
-            <section className="main">
-              <SearchBar />
-              <Routes path="/">
-                <Route index element={<PostList />} />
-                {/* <Route path="*" element={<ErrorPage />} /> */}
-                <Route path="topics/:topicId">
-                  <Route index element={<TopicPage />} />
-                </Route>
-                <Route path="communities/:threadId">
-                  <Route index element={<ThreadPage />} />
-                  <Route path="posts/:postId" element={<PostPage />} />
-                </Route>
-              </Routes>
-            </section>
-            <section className="right-sidebar">
-              <Routes path="/">
-                <Route path="*" element={<RightSideBarForum />} />
-                <Route
-                  path="/communities/:threadId"
-                  element={<RightSideBarThread />}
-                >
-                  <Route
-                    path="posts/:postId"
-                    element={<RightSideBarThread />}
-                  />
-                </Route>
-              </Routes>
-            </section>
-          </section>
-        </section>
-        <LoginPopup isShow={false} />
-      </PopupContextProvider>
-    </main>
-  );
+				<section className="container-wrapper">
+					<section className="left-sidebar">
+						<LeftSideBar />
+					</section>
+					<section className="main-container">
+						<section className="main">
+							<SearchBar />
+							<Routes path="/">
+								<Route index element={<PostList />} />
+								{/* <Route path="*" element={<ErrorPage />} /> */}
+								<Route path="topics/:topicId">
+									<Route index element={<TopicPage />} />
+								</Route>
+								<Route path="communities/:threadId">
+									<Route index element={<ThreadPage />} />
+									<Route
+										path="posts/:postId"
+										element={<PostPage />}
+									/>
+								</Route>
+							</Routes>
+						</section>
+						<section className="right-sidebar">
+							<Routes path="/">
+								<Route
+									path="*"
+									element={<RightSideBarForum />}
+								/>
+								<Route
+									path="/communities/:threadId"
+									element={<RightSideBarThread />}
+								>
+									<Route
+										path="posts/:postId"
+										element={<RightSideBarThread />}
+									/>
+								</Route>
+							</Routes>
+						</section>
+					</section>
+				</section>
+				<LoginPopup isShow={false} />
+			</PopupContextProvider>
+		</main>
+	);
 }

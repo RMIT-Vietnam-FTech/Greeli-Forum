@@ -14,6 +14,16 @@ const RightSidePart = (props) => {
 	const [createdPosts, setCreatedPosts] = useState(null);
 	const [savedPosts, setSavedPosts] = useState(null);
 	const [renderPostList, setRenderPostList] = useState(null);
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	const processPosts = (postObject) => {
 		// console.log(postObject);
@@ -55,20 +65,27 @@ const RightSidePart = (props) => {
 
 	// PROCESS FETCHED POSTS
 	// console.log(comments.data);
-	const fetchedPosts = comments?.data?.map((comment) => processPosts(comment));
+	const fetchedPosts = comments?.data?.map((comment) =>
+		processPosts(comment),
+	);
 
 	useEffect(() => {
 		var newRenderPostList = [];
 		const fetchCreatedPosts = async () => {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/user/${userId}/created_posts`,
+				url: baseUrl + `/api/user/${userId}/created_posts`,
 			};
 			await axios(configuration)
 				.then(async (response) => {
 					const data = response.data;
-					const processedData = await data.map((post) => processPosts(post));
-					newRenderPostList = [...newRenderPostList, ...processedData];
+					const processedData = await data.map((post) =>
+						processPosts(post),
+					);
+					newRenderPostList = [
+						...newRenderPostList,
+						...processedData,
+					];
 				})
 				.catch((error) => {
 					console.log(error);
@@ -81,7 +98,7 @@ const RightSidePart = (props) => {
 		const fetchArchivedPosts = async () => {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/user/${userId}/saved_posts`,
+				url: baseUrl + `/api/user/${userId}/saved_posts`,
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -90,8 +107,13 @@ const RightSidePart = (props) => {
 			await axios(configuration)
 				.then(async (response) => {
 					const data = response.data;
-					const processedData = await data.map((post) => processPosts(post));
-					newRenderPostList = [...newRenderPostList, ...processedData];
+					const processedData = await data.map((post) =>
+						processPosts(post),
+					);
+					newRenderPostList = [
+						...newRenderPostList,
+						...processedData,
+					];
 				})
 				.catch((error) => {
 					console.log(error);

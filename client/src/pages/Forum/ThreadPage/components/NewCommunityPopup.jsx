@@ -1,6 +1,6 @@
 import axios from "axios";
 import FormData from "form-data";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import ReactDom from "react-dom";
 import { RiCloseLargeLine } from "react-icons/ri";
@@ -11,176 +11,191 @@ import CreateCommunityDropZone from "./CreateCommunityDropZone";
 axios.defaults.withCredentials = true;
 
 export default function NewCommunityPopUp({ isOpen, setIsOpen }) {
-  const [file, setFile] = useState(null);
-  const [description, setDescription] = useState("");
-  const [inputPostTitle, setInputPostTitle] = useState("");
-  const errorTexts = [
-    "min 5 and max 20 characters",
-    "title is already existed!",
-  ];
-  const navigate = useNavigate();
-  async function handleData() {
-    try {
-      const postTitleInput = document.querySelector(".post-title");
+	const [file, setFile] = useState(null);
+	const [description, setDescription] = useState("");
+	const [inputPostTitle, setInputPostTitle] = useState("");
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
 
-      if (inputPostTitle.length >= 5 && inputPostTitle.length <= 20) {
-        setFile(null);
-        setIsOpen(false);
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
+	const errorTexts = [
+		"min 5 and max 20 characters",
+		"title is already existed!",
+	];
+	const navigate = useNavigate();
+	async function handleData() {
+		try {
+			const postTitleInput = document.querySelector(".post-title");
 
-        const formData = new FormData();
-        formData.append("title", inputPostTitle);
-        if (file) {
-          formData.append("uploadFile", file[0]);
-        } else {
-          formData.append("uploadFile", null);
-        }
-        formData.append("content", JSON.stringify(description));
+			if (inputPostTitle.length >= 5 && inputPostTitle.length <= 20) {
+				setFile(null);
+				setIsOpen(false);
 
-        const loadingNewCommunityPopup = toast.loading(
-          "create new community is in progress"
-        );
-        const res = await axios.post(
-          "http://localhost:3001/api/v1/threads",
-          formData,
-          {
-            headers: {
-            //   Authorization: `Bearer ${
-            //     JSON.parse(localStorage.getItem("user")).token
-            //   }`,
-            //   "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        toast.dismiss(loadingNewCommunityPopup);
-        toast.success("new community is created successfully", {
-          duration: 3000,
-        });
-        navigate(`/forum/communities/${res.data}`);
-      }
-    } catch (e) {
-      toast.error("error occur during create new community, please try again");
-    }
-  }
+				const formData = new FormData();
+				formData.append("title", inputPostTitle);
+				if (file) {
+					formData.append("uploadFile", file[0]);
+				} else {
+					formData.append("uploadFile", null);
+				}
+				formData.append("content", JSON.stringify(description));
 
-  async function displayError(e) {
-    try {
-      const titleWarning = document.querySelector(".title-warning");
-      if (e.target.value.length < 5 || e.target.value.length > 50) {
-        titleWarning.classList.remove("d-none");
-        titleWarning.innerHTML = errorTexts[0];
-      } else {
-        await axios.post(
-          "http://localhost:3001/api/v1/threads/validation",
-          { title: e.target.value },
-          {
-            headers: {
-              // Authorization: `Bearer ${
-              //   JSON.parse(localStorage.getItem("user")).token
-              // }`,
-            },
-          }
-        );
-      }
-    } catch (error) {
-      if (error.response.status === 403) {
-        const titleWarning = document.querySelector(".title-warning");
-        titleWarning.classList.remove("d-none");
-        titleWarning.innerHTML = errorTexts[1];
-      }
-    }
-  }
+				const loadingNewCommunityPopup = toast.loading(
+					"create new community is in progress",
+				);
+				const res = await axios.post(
+					baseUrl + "/api/v1/threads",
+					formData,
+					{
+						headers: {
+							//   Authorization: `Bearer ${
+							//     JSON.parse(localStorage.getItem("user")).token
+							//   }`,
+							//   "Content-Type": "multipart/form-data",
+						},
+					},
+				);
+				toast.dismiss(loadingNewCommunityPopup);
+				toast.success("new community is created successfully", {
+					duration: 3000,
+				});
+				navigate(`/forum/communities/${res.data}`);
+			}
+		} catch (e) {
+			toast.error(
+				"error occur during create new community, please try again",
+			);
+		}
+	}
 
-  if (!isOpen) return null;
-  return ReactDom.createPortal(
-    <div className="modal-wrapper" tabIndex="1">
-      <div
-        tabIndex="1"
-        style={{ backgroundColor: "white" }}
-        id="post-modal"
-        className="shadow-lg p-3 d-flex flex-column  align-items-end "
-      >
-        {/*------- Title Create Post and close button--------------------------------------------------------*/}
-        <div
-          style={{ borderRadius: "20px" }}
-          className="w-100 h-100 border border-2 border-primary-green-900 p-3"
-        >
-          <div className="w-100 d-flex justify-content-between">
-            <h2 className="text-dark">Create Community</h2>
-            <button
-              className="bg-transparent border-0 text-dark"
-              onClick={() => {
-                setIsOpen(false);
-              }}
-            >
-              <RiCloseLargeLine />
-            </button>
-          </div>
+	async function displayError(e) {
+		try {
+			const titleWarning = document.querySelector(".title-warning");
+			if (e.target.value.length < 5 || e.target.value.length > 50) {
+				titleWarning.classList.remove("d-none");
+				titleWarning.innerHTML = errorTexts[0];
+			} else {
+				await axios.post(
+					baseUrl + "/api/v1/threads/validation",
+					{ title: e.target.value },
+					{
+						headers: {
+							// Authorization: `Bearer ${
+							//   JSON.parse(localStorage.getItem("user")).token
+							// }`,
+						},
+					},
+				);
+			}
+		} catch (error) {
+			if (error.response.status === 403) {
+				const titleWarning = document.querySelector(".title-warning");
+				titleWarning.classList.remove("d-none");
+				titleWarning.innerHTML = errorTexts[1];
+			}
+		}
+	}
 
-          <div
-            style={{ height: "100px" }}
-            className="mt-3 w-100 d-flex justify-content-between gap-4"
-          >
-            {/*---------UploadFile ------------------------------------------------------------------------------*/}
-            <div
-              style={{ width: "100px", weight: "100px" }}
-              className="rounded-circle  "
-            >
-              <CreateCommunityDropZone
-                setFile={setFile}
-                file={file}
-                isReset={!isOpen}
-              />
-            </div>
+	if (!isOpen) return null;
+	return ReactDom.createPortal(
+		<div className="modal-wrapper" tabIndex="1">
+			<div
+				tabIndex="1"
+				style={{ backgroundColor: "white" }}
+				id="post-modal"
+				className="shadow-lg p-3 d-flex flex-column  align-items-end "
+			>
+				{/*------- Title Create Post and close button--------------------------------------------------------*/}
+				<div
+					style={{ borderRadius: "20px" }}
+					className="w-100 h-100 border border-2 border-primary-green-900 p-3"
+				>
+					<div className="w-100 d-flex justify-content-between">
+						<h2 className="text-dark">Create Community</h2>
+						<button
+							className="bg-transparent border-0 text-dark"
+							onClick={() => {
+								setIsOpen(false);
+							}}
+						>
+							<RiCloseLargeLine />
+						</button>
+					</div>
 
-            {/*---------Post Title Input-------------------------------------------------------------------------*/}
-            <div className="w-100 d-flex mt-3 position-relative">
-              <p
-                style={{ left: "0px", fontSize: "18px" }}
-                className="text-danger position-absolute"
-              >
-                *title
-              </p>
-              <input
-                className=" w-100  bg-transparent position-relative  text-dark border-0 border-bottom border-dark shadow-none"
-                type="text"
-                name="title"
-                minLength={5}
-                maxLength={20}
-                onChange={(e) => {
-                  setInputPostTitle(e.target.value);
-                }}
-                onFocus={() => {
-                  const titleWarning = document.querySelector(".title-warning");
-                  titleWarning.classList.add("d-none");
-                }}
-                onBlur={(e) => {
-                  displayError(e);
-                }}
-              />
-              <p
-                className="position-absolute text-dark"
-                style={{ right: "0", bottom: "0" }}
-              >
-                {inputPostTitle.length}/20
-              </p>
-            </div>
-          </div>
-          <p className="w-100 text-end  title-warning text-danger d-none"></p>
-          {/*----------------Text area---------------------------------------------------------------------------*/}
+					<div
+						style={{ height: "100px" }}
+						className="mt-3 w-100 d-flex justify-content-between gap-4"
+					>
+						{/*---------UploadFile ------------------------------------------------------------------------------*/}
+						<div
+							style={{ width: "100px", weight: "100px" }}
+							className="rounded-circle  "
+						>
+							<CreateCommunityDropZone
+								setFile={setFile}
+								file={file}
+								isReset={!isOpen}
+							/>
+						</div>
 
-          <PopupEditor
-            componentType="post"
-            setDescription={setDescription}
-            isReset={!isOpen}
-          />
+						{/*---------Post Title Input-------------------------------------------------------------------------*/}
+						<div className="w-100 d-flex mt-3 position-relative">
+							<p
+								style={{ left: "0px", fontSize: "18px" }}
+								className="text-danger position-absolute"
+							>
+								*title
+							</p>
+							<input
+								className=" w-100  bg-transparent position-relative  text-dark border-0 border-bottom border-dark shadow-none"
+								type="text"
+								name="title"
+								minLength={5}
+								maxLength={20}
+								onChange={(e) => {
+									setInputPostTitle(e.target.value);
+								}}
+								onFocus={() => {
+									const titleWarning =
+										document.querySelector(
+											".title-warning",
+										);
+									titleWarning.classList.add("d-none");
+								}}
+								onBlur={(e) => {
+									displayError(e);
+								}}
+							/>
+							<p
+								className="position-absolute text-dark"
+								style={{ right: "0", bottom: "0" }}
+							>
+								{inputPostTitle.length}/20
+							</p>
+						</div>
+					</div>
+					<p className="w-100 text-end  title-warning text-danger d-none"></p>
+					{/*----------------Text area---------------------------------------------------------------------------*/}
 
-          {/*---------------Submit button------------------------------------------------------------------------*/}
-          <Button onClick={handleData} className="mt-3 py-2">
-            Submit
-          </Button>
-        </div>
-      </div>
-    </div>,
-    document.querySelector("body")
-  );
+					<PopupEditor
+						componentType="post"
+						setDescription={setDescription}
+						isReset={!isOpen}
+					/>
+
+					{/*---------------Submit button------------------------------------------------------------------------*/}
+					<Button onClick={handleData} className="mt-3 py-2">
+						Submit
+					</Button>
+				</div>
+			</div>
+		</div>,
+		document.querySelector("body"),
+	);
 }

@@ -29,7 +29,16 @@ const Dashboard = () => {
 	const { user, setUser, toggleUserInfo, success, setSuccess } =
 		useUserContext();
 
-	const apiUrl = "http://localhost:3001"; // Manh Tan change this in production nhe
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	//PROCESS POSTS CONTENT
 	const processPostContent = (postObject) =>
@@ -38,7 +47,7 @@ const Dashboard = () => {
 	//FETCH USERS
 	const fetchUsers = async () => {
 		try {
-			const response = await axios.get(`${apiUrl}/api/user/getAll`, {
+			const response = await axios.get(`${baseUrl}/api/user/getAll`, {
 				params: {
 					page: currentPage,
 					limit: itemsPerPage,
@@ -48,7 +57,9 @@ const Dashboard = () => {
 			// console.log(response.data);
 			setDataItems(response.data.users || []);
 			setTotal(response.data.totalUsers || 0);
-			setTotalPages(Math.ceil((response.data.totalUsers || 0) / itemsPerPage));
+			setTotalPages(
+				Math.ceil((response.data.totalUsers || 0) / itemsPerPage),
+			);
 		} catch (error) {
 			setError(error.message);
 		} finally {
@@ -60,13 +71,13 @@ const Dashboard = () => {
 	const fetchArchivedCommunities = async () => {
 		try {
 			const response = await axios.get(
-				`${apiUrl}/api/v1/threads/admin/archived`
+				`${baseUrl}/api/v1/threads/admin/archived`,
 			);
 			console.log(response.data);
 			setDataItems(response.data.threads || []);
 			setTotal(response.data.totalThreads || 0);
 			setTotalPages(
-				Math.ceil((response.data.totalThreads || 0) / itemsPerPage)
+				Math.ceil((response.data.totalThreads || 0) / itemsPerPage),
 			);
 		} catch (error) {
 			setError(error.message);
@@ -80,11 +91,15 @@ const Dashboard = () => {
 	//FETCH ARCHIVED THREADS
 	const fetchArchivedThreads = async () => {
 		try {
-			const response = await axios.get(`${apiUrl}/api/v1/posts/admin/archived`);
+			const response = await axios.get(
+				`${baseUrl}/api/v1/posts/admin/archived`,
+			);
 			// console.log(response.data);
 			setDataItems(response.data.posts || []);
 			setTotal(response.data.totalPosts || 0);
-			setTotalPages(Math.ceil((response.data.totalPosts || 0) / itemsPerPage));
+			setTotalPages(
+				Math.ceil((response.data.totalPosts || 0) / itemsPerPage),
+			);
 		} catch (error) {
 			setError(error.message);
 			console.log(error);
@@ -98,7 +113,7 @@ const Dashboard = () => {
 	const fetchArchivedPosts = async () => {
 		try {
 			const response = await axios.get(
-				`${apiUrl}/api/v1/comments/admin/archived`
+				`${baseUrl}/api/v1/comments/admin/archived`,
 			);
 			// console.log(response.data);
 			const processedData = response.data.comments.map(
@@ -106,13 +121,13 @@ const Dashboard = () => {
 					(comment = {
 						...comment,
 						title: processPostContent(comment),
-					})
+					}),
 			);
 			console.log(processedData);
 			setDataItems(processedData || []);
 			setTotal(response.data.totalComments || 0);
 			setTotalPages(
-				Math.ceil((response.data.totalComments || 0) / itemsPerPage)
+				Math.ceil((response.data.totalComments || 0) / itemsPerPage),
 			);
 		} catch (error) {
 			setError(error.message);
@@ -147,13 +162,13 @@ const Dashboard = () => {
 
 	//CHECK CURRENT TAB
 	const currentTabObj = changeTabCollection.find(
-		(tabObj) => tabObj.title === tab
+		(tabObj) => tabObj.title === tab,
 	);
 	// console.log(currentTabObj);
 
 	useEffect(() => {
 		currentTabObj.fetchingFunction();
-	}, [currentPage, sortCriteria, apiUrl, tab, success]);
+	}, [currentPage, sortCriteria, baseUrl, tab, success]);
 
 	const handlePageChange = (page) => {
 		setCurrentPage(page);
@@ -181,7 +196,7 @@ const Dashboard = () => {
 		try {
 			const configuration = {
 				method: "put",
-				url: `${apiUrl}/api/user/${adminId}/${userId}/${action}`,
+				url: `${baseUrl}/api/user/${adminId}/${userId}/${action}`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -189,8 +204,10 @@ const Dashboard = () => {
 			await axios(configuration);
 			setDataItems(
 				dataItems.map((user) =>
-					user._id === userId ? { ...user, isLocked: !isLocked } : user
-				)
+					user._id === userId
+						? { ...user, isLocked: !isLocked }
+						: user,
+				),
 			);
 		} catch (error) {
 			toast(isLocked ? "Failed to unlock user" : "Failed to lock user");
@@ -203,7 +220,7 @@ const Dashboard = () => {
 		try {
 			const configuration = {
 				method: "put",
-				url: `${apiUrl}/api/v1/${itemType}/${id}/unarchive`,
+				url: `${baseUrl}/api/v1/${itemType}/${id}/unarchive`,
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -213,8 +230,8 @@ const Dashboard = () => {
 				dataItems.map((item) =>
 					item._id === id
 						? { ...item, "archived.isArchived": false }
-						: dataItems
-				)
+						: dataItems,
+				),
 			);
 			setSuccess("Unarchived successfully");
 		} catch (error) {
@@ -228,7 +245,7 @@ const Dashboard = () => {
 	const filteredData = dataItems.filter((dataItem) =>
 		dataItem[searchCategory]
 			?.toLowerCase()
-			.startsWith(searchQuery.toLowerCase())
+			.startsWith(searchQuery.toLowerCase()),
 	);
 	// const filteredData = dataItems;
 	// console.log(dataItems);

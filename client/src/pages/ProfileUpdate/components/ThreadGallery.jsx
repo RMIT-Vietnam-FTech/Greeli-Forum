@@ -26,10 +26,14 @@ const ThreadGallery = (props) => {
 	return (
 		<div className="scroll overflow-y-auto p-0 mb-0 mt-4">
 			{renderPostList?.length === 0 ? (
-				<div className="text-greeli-emphasis text-center">No posts to show</div>
+				<div className="text-greeli-emphasis text-center">
+					No posts to show
+				</div>
 			) : (
 				renderPostList?.map((post, index) => {
-					return <ThreadItem key={index} post={post} tab={props.tab} />;
+					return (
+						<ThreadItem key={index} post={post} tab={props.tab} />
+					);
 					// <>
 					// 	<PostItem post={demoPost} />
 					// 	<PostItem post={demoPost} />

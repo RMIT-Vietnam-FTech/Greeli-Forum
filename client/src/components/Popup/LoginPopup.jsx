@@ -23,6 +23,16 @@ export default function LoginPopup() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	const loginSchema = Yup.object().shape({
 		email: Yup.string()
 			.required("Email is required")
@@ -43,7 +53,7 @@ export default function LoginPopup() {
 	const login = () => {
 		const configuration = {
 			method: "post",
-			url: "http://localhost:3001/api/user/login",
+			url: baseUrl + "/api/user/login",
 			data: {
 				email,
 				password,

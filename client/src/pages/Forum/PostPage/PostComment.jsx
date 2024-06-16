@@ -57,10 +57,21 @@ export default function PostComment({ postData, threadAdminId }) {
 	let limit = 20,
 		total = 19;
 	const navigate = useNavigate();
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	useEffect(() => {
 		getMetadata(
-			`http://localhost:3001/api/v1/comments?postId=${postData._id}&parentId=null&page=1`
+			baseUrl +
+				`/api/v1/comments?postId=${postData._id}&parentId=null&page=1`,
 		).then((res) => {
 			setMetadata(res);
 		});
@@ -72,7 +83,7 @@ export default function PostComment({ postData, threadAdminId }) {
 	}
 	async function handleApproved() {
 		setIsApproved(true);
-		const path = `http://localhost:3001/api/v1/admin/posts/${postData._id}`;
+		const path = baseUrl + `/api/v1/admin/posts/${postData._id}`;
 		await axios.put(
 			path,
 			{ threadId: postData.belongToThread },
@@ -82,14 +93,14 @@ export default function PostComment({ postData, threadAdminId }) {
 						JSON.parse(localStorage.getItem("user")).token
 					}`,
 				},
-			}
+			},
 		);
 	}
 
 	async function handleUnApproved() {
 		try {
 			//delete and redirect
-			const path = `http://localhost:3001/api/v1/posts/${postData._id}/archive`;
+			const path = baseUrl + `/api/v1/posts/${postData._id}/archive`;
 			await axios.post(
 				path,
 				{ threadId: postData.belongToThread },
@@ -102,7 +113,7 @@ export default function PostComment({ postData, threadAdminId }) {
 						//   JSON.parse(localStorage.getItem("user")).token
 						// }`,
 					},
-				}
+				},
 			);
 
 			navigate(`/forum/communities/${postData.belongToThread}`);
@@ -113,16 +124,19 @@ export default function PostComment({ postData, threadAdminId }) {
 	const { data, size, setSize, isLoading } = useSwrInfinite(
 		(index, prevData) => {
 			if (prevData && !prevData.length) return null;
-			return `http://localhost:3001/api/v1/comments?postId=${
-				postData._id
-			}&parentId=null&page=${index + 1}`;
+			return (
+				baseUrl +
+				`/api/v1/comments?postId=${postData._id}&parentId=null&page=${
+					index + 1
+				}`
+			);
 		},
 		fetcher,
 		{
 			revalidateIfStale: false,
 			revalidateOnFocus: false,
 			revalidateOnReconnect: false,
-		}
+		},
 	);
 
 	if (isLoading) {
@@ -133,7 +147,10 @@ export default function PostComment({ postData, threadAdminId }) {
 		<section className="pb-5 border-bottom-gray">
 			<div className="d-flex justify-content-between align-items-center">
 				<div className="d-flex gap-2 align-items-center ">
-					<ButtonUpvote upvote={postData.upvote} postId={postData._id} />
+					<ButtonUpvote
+						upvote={postData.upvote}
+						postId={postData._id}
+					/>
 					<ButtonComment commentLength={postData.comments.length} />
 					<ButtonShare location={window.location.href} />
 				</div>
@@ -160,7 +177,8 @@ export default function PostComment({ postData, threadAdminId }) {
 				) : (
 					<>
 						{isLogin &&
-						(threadAdminId === JSON.parse(localStorage.getItem("user")).id ||
+						(threadAdminId ===
+							JSON.parse(localStorage.getItem("user")).id ||
 							postData.createdBy.userId ===
 								JSON.parse(localStorage.getItem("user")).id) ? (
 							<div className="d-flex align-items-center">

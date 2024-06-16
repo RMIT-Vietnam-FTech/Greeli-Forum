@@ -1,6 +1,6 @@
 import axios from "axios";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { set, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { FaUser } from "react-icons/fa";
@@ -14,7 +14,16 @@ const ChangeProfileInfo = (props) => {
 	const { userId, username, tel, address, gender } = data;
 	const { close } = props;
 	const { user, error, setError, setSuccess } = useUserContext();
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
 
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	var currentGender = "";
 	if (gender !== "Please update your gender") {
 		currentGender = gender;
@@ -43,7 +52,7 @@ const ChangeProfileInfo = (props) => {
 	) => {
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/user/${userId}/update`,
+			url: baseUrl + `/api/user/${userId}/update`,
 			data: {
 				...data,
 				tel: newPhoneNumber,

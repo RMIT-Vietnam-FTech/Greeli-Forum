@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Cookies from "universal-cookie";
 import PreventionPopup from "../../../components/Popup/PreventionPopup";
@@ -15,6 +15,17 @@ const LeftSidePart = (props) => {
 	const currentUserId = JSON.parse(localStorage.getItem("user")).id;
 	const requiredId = useParams().userId || currentUserId;
 	// console.log(requiredId);
+
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	const navigate = useNavigate();
 	const data = useProfileContext();
@@ -40,7 +51,7 @@ const LeftSidePart = (props) => {
 	const archiveCreatedPost = (postId) => {
 		const configuration = {
 			method: "put",
-			url: `http://localhost:3001/api/v1/posts/${postId}/archive-by-deactivating`,
+			url: baseUrl + `/api/v1/posts/${postId}/archive-by-deactivating`,
 			data: {
 				userId: userId,
 				username: username,
@@ -59,7 +70,9 @@ const LeftSidePart = (props) => {
 	const archiveCreatedComment = (commentId) => {
 		const configuration = {
 			method: "put",
-			url: `http://localhost:3001/api/v1/comments/${commentId}/archive-by-deactivating`,
+			url:
+				baseUrl +
+				`/api/v1/comments/${commentId}/archive-by-deactivating`,
 			data: {
 				userId: userId,
 				username: username,
@@ -94,7 +107,7 @@ const LeftSidePart = (props) => {
 
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/user/${userId}/deactivate`,
+			url: baseUrl + `/api/user/${userId}/deactivate`,
 		};
 		axios(configuration)
 			.then((result) => {
@@ -120,7 +133,7 @@ const LeftSidePart = (props) => {
 		// console.log("Lock/Unlock user");
 		const configuration = {
 			method: "put",
-			url: `http://localhost:3001/api/user/${adminId}/${requiredId}/${action}`,
+			url: baseUrl + `/api/user/${adminId}/${requiredId}/${action}`,
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${token}`,
@@ -144,7 +157,7 @@ const LeftSidePart = (props) => {
 	const createChat = () => {
 		const configuration = {
 			method: "post",
-			url: "/api/chat/create",
+			url: baseUrl + "/api/chat/create",
 			headers: {
 				"Content-Type": "application/json",
 			},
@@ -190,7 +203,9 @@ const LeftSidePart = (props) => {
 								{role}
 							</div>
 						</div>
-						<h1 className="px-3 mt-5 username-container">{username}</h1>
+						<h1 className="px-3 mt-5 username-container">
+							{username}
+						</h1>
 						{isMe && <EditInfoModal />}
 					</div>
 					<div className="w-100 d-flex flex-row align-items-center justify-content-between profile-figures">
@@ -245,7 +260,9 @@ const LeftSidePart = (props) => {
 						{/* LOCK/UNLOCK BUTTON */}
 						{!isMe && isAdmin && (
 							<PreventionPopup
-								modalTitle={`${basicInfo.isLocked ? "Unlock" : "Lock"} Account`}
+								modalTitle={`${
+									basicInfo.isLocked ? "Unlock" : "Lock"
+								} Account`}
 								buttonStyle="bg-danger text-white rounded-pill mt-2 py-2 border-0"
 								ariaLabel={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
@@ -253,7 +270,9 @@ const LeftSidePart = (props) => {
 								buttonValue={`${
 									basicInfo.isLocked ? "Unlock" : "Lock"
 								} this user`}
-								action={`${basicInfo.isLocked ? "unlock" : "lock"} this user`}
+								action={`${
+									basicInfo.isLocked ? "unlock" : "lock"
+								} this user`}
 								warningMessage={`If you ${
 									basicInfo.isLocked ? "unlock" : "lock"
 								} this account, the user will be ${

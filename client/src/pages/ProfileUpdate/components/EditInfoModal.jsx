@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { IoIosSettings } from "react-icons/io";
 import { MdSettingsInputSvideo } from "react-icons/md";
@@ -16,6 +16,16 @@ const EditInfoModal = () => {
 	const { profileImage, username } = data;
 	const [editTab, setEditTab] = useState("Profile");
 	const { isDarkMode } = useContext(ThemeContext);
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	const handleChangeTab = (e) => {
 		const currentTabContent = e.target.innerHTML;

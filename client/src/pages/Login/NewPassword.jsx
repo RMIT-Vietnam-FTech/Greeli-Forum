@@ -23,6 +23,16 @@ const NewPassword = () => {
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPasword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	const getCharacterValidationError = (str) => {
 		return `Your password must have at least 1 ${str} character`;
@@ -54,7 +64,7 @@ const NewPassword = () => {
 	const submitNewPassword = async () => {
 		const configuration = {
 			method: "post",
-			url: `http://localhost:3001/api/user/resetPassword/${token}/${userId}`,
+			url: baseUrl + `/api/user/resetPassword/${token}/${userId}`,
 			data: {
 				password,
 			},

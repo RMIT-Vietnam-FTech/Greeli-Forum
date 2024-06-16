@@ -116,10 +116,20 @@ function Posts() {
 	};
 
 	// Fetch data from API
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	const [data, setData] = useState([]);
 	useEffect(() => {
 		axios
-			.get("http://localhost:3001/api/v1/posts")
+			.get(baseUrl + "/api/v1/posts")
 			.then((response) => {
 				setData(response.data.data);
 				console.log(response.data.data);
@@ -146,17 +156,21 @@ function Posts() {
 				className="slider-container p-3"
 				ref={sliderRef}
 			>
-				{data.filter(d => !d.archived?.isArchived === true).map((item) => (
-					item.uploadFile?.type === "image" && (
-					<Post
-						key={item._id} // Use _id from MongoDB
-						id={item._id} // Pass the id to the Post component
-						img={item.uploadFile?.src} // Ensure the image source is correctly passed
-						date={item.verifiedAt.substring(0, 10)}
-						title={item.title}
-						belongToThread={item.belongToThread} // Pass belongToThread to the Post component
-					/>)
-				))}
+				{data
+					.filter((d) => !d.archived?.isArchived === true)
+					.map(
+						(item) =>
+							item.uploadFile?.type === "image" && (
+								<Post
+									key={item._id} // Use _id from MongoDB
+									id={item._id} // Pass the id to the Post component
+									img={item.uploadFile?.src} // Ensure the image source is correctly passed
+									date={item.verifiedAt.substring(0, 10)}
+									title={item.title}
+									belongToThread={item.belongToThread} // Pass belongToThread to the Post component
+								/>
+							),
+					)}
 			</Slider>
 		</div>
 	);

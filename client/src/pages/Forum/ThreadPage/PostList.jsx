@@ -12,7 +12,7 @@ axios.defaults.withCredentials = true;
 const fetcher = async (prop) => {
 	const [url, isThreadAdmin, isMetaData] = prop;
 	console.log(
-		`check thread admin: ${isThreadAdmin} \n url: ${url}, \n isMetadata: ${isMetaData}`
+		`check thread admin: ${isThreadAdmin} \n url: ${url}, \n isMetadata: ${isMetaData}`,
 	);
 
 	if (isMetaData) {
@@ -45,6 +45,16 @@ const fetcher = async (prop) => {
 
 export default function PostList({ threadData, topicData }) {
 	const [sortOption, setSortOption] = useState("Hottest");
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 
 	const user = JSON.parse(localStorage.getItem("user"));
 	const isThreadAdmin =
@@ -52,13 +62,22 @@ export default function PostList({ threadData, topicData }) {
 
 	const validatedPath = (isThreadAdmin, threadData, sort, page) => {
 		if (isThreadAdmin) {
-			return `http://localhost:3001/api/v1/admin/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
+			return (
+				baseUrl +
+				`/api/v1/admin/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`
+			);
 		} else if (threadData) {
-			return `http://localhost:3001/api/v1/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`;
+			return (
+				baseUrl +
+				`/api/v1/posts?page=${page}&belongToThread=${threadData._id}&sort=${sort}`
+			);
 		} else if (topicData) {
-			return `http://localhost:3001/api/v1/posts?page=${page}&belongToTopic=${topicData._id}&sort=${sort}`;
+			return (
+				baseUrl +
+				`/api/v1/posts?page=${page}&belongToTopic=${topicData._id}&sort=${sort}`
+			);
 		}
-		return `http://localhost:3001/api/v1/posts?page=${page}&sort=${sort}`;
+		return baseUrl + `/api/v1/posts?page=${page}&sort=${sort}`;
 	};
 
 	const { data, size, setSize, isLoading } = useSwrInfinite(
@@ -70,7 +89,7 @@ export default function PostList({ threadData, topicData }) {
 				false,
 			];
 		},
-		fetcher
+		fetcher,
 	);
 
 	const issues = data ? [].concat(...data) : [];
@@ -113,7 +132,10 @@ export default function PostList({ threadData, topicData }) {
 	return (
 		<>
 			<div className="position-relative">
-				<Sorting sortOption={sortOption} setSortOption={setSortOption} />
+				<Sorting
+					sortOption={sortOption}
+					setSortOption={setSortOption}
+				/>
 				{/*Post items*/}
 				<div className="pt-4">
 					{issues.map(
@@ -128,7 +150,7 @@ export default function PostList({ threadData, topicData }) {
 										isThreadAdmin={isThreadAdmin}
 									/>
 								</div>
-							)
+							),
 					)}
 				</div>
 				<div className="mt-2" ref={ref}></div>

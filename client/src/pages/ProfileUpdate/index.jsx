@@ -14,6 +14,16 @@ import ErrorPage from "../ErrorPage/ErrorPage";
 import "./styles.css";
 
 const ProfileUpdate = (props) => {
+	const devUrl = "http://localhost:3001";
+	let baseUrl = "";
+
+	useEffect(() => {
+		if (process.env.NODE_ENV === "development") {
+			baseUrl = devUrl;
+		} else {
+			baseUrl = "";
+		}
+	});
 	const { user, setUser, toggleUserInfo, success, setSuccess } =
 		useUserContext();
 	const { isDarkMode } = useContext(ThemeContext);
@@ -40,7 +50,7 @@ const ProfileUpdate = (props) => {
 		async function fetchUser() {
 			const configuration = {
 				method: "get",
-				url: `http://localhost:3001/api/user/${userId}`,
+				url: baseUrl + `/api/user/${userId}`,
 			};
 			await axios(configuration)
 				.then((result) => {
@@ -69,7 +79,9 @@ const ProfileUpdate = (props) => {
 					const gender = user.gender;
 					// ? user.gender
 					// : `${prefixForNoInfo} gender`;
-					const profileImage = user.profileImage ? user.profileImage : "";
+					const profileImage = user.profileImage
+						? user.profileImage
+						: "";
 					const description = user.description
 						? user.description
 						: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s...";
@@ -108,7 +120,7 @@ const ProfileUpdate = (props) => {
 	useEffect(() => {
 		const configuration = {
 			method: "get",
-			url: `http://localhost:3001/api/v1/comments?userId=${userId}`,
+			url: baseUrl + `/api/v1/comments?userId=${userId}`,
 		};
 		axios(configuration)
 			.then((result) => {
@@ -130,8 +142,16 @@ const ProfileUpdate = (props) => {
 			>
 				{/* <Toaster /> */}
 				<div className="row h-100">
-					<LeftSidePart isMe={isMe} comments={comments} className="col-sm-12 col-lg-3" />
-					<RightSidePart isMe={isMe} comments={comments} className="col-sm-12 col-lg-9" />
+					<LeftSidePart
+						isMe={isMe}
+						comments={comments}
+						className="col-sm-12 col-lg-3"
+					/>
+					<RightSidePart
+						isMe={isMe}
+						comments={comments}
+						className="col-sm-12 col-lg-9"
+					/>
 				</div>
 			</div>
 		</ProfileContext.Provider>
