@@ -69,6 +69,7 @@
 		"react-scripts": "5.0.1",
 		"react-share": "^5.1.0",
 		"react-slick": "^0.30.2",
+		"react-spinners": "^0.13.8",
 		"reactjs-popup": "^2.0.6",
 		"reaptcha": "^1.12.1",
 		"sass": "^1.76.0",

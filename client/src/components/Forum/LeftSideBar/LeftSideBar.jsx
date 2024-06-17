@@ -287,7 +287,7 @@ function TopicList() {
 			baseUrl = "";
 		}
 	}, [process.env.NODE_ENV]);
-	
+
 	const path = baseUrl + "/api/v1/topics";
 	const { data, error, isLoading } = useSwr(path, fetcher);
 	if (error) {

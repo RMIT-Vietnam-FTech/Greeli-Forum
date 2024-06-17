@@ -78,7 +78,7 @@ function ForumLeaderBoard() {
 			baseUrl = "";
 		}
 	}, [process.env.NODE_ENV]);
-	
+
 	const path = baseUrl + `/api/v1/forums/leaderboard`;
 	const { data, error, isLoading } = useSwr(path, fetcher);
 	if (error) {

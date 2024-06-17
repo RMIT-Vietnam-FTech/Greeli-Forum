@@ -87,7 +87,7 @@ const ThreadItem = (props) => {
 	//REDIRECT TO POST PAGE
 	const handlePostClick = () => {
 		navigate(link, {
-			replace: true,
+			replace: false,
 		});
 		// console.log(link);
 	};

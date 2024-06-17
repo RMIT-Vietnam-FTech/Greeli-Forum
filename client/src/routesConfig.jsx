@@ -1,36 +1,38 @@
+import React, { lazy, Suspense } from "react";
 import RequireActivate from "./components/Auth/RequireActivate.jsx";
 import RequireAdmin from "./components/Auth/RequireAdmin.jsx";
 import RequireAuth from "./components/Auth/RequireAuth.jsx";
-import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
-import Chat from "./pages/Chat/Chat";
-import ContactPage from "./pages/ContactPage/Contact.jsx";
-import Dashboard from "./pages/Dashboard";
-import ErrorPage from "./pages/ErrorPage/ErrorPage";
-import ForumPage from "./pages/Forum/ForumPage/ForumPage.jsx";
 import Homepage from "./pages/Homepage/Homepage.jsx";
-import Login from "./pages/Login/Login";
-import NewPassword from "./pages/Login/NewPassword.jsx";
-import Register from "./pages/Login/Register";
-import ResetPassword from "./pages/Login/ResetPassword.jsx";
-import ProfileUpdate from "./pages/ProfileUpdate";
-import Sitemap from "./pages/Sitemap/Sitemap.jsx";
-import GeneralPage from "./pages/generalPage/generalPage";
+import LoadSpinner from "./pages/LoadSpinner/LoadSpinner.jsx";
+
+const Login = React.lazy(() => import('./pages/Login/Login'));
+const Register = React.lazy(() => import('./pages/Login/Register'));
+const NewPassword = React.lazy(() => import('./pages/Login/NewPassword.jsx'));
+const ResetPassword = React.lazy(() => import('./pages/Login/ResetPassword.jsx'));
+const ProfilePage = React.lazy(() => import('./pages/ProfileUpdate'));
+const ChatPage = React.lazy(() => import('./pages/Chat/Chat'));
+const ContactPage = React.lazy(() => import('./pages/ContactPage/Contact.jsx'));
+const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const ErrorPage = React.lazy(() => import('./pages/ErrorPage/ErrorPage'));
+const ForumPage = React.lazy(() => import('./pages/Forum/ForumPage/ForumPage.jsx'));
+const Sitemap = React.lazy(() => import('./pages/Sitemap/Sitemap.jsx'));
+const GeneralPage = React.lazy(() => import('./pages/generalPage/generalPage'));
 
 const routesConfig = [
 	{ path: "/", element: <Homepage />, name: "Homepage" },
-	{ path: "/login", element: <Login />, name: "Login" },
-	{ path: "/register", element: <Register />, name: "Register" },
-	{ path: "/general", element: <GeneralPage />, name: "General" },
-	{ path: "/contact", element: <ContactPage />, name: "Contact" },
-	{ path: "/sitemap", element: <Sitemap />, name: "Sitemap" },
+	{ path: "/login", element: <Suspense fallback={<LoadSpinner />}><Login /></Suspense>, name: "Login" },
+	{ path: "/register", element: <Suspense fallback={<LoadSpinner />}><Register /></Suspense>, name: "Register" },
+	{ path: "/general", element: <Suspense fallback={<LoadSpinner />}><GeneralPage /></Suspense>, name: "General" },
+	{ path: "/contact", element: <Suspense fallback={<LoadSpinner />}><ContactPage /></Suspense>, name: "Contact" },
+	{ path: "/sitemap", element: <Suspense fallback={<LoadSpinner />}><Sitemap /></Suspense>, name: "Sitemap" },
 	{
 		path: "/resetPassword",
-		element: <ResetPassword />,
+		element: <Suspense fallback={<LoadSpinner />}><ResetPassword /></Suspense>,
 		name: "Reset Password",
 	},
 	{
 		path: "/resetPassword/:token/:userId",
-		element: <NewPassword />,
+		element: <Suspense fallback={<LoadSpinner />}><NewPassword /></Suspense>,
 		name: "Create New Password",
 	},
 	{
@@ -41,21 +43,21 @@ const routesConfig = [
 				children: [
 					{
 						path: "/profile",
-						element: <ProfileUpdate />,
+						element: <Suspense fallback={<LoadSpinner />}><Register /></Suspense>,
 						name: "Profile",
 					},
 					{
 						path: "/user/:userId",
-						element: <ProfileUpdate />,
+						element: <Suspense fallback={<LoadSpinner />}><ProfilePage /></Suspense>,
 						name: "User Profile",
 					},
-					{ path: "/chat", element: <Chat />, name: "Chat" },
+					{ path: "/chat", element: <Suspense fallback={<LoadSpinner />}><ChatPage /></Suspense>, name: "Chat" },
 					{
 						element: <RequireAdmin />,
 						children: [
 							{
 								path: "/admin",
-								element: <Dashboard />,
+								element: <Suspense fallback={<LoadSpinner />}><Dashboard /></Suspense>,
 								name: "Admin Dashboard",
 							},
 						],
@@ -64,8 +66,8 @@ const routesConfig = [
 			},
 		],
 	},
-	{ path: "/forum/*", element: <ForumPage />, name: "Forum" },
-	{ path: "*", element: <ErrorPage />, name: "Error" },
+	{ path: "/forum/*", element: <Suspense fallback={<LoadSpinner />}><ForumPage /></Suspense>, name: "Forum" },
+	{ path: "*", element: <Suspense fallback={<LoadSpinner />}><ErrorPage /></Suspense>, name: "Error" },
 ];
 
 export default routesConfig;

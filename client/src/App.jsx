@@ -14,6 +14,8 @@ import Navbar from "./components/Navbar/Navbar.jsx";
 import ScrollToTop from "./components/Scroll/ScrollToTop.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { UserContextProvider } from "./context/UserContext.jsx";
+import "react-loading-skeleton/dist/skeleton.css";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 // import { ForumRouter } from "./pages/Forum/ForumRouter.jsx";
 // import { useUserContext } from "./context/UserContext.jsx";
@@ -36,19 +38,21 @@ function App() {
 
 	return (
 		<div className="App w-100">
-			<ThemeProvider>
-				<UserContextProvider>
-					<Navbar isForum={isForum} />
-					<div className="h-100" style={{ marginTop: "80px" }}>
-						{/* <ScrollToTop /> */}
-						{routes}
-					</div>
-					<Footer />
-					<ChatBubble />
-					<Cookies />
-					<div id="popup-root" />
-				</UserContextProvider>
-			</ThemeProvider>
+			<SkeletonTheme baseColor="#313131" highlightColor="#525252">
+				<ThemeProvider>
+					<UserContextProvider>
+						<Navbar isForum={isForum} />
+						<div className="h-100" style={{ marginTop: "80px" }}>
+							<ScrollToTop />
+							{routes}
+						</div>
+						<Footer />
+						<ChatBubble />
+						<Cookies />
+						<div id="popup-root" />
+					</UserContextProvider>
+				</ThemeProvider>
+			</SkeletonTheme>
 		</div>
 	);
 }

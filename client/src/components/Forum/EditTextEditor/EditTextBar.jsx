@@ -20,7 +20,7 @@ export default function EditTextBar({ content, componentType }) {
 			baseUrl = "";
 		}
 	}, [process.env.NODE_ENV]);
-	
+
 	if (component == "post") {
 		objectId = postId;
 	} else {

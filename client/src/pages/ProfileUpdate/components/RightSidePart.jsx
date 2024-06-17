@@ -8,13 +8,17 @@ const RightSidePart = (props) => {
 	const { isMe, comments } = props;
 	const [tab, setTab] = useState("Created Threads");
 	let { userId } = useParams();
-	userId = userId !== undefined ? userId : JSON.parse(localStorage.getItem("user")).id ;
+	userId =
+		userId !== undefined
+			? userId
+			: JSON.parse(localStorage.getItem("user")).id;
 	// const savedPosts = data.archivedPost;
 	// console.log(createdPost, archivedPost);
 	const token = JSON.parse(localStorage.getItem("user")).token;
 	const [createdPosts, setCreatedPosts] = useState(null);
 	const [savedPosts, setSavedPosts] = useState(null);
 	const [renderPostList, setRenderPostList] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
 	const devUrl = "http://localhost:3001";
 	let baseUrl = "";
 
@@ -88,6 +92,7 @@ const RightSidePart = (props) => {
 						...newRenderPostList,
 						...processedData,
 					];
+					setIsLoading(false);
 				})
 				.catch((error) => {
 					console.log(error);
@@ -181,7 +186,11 @@ const RightSidePart = (props) => {
 						</ul>
 					</div>
 				</div>
-				<ThreadGallery renderPostList={renderPostList} tab={tab} />
+				<ThreadGallery
+					renderPostList={renderPostList}
+					isLoading={isLoading}
+					tab={tab}
+				/>
 			</div>
 		</div>
 	);

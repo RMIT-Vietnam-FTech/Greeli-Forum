@@ -28,7 +28,7 @@ export default function ReplyBottomBar({ parentId }) {
 			baseUrl = "";
 		}
 	}, [process.env.NODE_ENV]);
-	
+
 	useEffect(() => {
 		createReplyError.classList.add("d-none");
 	}, [editor.getText(), replyContext.file]);

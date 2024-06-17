@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ThreadItem from "./ThreadItem";
+import ThreadItemSkeleton from "../skeleton/ThreadItemSkeleton";
 
 const ThreadGallery = (props) => {
 	// const demoPost = {
@@ -20,19 +21,27 @@ const ThreadGallery = (props) => {
 	// 	uploadFile:
 	// 		"https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png?20150327203541",
 	// };
-	const { renderPostList } = props;
+	const { renderPostList, isLoading } = props;
 	// console.log(renderPostList);
 
 	return (
 		<div className="scroll overflow-y-auto p-0 mb-0 mt-4">
-			{renderPostList?.length === 0 ? (
+			{isLoading ? (
+				<ThreadItemSkeleton item={6} />
+			) : renderPostList?.length === 0 ? (
 				<div className="text-greeli-emphasis text-center">
 					No posts to show
 				</div>
 			) : (
 				renderPostList?.map((post, index) => {
 					return (
-						<ThreadItem key={index} post={post} tab={props.tab} />
+						<>
+							<ThreadItem
+								key={index}
+								post={post}
+								tab={props.tab}
+							/>
+						</>
 					);
 					// <>
 					// 	<PostItem post={demoPost} />

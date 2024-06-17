@@ -164,7 +164,7 @@ const RecommendPost = ({ postData }) => {
 			baseUrl = "";
 		}
 	}, [process.env.NODE_ENV]);
-	
+
 	return (
 		<div
 			style={{ height: "130px", borderRadius: "20px" }}

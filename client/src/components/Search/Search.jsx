@@ -22,7 +22,7 @@ export default function SearchBar() {
 			baseUrl = "";
 		}
 	}, [process.env.NODE_ENV]);
-	
+
 	async function handleOnInput(e) {
 		const searchOutput = document.querySelector(".search-output");
 		const searchNotFound = document.querySelector(".search-not-found");

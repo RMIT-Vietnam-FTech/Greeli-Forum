@@ -1,11 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthorizationContext } from "../../context/AuthorizationContext";
 import { EditContext } from "../../context/EditContext";
 import { useLogin } from "../../hooks/useLogin";
 axios.defaults.withCredentials = true;
+
 export default function DropDown({ componentType, data, threadId, postId }) {
 	const navigate = useNavigate();
 	const editContext = useContext(EditContext);
@@ -20,7 +20,7 @@ export default function DropDown({ componentType, data, threadId, postId }) {
 			baseUrl = "";
 		}
 	}, [process.env.NODE_ENV]);
-	
+
 	const [isArchived, setIsArchived] = useState(
 		data && data.archived.isArchived,
 	);

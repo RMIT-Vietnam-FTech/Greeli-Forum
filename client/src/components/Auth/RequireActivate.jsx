@@ -27,7 +27,7 @@ const RequireActivate = () => {
 			baseUrl = "";
 		}
 	}, [process.env.NODE_ENV]);
-	
+
 	const handleUnarchivedPost = async (id) => {
 		// console.log(itemType);
 		try {

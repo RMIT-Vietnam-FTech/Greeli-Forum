@@ -30,7 +30,7 @@ const ProfileUpdate = (props) => {
 	const { isDarkMode } = useContext(ThemeContext);
 	// const userData = demoUserInfo[0];
 	const navigate = useNavigate();
-	const [basicInfo, setBasicInfo] = useState({isActivated: true});
+	const [basicInfo, setBasicInfo] = useState({ isActivated: true });
 	const [comments, setComments] = useState([]);
 
 	// GET ID FROM LOCAL STORAGE
