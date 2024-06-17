@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useProfileContext } from "../../../context/ProfileContext";
 import ThreadGallery from "./ThreadGallery";
 
 const RightSidePart = (props) => {
 	const { isMe, comments } = props;
 	const [tab, setTab] = useState("Created Threads");
-	const userId = JSON.parse(localStorage.getItem("user")).id;
+	let { userId } = useParams();
+	userId = userId !== undefined ? userId : JSON.parse(localStorage.getItem("user")).id ;
 	// const savedPosts = data.archivedPost;
 	// console.log(createdPost, archivedPost);
 	const token = JSON.parse(localStorage.getItem("user")).token;
@@ -23,6 +24,7 @@ const RightSidePart = (props) => {
 		} else {
 			baseUrl = "";
 		}
+		console.log(userId);
 	}, [process.env.NODE_ENV]);
 
 	const processPosts = (postObject) => {

@@ -12,7 +12,6 @@ import Login from "./pages/Login/Login";
 import NewPassword from "./pages/Login/NewPassword.jsx";
 import Register from "./pages/Login/Register";
 import ResetPassword from "./pages/Login/ResetPassword.jsx";
-import Profile from "./pages/Profile/Profile";
 import ProfileUpdate from "./pages/ProfileUpdate";
 import Sitemap from "./pages/Sitemap/Sitemap.jsx";
 import GeneralPage from "./pages/generalPage/generalPage";
